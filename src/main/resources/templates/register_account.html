@@ -1,14 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Register for swipe right for brains</title>
 </head>
 <body>
-<form action="/api/registration/account">
-    <input id="email" type="text">
-    <input id="password" type="text">
-    <input id="submit" type="submit">
+<form action="/registration/" th:object="${account}" method="POST">
+    <div>
+        <label>Email</label>
+        <input th:field="*{email}"/>
+        <p th:each="error: ${#fields.errors('email')}"
+           th:text="${error}">Validation error</p>
+    </div>
+
+    <div>
+
+        <input type="password" th:field="*{password}"/>
+        <p th:each="error : ${#fields.errors('password')}"
+           th:text="${error}">Validation error</p>
+    </div>
+
+    <div>
+
+        <input type="password" th:field="*{matchingPassword}"/>
+    </div>
+
+    <button type="submit">submit</button>
 </form>
 </body>
 </html>
