@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/registration")
 public class RegistrationFormHandling {
 
-    @RequestMapping(value = "/test")
+    @RequestMapping(value = "/account")
     public String returnTest(){
-        return "This is my test";
+        return "Registration successful";
     }
 }

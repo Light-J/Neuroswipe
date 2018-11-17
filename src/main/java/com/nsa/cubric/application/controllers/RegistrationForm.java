@@ -15,6 +15,6 @@ public class RegistrationForm {
     @RequestMapping(value = "/")
     public String register(){
         LOG.debug("Handling GET request to /registration/");
-        return "register";
+        return "register_account";
     }
 }
