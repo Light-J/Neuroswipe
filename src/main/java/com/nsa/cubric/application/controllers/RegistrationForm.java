@@ -40,18 +40,26 @@ public class RegistrationForm {
     }
 
     @RequestMapping(value = "/account", method = RequestMethod.POST)
-    public String registerUserAccount(
+    public ModelAndView registerUserAccount(
             @ModelAttribute("account") @Valid AccountDTO accountDTO,
             BindingResult result, WebRequest webRequest, Errors errors){
+
         Account registered = new Account();
+
         if(!result.hasErrors()){
+            LOG.debug("Creating user account");
+            System.out.println("Creating user account");
             registered = createUserAccount(accountDTO, result);
         }
-        if (registered == null){
-            result.rejectValue("email", "message.regError");
+
+        if(result.hasErrors() || registered == null){
+            return new ModelAndView("register_account", "account", accountDTO);
+        } else {
+            return new ModelAndView("success_register", "account", accountDTO);
         }
 
-        return "home";
+
+
     }
 
     private Account createUserAccount(AccountDTO accountDTO, BindingResult result){
