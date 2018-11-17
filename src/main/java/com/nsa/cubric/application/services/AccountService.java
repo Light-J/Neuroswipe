@@ -23,6 +23,7 @@ public class AccountService implements AccountServiceStatic {
     public Account registerNewUser(AccountDTO account) throws EmailExistsException {
         if(emailExist(account.getEmail())){
                 throw new EmailExistsException("Account already exists");
+
         }
         accountRepository.insertNewAccount(account);
 

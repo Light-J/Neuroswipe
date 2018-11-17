@@ -5,12 +5,14 @@ import com.nsa.cubric.application.domain.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-@PasswordMatches
+
+@PasswordMatches()
 public class AccountDTO {
     @NotNull
     @NotEmpty
     @ValidEmail
     private String email;
+
 
     @NotNull
     @NotEmpty

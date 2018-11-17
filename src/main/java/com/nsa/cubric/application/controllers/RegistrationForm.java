@@ -48,9 +48,11 @@ public class RegistrationForm {
 
         if(!result.hasErrors()){
             LOG.debug("Creating user account");
-            System.out.println("Creating user account");
             registered = createUserAccount(accountDTO, result);
         }
+//        if(registered == null){
+//            result.rejectValue("email", "message.regError");
+//        }
 
         if(result.hasErrors() || registered == null){
             return new ModelAndView("register_account", "account", accountDTO);
