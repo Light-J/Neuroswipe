@@ -1,6 +1,4 @@
-package com.nsa.cubric.application.domain;
-
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
+package com.nsa.cubric.application.services.accountUtils;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
