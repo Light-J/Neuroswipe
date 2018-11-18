@@ -1,7 +1,7 @@
 package com.nsa.cubric.application.controllers;
 
-import com.nsa.cubric.application.domain.PasswordMatches;
-import com.nsa.cubric.application.domain.ValidEmail;
+import com.nsa.cubric.application.services.accountUtils.PasswordMatches;
+import com.nsa.cubric.application.services.accountUtils.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

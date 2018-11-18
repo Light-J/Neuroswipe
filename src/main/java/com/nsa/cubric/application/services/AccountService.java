@@ -2,7 +2,7 @@ package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.controllers.AccountDTO;
 import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.domain.EmailExistsException;
+import com.nsa.cubric.application.services.accountUtils.EmailExistsException;
 import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

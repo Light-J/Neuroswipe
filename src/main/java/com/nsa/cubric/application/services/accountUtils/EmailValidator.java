@@ -1,4 +1,4 @@
-package com.nsa.cubric.application.domain;
+package com.nsa.cubric.application.services.accountUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

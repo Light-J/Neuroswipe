@@ -1,8 +1,7 @@
 package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.domain.EmailExistsException;
-import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
+import com.nsa.cubric.application.services.accountUtils.EmailExistsException;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.lang.annotation.Retention;
 
 
 @Controller
