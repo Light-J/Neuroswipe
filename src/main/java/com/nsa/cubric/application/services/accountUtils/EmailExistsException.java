@@ -1,4 +1,4 @@
-package com.nsa.cubric.application.domain;
+package com.nsa.cubric.application.services.accountUtils;
 
 public class EmailExistsException extends Exception {
     public EmailExistsException(String errorMessage){
