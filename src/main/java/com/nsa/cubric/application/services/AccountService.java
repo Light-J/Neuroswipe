@@ -5,6 +5,9 @@ import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.EmailExistsException;
 import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,11 @@ public class AccountService implements AccountServiceStatic {
         accountRepository = aRepo;
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Transactional
     @Override
     public Account registerNewUser(AccountDTO account) throws EmailExistsException {
@@ -25,6 +33,7 @@ public class AccountService implements AccountServiceStatic {
                 throw new EmailExistsException("Account already exists");
 
         }
+        account.setPassword(passwordEncoder().encode(account.getPassword()));
         accountRepository.insertNewAccount(account);
 
         return accountRepository.findByEmail(account.getEmail());
