@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.repositories;
 
 import com.nsa.cubric.application.controllers.AccountDTO;
+import com.nsa.cubric.application.controllers.ProfileDTO;
 import com.nsa.cubric.application.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -55,5 +56,12 @@ public class AccountRepository implements AccountRepositoryStatic {
                 "SELECT id, password, email, role FROM useraccount",
                 new Object[]{},accountMapper
         );
+    }
+
+    @Override
+    public void insertNewProfile(ProfileDTO profile){
+        jdbcTemplate.update(
+                "INSERT INTO userprofile (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
+        profile.getUsername(), profile.getPostcode(), profile.getLoggedInUserId(), profile.getAge(), profile.getGender());
     }
 }

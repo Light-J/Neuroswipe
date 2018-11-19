@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -70,7 +69,7 @@ public class RegistrationAccount {
     private Account createUserAccount(AccountDTO accountDTO, BindingResult result){
         Account registered = null;
         try{
-            registered = accountService.registerNewUser(accountDTO);
+            registered = accountService.registerNewUserAccount(accountDTO);
         } catch (EmailExistsException e){
             return null;
         }

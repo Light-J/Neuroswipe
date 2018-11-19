@@ -33,7 +33,7 @@ public class AccountServicesTest {
         Account alreadyExists = new Account(1L, "test@nsa.com", "pass", "user");
         given(accountRepository.findByEmail("test@nsa.com")).willReturn(alreadyExists);
 
-        accountService.registerNewUser(accountToAdd);
+        accountService.registerNewUserAccount(accountToAdd);
     }
 
 

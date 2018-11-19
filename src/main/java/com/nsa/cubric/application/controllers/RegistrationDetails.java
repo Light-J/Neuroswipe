@@ -1,7 +1,9 @@
 package com.nsa.cubric.application.controllers;
 
+import com.nsa.cubric.application.services.AccountServiceStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,8 @@ public class RegistrationDetails {
 
     private static final Logger LOG = LoggerFactory.getLogger(RegistrationAccount.class);
 
+    @Autowired
+    private AccountServiceStatic accountService;
 
     @GetMapping(value = "/profile")
     public String showRegistrationForm(Model model){
@@ -36,6 +40,11 @@ public class RegistrationDetails {
                                             WebRequest webRequest) {
 
         LOG.debug("Handling POST to /registration/profile");
+        //TODO get the current logged in user for the profile
+        profileDTO.setLoggedInUserId(2);
+        accountService.registerNewUserProfile(profileDTO);
+
+
 
         if (result.hasErrors()){
             return new ModelAndView("register_details", "profile", profileDTO);

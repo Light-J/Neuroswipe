@@ -14,6 +14,8 @@ public class ProfileDTO {
     @FirstFourLettersPostCode
     String postcode;
 
+    long loggedInUserId;
+
     Integer age;
     String gender;
 
@@ -47,5 +49,13 @@ public class ProfileDTO {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public long getLoggedInUserId() {
+        return loggedInUserId;
+    }
+
+    public void setLoggedInUserId(long loggedInUserId) {
+        this.loggedInUserId = loggedInUserId;
     }
 }
