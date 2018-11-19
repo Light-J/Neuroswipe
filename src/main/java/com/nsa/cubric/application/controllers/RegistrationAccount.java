@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,10 +41,15 @@ public class RegistrationAccount {
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public ModelAndView registerUserAccount(
             @ModelAttribute("account") @Valid AccountDTO accountDTO,
-            BindingResult result, WebRequest webRequest, Errors errors){
+            BindingResult result,
+            WebRequest webRequest,
+            Errors errors){
 
         Account registered = new Account();
-
+        for (ObjectError errorObj :
+                errors.getAllErrors()) {
+            System.out.println(errorObj.toString());
+        }
         if(!result.hasErrors()){
             LOG.debug("Creating user account");
             registered = createUserAccount(accountDTO, result);
@@ -52,10 +58,11 @@ public class RegistrationAccount {
 //            result.rejectValue("email", "message.regError");
 //        }
 
+
         if(result.hasErrors() || registered == null){
             return new ModelAndView("register_account", "account", accountDTO);
         } else {
-            return new ModelAndView("success_register", "account", accountDTO);
+            return new ModelAndView("redirect:/registration/profile", "account", accountDTO);
         }
 
 
