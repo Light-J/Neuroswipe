@@ -1,7 +1,7 @@
 package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.services.accountUtils.EmailExistsException;
+import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +19,17 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/registration")
-public class RegistrationForm {
+public class RegistrationAccount {
     private AccountServiceStatic accountService;
 
     @Autowired
-    public RegistrationForm(AccountServiceStatic aRepo){
+    public RegistrationAccount(AccountServiceStatic aRepo){
         accountService = aRepo;
     }
 
-    private static final Logger LOG = LoggerFactory.getLogger(RegistrationForm.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegistrationAccount.class);
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/account", method = RequestMethod.GET)
     public String showRegistrationForm(WebRequest webRequest, Model model){
         LOG.debug("Handling GET request to /registration/");
 
