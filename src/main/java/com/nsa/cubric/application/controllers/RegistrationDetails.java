@@ -37,16 +37,10 @@ public class RegistrationDetails {
 
         LOG.debug("Handling POST to /registration/profile");
 
-        for (FieldError fieldError :
-                errors.getFieldErrors()) {
-            System.out.println("Field of error: " + fieldError.getField() +
-                    "\nError message: " + fieldError.getDefaultMessage());
-        }
-
         if (result.hasErrors()){
             return new ModelAndView("register_details", "profile", profileDTO);
         }
-        return new ModelAndView("success_register");
+        return new ModelAndView("redirect:/home");
     }
 
 

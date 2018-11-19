@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -46,20 +47,17 @@ public class RegistrationAccount {
             Errors errors){
 
         Account registered = new Account();
-        for (ObjectError errorObj :
-                errors.getAllErrors()) {
-            System.out.println(errorObj.toString());
-        }
+
         if(!result.hasErrors()){
             LOG.debug("Creating user account");
             registered = createUserAccount(accountDTO, result);
         }
-//        if(registered == null){
-//            result.rejectValue("email", "message.regError");
-//        }
 
+        if(registered == null){
+            result.addError(new ObjectError("email", "Email already exists"));
+        }
 
-        if(result.hasErrors() || registered == null){
+        if(result.hasErrors()){
             return new ModelAndView("register_account", "account", accountDTO);
         } else {
             return new ModelAndView("redirect:/registration/profile", "account", accountDTO);
