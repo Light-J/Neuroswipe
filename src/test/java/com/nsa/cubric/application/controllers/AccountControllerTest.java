@@ -47,7 +47,7 @@ public class AccountControllerTest {
                 .param("password", "Password")
                 .param("matchingPassword", "Password"))
                 .andExpect(model().hasNoErrors())
-                .andExpect(status().isOk());
+                .andExpect(status().is3xxRedirection());
     }
 
 }
