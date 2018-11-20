@@ -6,5 +6,6 @@ import com.nsa.cubric.application.services.accountUtils.EmailExistsException;
 
 public interface AccountServiceStatic {
     public Account registerNewUser(AccountDTO account) throws EmailExistsException;
+    public Account loginUser(AccountDTO account) throws Exception;
 
 }
