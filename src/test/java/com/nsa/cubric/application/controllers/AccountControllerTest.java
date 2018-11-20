@@ -50,4 +50,22 @@ public class AccountControllerTest {
                 .andExpect(status().is3xxRedirection());
     }
 
+    @Test
+    public void submitRegistrationInvalidPostcode() throws Exception{
+        this.mvc.perform(post("/registration/profile")
+                .param("postcode", "test"))
+                .andExpect(model().hasErrors())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void submitRegistrationValidPostcode() throws Exception{
+        this.mvc.perform(post("/registration/profile")
+                .param("postcode", "AA12"))
+                .andExpect(model().hasNoErrors())
+                .andExpect(status().is3xxRedirection());
+    }
+
+
+
 }
