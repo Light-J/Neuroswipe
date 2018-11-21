@@ -5,6 +5,7 @@ import com.nsa.cubric.application.services.registrationUtils.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @PasswordMatches()
 public class AccountDTO {
@@ -41,5 +42,21 @@ public class AccountDTO {
 
     public void setMatchingPassword(String matchingPassword) {
         this.matchingPassword = matchingPassword;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountDTO that = (AccountDTO) o;
+        return Objects.equals(email, that.email) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(matchingPassword, that.matchingPassword);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(email, password, matchingPassword);
     }
 }
