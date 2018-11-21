@@ -3,9 +3,7 @@ package com.nsa.cubric.application.services;
 import com.nsa.cubric.application.controllers.AccountDTO;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
-import com.nsa.cubric.application.services.accountUtils.EmailExistsException;
-import com.nsa.cubric.application.services.accountUtils.PasswordMatchesValidator;
-import org.junit.Before;
+import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class AccountServicesTest {
         Account alreadyExists = new Account(1L, "test@nsa.com", "pass", "user");
         given(accountRepository.findByEmail("test@nsa.com")).willReturn(alreadyExists);
 
-        accountService.registerNewUser(accountToAdd);
+        accountService.registerNewUserAccount(accountToAdd);
     }
 
 
