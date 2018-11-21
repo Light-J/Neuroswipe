@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+        <script src="/js/bootstrap.js"></script>
+        <title>Register for swipe right for brains</title>
+    </head>
+    <body>
+
+
+    <!--Navigation bar-->
+    <!--Standard navbar we are currently using-->
+    <nav class="navbar navbar-default">
+        <div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Swipe right brains</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a class="navbar-link" href="/home">Home</a>
+                    </li>
+
+                    <li><a href="#">About</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Login</a></li>
+                    <li><a href="/registration/account">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Add some details to your profile</h1>
+        <h2>Register your details below</h2>
+
+
+        <form action="/registration/profile" th:object="${profile}" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="username">Display name</label>
+                <div class="col-sm-10">
+                    <input id="username" class="form-control" th:field="*{username}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="postcode">Postcode (First 4 letters)</label>
+                <div class="col-sm-10">
+                    <input id="postcode" class="form-control" th:field="*{postcode}"/>
+
+                    <p class="text-danger" th:each="error : ${#fields.errors('postcode')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="age">age</label>
+                <div class="col-sm-10">
+                    <input id="age" class="form-control" th:field="*{age}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="gender">Gender</label>
+                <div class="col-sm-10">
+                    <select id="gender" th:field="*{gender}">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        <option value="not say">Prefer not to say</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+    </body>
+</html>

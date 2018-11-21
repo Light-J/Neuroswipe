@@ -5,20 +5,32 @@
     <meta charset="UTF-8">
     <title>Swipe Right Brains</title>
     <link rel="stylesheet" type="text/css" href="css/">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <script src="/js/bootstrap.js"></script>
 </head>
 <body>
 
-<header>
-    <h1>Welcome To Swipe Right for Brain</h1>
-</header>
 <!--Navigation bar-->
-<nav>
-    <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Login</a></li>
-        <li><a href="#">Register</a></li>
-        <li><a href="#">About</a></li>
-    </ul>
+<!--Standard navbar we are currently using-->
+<nav class="navbar navbar-default">
+    <div>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Swipe right brains</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="navbar-link" href="/home">Home</a>
+                </li>
+
+                <li><a href="#">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Login</a></li>
+                <li><a href="/registration/account">Register</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <section>
@@ -31,8 +43,9 @@
 <section>
     <!--Will be adding the siemens video once the client sends the video over-->
     <h2> Siemens Video</h2>
-    <video width="400" controls>
-        <source src="#.mp4" type="video/mp4">
+    <iframe width="853" height="480" src="https://www.youtube.com/embed/svCgy-Oa9ts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!--<video width="400" controls>-->
+        <!--<source src="#.mp4" type="video/mp4">-->
     </video>
 </section>
 
