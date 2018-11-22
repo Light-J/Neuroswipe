@@ -24,7 +24,7 @@ public class ImageAPI {
      * @param imageId ID of the image that the decision was made for
      * @return json object with success attribute and error message if applicable
      */
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "save", method = RequestMethod.POST, produces = "application/json")
     public Boolean storeDecision(@RequestParam("good") String good, @RequestParam("imageId") String imageId) {
         return true;
     }
