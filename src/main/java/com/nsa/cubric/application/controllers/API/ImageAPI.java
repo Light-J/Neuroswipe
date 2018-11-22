@@ -1,16 +1,20 @@
 package com.nsa.cubric.application.controllers.API;
+import com.nsa.cubric.application.domain.Image;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RequestMapping("images")
 @RestController
-public class Image {
+public class ImageAPI {
     /**
      * This method is used to serve the JSON for the image to view. It responds to GET requests to /images/next.
      *
      * @return      List of Charity objects, returned as JSON
      */
     @RequestMapping(value = "next", method = RequestMethod.GET, produces = "application/json")
-    public Image getNextImage() {
-        return null;
+    public ResponseEntity getNextImage() {
+        Image image = new Image(1, "1.jpg");
+        return new ResponseEntity<>(image,null, HttpStatus.OK);
     }
 
     /**
