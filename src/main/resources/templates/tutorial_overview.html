@@ -8,26 +8,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default">
-    <div>
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Swipe right brains</a>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a class="navbar-link" href="/home">Home</a>
-                </li>
-
-                <li><a href="#">About</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Login</a></li>
-                <li><a href="/registration/account">Register</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
     <h1>Tutorial</h1>
