@@ -9,7 +9,7 @@ public class ImageAPI {
     /**
      * This method is used to serve the JSON for the image to view. It responds to GET requests to /images/next.
      *
-     * @return      List of Charity objects, returned as JSON
+     * @return      ResponseEntity object containing image JSON.
      */
     @RequestMapping(value = "next", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getNextImage() {
