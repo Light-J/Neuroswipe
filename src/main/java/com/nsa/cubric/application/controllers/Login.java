@@ -3,6 +3,11 @@ package com.nsa.cubric.application.controllers;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 
 @Controller
@@ -25,6 +34,9 @@ public class Login {
         accountService = aRepo;
     }
 
+//    @Autowired
+//    AuthenticationManager authManager;
+
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public String openLoginPage(WebRequest webRequest, Model model){
 
@@ -34,8 +46,8 @@ public class Login {
     }
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public ModelAndView submitLoginPage(@ModelAttribute("account") @Valid AccountDTO accountDTO,
-                                  BindingResult result, WebRequest webRequest, Errors errors){
+    public ModelAndView submitLoginPage(@ModelAttribute("account") @Valid AccountDTO accountDTO, HttpServletRequest req,
+                                        BindingResult result, WebRequest webRequest, Errors errors){
 
 //        if(result.hasErrors()){
 //            return new ModelAndView("login", "account", accountDTO);
