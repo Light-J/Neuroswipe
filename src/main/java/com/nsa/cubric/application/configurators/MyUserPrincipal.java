@@ -21,7 +21,6 @@ public class MyUserPrincipal implements UserDetails {
     private Account user;
     private List<String> userRoles;
 
-
     @Override
     public String getUsername() {
         return user.getEmail();

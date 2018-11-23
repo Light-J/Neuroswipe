@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -53,18 +53,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http
-                .authorizeRequests()
+            .authorizeRequests()
                 //.antMatchers("/reports/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/login*").permitAll()
-                .antMatchers("/registration*").permitAll()
+                .antMatchers("/registration/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
+            .formLogin()
                 .successHandler(successHandler)
-                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/test")
                 .permitAll()
                 .and()
-                .logout()
+            .logout()
                 .logoutSuccessUrl("/login")
                 .and()
                 .csrf().disable()
