@@ -1,9 +1,11 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.Image;
+import com.nsa.cubric.application.domain.PracticeImage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -48,5 +50,25 @@ public class ImageAPI {
     @RequestMapping(value = "save", method = RequestMethod.POST, produces = "application/json")
     public Boolean storeDecision(@RequestParam("goodBrain") String goodBrain, @RequestParam("imageId") String imageId) {
         return true;
+    }
+
+
+    @GetMapping(value = "/quiz", produces = "application/json")
+    public ResponseEntity getQuizImages(){
+        List<PracticeImage> images = Arrays.asList(
+                new PracticeImage(1, "1.jpg", true),
+                new PracticeImage(2, "1.jpg", true),
+                new PracticeImage(3, "1.jpg", true),
+                new PracticeImage(4, "1.jpg", true),
+                new PracticeImage(5, "1.jpg", true),
+                new PracticeImage(6, "1.jpg", true),
+                new PracticeImage(7, "1.jpg", true),
+                new PracticeImage(8, "1.jpg", true),
+                new PracticeImage(9, "1.jpg", true),
+                new PracticeImage(10, "1.jpg", true));
+
+        return new ResponseEntity<>(images,null, HttpStatus.OK);
+
+
     }
 }
