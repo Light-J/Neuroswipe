@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.js"></script>
+    <title>Quiz | SwipeRightBrains</title>
+</head>
+<body>
+
+<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+
+<div class="container">
+    <h1>Quiz</h1>
+
+    <div class="panel panel-info container-fluid">
+        <div class="panel-heading row">
+            <div class="col-xs-8 pull-left"><p>Is this a good image of a brain?</p></div>
+            <div class="col-xs-2 pull-right">
+                <div class="col-xs-2 pull-left">Question:</div>
+                <div class="col-xs-1 pull-right">2</div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <img src="" id="brainImage" width="800" height="500" style="width:100%">
+        </div>
+        <div class="panel-footer text-center">
+            <a href="#" class="btn btn-danger btn-lg" id="noButton">No</a>
+            <a href="#" class="btn btn-success btn-lg" id="yesButton">Yes</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var loadQuizData = function () {
+        $.getJSON("/images/quiz", function (imageData) {
+            console.log(imageData);
+        })
+    };
+
+    $('document').ready(loadQuizData());
+
+
+
+
+
+
+    var loadNextImage = function(){
+        $.getJSON("/images/next", function( imageData ) {
+            console.log(imageData);
+            $("#brainImage").attr("src", "/img/practice_images/"+imageData.filename);
+            $("#brainImage").data("id", imageData.id);
+        });
+    };
+
+    var saveDecisionAndNextImage = function(goodBrain){
+        $.ajax({
+            type: "POST",
+            url: "/images/save",
+            data: {
+                "imageId": $("#brainImage").data("id"),
+                "goodBrain": goodBrain,
+            },
+            success: function(data){
+                loadNextImage();
+            },
+            error: function(){
+                alert("There was an error submitting the data.");
+            },
+            dataType: "json"
+        });
+    };
+
+    $(function() {
+        loadNextImage();
+
+        $("#yesButton").on("click", function(){
+            saveDecisionAndNextImage(true);
+        });
+
+        $("#noButton").on("click", function(){
+            saveDecisionAndNextImage(false);
+        });
+    });
+</script>
+
+</body>
+</html>
