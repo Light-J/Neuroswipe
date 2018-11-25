@@ -54,20 +54,21 @@ public class ImageAPI {
 
 
     @GetMapping(value = "/quiz", produces = "application/json")
-    public ResponseEntity getQuizImages(){
+    public ResponseEntity getQuizImages(
+            @RequestParam(value = "question_number") int questionNumber){
         List<PracticeImage> images = Arrays.asList(
                 new PracticeImage(1, "1.jpg", true),
-                new PracticeImage(2, "1.jpg", true),
-                new PracticeImage(3, "1.jpg", true),
-                new PracticeImage(4, "1.jpg", true),
-                new PracticeImage(5, "1.jpg", true),
-                new PracticeImage(6, "1.jpg", true),
-                new PracticeImage(7, "1.jpg", true),
-                new PracticeImage(8, "1.jpg", true),
-                new PracticeImage(9, "1.jpg", true),
-                new PracticeImage(10, "1.jpg", true));
+                new PracticeImage(2, "2.jpg", true),
+                new PracticeImage(3, "3.jpg", true),
+                new PracticeImage(4, "4.jpg", true),
+                new PracticeImage(5, "5.jpg", true),
+                new PracticeImage(6, "6.jpg", true),
+                new PracticeImage(7, "7.jpg", true),
+                new PracticeImage(8, "8.jpg", true),
+                new PracticeImage(9, "9.jpg", true),
+                new PracticeImage(10, "10.jpg", true));
 
-        return new ResponseEntity<>(images,null, HttpStatus.OK);
+        return new ResponseEntity<>(images.get(questionNumber),null, HttpStatus.OK);
 
 
     }

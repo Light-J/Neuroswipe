@@ -34,13 +34,24 @@
 </div>
 
 <script>
-    var loadQuizData = function () {
-        $.getJSON("/images/quiz", function (imageData) {
-            console.log(imageData);
-        })
+    var loadQuestion = function (question_number) {
+        $.getJSON("/images/quiz?question_number="+question_number, function (imageData) {
+            $("#brainImage").attr("src", "/img/practice_images/"+imageData.filename);
+            $("#brainImage").data("id", imageData.id);
+        });
+
     };
 
-    $('document').ready(loadQuizData());
+    var quizStart = function () {
+        console.log("Quiz is starting");
+        for (var question_number = 0; question_number < 10; question_number++){
+            console.log("Current question is " + question_number);
+            loadQuestion(question_number)
+
+        }
+    };
+
+    $('document').ready(quizStart());
 
 
 
