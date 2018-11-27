@@ -1,61 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<!--Stylesheet-->
-<head>
-    <meta charset="UTF-8">
-    <title>Swipe Right Brains</title>
-    <link rel="stylesheet" type="text/css" href="css/">
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Home | SwipeRightBrains</title>
+        <link rel="stylesheet" type="text/css" href="css/">
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+        <script src="/js/bootstrap.js"></script>
+    </head>
+    <body>
 
-<header>
-    <h1>Welcome To Swipe Right for Brain</h1>
-</header>
-<!--Navigation bar-->
-<nav>
-    <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Login</a></li>
-        <li><a href="#">Register</a></li>
-        <li><a href="#">About</a></li>
-    </ul>
-</nav>
+    <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
-<section>
-    <h1>Welcome</h1>
-    <p>As a hub for neuroscience, we house multiple brain imaging facilities under one roof.
-        We play a pivotal role in the global endeavour to better understand the causes of neurological and psychiatric conditions such as dementia,
-        schizophrenia and multiple sclerosis, so as to yield vital clues for the development of better treatments.</p>
-</section>
+    <div class="container">
+        <section>
+            <h1>Welcome</h1>
+            <p>As a hub for neuroscience, we house multiple brain imaging facilities under one roof.
+                We play a pivotal role in the global endeavour to better understand the causes of neurological and psychiatric conditions such as dementia,
+                schizophrenia and multiple sclerosis, so as to yield vital clues for the development of better treatments.</p>
+        </section>
 
-<section>
-    <!--Will be adding the siemens video once the client sends the video over-->
-    <h2> Siemens Video</h2>
-    <video width="400" controls>
-        <source src="#.mp4" type="video/mp4">
-    </video>
-</section>
+        <section>
+            <!--Will be adding the siemens video once the client sends the video over-->
+            <h2> Siemens Video</h2>
+            <iframe width="853" height="480" src="https://www.youtube.com/embed/svCgy-Oa9ts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!--<video width="400" controls>-->
+                <!--<source src="#.mp4" type="video/mp4">-->
+            </video>
+        </section>
 
-<section>
-    <!--What and Why-->
-    <h3> What And Why</h3>
-    <p>We map out the pathways in the brain using Magnetic Resonance Imaging.
-        It’s important that we map the pathways accurately.Our vision is to understand brain and behaviour in health and disease
-        through advanced imaging and cognitive methods.</p>
-</section>
+        <section>
+            <!--What and Why-->
+            <h3> What And Why</h3>
+            <p>We map out the pathways in the brain using Magnetic Resonance Imaging.
+                It’s important that we map the pathways accurately.Our vision is to understand brain and behaviour in health and disease
+                through advanced imaging and cognitive methods.</p>
+        </section>
 
-<section>
-    <h4> Be a part of something greater</h4>
-    <p>Can you help us look at research brain scans?
-        Want to help us learn about the brain and help to cure brain diseases?
-        We are going to teach you how to be an expert in this.
-        We check this manually. Can you help tell which is wrong?
-    </p>
-</section>
+        <section>
+            <h4> Be a part of something greater</h4>
+            <p>Can you help us look at research brain scans?
+                Want to help us learn about the brain and help to cure brain diseases?
+                We are going to teach you how to be an expert in this.
+                We check this manually. Can you help tell which is wrong?
+            </p>
+        </section>
 
-<footer>
-    <p><a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
-    <p>Copyright &copy; 2017 Swipe Right Brains</p>
-</footer>
+        <footer>
+            <p><a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
+            <p>Copyright &copy; 2017 Swipe Right Brains</p>
+        </footer>
+    </div>
 </body>
 </html>
