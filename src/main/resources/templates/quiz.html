@@ -53,7 +53,6 @@
     }
 
     var endOfQuiz = function(answers){
-        alert("Quiz is complete");
         console.log(answers)
         $.ajax({
             url: '/quiz/mark',
@@ -109,25 +108,6 @@
         loadQuestion(shuffled_questions[current_question]);
         getUserAnswer(answers, current_question, shuffled_questions);
     });
-
-    var saveDecisionAndNextImage = function(goodBrain){
-        $.ajax({
-            type: "POST",
-            url: "/images/save",
-            data: {
-                "imageId": $("#brainImage").data("id"),
-                "goodBrain": goodBrain,
-            },
-            success: function(data){
-                loadNextImage();
-            },
-            error: function(){
-                alert("There was an error submitting the data.");
-            },
-            dataType: "json"
-        });
-    };
-
 </script>
 
 </body>
