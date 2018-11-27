@@ -4,6 +4,7 @@ import com.nsa.cubric.application.domain.PracticeImage;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 @Service
 public class QuizServices implements QuizServicesStatic{
@@ -26,7 +27,16 @@ public class QuizServices implements QuizServicesStatic{
     }
 
     @Override
-    public Long markUserResults(){
+    public Long markUserResults(HashMap<Integer, Boolean> answers){
+
         return 10L;
+    }
+
+    private Long markAnswer(Integer question, Boolean answer){
+        if(answer == images.get(question+1).getImageCorrect()){
+            return 1L;
+        } else {
+            return 0L;
+        }
     }
 }
