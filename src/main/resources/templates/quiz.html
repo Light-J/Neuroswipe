@@ -55,6 +55,14 @@
     var endOfQuiz = function(answers){
         alert("Quiz is complete");
         console.log(answers)
+        $.ajax({
+            url: '/quiz/mark',
+            type: 'POST',
+            data: answers,
+            success: function (data) {
+                alert(data);
+            }
+        });
     };
 
     var loadQuestion = function (question_number) {

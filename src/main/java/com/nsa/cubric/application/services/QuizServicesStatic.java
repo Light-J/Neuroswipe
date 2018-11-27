@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface QuizServicesStatic {
     List<PracticeImage> getQuizImages();
+    Long markUserResults();
 
 }
