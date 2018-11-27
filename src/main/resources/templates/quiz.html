@@ -82,6 +82,7 @@
             endOfQuiz(answers);
         }
         loadQuestion(shuffled_questions[current_question]);
+        document.getElementById("question_number").innerText = current_question+1;
 
         document.getElementById("yesButton").onclick = function () {
             console.log("Button clicked, proceeding with true");
