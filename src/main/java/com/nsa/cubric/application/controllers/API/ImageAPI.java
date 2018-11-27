@@ -1,6 +1,8 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.Image;
 import com.nsa.cubric.application.domain.PracticeImage;
+import com.nsa.cubric.application.services.QuizServicesStatic;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,9 @@ import java.util.Random;
 @RequestMapping("images")
 @RestController
 public class ImageAPI {
+
+    @Autowired
+    QuizServicesStatic quizServices;
 
     private Random randomGenerator;
 
@@ -56,17 +61,7 @@ public class ImageAPI {
     @GetMapping(value = "/quiz", produces = "application/json")
     public ResponseEntity getQuizImages(
             @RequestParam(value = "question_number") int questionNumber){
-        List<PracticeImage> images = Arrays.asList(
-                new PracticeImage(1, "1.jpg", true),
-                new PracticeImage(2, "2.jpg", true),
-                new PracticeImage(3, "3.jpg", true),
-                new PracticeImage(4, "4.jpg", true),
-                new PracticeImage(5, "5.jpg", true),
-                new PracticeImage(6, "6.jpg", true),
-                new PracticeImage(7, "7.jpg", true),
-                new PracticeImage(8, "8.jpg", true),
-                new PracticeImage(9, "9.jpg", true),
-                new PracticeImage(10, "10.jpg", true));
+        List<PracticeImage> images = quizServices.getQuizImages();
 
         return new ResponseEntity<>(images.get(questionNumber),null, HttpStatus.OK);
 
