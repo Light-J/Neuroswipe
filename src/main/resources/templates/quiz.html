@@ -19,7 +19,7 @@
             <div class="col-xs-8 pull-left"><p>Is this a good image of a brain?</p></div>
             <div class="col-xs-2 pull-right">
                 <div class="col-xs-2 pull-left">Question:</div>
-                <div class="col-xs-1 pull-right">2</div>
+                <div id="question_number" class="col-xs-1 pull-right">2</div>
             </div>
         </div>
         <div class="panel-body">
@@ -34,37 +34,72 @@
 </div>
 
 <script>
-    var loadQuestion = function (question_number) {
-        $.getJSON("/images/quiz?question_number="+question_number, function (imageData) {
-            $("#brainImage").attr("src", "/img/practice_images/"+imageData.filename);
-            $("#brainImage").data("id", imageData.id);
-        });
+    //From https://www.w3resource.com/javascript-exercises/javascript-array-exercise-17.php
+    function shuffle(arra1) {
+        var ctr = arra1.length, temp, index;
 
-    };
-
-    var quizStart = function () {
-        console.log("Quiz is starting");
-        for (var question_number = 0; question_number < 10; question_number++){
-            console.log("Current question is " + question_number);
-            loadQuestion(question_number)
-
+        // While there are elements in the array
+        while (ctr > 0) {
+            // Pick a random index
+            index = Math.floor(Math.random() * ctr);
+            // Decrease ctr by 1
+            ctr--;
+            // And swap the last element with it
+            temp = arra1[ctr];
+            arra1[ctr] = arra1[index];
+            arra1[index] = temp;
         }
+        return arra1;
+    }
+
+    var endOfQuiz = function(answers){
+        alert("Quiz is complete");
+        console.log(answers)
     };
 
-    $('document').ready(quizStart());
-
-
-
-
-
-
-    var loadNextImage = function(){
-        $.getJSON("/images/next", function( imageData ) {
-            console.log(imageData);
-            $("#brainImage").attr("src", "/img/practice_images/"+imageData.filename);
-            $("#brainImage").data("id", imageData.id);
+    var loadQuestion = function (question_number) {
+        $.ajax({
+            url: "/images/quiz?question_number="+question_number,
+            dataType: 'json',
+            async: false,
+            success: function(imageData) {
+                $("#brainImage").attr("src", "/img/practice_images/"+imageData.filename);
+                $("#brainImage").data("id", imageData.id);
+            }
         });
     };
+
+    var getUserAnswer = function(answers, current_question, shuffled_questions) {
+        if(current_question == 10){
+            endOfQuiz(answers);
+        }
+        loadQuestion(shuffled_questions[current_question]);
+
+        document.getElementById("yesButton").onclick = function () {
+            console.log("Button clicked, proceeding with true");
+            answers[shuffled_questions[current_question]] = true;
+            getUserAnswer(answers, current_question+1, shuffled_questions);
+        };
+
+        document.getElementById("noButton").onclick = function () {
+            console.log("Button clicked, proceeding with false");
+            answers[shuffled_questions[current_question]] = false;
+            getUserAnswer(answers, current_question+1, shuffled_questions);
+        };
+
+    };
+
+    $('document').ready(function(){
+        var answers = {};
+        var questions = [];
+        for (var i = 0; i <= 9; i++) {
+            questions.push(i);
+        }
+        var shuffled_questions = shuffle(questions);
+        var current_question = 0;
+        loadQuestion(shuffled_questions[current_question]);
+        getUserAnswer(answers, current_question, shuffled_questions);
+    });
 
     var saveDecisionAndNextImage = function(goodBrain){
         $.ajax({
@@ -84,17 +119,6 @@
         });
     };
 
-    $(function() {
-        loadNextImage();
-
-        $("#yesButton").on("click", function(){
-            saveDecisionAndNextImage(true);
-        });
-
-        $("#noButton").on("click", function(){
-            saveDecisionAndNextImage(false);
-        });
-    });
 </script>
 
 </body>
