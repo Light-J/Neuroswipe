@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class QuizServices implements QuizServicesStatic{
 
@@ -28,12 +30,19 @@ public class QuizServices implements QuizServicesStatic{
 
     @Override
     public Long markUserResults(HashMap<Integer, Boolean> answers){
+        Long score = 0L;
 
-        return 10L;
+        for(Map.Entry<Integer, Boolean> entry: answers.entrySet()) {
+            System.out.println(entry.getKey().toString() + " " + entry.getValue().toString());
+            score = score + markAnswer(entry.getKey(), entry.getValue());
+            System.out.println(score);
+        }
+        System.out.println(score);
+        return score;
     }
 
     private Long markAnswer(Integer question, Boolean answer){
-        if(answer == images.get(question+1).getImageCorrect()){
+        if(answer == images.get(question).getImageCorrect()){
             return 1L;
         } else {
             return 0L;
