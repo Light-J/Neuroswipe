@@ -57,7 +57,11 @@ public class ImageAPI {
         return true;
     }
 
-
+    /**
+     * This method is used in the quiz section in order to obtain images related to question numbers
+     * @param questionNumber integer of the question being requested
+     * @return ResponseEntity object containing image JSON.
+     */
     @GetMapping(value = "/quiz", produces = "application/json")
     public ResponseEntity getQuizImages(
             @RequestParam(value = "question_number") int questionNumber){

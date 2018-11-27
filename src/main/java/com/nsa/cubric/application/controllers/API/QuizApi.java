@@ -20,6 +20,7 @@ public class QuizApi {
 
     @PostMapping(value = "/mark")
     public Long markAnswers(@RequestBody String answers){
+        //TODO when user sessions added, retrieve user completing the test and save the score
         HashMap<Integer, Boolean> answersDict = new HashMap<>();
         String[] allAnswers = answers.split("&");
         for (String item:allAnswers){
