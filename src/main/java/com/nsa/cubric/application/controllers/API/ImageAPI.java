@@ -1,9 +1,13 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.Image;
+import com.nsa.cubric.application.domain.PracticeImage;
+import com.nsa.cubric.application.services.QuizServicesStatic;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -11,6 +15,9 @@ import java.util.Random;
 @RequestMapping("images")
 @RestController
 public class ImageAPI {
+
+    @Autowired
+    QuizServicesStatic quizServices;
 
     private Random randomGenerator;
 
@@ -48,5 +55,20 @@ public class ImageAPI {
     @RequestMapping(value = "save", method = RequestMethod.POST, produces = "application/json")
     public Boolean storeDecision(@RequestParam("goodBrain") String goodBrain, @RequestParam("imageId") String imageId) {
         return true;
+    }
+
+    /**
+     * This method is used in the quiz section in order to obtain images related to question numbers
+     * @param questionNumber integer of the question being requested
+     * @return ResponseEntity object containing image JSON.
+     */
+    @GetMapping(value = "/quiz", produces = "application/json")
+    public ResponseEntity getQuizImages(
+            @RequestParam(value = "question_number") int questionNumber){
+        List<PracticeImage> images = quizServices.getQuizImages();
+
+        return new ResponseEntity<>(images.get(questionNumber),null, HttpStatus.OK);
+
+
     }
 }
