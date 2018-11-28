@@ -1,5 +1,8 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.Image;
+import com.nsa.cubric.application.repositories.ImageRepository;
+import com.nsa.cubric.application.services.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +21,14 @@ import java.io.File;
 public class ImageAPI {
 
     private Random randomGenerator;
+    private ImageService imageService;
 
     public static final String imageUploadDirectory = System.getProperty("user.dir") + "/brain_images/";
+
+    @Autowired
+    public ImageAPI(ImageService imageService){
+        this.imageService = imageService;
+    }
 
     /**
      * This method is used to serve the JSON for the image to view. It responds to GET requests to /images/next.
@@ -82,6 +91,8 @@ public class ImageAPI {
         for(MultipartFile uploadedImage : uploadedImages) {
             File file = new File(imageUploadDirectory + uploadedImage.getOriginalFilename());
             uploadedImage.transferTo(file);
+            Image image = new Image(1, file.getPath());
+            imageService.insert(image);
         }
         response.sendRedirect("/admin/");
     }
