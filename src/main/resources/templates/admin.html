@@ -32,7 +32,7 @@
     $(function() {
         $.getJSON("/images/", function( images ) {
             for (var i = 0; i < images.length; i++) {
-                $("table").append('<tr><td>'+images[i].id+'</td><td>'+images[i].path+'</td><td>Known good/bad</td><td>Good responses</td><td>Bad responses</td></tr>');
+                $("table").append('<tr><td>'+images[i].id+'</td><td><a target="_blank" href="/brain_images/'+images[i].path+'">'+images[i].path+'</a></td><td>Known good/bad</td><td>Good responses</td><td>Bad responses</td></tr>');
             }
         });
     });
