@@ -3,16 +3,16 @@ package com.nsa.cubric.application.domain;
 public class Image {
 
     private int id;
-    private String filename;
+    private String path;
 
-    public Image(int id, String filename) {
+    public Image(int id, String path) {
         this.id = id;
-        this.filename = filename;
+        this.path = path;
     }
 
-    public String getFilename() {return filename;}
+    public String getPath() {return path;}
     public int getId() {return id;}
 
-    public void setFilename(String filename) { this.filename = filename; }
+    public void setPath(String path) { this.path = path; }
     public void setId(int id) { this.id = id; }
 }
