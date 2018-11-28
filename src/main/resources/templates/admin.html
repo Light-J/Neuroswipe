@@ -12,57 +12,20 @@
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
-    <h1>Practice</h1>
+    <h1>Admin</h1>
 
-    <div class="panel panel-info">
-        <div class="panel-heading">Is this a good image of a brain?</div>
-        <div class="panel-body">
-            <img src="" id="brainImage" width="800" height="500" style="width:100%">
-        </div>
-        <div class="panel-footer text-center">
-            <a href="#" class="btn btn-danger btn-lg" id="noButton">No</a>
-            <a href="#" class="btn btn-success btn-lg" id="yesButton">Yes</a>
-        </div>
-    </div>
+    <table class="table">
+        <tr><th>ID</th><th>Filename</th><th>Known good/bad</th><th>Good responses</th><th>Bad responses</th></tr>
+    </table>
 
 </div>
 
 <script>
-    var loadNextImage = function(){
-        $.getJSON("/images/next", function( imageData ) {
-            console.log(imageData);
-            $("#brainImage").attr("src", "/img/practice_images/"+imageData.filename);
-            $("#brainImage").data("id", imageData.id);
-        });
-    };
-
-    var saveDecisionAndNextImage = function(goodBrain){
-        $.ajax({
-            type: "POST",
-            url: "/images/save",
-            data: {
-                "imageId": $("#brainImage").data("id"),
-                "goodBrain": goodBrain,
-            },
-            success: function(data){
-                loadNextImage();
-            },
-            error: function(){
-                alert("There was an error submitting the data.");
-            },
-            dataType: "json"
-        });
-    };
-
     $(function() {
-        loadNextImage();
-
-        $("#yesButton").on("click", function(){
-            saveDecisionAndNextImage(true);
-        });
-
-        $("#noButton").on("click", function(){
-            saveDecisionAndNextImage(false);
+        $.getJSON("/images/", function( images ) {
+            for (var i = 0; i < images.length; i++) {
+                $("table").append('<tr><td>'+images[i].id+'</td><td>'+images[i].filename+'</td><td>Known good/bad</td><td>Good responses</td><td>Bad responses</td></tr>');
+            }
         });
     });
 </script>
