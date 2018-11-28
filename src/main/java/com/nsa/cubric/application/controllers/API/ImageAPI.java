@@ -3,10 +3,13 @@ import com.nsa.cubric.application.domain.Image;
 import com.nsa.cubric.application.repositories.ImageRepository;
 import com.nsa.cubric.application.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
@@ -86,5 +89,13 @@ public class ImageAPI {
             imageService.insert(image);
         }
         response.sendRedirect("/admin/");
+    }
+
+    @Configuration
+    public class AdditionalResourceWebConfiguration implements WebMvcConfigurer {
+        @Override
+        public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+            registry.addResourceHandler("/brain_images/**").addResourceLocations("file:brain_images/");
+        }
     }
 }
