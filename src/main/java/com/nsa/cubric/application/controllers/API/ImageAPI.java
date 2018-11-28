@@ -39,6 +39,27 @@ public class ImageAPI {
     }
 
     /**
+     * This method is used to serve the JSON for all the images in the database. It responds to GET requests to /images/.
+     *
+     * @return      ResponseEntity object containing images JSON.
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity getAllImages() {
+        List<Image> images = Arrays.asList(new Image(1, "1.jpg"),
+                new Image(2, "2.jpg"),
+                new Image(3, "3.jpg"),
+                new Image(4, "4.jpg"),
+                new Image(5, "5.jpg"),
+                new Image(6, "6.jpg"),
+                new Image(7, "7.jpg"),
+                new Image(8, "8.jpg"),
+                new Image(9, "9.jpg"),
+                new Image(10, "10.jpg"));
+
+        return new ResponseEntity<>(images,null, HttpStatus.OK);
+    }
+
+    /**
      * This method is used to accepted and store the decision the user has made regarding the image.
      *
      * @param goodBrain boolean whether the user indicated that the image was "good" or not
