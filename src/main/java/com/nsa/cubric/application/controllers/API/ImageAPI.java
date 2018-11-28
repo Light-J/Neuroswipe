@@ -3,16 +3,23 @@ import com.nsa.cubric.application.domain.Image;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.io.File;
 
 @RequestMapping("images")
 @RestController
 public class ImageAPI {
 
     private Random randomGenerator;
+
+    public static final String imageUploadDirectory = System.getProperty("user.dir") + "/brain_images/";
 
     /**
      * This method is used to serve the JSON for the image to view. It responds to GET requests to /images/next.
@@ -55,7 +62,6 @@ public class ImageAPI {
                 new Image(8, "8.jpg"),
                 new Image(9, "9.jpg"),
                 new Image(10, "10.jpg"));
-
         return new ResponseEntity<>(images,null, HttpStatus.OK);
     }
 
@@ -69,5 +75,14 @@ public class ImageAPI {
     @RequestMapping(value = "save", method = RequestMethod.POST, produces = "application/json")
     public Boolean storeDecision(@RequestParam("goodBrain") String goodBrain, @RequestParam("imageId") String imageId) {
         return true;
+    }
+
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public void uploadingPost(HttpServletResponse response, @RequestParam("images") MultipartFile[] uploadedImages) throws IOException {
+        for(MultipartFile uploadedImage : uploadedImages) {
+            File file = new File(imageUploadDirectory + uploadedImage.getOriginalFilename());
+            uploadedImage.transferTo(file);
+        }
+        response.sendRedirect("/admin/");
     }
 }
