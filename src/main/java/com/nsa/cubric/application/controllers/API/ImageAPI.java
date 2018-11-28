@@ -91,7 +91,7 @@ public class ImageAPI {
         for(MultipartFile uploadedImage : uploadedImages) {
             File file = new File(imageUploadDirectory + uploadedImage.getOriginalFilename());
             uploadedImage.transferTo(file);
-            Image image = new Image(1, file.getPath());
+            Image image = new Image(1, file.getName());
             imageService.insert(image);
         }
         response.sendRedirect("/admin/");
