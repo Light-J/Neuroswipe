@@ -61,16 +61,7 @@ public class ImageAPI {
      */
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getAllImages() {
-        List<Image> images = Arrays.asList(new Image(1, "1.jpg"),
-                new Image(2, "2.jpg"),
-                new Image(3, "3.jpg"),
-                new Image(4, "4.jpg"),
-                new Image(5, "5.jpg"),
-                new Image(6, "6.jpg"),
-                new Image(7, "7.jpg"),
-                new Image(8, "8.jpg"),
-                new Image(9, "9.jpg"),
-                new Image(10, "10.jpg"));
+        List<Image> images = imageService.getAll();
         return new ResponseEntity<>(images,null, HttpStatus.OK);
     }
 
