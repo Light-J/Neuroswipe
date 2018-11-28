@@ -12,4 +12,7 @@ public class Image {
 
     public String getFilename() {return filename;}
     public int getId() {return id;}
+
+    public void setFilename(String filename) { this.filename = filename; }
+    public void setId(int id) { this.id = id; }
 }
