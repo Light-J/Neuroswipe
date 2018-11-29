@@ -46,6 +46,24 @@
                     '</select>');
 
                 $(this).find(".knownGood select").val(knownGood);
+
+                $(this).find(".knownGood select").on("change", function (e) {
+
+                    var knownGood = $(this).val();
+
+                    if(knownGood === "true"){
+                        knownGood = true;
+                    }else if(knownGood === "false"){
+                        knownGood = false;
+                    }else{
+                        knownGood = null;
+                    }
+
+                    $.post("/images/"+$(this).data("id")+"/setKnownGood", { knownGood: knownGood })
+                        .done(function( data ) {
+                            location.reload();
+                        });
+                });
             });
         });
     });
