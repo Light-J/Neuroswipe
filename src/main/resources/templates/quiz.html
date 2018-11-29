@@ -70,7 +70,7 @@
             dataType: 'json',
             async: false,
             success: function(imageData) {
-                $("#brainImage").attr("src", "/img/quiz_images/"+imageData.filename);
+                $("#brainImage").attr("src", "/img/quiz_images/"+imageData.path);
                 $("#brainImage").data("id", imageData.id);
             }
         });

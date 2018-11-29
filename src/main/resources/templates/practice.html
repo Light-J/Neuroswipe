@@ -31,7 +31,7 @@
     var loadNextImage = function(){
         $.getJSON("/images/next", function( imageData ) {
             console.log(imageData);
-            $("#brainImage").attr("src", "/img/practice_images/"+imageData.filename);
+            $("#brainImage").attr("src", "/img/practice_images/"+imageData.path);
             $("#brainImage").data("id", imageData.id);
         });
     };
