@@ -40,16 +40,16 @@ public class ImageAPI {
      */
     @RequestMapping(value = "next", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getNextImage() {
-        List<Image> images = Arrays.asList(new Image(1, "1.jpg"),
-                new Image(2, "2.jpg"),
-                new Image(3, "3.jpg"),
-                new Image(4, "4.jpg"),
-                new Image(5, "5.jpg"),
-                new Image(6, "6.jpg"),
-                new Image(7, "7.jpg"),
-                new Image(8, "8.jpg"),
-                new Image(9, "9.jpg"),
-                new Image(10, "10.jpg"));
+        List<Image> images = Arrays.asList(new Image(1, "1.jpg", null),
+                new Image(2, "2.jpg", null),
+                new Image(3, "3.jpg", null),
+                new Image(4, "4.jpg", null),
+                new Image(5, "5.jpg", null),
+                new Image(6, "6.jpg", null),
+                new Image(7, "7.jpg", null),
+                new Image(8, "8.jpg", null),
+                new Image(9, "9.jpg", null),
+                new Image(10, "10.jpg", null));
 
         randomGenerator = new Random();
         int index = randomGenerator.nextInt(images.size());
@@ -85,7 +85,7 @@ public class ImageAPI {
         for(MultipartFile uploadedImage : uploadedImages) {
             File file = new File(imageUploadDirectory + uploadedImage.getOriginalFilename());
             uploadedImage.transferTo(file);
-            Image image = new Image(1, file.getName());
+            Image image = new Image(1, file.getName(), null);
             imageService.insert(image);
         }
         response.sendRedirect("/admin/");

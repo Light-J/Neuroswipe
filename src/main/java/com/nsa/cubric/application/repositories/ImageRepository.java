@@ -20,7 +20,8 @@ public class ImageRepository implements ImageRepositoryStatic {
 
         imageMapper = (rs, i) -> new Image(
                 rs.getInt("id"),
-                rs.getString("path")
+                rs.getString("path"),
+                rs.getBoolean("known_good")
         );
     }
 
@@ -40,8 +41,8 @@ public class ImageRepository implements ImageRepositoryStatic {
     @Override
     public void insert(Image image){
         jdbcTemplate.update(
-                "INSERT into images (path) values (?)",
-                image.getPath());
+                "INSERT into images (path, known_good) values (?, ?)",
+                image.getPath(), image.getKnownGood());
     }
 
     @Override
