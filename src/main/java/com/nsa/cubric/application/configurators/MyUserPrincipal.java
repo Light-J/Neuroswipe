@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 public class MyUserPrincipal implements UserDetails {
     private Account user;
     private List<String> userRoles;
@@ -23,6 +22,9 @@ public class MyUserPrincipal implements UserDetails {
     public MyUserPrincipal(Account user, List<String> userRoles) {
         this.user = user;
         this.userRoles = userRoles;
+    }
+
+    public MyUserPrincipal() {
     }
 
     @Override
