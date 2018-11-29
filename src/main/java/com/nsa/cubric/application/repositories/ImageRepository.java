@@ -29,7 +29,7 @@ public class ImageRepository implements ImageRepositoryStatic {
     public Image findById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, path from images WHERE id = ?",
+                    "select id, path, known_good from images WHERE id = ?",
                     new Object[]{id},imageMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -48,7 +48,7 @@ public class ImageRepository implements ImageRepositoryStatic {
     @Override
     public List<Image> getAll(){
         return jdbcTemplate.query(
-                "SELECT id, path FROM images",
+                "SELECT id, path, known_good FROM images",
                 new Object[]{},imageMapper
         );
     }
