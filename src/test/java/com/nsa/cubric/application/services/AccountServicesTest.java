@@ -2,6 +2,7 @@ package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.controllers.AccountDTO;
 import com.nsa.cubric.application.domain.Account;
+import com.nsa.cubric.application.repositories.AccountRepository;
 import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class AccountServicesTest {
     private AccountServiceStatic accountService;
 
     @MockBean
-    private AccountRepositoryStatic accountRepository;
+    private AccountRepository accountRepository;
 
     @Test(expected = EmailExistsException.class)
     public void checkEmailIsUnique() throws Exception{
