@@ -15,11 +15,15 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class MyUserPrincipal implements UserDetails {
     private Account user;
     private List<String> userRoles;
+
+    public MyUserPrincipal(Account user, List<String> userRoles) {
+        this.user = user;
+        this.userRoles = userRoles;
+    }
 
     @Override
     public String getUsername() {
