@@ -7,5 +7,6 @@ import java.util.List;
 public interface ImageServiceStatic {
     Image findById(Long id);
     void insert(Image image);
+    void updateKnownGood(Long id, Boolean knownGood);
     List<Image> getAll();
 }

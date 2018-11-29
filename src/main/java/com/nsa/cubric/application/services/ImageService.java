@@ -28,6 +28,11 @@ public class ImageService implements ImageServiceStatic {
     }
 
     @Override
+    public void updateKnownGood(Long id, Boolean knownGood){
+        imageRepository.updateKnownGood(id, knownGood);
+    }
+
+    @Override
     public List<Image> getAll(){
         return imageRepository.getAll();
     }

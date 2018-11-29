@@ -44,7 +44,14 @@ public class ImageRepository implements ImageRepositoryStatic {
                 "INSERT into images (path, known_good) values (?, ?)",
                 image.getPath(), image.getKnownGood());
     }
-    
+
+    @Override
+    public void updateKnownGood(Long id, Boolean knownGood) {
+        jdbcTemplate.update(
+                "UPDATE images SET known_good = ? WHERE id = ?",
+                knownGood, id);
+    }
+
     @Override
     public List<Image> getAll(){
         return jdbcTemplate.query(

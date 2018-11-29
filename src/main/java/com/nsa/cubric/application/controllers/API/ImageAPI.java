@@ -91,6 +91,12 @@ public class ImageAPI {
         response.sendRedirect("/admin/");
     }
 
+    @RequestMapping(value = "/{id}/setKnownGood", method = RequestMethod.POST)
+    public String updateKnownGood(@PathVariable("id") Long id, @RequestParam("knownGood") Boolean knownGood) {
+        imageService.updateKnownGood(id, knownGood);
+        return "OK";
+    }
+
     @Configuration
     public class AdditionalResourceWebConfiguration implements WebMvcConfigurer {
         @Override
