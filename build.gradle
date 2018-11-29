@@ -31,7 +31,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-jdbc')
     compile("org.springframework.boot:spring-boot-starter-security")
-    compile('org.springframework.security:spring-security-core:5.0.0.RELEASE')
+    compile('org.springframework.security:spring-security-core:5.1.1.RELEASE')
     runtimeOnly('mysql:mysql-connector-java')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     compileOnly 'org.projectlombok:lombok:1.18.4'
