@@ -32,8 +32,21 @@
     $(function() {
         $.getJSON("/images/", function( images ) {
             for (var i = 0; i < images.length; i++) {
-                $("table").append('<tr><td>'+images[i].id+'</td><td><a target="_blank" href="/brain_images/'+images[i].path+'">'+images[i].path+'</a></td><td>'+images[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
+                $("table").append('<tr data-id="'+images[i].id+'"><td>'+images[i].id+'</td><td><a target="_blank" href="/brain_images/'+images[i].path+'">'+images[i].path+'</a></td><td class="knownGood">'+images[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
             }
+
+            $("table tr").each(function() {
+                var id = $(this).data("id");
+                var knownGood = $(this).find(".knownGood").text();
+
+                $(this).find(".knownGood").html('<select class="form-control" data-id="'+id+'">\n' +
+                    '    <option value="null">Unknown</option>\n' +
+                    '    <option value="true">True</option>\n' +
+                    '    <option value="false">False</option>\n' +
+                    '</select>');
+
+                $(this).find(".knownGood select").val(knownGood);
+            });
         });
     });
 </script>
