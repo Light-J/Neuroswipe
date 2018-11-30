@@ -16,6 +16,7 @@ public class Admin {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showAdminPage(WebRequest webRequest, Model model){
         LOG.debug("Handling GET request to /admin/");
+        System.out.println();
         return "admin";
     }
 }

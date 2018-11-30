@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .authorizeRequests()
-                //.antMatchers("/reports/**").access("hasRole('admin')")
+                .antMatchers("/admin/**").hasRole("admin")
 //                .antMatchers("/login*").permitAll() //AUTH ALL METHOD
 //                .antMatchers("/registration/**").permitAll()
 //                .antMatchers("/resources/**").permitAll()
@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/tutorial/**").authenticated() // ALLOW ALL METHOD
 //                .antMatchers("/practice/**").authenticated()
 //                .antMatchers("/quiz/**").authenticated()
-//                .antMatchers("/admin/**").authenticated()
+                .antMatchers("/admin/**").authenticated()
 //                .antMatchers("/ratings/**").authenticated()
                 .anyRequest().permitAll() // END OF ALLOW ALL METHOD
                 .and()

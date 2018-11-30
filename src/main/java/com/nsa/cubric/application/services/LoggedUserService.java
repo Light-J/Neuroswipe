@@ -4,6 +4,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Collection;
+
 public class LoggedUserService {
 
     public static String getUsername(){
@@ -16,4 +18,13 @@ public class LoggedUserService {
         }
     }
 
+    public static String getUserRole(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            Collection currentUserRoles = authentication.getAuthorities();
+            return currentUserRoles.iterator().next().toString();
+        } else {
+            return null;
+        }
+    }
 }
