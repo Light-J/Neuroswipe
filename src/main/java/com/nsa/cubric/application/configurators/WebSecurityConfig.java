@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("admin")
+                //.antMatchers("/admin/").hasRole("admin")
 //                .antMatchers("/login*").permitAll() //AUTH ALL METHOD
 //                .antMatchers("/registration/**").permitAll()
 //                .antMatchers("/resources/**").permitAll()
@@ -77,10 +77,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/home")
                 .and()
                 .csrf().disable()
-                .exceptionHandling().accessDeniedPage("/403")
+                .exceptionHandling().accessDeniedPage("/admin/noaccess")
         ;
         http.headers().frameOptions().disable();
 
