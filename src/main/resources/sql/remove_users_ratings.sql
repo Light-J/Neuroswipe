@@ -8,8 +8,8 @@ DECLARE success boolean;
 SET success = FALSE;
 
 START TRANSACTION;
-	IF(SELECT COUNT(*) FROM userrating WHERE userprofileid <>0) THEN
-		DELETE FROM userrating WHERE userprofileid = userId;
+	DELETE FROM userrating WHERE userprofileid = userId;
+	IF(SELECT COUNT(*) FROM userrating WHERE userprofileid = userId) = 0 THEN
         SET success = TRUE;
 	END IF;
     
@@ -20,7 +20,6 @@ START TRANSACTION;
 		COMMIT;
 		SELECT CONCAT("Transaction has been commited.") as Message;
 	END IF;
-
 END//
 
 DELIMITER ;

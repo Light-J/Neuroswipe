@@ -24,7 +24,8 @@
         <h1>Delete a users responses</h1>
         <p>Enter the user id you wish to not include</p>
         <input id="remove_responses_input" type="text">
-        <button>Confirm</button>
+        <button onclick="remove_user_responses()">Confirm</button>
+        <p id="rows_affected"></p>
     </div>
 </div>
 
@@ -36,9 +37,12 @@
             document.getElementById("delete_user_success").innerText = "Failed to find user";
         }
     }
+
+    function set_result_delete_responses(rows_effected) {
+        document.getElementById("rows_affected").innerText = "Responses removed";
+    }
     function remove_user() {
         var user_id = document.getElementById("remove_user_input").value;
-        console.log(user_id);
             $.ajax({
                 url: '/removeUser',
                 type: 'POST',
@@ -47,6 +51,18 @@
                     set_result_delete_user(data);
                 }
             });
+    }
+
+    function remove_user_responses() {
+        var user_id = document.getElementById("remove_responses_input").value;
+        $.ajax({
+            url: '/removeUserResponses',
+            type: 'POST',
+            headers: { 'user_to_remove_responses': user_id },
+            success: function (data) {
+                set_result_delete_responses(data);
+            }
+        });
     }
 </script>
 

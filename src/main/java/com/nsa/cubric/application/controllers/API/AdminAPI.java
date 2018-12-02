@@ -16,7 +16,7 @@ public class AdminAPI {
     }
 
     @PostMapping(value = "/removeUserResponses")
-    public Integer removeUserResponses(@RequestParam Integer userId){
-        return adminServices.removeUserResponses(userId);
+    public Integer removeUserResponses(@RequestHeader(value = "user_to_remove_responses") String userId){
+        return adminServices.removeUserResponses(Integer.parseInt(userId));
     }
 }
