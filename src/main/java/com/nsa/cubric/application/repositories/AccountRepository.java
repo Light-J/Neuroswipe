@@ -64,4 +64,14 @@ public class AccountRepository implements AccountRepositoryStatic {
                 "INSERT INTO userprofile (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
         profile.getUsername(), profile.getPostcode(), profile.getLoggedInUserId(), profile.getAge(), profile.getGender());
     }
+
+    @Override
+    public void removeUser(Integer userId){
+        jdbcTemplate.update("DELETE FROM useraccount WHERE id=?;",(userId));
+    }
+
+    @Override
+    public void removeUserResponses(Integer userId){
+        jdbcTemplate.update("CALL removeUserRatings(?)", (userId));
+    }
 }
