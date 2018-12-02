@@ -23,6 +23,6 @@ public class Admin {
 
     @GetMapping(value = "/usermanagement")
     public String showUserManagementPage() {
-        return "home";
+        return "user_management";
     }
 }

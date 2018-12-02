@@ -2,19 +2,17 @@ package com.nsa.cubric.application.controllers.API;
 
 import com.nsa.cubric.application.services.AdminServicesStatic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("admin/features")
+@RestController("/admin/utilities")
 public class AdminAPI {
 
     @Autowired
     AdminServicesStatic adminServices;
 
     @PostMapping(value = "/removeUser")
-    public Boolean removeUser(@RequestParam Integer userId) {
-        return adminServices.removeUser(userId);
+    public Boolean removeUser(@RequestHeader(value = "user_to_remove") String userId) {
+        return adminServices.removeUser(Integer.parseInt(userId));
     }
 
     @PostMapping(value = "/removeUserResponses")

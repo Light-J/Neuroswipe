@@ -12,62 +12,37 @@
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
-    <h1>Admin</h1>
+    <h1>Remove a user</h1>
+    <div>
+        <p>Enter the user id you wish to remove</p>
+        <input id="remove_user_input" type="text">
+        <button onclick="remove_user()">Confirm</button>
+    </div>
 
-    <h2>Upload New Image(s)</h2>
-    <form action="/images/new" method="post" enctype="multipart/form-data">
-        Select images: <input type="file" name="images" multiple><br>
-        <button type="submit" class="btn btn-primary">Upload</button>
-    </form>
-
-    <h2>Images</h2>
-
-    <table class="table">
-        <tr><th>ID</th><th>Filename</th><th>Known good/bad</th><th>Good responses</th><th>Bad responses</th></tr>
-    </table>
-
+    <h1>Delete a users responses</h1>
+    <div>
+        <p>Enter the user id you wish to not include</p>
+        <input id="remove_responses_input" type="text">
+        <button>Confirm</button>
+    </div>
 </div>
 
 <script>
-    $(function() {
-        $.getJSON("/images/", function( images ) {
-            for (var i = 0; i < images.length; i++) {
-                $("table").append('<tr data-id="'+images[i].id+'"><td>'+images[i].id+'</td><td><a target="_blank" href="/brain_images/'+images[i].path+'">'+images[i].path+'</a></td><td class="knownGood">'+images[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
-            }
+    function remove_user() {
+        var user_id = document.getElementById("remove_user_input").value;
+        console.log(user_id);
+            $.ajax({
+                url: '/removeUser',
+                type: 'POST',
+                headers: { 'user_to_remove': user_id },
+                success: function (data) {
+                    alert(data);
+                }
 
-            $("table tr").each(function() {
-                var id = $(this).data("id");
-                var knownGood = $(this).find(".knownGood").text();
-
-                $(this).find(".knownGood").html('<select class="form-control" data-id="'+id+'">\n' +
-                    '    <option value="null">Unknown</option>\n' +
-                    '    <option value="true">True</option>\n' +
-                    '    <option value="false">False</option>\n' +
-                    '</select>');
-
-                $(this).find(".knownGood select").val(knownGood);
-
-                $(this).find(".knownGood select").on("change", function (e) {
-
-                    var knownGood = $(this).val();
-
-                    if(knownGood === "true"){
-                        knownGood = true;
-                    }else if(knownGood === "false"){
-                        knownGood = false;
-                    }else{
-                        knownGood = null;
-                    }
-
-                    $.post("/images/"+$(this).data("id")+"/setKnownGood", { knownGood: knownGood })
-                        .done(function( data ) {
-                            location.reload();
-                        });
-                });
             });
-        });
-    });
+    }
 </script>
+
 
 </body>
 </html>
