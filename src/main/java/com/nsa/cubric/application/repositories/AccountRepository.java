@@ -66,12 +66,14 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public void removeUser(Integer userId){
-        jdbcTemplate.update("DELETE FROM useraccount WHERE id=?;",(userId));
+    public boolean removeUser(Integer userId){
+
+        int rowsAffected = jdbcTemplate.update("DELETE FROM useraccount WHERE id=?;",(userId));
+        return rowsAffected == 1;
     }
 
     @Override
-    public void removeUserResponses(Integer userId){
-        jdbcTemplate.update("CALL removeUserRatings(?)", (userId));
+    public Integer removeUserResponses(Integer userId){
+        return jdbcTemplate.update("CALL removeUserRatings(?)", (userId));
     }
 }
