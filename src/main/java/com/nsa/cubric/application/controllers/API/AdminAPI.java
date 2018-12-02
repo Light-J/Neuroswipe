@@ -11,12 +11,12 @@ public class AdminAPI {
     AdminServicesStatic adminServices;
 
     @PostMapping(value = "/removeUser")
-    public Boolean removeUser(@RequestHeader(value = "user_to_remove") String userId) {
+    public Boolean removeUser(@RequestParam(value = "user_to_remove") String userId) {
         return adminServices.removeUser(Integer.parseInt(userId));
     }
 
     @PostMapping(value = "/removeUserResponses")
-    public Integer removeUserResponses(@RequestHeader(value = "user_to_remove_responses") String userId){
+    public Integer removeUserResponses(@RequestParam(value = "user_to_remove_responses") String userId){
         return adminServices.removeUserResponses(Integer.parseInt(userId));
     }
 }

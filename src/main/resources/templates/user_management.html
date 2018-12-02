@@ -46,7 +46,7 @@
             $.ajax({
                 url: '/removeUser',
                 type: 'POST',
-                headers: { 'user_to_remove': user_id },
+                data: {"user_to_remove":user_id},
                 success: function (data) {
                     set_result_delete_user(data);
                 }
@@ -58,7 +58,7 @@
         $.ajax({
             url: '/removeUserResponses',
             type: 'POST',
-            headers: { 'user_to_remove_responses': user_id },
+            data: {"user_to_remove_responses":user_id},
             success: function (data) {
                 set_result_delete_responses(data);
             }
