@@ -69,6 +69,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public boolean removeUser(Integer userId){
 
         int rowsAffected = jdbcTemplate.update("DELETE FROM useraccount WHERE id=?;",(userId));
+        jdbcTemplate.update("DELETE FROM userprofile WHERE useraccountid=?",(userId));
         return rowsAffected == 1;
     }
 
