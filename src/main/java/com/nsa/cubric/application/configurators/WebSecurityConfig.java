@@ -54,16 +54,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("admin")
+                //.antMatchers("/admin/").hasRole("admin")
 //                .antMatchers("/login*").permitAll() //AUTH ALL METHOD
 //                .antMatchers("/registration/**").permitAll()
 //                .antMatchers("/resources/**").permitAll()
 //                .anyRequest().authenticated() //END OF AUTH ALL METHOD
-//                .antMatchers("/tutorial/**").authenticated() // ALLOW ALL METHOD
-//                .antMatchers("/practice/**").authenticated()
-//                .antMatchers("/quiz/**").authenticated()
+                .antMatchers("/tutorial/**").authenticated() // ALLOW ALL METHOD
+                .antMatchers("/practice/**").authenticated()
+                .antMatchers("/quiz/**").authenticated()
                 .antMatchers("/admin/**").authenticated()
-//                .antMatchers("/ratings/**").authenticated()
+                .antMatchers("/ratings/**").authenticated()
                 .anyRequest().permitAll() // END OF ALLOW ALL METHOD
                 .and()
             .formLogin()
@@ -77,10 +77,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/home")
                 .and()
                 .csrf().disable()
-                .exceptionHandling().accessDeniedPage("/403")
+                .exceptionHandling().accessDeniedPage("/admin/noaccess")
         ;
         http.headers().frameOptions().disable();
 
