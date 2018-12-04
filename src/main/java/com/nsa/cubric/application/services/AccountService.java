@@ -53,6 +53,11 @@ public class AccountService implements AccountServiceStatic {
         accountRepository.insertNewProfile(profile);
     }
 
+    @Override
+    public Account findByEmail(String email){
+        return accountRepository.findByEmail(email);
+    }
+
 
 
 

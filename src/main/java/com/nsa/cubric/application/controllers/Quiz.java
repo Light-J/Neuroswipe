@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/quiz")
 public class Quiz {
 
-    @GetMapping(value = "/")
-    public String getQuizPage(){
-        return "quiz";
-    }
+//    @GetMapping(value = "/")
+//    public String getQuizPage(){
+//        return "quiz";
+//    }
 }

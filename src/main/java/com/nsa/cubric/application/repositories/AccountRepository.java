@@ -70,7 +70,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public void insertNewProfile(ProfileDTO profile){
         jdbcTemplate.update(
-                "INSERT INTO userprofile (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
+                "INSERT INTO userprofiles (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
         profile.getUsername(), profile.getPostcode(), profile.getLoggedInUserId(), profile.getAge(), profile.getGender());
     }
 
@@ -90,14 +90,27 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public ProfileDTO getProfileByEmail(String email){
-        try{
+    public ProfileDTO getProfileByEmail(String email) {
+        try {
             Account userAcount = findByEmail(email);
 
             return getProfileByAccountID(userAcount.getId());
 
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    @Override
+    public boolean removeUser(Integer userId){
+
+        int rowsAffected = jdbcTemplate.update("DELETE FROM useraccount WHERE id=?;",(userId));
+        jdbcTemplate.update("DELETE FROM userprofile WHERE useraccountid=?",(userId));
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public Integer removeUserResponses(Integer userId){
+        return jdbcTemplate.update("CALL removeUserRatings(?)", (userId));
     }
 }

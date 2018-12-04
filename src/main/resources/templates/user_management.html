@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.js"></script>
+    <title>Admin | SwipeRightBrains</title>
+</head>
+<body>
+
+<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+
+<div>
+    <div class="container">
+        <h1>Remove a user</h1>
+        <p>Enter the user id you wish to remove</p>
+        <input id="remove_user_input" type="text">
+        <button onclick="remove_user()">Confirm</button>
+        <p id="delete_user_success"></p>
+    </div>
+
+    <div class="container">
+        <h1>Delete a users responses</h1>
+        <p>Enter the user id you wish to not include</p>
+        <input id="remove_responses_input" type="text">
+        <button onclick="remove_user_responses()">Confirm</button>
+        <p id="rows_affected"></p>
+    </div>
+</div>
+
+<script>
+    function set_result_delete_user(result) {
+        if(result){
+            document.getElementById("delete_user_success").innerText = "Successfully removed user";
+        } else {
+            document.getElementById("delete_user_success").innerText = "Failed to find user";
+        }
+    }
+
+    function set_result_delete_responses(rows_effected) {
+        document.getElementById("rows_affected").innerText = "Responses removed";
+    }
+    function remove_user() {
+        var user_id = document.getElementById("remove_user_input").value;
+            $.ajax({
+                url: '/removeUser',
+                type: 'POST',
+                data: {"user_to_remove":user_id},
+                success: function (data) {
+                    set_result_delete_user(data);
+                }
+            });
+    }
+
+    function remove_user_responses() {
+        var user_id = document.getElementById("remove_responses_input").value;
+        $.ajax({
+            url: '/removeUserResponses',
+            type: 'POST',
+            data: {"user_to_remove_responses":user_id},
+            success: function (data) {
+                set_result_delete_responses(data);
+            }
+        });
+    }
+</script>
+
+
+</body>
+</html>

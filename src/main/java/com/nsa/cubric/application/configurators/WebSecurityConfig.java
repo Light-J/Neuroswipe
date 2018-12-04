@@ -59,12 +59,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/registration/**").permitAll()
 //                .antMatchers("/resources/**").permitAll()
 //                .anyRequest().authenticated() //END OF AUTH ALL METHOD
-                .antMatchers("/tutorial/**").authenticated() // ALLOW ALL METHOD
-                .antMatchers("/practice/**").authenticated()
-                .antMatchers("/quiz/**").authenticated()
-                .antMatchers("/admin/**").authenticated()
-                .antMatchers("/ratings/**").authenticated()
-                .antMatchers("/changedetails/**").authenticated()
+//                .antMatchers("/tutorial/**").authenticated() // ALLOW ALL METHOD
+//                .antMatchers("/practice/**").authenticated()
+//                .antMatchers("/quiz/**").authenticated()
+//                .antMatchers("/admin/**").authenticated()
+//                .antMatchers("/ratings/**").authenticated()
+//                .antMatchers("/changedetails/**").authenticated()
                 .anyRequest().permitAll() // END OF ALLOW ALL METHOD
                 .and()
             .formLogin()

@@ -12,7 +12,12 @@ public interface AccountRepositoryStatic {
     public List<Account> getAll();
     public void insertNewProfile(ProfileDTO profile);
 
+
     ProfileDTO getProfileByAccountID(long accountID);
 
     ProfileDTO getProfileByEmail(String email);
+
+    public boolean removeUser(Integer userId);
+    public Integer removeUserResponses(Integer userId);
+
 }
