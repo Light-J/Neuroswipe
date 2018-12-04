@@ -19,6 +19,17 @@ public class ProfileDTO {
     Integer age;
     String gender;
 
+    public ProfileDTO() {
+    }
+
+    public ProfileDTO(String username, String postcode, long loggedInUserId, Integer age, String gender) {
+        this.username = username;
+        this.postcode = postcode;
+        this.loggedInUserId = loggedInUserId;
+        this.age = age;
+        this.gender = gender;
+    }
+
     public String getUsername() {
         return username;
     }

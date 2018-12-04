@@ -15,6 +15,7 @@ import java.util.List;
 public class AccountRepository implements AccountRepositoryStatic {
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Account> accountMapper;
+    private RowMapper<ProfileDTO> profileMapper;
 
     @Autowired
     public AccountRepository(JdbcTemplate aTemplate) {
@@ -25,6 +26,14 @@ public class AccountRepository implements AccountRepositoryStatic {
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getString("role")
+        );
+
+        profileMapper = (rs, i) -> new ProfileDTO(
+                rs.getString("username"),
+                rs.getString("postcode"),
+                rs.getLong("loggedInUserId"),
+                rs.getInt("age"),
+                rs.getString("gender")
         );
     }
 
@@ -63,5 +72,32 @@ public class AccountRepository implements AccountRepositoryStatic {
         jdbcTemplate.update(
                 "INSERT INTO userprofile (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
         profile.getUsername(), profile.getPostcode(), profile.getLoggedInUserId(), profile.getAge(), profile.getGender());
+    }
+
+    @Override
+    public ProfileDTO getProfileByAccountID(long accountID){
+        try{
+            System.out.println("accountID:");
+            System.out.println(accountID);
+            return jdbcTemplate.queryForObject(
+                    "select id, username, postcode, age, gender from userprofile WHERE useraccountid = ?",
+                    new Object[]{accountID},profileMapper);
+
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
+    }
+
+    @Override
+    public ProfileDTO getProfileByEmail(String email){
+        try{
+            Account userAcount = findByEmail(email);
+
+            return getProfileByAccountID(userAcount.getId());
+
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 }

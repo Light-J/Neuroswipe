@@ -11,4 +11,8 @@ public interface AccountRepositoryStatic {
     public void insertNewAccount(AccountDTO account);
     public List<Account> getAll();
     public void insertNewProfile(ProfileDTO profile);
+
+    ProfileDTO getProfileByAccountID(long accountID);
+
+    ProfileDTO getProfileByEmail(String email);
 }

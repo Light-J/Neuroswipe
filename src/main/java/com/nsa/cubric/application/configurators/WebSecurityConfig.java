@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/quiz/**").authenticated()
                 .antMatchers("/admin/**").authenticated()
                 .antMatchers("/ratings/**").authenticated()
+                .antMatchers("/changedetails/**").authenticated()
                 .anyRequest().permitAll() // END OF ALLOW ALL METHOD
                 .and()
             .formLogin()
