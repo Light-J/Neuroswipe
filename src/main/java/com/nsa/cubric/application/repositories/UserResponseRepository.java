@@ -19,7 +19,7 @@ public class UserResponseRepository implements UserResponseRepositoryStatic {
 	public UserResponseRepository(JdbcTemplate aTemplate) {
 		jdbcTemplate = aTemplate;
 
-		responsesMapper = (rs, i) -> new UserResponse(rs.getLong("id"), rs.getInt("userprofileid"),
+		responsesMapper = (rs, i) -> new UserResponse(rs.getLong("id"), rs.getLong("userprofileid"),
 				rs.getInt("imageid"), rs.getBoolean("response"));
 	}
 
