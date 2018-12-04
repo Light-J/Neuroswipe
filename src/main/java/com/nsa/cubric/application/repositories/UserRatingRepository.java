@@ -19,7 +19,7 @@ public class UserRatingRepository implements UserRatingRepositoryStatic {
 	public UserRatingRepository(JdbcTemplate aTemplate) {
 		jdbcTemplate = aTemplate;
 
-		responsesMapper = (rs, i) -> new UserRating(rs.getLong("id"), rs.getInt("userprofileid"), rs.getInt("imageid"),
+		responsesMapper = (rs, i) -> new UserRating(rs.getLong("id"), rs.getLong("userprofileid"), rs.getInt("imageid"),
 				rs.getBoolean("response"));
 	}
 

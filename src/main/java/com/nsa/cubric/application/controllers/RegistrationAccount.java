@@ -73,7 +73,14 @@ public class RegistrationAccount {
         if(result.hasErrors()){
             return new ModelAndView("register_account", "account", accountDTO);
         } else {
+
             //TODO have the user automatically logged in after registration
+            try {
+                request.login("user","password");
+            } catch(ServletException e) {
+                return new ModelAndView("redirect:/home");
+            }
+
             return new ModelAndView("redirect:/registration/profile", "account", accountDTO);
 
         }
