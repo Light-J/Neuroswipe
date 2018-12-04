@@ -62,6 +62,13 @@ public class LoginControllerTest {
                 .andExpect(status().is3xxRedirection());
     }
 
+    @Test
+    public void testUnauthorisedAccess() throws Exception{
+        this.mmvc.perform(post("/quiz/"))
+                //     .andExpect(model().hasNoErrors())
+                .andExpect(status().is3xxRedirection());
+    }
+
 
 
 }
