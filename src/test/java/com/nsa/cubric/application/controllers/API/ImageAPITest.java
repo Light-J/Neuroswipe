@@ -31,7 +31,7 @@ public class ImageAPITest {
 	@Before
 	public void setupBasicUserResponse() {
 		userResponse = new UserResponse();
-		userResponse.setUserProfileId(1);
+		userResponse.setUserProfileId(1L);
 		userResponse.setImageId(1);
 		userResponse.setResponse(true);
 	}
