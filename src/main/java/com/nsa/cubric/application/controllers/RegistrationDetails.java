@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping(value = "/registration")
@@ -37,11 +38,12 @@ public class RegistrationDetails {
     public ModelAndView registerUserDetails(@ModelAttribute("profile") @Valid ProfileDTO profileDTO,
                                             Errors errors,
                                             BindingResult result,
-                                            WebRequest webRequest) {
+                                            WebRequest webRequest
+                                            ) {
 
         LOG.debug("Handling POST to /registration/profile");
         //TODO get the current logged in user for the profile
-        profileDTO.setLoggedInUserId(2);
+        profileDTO.setLoggedInUserId(1);
         accountService.registerNewUserProfile(profileDTO);
 
 
@@ -51,6 +53,8 @@ public class RegistrationDetails {
         }
         return new ModelAndView("redirect:/home");
     }
+
+
 
 
 }

@@ -1,12 +1,14 @@
 package com.nsa.cubric.application.controllers.API;
-import com.nsa.cubric.application.domain.Image;
-import com.nsa.cubric.application.domain.PracticeImage;
+import com.nsa.cubric.application.domain.*;
+import com.nsa.cubric.application.services.AccountServiceStatic;
 import com.nsa.cubric.application.services.QuizServicesStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.nsa.cubric.application.services.ImageService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nsa.cubric.application.domain.Image;
-import com.nsa.cubric.application.domain.UserResponse;
 import com.nsa.cubric.application.services.UserResponseServiceStatic;
 
 import java.util.ArrayList;
@@ -43,7 +44,12 @@ public class ImageAPI {
     QuizServicesStatic quizServices;
 
     private Random randomGenerator;
+
+    @Autowired
     private ImageService imageService;
+
+    @Autowired
+    AccountServiceStatic accountService;
 
     public static final String imageUploadDirectory = System.getProperty("user.dir") + "/brain_images/";
 
@@ -62,6 +68,8 @@ public class ImageAPI {
     @RequestMapping(value = "next", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getNextImage() {
 
+        //TODO needs to get these from the database
+        //I have left this as this now needs to be changed to 3 images so logic will need to change
         List<Image> images = Arrays.asList(new Image(1, "1.jpg", null),
                 new Image(2, "2.jpg", null),
                 new Image(3, "3.jpg", null),
@@ -76,11 +84,11 @@ public class ImageAPI {
         randomGenerator = new Random();
         int index = randomGenerator.nextInt(images.size());
 
+
         return new ResponseEntity<>(images.get(index), null, HttpStatus.OK);
     }
 
     /**
-<<<<<<< HEAD
      * This method is used to serve the JSON for all the images in the database. It responds to GET requests to /images/.
      *
      * @return      ResponseEntity object containing images JSON.
@@ -92,11 +100,8 @@ public class ImageAPI {
     }
 
     /**
-     * This method is used to accepted and store the decision the user has made regarding the image.
-=======
      * This method is used to accepted and store the decision the user has made regarding
      * the image.
->>>>>>> dd065617ecfd55798b0c9fa783dc7ee6db6eeb20
      *
      * @param userProfileId ID of the user profile to which user made decision
      * @param goodBrain boolean whether the user indicated that the image was "good" or
@@ -108,8 +113,10 @@ public class ImageAPI {
     public Boolean storeDecision(@RequestParam("userProfileId") Integer userProfileId,
                                  @RequestParam("imageId") Integer imageId, @RequestParam("goodBrain") Boolean goodBrain) {
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Account loggedInUser = accountService.findByEmail(auth.getName());
         UserResponse responses = new UserResponse();
-        responses.setUserProfileId(userProfileId);
+        responses.setUserProfileId(loggedInUser.getId());
         responses.setImageId(imageId);
         responses.setResponse(goodBrain);
         responsesService.storeUserResponses(responses);
