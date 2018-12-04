@@ -110,8 +110,8 @@ public class ImageAPI {
      * @return json object with success attribute and error message if applicable
      */
     @RequestMapping(value = "save", method = RequestMethod.POST, produces = "application/json")
-    public Boolean storeDecision(@RequestParam("userProfileId") Integer userProfileId,
-                                 @RequestParam("imageId") Integer imageId, @RequestParam("goodBrain") Boolean goodBrain) {
+    public Boolean storeDecision(@RequestParam("imageId") Integer imageId,
+                                 @RequestParam("goodBrain") Boolean goodBrain) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Account loggedInUser = accountService.findByEmail(auth.getName());
