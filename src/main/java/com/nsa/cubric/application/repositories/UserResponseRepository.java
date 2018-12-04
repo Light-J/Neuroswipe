@@ -25,20 +25,20 @@ public class UserResponseRepository implements UserResponseRepositoryStatic {
 
 	@Override
 	public void storeUserResponses(UserResponse responses) {
-		jdbcTemplate.update("INSERT INTO userresponse (userprofileid, imageid, response) values (?,?,?)",
+		jdbcTemplate.update("INSERT INTO userresponses (userprofileid, imageid, response) values (?,?,?)",
 				responses.getUserProfileId(), responses.getImageId(), responses.getResponse());
 	}
 
 	@Override
 	public List<UserResponse> getAll() {
-		return jdbcTemplate.query("SELECT id, userprofileid, imageid, response FROM userresponse", new Object[] {},
+		return jdbcTemplate.query("SELECT id, userprofileid, imageid, response FROM userresponses", new Object[] {},
 				responsesMapper);
 	}
 
 	@Override
 	public List<UserResponse> getUserResponses(String userProfileId) {
 		return jdbcTemplate.query(
-				"SELECT id, userprofileid, imageid, response FROM userresponse WHERE userprofileid = ?",
+				"SELECT id, userprofileid, imageid, response FROM userresponses WHERE userprofileid = ?",
 				new Object[] { Integer.parseInt(userProfileId) }, responsesMapper);
 	}
 }

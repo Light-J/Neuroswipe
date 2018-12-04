@@ -5,11 +5,11 @@ DROP TRIGGER IF EXISTS brainschema.TRIGGER_user_removed//
 USE brainschema//
 CREATE DEFINER = CURRENT_USER 
 TRIGGER brainschema.TRIGGER_user_removed 
-AFTER DELETE ON useraccount FOR EACH ROW
+AFTER DELETE ON useraccounts FOR EACH ROW
 BEGIN
 
-	UPDATE userresponse SET userprofileid = null WHERE userprofileid = (old.id);
-    UPDATE userrating SET userprofileid = null WHERE userprofileid = (old.id);
+	UPDATE userresponses SET userprofileid = null WHERE userprofileid = (old.id);
+    UPDATE userratings SET userprofileid = null WHERE userprofileid = (old.id);
 
 END//
 DELIMITER ;
