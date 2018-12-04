@@ -74,10 +74,10 @@ public class RegistrationAccount {
             return new ModelAndView("register_account", "account", accountDTO);
         } else {
 
-            //TODO have the user automatically logged in after registration
             try {
-                request.login("user","password");
+                request.login(accountDTO.getEmail(), originalPassword);
             } catch(ServletException e) {
+                LOG.error("User was not logged in: "+e.getMessage());
                 return new ModelAndView("redirect:/home");
             }
 

@@ -1,9 +1,12 @@
 package com.nsa.cubric.application.controllers;
 
+import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,8 +45,9 @@ public class RegistrationDetails {
                                             ) {
 
         LOG.debug("Handling POST to /registration/profile");
-        //TODO get the current logged in user for the profile
-        profileDTO.setLoggedInUserId(1);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Account loggedInUser = accountService.findByEmail(auth.getName());
+        profileDTO.setLoggedInUserId(loggedInUser.getId());
         accountService.registerNewUserProfile(profileDTO);
 
 
