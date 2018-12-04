@@ -103,7 +103,6 @@ public class ImageAPI {
      * This method is used to accepted and store the decision the user has made regarding
      * the image.
      *
-     * @param userProfileId ID of the user profile to which user made decision
      * @param goodBrain boolean whether the user indicated that the image was "good" or
      * not
      * @param imageId ID of the image that the decision was made for
