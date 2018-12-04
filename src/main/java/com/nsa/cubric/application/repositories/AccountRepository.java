@@ -64,4 +64,17 @@ public class AccountRepository implements AccountRepositoryStatic {
                 "INSERT INTO userprofile (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
         profile.getUsername(), profile.getPostcode(), profile.getLoggedInUserId(), profile.getAge(), profile.getGender());
     }
+
+    @Override
+    public boolean removeUser(Integer userId){
+
+        int rowsAffected = jdbcTemplate.update("DELETE FROM useraccount WHERE id=?;",(userId));
+        jdbcTemplate.update("DELETE FROM userprofile WHERE useraccountid=?",(userId));
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public Integer removeUserResponses(Integer userId){
+        return jdbcTemplate.update("CALL removeUserRatings(?)", (userId));
+    }
 }
