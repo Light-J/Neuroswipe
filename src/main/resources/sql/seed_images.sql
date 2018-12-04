@@ -1,0 +1,11 @@
+SELECT * FROM brainschema.images;
+insert into images values (1, "/1.jpg", null);
+insert into images values (2, "/2.jpg", null);
+insert into images values (3, "/3.jpg", null);
+insert into images values (4, "/4.jpg", null);
+insert into images values (5, "/5.jpg", null);
+insert into images values (6, "/6.jpg", null);
+insert into images values (7, "/7.jpg", null);
+insert into images values (8, "/8.jpg", null);
+insert into images values (9, "/9.jpg", null);
+insert into images values (10, "/10.jpg", null);

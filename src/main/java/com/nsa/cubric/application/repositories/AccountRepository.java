@@ -32,7 +32,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Account findByEmail(String email){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, email, password, role from useraccount WHERE email = ?",
+                    "select id, email, password, role from useraccounts WHERE email = ?",
                     new Object[]{email},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -45,7 +45,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public void insertNewAccount(AccountDTO account){
         System.out.println("Inserting for "+account.getEmail());
         jdbcTemplate.update(
-                "INSERT into useraccount (email, password, role) values (?,?,?)",
+                "INSERT into useraccounts (email, password, role) values (?,?,?)",
                 account.getEmail(), account.getPassword(), "user");
         System.out.println("Insert for "+account.getEmail() + " was successful");
     }
@@ -53,7 +53,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public List<Account> getAll(){
         return jdbcTemplate.query(
-                "SELECT id, password, email, role FROM useraccount",
+                "SELECT id, password, email, role FROM useraccounts",
                 new Object[]{},accountMapper
         );
     }
@@ -61,7 +61,20 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public void insertNewProfile(ProfileDTO profile){
         jdbcTemplate.update(
-                "INSERT INTO userprofile (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
+                "INSERT INTO userprofiles (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
         profile.getUsername(), profile.getPostcode(), profile.getLoggedInUserId(), profile.getAge(), profile.getGender());
+    }
+
+    @Override
+    public boolean removeUser(Integer userId){
+
+        int rowsAffected = jdbcTemplate.update("DELETE FROM useraccount WHERE id=?;",(userId));
+        jdbcTemplate.update("DELETE FROM userprofile WHERE useraccountid=?",(userId));
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public Integer removeUserResponses(Integer userId){
+        return jdbcTemplate.update("CALL removeUserRatings(?)", (userId));
     }
 }

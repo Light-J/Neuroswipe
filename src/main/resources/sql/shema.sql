@@ -30,9 +30,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `brainschema`.`useraccount`
+-- Table `brainschema`.`useraccounts`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`useraccount` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`useraccounts` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `password` VARCHAR(90) NOT NULL,
   `email` VARCHAR(45) NULL DEFAULT NULL,
@@ -44,42 +44,62 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `brainschema`.`userprofile`
+-- Table `brainschema`.`userprofiles`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`userprofile` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`userprofiles` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NULL DEFAULT NULL,
   `postcode` VARCHAR(90) NULL DEFAULT NULL,
   `useraccountid` INT(11) NULL DEFAULT NULL,
   `gender` VARCHAR(45) NULL DEFAULT NULL,
   `age` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  INDEX `useraccountid` (`useraccountid` ASC),
+  CONSTRAINT `userprofiles_ibfk_1`
+    FOREIGN KEY (`useraccountid`)
+    REFERENCES `brainschema`.`useraccounts` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `brainschema`.`userrating`
+-- Table `brainschema`.`userratings`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`userrating` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`userratings` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `userprofileid` INT(11) NULL DEFAULT NULL,
   `imageid` INT(11) NULL DEFAULT NULL,
   `response` TINYINT(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  INDEX `userprofileid` (`userprofileid` ASC),
+  INDEX `imageid` (`imageid` ASC),
+  CONSTRAINT `userratings_ibfk_1`
+    FOREIGN KEY (`userprofileid`)
+    REFERENCES `brainschema`.`userprofiles` (`id`),
+  CONSTRAINT `userratings_ibfk_2`
+    FOREIGN KEY (`imageid`)
+    REFERENCES `brainschema`.`images` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `brainschema`.`userresponse`
+-- Table `brainschema`.`userresponses`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`userresponse` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`userresponses` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `userprofileid` INT(11) NULL DEFAULT NULL,
   `imageid` INT(11) NULL DEFAULT NULL,
   `response` TINYINT(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  INDEX `userprofileid` (`userprofileid` ASC),
+  INDEX `imageid` (`imageid` ASC),
+  CONSTRAINT `userresponses_ibfk_1`
+    FOREIGN KEY (`userprofileid`)
+    REFERENCES `brainschema`.`userprofiles` (`id`),
+  CONSTRAINT `userresponses_ibfk_2`
+    FOREIGN KEY (`imageid`)
+    REFERENCES `brainschema`.`images` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

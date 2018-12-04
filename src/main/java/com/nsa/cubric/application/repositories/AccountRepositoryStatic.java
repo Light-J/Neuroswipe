@@ -11,4 +11,6 @@ public interface AccountRepositoryStatic {
     public void insertNewAccount(AccountDTO account);
     public List<Account> getAll();
     public void insertNewProfile(ProfileDTO profile);
+    public boolean removeUser(Integer userId);
+    public Integer removeUserResponses(Integer userId);
 }

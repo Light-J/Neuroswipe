@@ -37,7 +37,7 @@ public class RatingAPITest {
 	@Before
 	public void setupBasicUserRatingDetails() {
 		userRating = new UserRating();
-		userRating.setUserProfileId(1);
+		userRating.setUserProfileId(1L);
 		userRating.setImageId(1);
 		userRating.setResponse(true);
 	}

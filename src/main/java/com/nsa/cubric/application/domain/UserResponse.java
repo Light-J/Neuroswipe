@@ -3,7 +3,7 @@ package com.nsa.cubric.application.domain;
 public class UserResponse {
 	private Long id;
 
-	private Integer userProfileId;
+	private Long userProfileId;
 
 	private Integer imageId;
 
@@ -12,7 +12,7 @@ public class UserResponse {
 	public UserResponse() {
 	}
 
-	public UserResponse(Long id, Integer userProfileId, Integer imageId, Boolean response) {
+	public UserResponse(Long id, Long userProfileId, Integer imageId, Boolean response) {
 		this.id = id;
 		this.userProfileId = userProfileId;
 		this.imageId = imageId;
@@ -27,11 +27,11 @@ public class UserResponse {
 		this.id = id;
 	}
 
-	public Integer getUserProfileId() {
+	public Long getUserProfileId() {
 		return userProfileId;
 	}
 
-	public void setUserProfileId(Integer userProfileId) {
+	public void setUserProfileId(Long userProfileId) {
 		this.userProfileId = userProfileId;
 	}
 
