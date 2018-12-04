@@ -1,9 +1,12 @@
 package com.nsa.cubric.application.controllers;
 
+import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping(value = "/registration")
@@ -37,11 +41,13 @@ public class RegistrationDetails {
     public ModelAndView registerUserDetails(@ModelAttribute("profile") @Valid ProfileDTO profileDTO,
                                             Errors errors,
                                             BindingResult result,
-                                            WebRequest webRequest) {
+                                            WebRequest webRequest
+                                            ) {
 
         LOG.debug("Handling POST to /registration/profile");
-        //TODO get the current logged in user for the profile
-        profileDTO.setLoggedInUserId(2);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Account loggedInUser = accountService.findByEmail(auth.getName());
+        profileDTO.setLoggedInUserId(loggedInUser.getId());
         accountService.registerNewUserProfile(profileDTO);
 
 
@@ -51,6 +57,8 @@ public class RegistrationDetails {
         }
         return new ModelAndView("redirect:/home");
     }
+
+
 
 
 }

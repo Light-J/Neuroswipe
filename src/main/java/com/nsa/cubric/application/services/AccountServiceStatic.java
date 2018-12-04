@@ -8,5 +8,6 @@ import com.nsa.cubric.application.services.registrationUtils.EmailExistsExceptio
 public interface AccountServiceStatic {
     public Account registerNewUserAccount(AccountDTO account) throws EmailExistsException;
     public void registerNewUserProfile(ProfileDTO profile);
+    public Account findByEmail(String email);
 
 }

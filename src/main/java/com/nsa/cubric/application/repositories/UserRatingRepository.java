@@ -19,25 +19,25 @@ public class UserRatingRepository implements UserRatingRepositoryStatic {
 	public UserRatingRepository(JdbcTemplate aTemplate) {
 		jdbcTemplate = aTemplate;
 
-		responsesMapper = (rs, i) -> new UserRating(rs.getLong("id"), rs.getInt("userprofileid"), rs.getInt("imageid"),
+		responsesMapper = (rs, i) -> new UserRating(rs.getLong("id"), rs.getLong("userprofileid"), rs.getInt("imageid"),
 				rs.getBoolean("response"));
 	}
 
 	@Override
 	public void storeUserRatings(UserRating rating) {
-		jdbcTemplate.update("INSERT INTO userrating (userprofileid, imageid, response) values (?,?,?)",
+		jdbcTemplate.update("INSERT INTO userratings (userprofileid, imageid, response) values (?,?,?)",
 				rating.getUserProfileId(), rating.getImageId(), rating.getResponse());
 	}
 
 	@Override
 	public List<UserRating> getAll() {
-		return jdbcTemplate.query("SELECT id, userprofileid, imageid, response FROM userrating", new Object[] {},
+		return jdbcTemplate.query("SELECT id, userprofileid, imageid, response FROM userratings", new Object[] {},
 				responsesMapper);
 	}
 
 	@Override
 	public List<UserRating> getUserRatings(String userProfileId) {
-		return jdbcTemplate.query("SELECT id, userprofileid, imageid, response FROM userrating WHERE userprofileid = ?",
+		return jdbcTemplate.query("SELECT id, userprofileid, imageid, response FROM userratings WHERE userprofileid = ?",
 				new Object[] { Integer.parseInt(userProfileId) }, responsesMapper);
 	}
 }
