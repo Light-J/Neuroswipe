@@ -136,6 +136,10 @@ public class ImageAPI {
 
     }
 
+    /**
+     * This method is used to upload a new set of 3 images to the database.
+     * @param uploadedImages images uploaded
+     */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public void uploadingPost(HttpServletResponse response, @RequestParam("images") MultipartFile[] uploadedImages) throws IOException {
         for(MultipartFile uploadedImage : uploadedImages) {
@@ -147,6 +151,10 @@ public class ImageAPI {
         response.sendRedirect("/admin/");
     }
 
+    /**
+     * This method is used to set whether the scan is known to be good or not from the admin interface.
+     * @param knownGood boolean containing whether the images is good or not
+     */
     @RequestMapping(value = "/{id}/setKnownGood", method = RequestMethod.POST)
     public String updateKnownGood(@PathVariable("id") Long id, @RequestParam("knownGood") Boolean knownGood) {
         imageService.updateKnownGood(id, knownGood);
