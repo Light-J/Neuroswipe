@@ -20,7 +20,9 @@ public class ImageRepository implements ImageRepositoryStatic {
 
         imageMapper = (rs, i) -> new Image(
                 rs.getInt("id"),
-                rs.getString("path"),
+                rs.getString("path1"),
+                rs.getString("path2"),
+                rs.getString("path3"),
                 (Boolean) rs.getObject("known_good")
         );
     }
@@ -29,7 +31,7 @@ public class ImageRepository implements ImageRepositoryStatic {
     public Image findById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, path, known_good from images WHERE id = ?",
+                    "select id, path1, path2, path3, known_good from images WHERE id = ?",
                     new Object[]{id},imageMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -41,8 +43,8 @@ public class ImageRepository implements ImageRepositoryStatic {
     @Override
     public void insert(Image image){
         jdbcTemplate.update(
-                "INSERT into images (path, known_good) values (?, ?)",
-                image.getPath(), image.getKnownGood());
+                "INSERT into images (path1, path2, path3, known_good) values (?, ?, ?, ?)",
+                image.getPath1(), image.getPath2(), image.getPath3(), image.getKnownGood());
     }
 
     @Override
@@ -55,7 +57,7 @@ public class ImageRepository implements ImageRepositoryStatic {
     @Override
     public List<Image> getAll(){
         return jdbcTemplate.query(
-                "SELECT id, path, known_good FROM images",
+                "SELECT id, path1, path2, path3, known_good FROM images",
                 new Object[]{},imageMapper
         );
     }

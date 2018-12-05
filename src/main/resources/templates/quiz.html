@@ -23,7 +23,9 @@
             </div>
         </div>
         <div class="panel-body">
-            <img src="" id="brainImage" width="800" height="500" style="width:100%">
+            <img src="" id="brainImage1" style="width:33%">
+            <img src="" id="brainImage2" style="width:33%">
+            <img src="" id="brainImage3" style="width:33%">
         </div>
         <div class="panel-footer text-center">
             <a href="#" class="btn btn-danger btn-lg" id="noButton">No</a>
@@ -70,8 +72,9 @@
             dataType: 'json',
             async: false,
             success: function(imageData) {
-                $("#brainImage").attr("src", "/img/quiz_images/"+imageData.path);
-                $("#brainImage").data("id", imageData.id);
+                $("#brainImage1").attr("src", "/img/quiz_images/"+imageData.path1);
+                $("#brainImage2").attr("src", "/img/quiz_images/"+imageData.path2);
+                $("#brainImage3").attr("src", "/img/quiz_images/"+imageData.path3);
             }
         });
     };

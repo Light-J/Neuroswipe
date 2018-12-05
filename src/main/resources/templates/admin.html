@@ -16,14 +16,16 @@
 
     <h2>Upload New Image(s)</h2>
     <form action="/images/new" method="post" enctype="multipart/form-data">
-        Select images: <input type="file" name="images" multiple><br>
+        Select Image 1: <input type="file" name="image1"><br>
+        Select Image 2: <input type="file" name="image2"><br>
+        Select Image 3: <input type="file" name="image3"><br>
         <button type="submit" class="btn btn-primary">Upload</button>
     </form>
 
     <h2>Images</h2>
 
     <table class="table">
-        <tr><th>ID</th><th>Filename</th><th>Known good/bad</th><th>Good responses</th><th>Bad responses</th></tr>
+        <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th><th>Known good/bad</th><th>Good responses</th><th>Bad responses</th></tr>
     </table>
 
 </div>
@@ -32,7 +34,7 @@
     $(function() {
         $.getJSON("/images/", function( images ) {
             for (var i = 0; i < images.length; i++) {
-                $("table").append('<tr data-id="'+images[i].id+'"><td>'+images[i].id+'</td><td><a target="_blank" href="/brain_images/'+images[i].path+'">'+images[i].path+'</a></td><td class="knownGood">'+images[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
+                $("table").append('<tr data-id="'+images[i].id+'"><td>'+images[i].id+'</td><td><a target="_blank" href="/brain_images/'+images[i].path1+'">'+images[i].path1+'</a></td><td><a target="_blank" href="/brain_images/'+images[i].path2+'">'+images[i].path2+'</a></td><td><a target="_blank" href="/brain_images/'+images[i].path3+'">'+images[i].path3+'</a></td><td class="knownGood">'+images[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
             }
 
             $("table tr").each(function() {

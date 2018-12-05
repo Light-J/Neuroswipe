@@ -70,16 +70,16 @@ public class ImageAPI {
 
         //TODO needs to get these from the database
         //I have left this as this now needs to be changed to 3 images so logic will need to change
-        List<Image> images = Arrays.asList(new Image(1, "1.jpg", null),
-                new Image(2, "2.jpg", null),
-                new Image(3, "3.jpg", null),
-                new Image(4, "4.jpg", null),
-                new Image(5, "5.jpg", null),
-                new Image(6, "6.jpg", null),
-                new Image(7, "7.jpg", null),
-                new Image(8, "8.jpg", null),
-                new Image(9, "9.jpg", null),
-                new Image(10, "10.jpg", null));
+        List<Image> images = Arrays.asList(new Image(1, "1.jpg", "1.jpg", "1.jpg", null),
+                new Image(2, "2.jpg", "2.jpg", "2.jpg", null),
+                new Image(3, "3.jpg", "3.jpg", "3.jpg", null),
+                new Image(4, "4.jpg", "4.jpg", "4.jpg", null),
+                new Image(5, "5.jpg", "5.jpg", "5.jpg", null),
+                new Image(6, "6.jpg", "6.jpg", "6.jpg", null),
+                new Image(7, "7.jpg", "7.jpg", "7.jpg", null),
+                new Image(8, "8.jpg", "8.jpg", "8.jpg", null),
+                new Image(9, "9.jpg", "9.jpg", "9.jpg", null),
+                new Image(10,  "10.jpg", "10.jpg", "10.jpg", null));
 
         randomGenerator = new Random();
         int index = randomGenerator.nextInt(images.size());
@@ -138,16 +138,26 @@ public class ImageAPI {
 
     /**
      * This method is used to upload a new set of 3 images to the database.
-     * @param uploadedImages images uploaded
+     * @param image1 image 1 of the scan
+     * @param image2 image 2 of the scan
+     * @param image3 image 3 of the scan
      */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public void uploadingPost(HttpServletResponse response, @RequestParam("images") MultipartFile[] uploadedImages) throws IOException {
-        for(MultipartFile uploadedImage : uploadedImages) {
-            File file = new File(imageUploadDirectory + uploadedImage.getOriginalFilename());
-            uploadedImage.transferTo(file);
-            Image image = new Image(1, file.getName(), null);
-            imageService.insert(image);
-        }
+    public void uploadingPost(HttpServletResponse response, @RequestParam("image1") MultipartFile image1, @RequestParam("image2") MultipartFile image2, @RequestParam("image3") MultipartFile image3) throws IOException {
+
+        File file1 = new File(imageUploadDirectory + image1.getOriginalFilename());
+        image1.transferTo(file1);
+
+        File file2 = new File(imageUploadDirectory + image2.getOriginalFilename());
+        image2.transferTo(file2);
+
+        File file3 = new File(imageUploadDirectory + image3.getOriginalFilename());
+        image3.transferTo(file3);
+
+
+        Image image = new Image(1, file1.getName(), file2.getName(), file3.getName(), null);
+        imageService.insert(image);
+
         response.sendRedirect("/admin/");
     }
 
