@@ -13,6 +13,8 @@ public interface AccountRepositoryStatic {
     public void insertNewProfile(ProfileDTO profile);
 
 
+    boolean updateProfile(ProfileDTO profile);
+
     ProfileDTO getProfileByAccountID(long accountID);
 
     ProfileDTO getProfileByEmail(String email);

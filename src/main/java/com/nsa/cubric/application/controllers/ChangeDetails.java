@@ -27,18 +27,19 @@ public class ChangeDetails {
 
         String userName = LoggedUserService.getUsername();
 
-        System.out.println("userName:");
-        System.out.println(userName);
-
         ProfileDTO userProfile = accountRepository.getProfileByEmail(userName);
-
-        System.out.println("userProfile:");
-        System.out.println(userProfile);
-        System.out.println("userProfile.getAge():");
-        System.out.println(userProfile.getAge());
 
         model.addAttribute("profile", userProfile);
 
+        return "changedetails";
+    }
+
+    @RequestMapping(value="/", method = RequestMethod.POST)
+    public String showAdminPage(Model model, ProfileDTO profile){
+
+        Boolean updateProfile = accountRepository.updateProfile(profile);
+
+        model.addAttribute("profile", profile);
         return "changedetails";
     }
 

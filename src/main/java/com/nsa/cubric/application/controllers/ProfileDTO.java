@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 
 public class ProfileDTO {
+    Integer id;
+
     String username;
 
     @FirstFourLettersPostCode
@@ -28,6 +30,29 @@ public class ProfileDTO {
         this.loggedInUserId = loggedInUserId;
         this.age = age;
         this.gender = gender;
+    }
+
+    public ProfileDTO(String username, String postcode, Integer age, String gender) {
+        this.username = username;
+        this.postcode = postcode;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    public ProfileDTO(Integer id, String username, String postcode, Integer age, String gender) {
+        this.id = id;
+        this.username = username;
+        this.postcode = postcode;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
