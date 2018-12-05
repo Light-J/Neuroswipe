@@ -11,12 +11,35 @@
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
+<div class="modal fade" id="confirmRemovalModal" tabindex="-1" role="dialog" aria-labelledby="confirmRemovalModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmRemovalModalLongTitle">Privacy notice and GDPR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove the following user</p>
+                <p id="user_to_remove"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                <button type="button" onclick="remove_user()" class="btn btn-primary" data-dismiss="modal">Confirm removal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div>
     <div class="container">
         <h1>Remove a user</h1>
         <p>Enter the user id you wish to remove</p>
         <input id="remove_user_input" type="text">
-        <button onclick="remove_user()">Confirm</button>
+        <button onclick="confirm_user_removal()">Confirm</button>
         <p id="delete_user_success"></p>
     </div>
 
@@ -42,15 +65,22 @@
         document.getElementById("rows_affected").innerText = "Responses removed";
     }
     function remove_user() {
-        var user_id = document.getElementById("remove_user_input").value;
+        var user_email = document.getElementById("remove_user_input").value;
             $.ajax({
                 url: '/removeUser',
                 type: 'POST',
-                data: {"user_to_remove":user_id},
+                data: {"user_to_remove":user_email},
                 success: function (data) {
                     set_result_delete_user(data);
                 }
             });
+    }
+
+    function confirm_user_removal() {
+        var user_email = document.getElementById("remove_user_input").value;
+        $('#confirmRemovalModal').modal('show');
+        document.getElementById("user_to_remove").innerText = user_email
+
     }
 
     function remove_user_responses() {
