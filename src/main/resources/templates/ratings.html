@@ -15,7 +15,7 @@
     <h1>Ratings</h1>
 
     <div class="panel panel-info">
-        <div class="panel-heading">Is this a good image of a brain?</div>
+        <div class="panel-heading">Is this a good scan of a brain?</div>
         <div class="panel-body">
             <img src="" id="brainImage" width="800" height="500" style="width:100%">
         </div>
@@ -29,7 +29,7 @@
 
 <script>
     var loadNextImage = function(){
-        $.getJSON("/images/next", function( imageData ) {
+        $.getJSON("/scans/next", function( imageData ) {
             console.log(imageData);
             $("#brainImage").attr("src", "/img/practice_images/"+imageData.path);
             $("#brainImage").data("id", imageData.id);

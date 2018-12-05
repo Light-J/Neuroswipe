@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `brainschema`.`responses` ;
 CREATE TABLE IF NOT EXISTS `brainschema`.`responses` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `userprofileid` INT NULL,
-  `imageid` VARCHAR(45) NULL,
+  `scanid` VARCHAR(45) NULL,
   `response` TINYINT(1) NULL,
   `responsescol` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
@@ -31,11 +31,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `brainschema`.`images`
+-- Table `brainschema`.`scans`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `brainschema`.`images` ;
+DROP TABLE IF EXISTS `brainschema`.`scans` ;
 
-CREATE TABLE IF NOT EXISTS `brainschema`.`images` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`scans` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `path` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
@@ -79,7 +79,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- use basic queries --
 USE brainschema;
-SELECT * FROM images;
+SELECT * FROM scans;
 SELECT * FROM responses;
 SELECT * FROM useraccount;
 SELECT * FROM userprofile;

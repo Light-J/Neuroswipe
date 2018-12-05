@@ -1,9 +1,8 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.QuizServicesStatic;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.nsa.cubric.application.services.ImageService;
+import com.nsa.cubric.application.services.ScanService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,36 +16,29 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nsa.cubric.application.domain.Image;
+import com.nsa.cubric.application.domain.Scan;
 import com.nsa.cubric.application.services.UserResponseServiceStatic;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.io.File;
 
-@RequestMapping("images")
+@RequestMapping("scans")
 @RestController
-public class ImageAPI {
+public class ScanAPI {
 
     private UserResponseServiceStatic responsesService;
-
-    @Autowired
-    QuizServicesStatic quizServices;
 
     private Random randomGenerator;
 
     @Autowired
-    private ImageService imageService;
+    private ScanService scanService;
 
     @Autowired
     AccountServiceStatic accountService;
@@ -54,8 +46,8 @@ public class ImageAPI {
     public static final String imageUploadDirectory = System.getProperty("user.dir") + "/brain_images/";
 
     @Autowired
-    public ImageAPI(ImageService imageService, UserResponseServiceStatic aRepo){
-        this.imageService = imageService;
+    public ScanAPI(ScanService scanService, UserResponseServiceStatic aRepo){
+        this.scanService = scanService;
         this.responsesService = aRepo;
     }
 
@@ -69,23 +61,23 @@ public class ImageAPI {
     public ResponseEntity getNextImage() {
 
         //TODO needs to get these from the database
-        //I have left this as this now needs to be changed to 3 images so logic will need to change
-        List<Image> images = Arrays.asList(new Image(1, "1.jpg", null),
-                new Image(2, "2.jpg", null),
-                new Image(3, "3.jpg", null),
-                new Image(4, "4.jpg", null),
-                new Image(5, "5.jpg", null),
-                new Image(6, "6.jpg", null),
-                new Image(7, "7.jpg", null),
-                new Image(8, "8.jpg", null),
-                new Image(9, "9.jpg", null),
-                new Image(10, "10.jpg", null));
+        //I have left this as this now needs to be changed to 3 scans so logic will need to change
+        List<Scan> scans = Arrays.asList(new Scan(1, "1.jpg", "1.jpg", "1.jpg", null),
+                new Scan(2, "2.jpg", "2.jpg", "2.jpg", null),
+                new Scan(3, "3.jpg", "3.jpg", "3.jpg", null),
+                new Scan(4, "4.jpg", "4.jpg", "4.jpg", null),
+                new Scan(5, "5.jpg", "5.jpg", "5.jpg", null),
+                new Scan(6, "6.jpg", "6.jpg", "6.jpg", null),
+                new Scan(7, "7.jpg", "7.jpg", "7.jpg", null),
+                new Scan(8, "8.jpg", "8.jpg", "8.jpg", null),
+                new Scan(9, "9.jpg", "9.jpg", "9.jpg", null),
+                new Scan(10,  "10.jpg", "10.jpg", "10.jpg", null));
 
         randomGenerator = new Random();
-        int index = randomGenerator.nextInt(images.size());
+        int index = randomGenerator.nextInt(scans.size());
 
 
-        return new ResponseEntity<>(images.get(index), null, HttpStatus.OK);
+        return new ResponseEntity<>(scans.get(index), null, HttpStatus.OK);
     }
 
     /**
@@ -95,8 +87,8 @@ public class ImageAPI {
      */
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getAllImages() {
-        List<Image> images = imageService.getAll();
-        return new ResponseEntity<>(images,null, HttpStatus.OK);
+        List<Scan> scans = scanService.getAll();
+        return new ResponseEntity<>(scans,null, HttpStatus.OK);
     }
 
     /**
@@ -123,33 +115,37 @@ public class ImageAPI {
     }
 
     /**
-     * This method is used in the quiz section in order to obtain images related to question numbers
-     * @param questionNumber integer of the question being requested
-     * @return ResponseEntity object containing image JSON.
+     * This method is used to upload a new set of 3 images to the database.
+     * @param image1 image 1 of the scan
+     * @param image2 image 2 of the scan
+     * @param image3 image 3 of the scan
      */
-    @GetMapping(value = "/quiz", produces = "application/json")
-    public ResponseEntity getQuizImages(
-            @RequestParam(value = "question_number") int questionNumber) {
-        List<PracticeImage> images = quizServices.getQuizImages();
-
-        return new ResponseEntity<>(images.get(questionNumber), null, HttpStatus.OK);
-
-    }
-
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public void uploadingPost(HttpServletResponse response, @RequestParam("images") MultipartFile[] uploadedImages) throws IOException {
-        for(MultipartFile uploadedImage : uploadedImages) {
-            File file = new File(imageUploadDirectory + uploadedImage.getOriginalFilename());
-            uploadedImage.transferTo(file);
-            Image image = new Image(1, file.getName(), null);
-            imageService.insert(image);
-        }
+    public void uploadingPost(HttpServletResponse response, @RequestParam("image1") MultipartFile image1, @RequestParam("image2") MultipartFile image2, @RequestParam("image3") MultipartFile image3) throws IOException {
+
+        File file1 = new File(imageUploadDirectory + image1.getOriginalFilename());
+        image1.transferTo(file1);
+
+        File file2 = new File(imageUploadDirectory + image2.getOriginalFilename());
+        image2.transferTo(file2);
+
+        File file3 = new File(imageUploadDirectory + image3.getOriginalFilename());
+        image3.transferTo(file3);
+
+
+        Scan scan = new Scan(1, file1.getName(), file2.getName(), file3.getName(), null);
+        scanService.insert(scan);
+
         response.sendRedirect("/admin/");
     }
 
+    /**
+     * This method is used to set whether the scan is known to be good or not from the admin interface.
+     * @param knownGood boolean containing whether the images is good or not
+     */
     @RequestMapping(value = "/{id}/setKnownGood", method = RequestMethod.POST)
     public String updateKnownGood(@PathVariable("id") Long id, @RequestParam("knownGood") Boolean knownGood) {
-        imageService.updateKnownGood(id, knownGood);
+        scanService.updateKnownGood(id, knownGood);
         return "OK";
     }
 
