@@ -22,7 +22,9 @@ USE `brainschema` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `brainschema`.`images` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `path` VARCHAR(255) NULL DEFAULT NULL,
+  `path1` VARCHAR(255) NULL DEFAULT NULL,
+  `path2` VARCHAR(255) NULL DEFAULT NULL,
+  `path3` VARCHAR(255) NULL DEFAULT NULL,
   `known_good` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
