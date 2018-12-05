@@ -5,17 +5,17 @@ public class UserResponse {
 
 	private Long userProfileId;
 
-	private Integer imageId;
+	private Integer scanId;
 
 	private Boolean response;
 
 	public UserResponse() {
 	}
 
-	public UserResponse(Long id, Long userProfileId, Integer imageId, Boolean response) {
+	public UserResponse(Long id, Long userProfileId, Integer scanId, Boolean response) {
 		this.id = id;
 		this.userProfileId = userProfileId;
-		this.imageId = imageId;
+		this.scanId = scanId;
 		this.response = response;
 	}
 
@@ -35,12 +35,12 @@ public class UserResponse {
 		this.userProfileId = userProfileId;
 	}
 
-	public Integer getImageId() {
-		return imageId;
+	public Integer getScanId() {
+		return scanId;
 	}
 
-	public void setImageId(Integer imageId) {
-		this.imageId = imageId;
+	public void setScanId(Integer scanId) {
+		this.scanId = scanId;
 	}
 
 	public Boolean getResponse() {

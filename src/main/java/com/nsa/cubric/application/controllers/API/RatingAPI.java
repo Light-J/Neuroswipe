@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
-
 @RequestMapping("ratings")
 @RestController
 public class RatingAPI {
@@ -47,7 +45,7 @@ public class RatingAPI {
 
 		UserRating rating = new UserRating();
 		rating.setUserProfileId(loggedInUser.getId());
-		rating.setImageId(imageId);
+		rating.setScanId(imageId);
 		rating.setResponse(goodBrain);
 		ratingService.storeUserRatings(rating);
 		return true;

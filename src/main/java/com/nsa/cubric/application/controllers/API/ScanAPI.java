@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nsa.cubric.application.domain.Scan;
 import com.nsa.cubric.application.services.UserResponseServiceStatic;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -53,48 +52,48 @@ public class ScanAPI {
     }
 
     /**
-     * This method is used to serve the JSON for the image to view. It responds to GET
-     * requests to /images/next.
+     * This method is used to serve the JSON for the scan to view. It responds to GET
+     * requests to /scans/next.
      *
-     * @return ResponseEntity object containing image JSON.
+     * @return ResponseEntity object containing scan JSON.
      */
     @RequestMapping(value = "next", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getNextImage() {
+    public ResponseEntity getNextScan() {
         Optional<Scan> scan = scanService.getNext();
         return new ResponseEntity<>(scan, null, HttpStatus.OK);
     }
 
     /**
-     * This method is used to serve the JSON for all the images in the database. It responds to GET requests to /images/.
+     * This method is used to serve the JSON for all the scans in the database. It responds to GET requests to /scans/.
      *
-     * @return      ResponseEntity object containing images JSON.
+     * @return      ResponseEntity object containing scans JSON.
      */
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getAllImages() {
+    public ResponseEntity getAllScans() {
         List<Scan> scans = scanService.getAll();
         return new ResponseEntity<>(scans,null, HttpStatus.OK);
     }
 
     /**
      * This method is used to accepted and store the decision the user has made regarding
-     * the image.
+     * the scan.
      *
-     * @param goodBrain boolean whether the user indicated that the image was "good" or
+     * @param goodBrain boolean whether the user indicated that the scan was "good" or
      * not
-     * @param imageId ID of the image that the decision was made for
+     * @param scanId ID of the scan that the decision was made for
      * @return json object with success attribute and error message if applicable
      */
     @RequestMapping(value = "save", method = RequestMethod.POST, produces = "application/json")
-    public Boolean storeDecision(@RequestParam("imageId") Integer imageId,
+    public Boolean storeDecision(@RequestParam("scanId") Integer scanId,
                                  @RequestParam("goodBrain") Boolean goodBrain) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Account loggedInUser = accountService.findByEmail(auth.getName());
-        UserResponse responses = new UserResponse();
-        responses.setUserProfileId(loggedInUser.getId());
-        responses.setImageId(imageId);
-        responses.setResponse(goodBrain);
-        responsesService.storeUserResponses(responses);
+        UserResponse response = new UserResponse();
+        response.setUserProfileId(loggedInUser.getId());
+        response.setScanId(scanId);
+        response.setResponse(goodBrain);
+        responsesService.storeUserResponse(response);
         return true;
     }
 

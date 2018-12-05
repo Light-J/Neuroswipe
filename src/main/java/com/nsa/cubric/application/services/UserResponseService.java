@@ -10,25 +10,25 @@ import java.util.List;
 @Service
 public class UserResponseService implements UserResponseServiceStatic {
 
-	private UserResponseRepositoryStatic responsesRepository;
+	private UserResponseRepositoryStatic responseRepository;
 
 	@Autowired
 	public UserResponseService(UserResponseRepositoryStatic aRepo) {
-		responsesRepository = aRepo;
+		responseRepository = aRepo;
 	}
 
 	@Override
-	public void storeUserResponses(UserResponse responses) {
-		responsesRepository.storeUserResponses(responses);
+	public void storeUserResponse(UserResponse response) {
+		responseRepository.storeUserResponse(response);
 	}
 
 	@Override
 	public List<UserResponse> getAll() {
-		return responsesRepository.getAll();
+		return responseRepository.getAll();
 	}
 
 	@Override
 	public List<UserResponse> getUserResponses(String userProfileId) {
-		return responsesRepository.getUserResponses(userProfileId);
+		return responseRepository.getUserResponses(userProfileId);
 	}
 }
