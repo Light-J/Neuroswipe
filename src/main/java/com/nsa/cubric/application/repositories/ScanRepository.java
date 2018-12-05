@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ScanRepository implements ScanRepositoryStatic {
@@ -31,7 +32,7 @@ public class ScanRepository implements ScanRepositoryStatic {
     public Scan findById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, path1, path2, path3, known_good from scans WHERE id = ?",
+                    "SELECT id, path1, path2, path3, known_good FROM scans WHERE id = ?",
                     new Object[]{id},scanMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -57,8 +58,14 @@ public class ScanRepository implements ScanRepositoryStatic {
     @Override
     public List<Scan> getAll(){
         return jdbcTemplate.query(
-                "SELECT id, path1, path2, path3, known_good FROM scans",
-                new Object[]{},scanMapper
+                "SELECT id, path1, path2, path3, known_good FROM scans",scanMapper
         );
+    }
+
+    @Override
+    public Optional<Scan> getNext(){
+        return jdbcTemplate.query(
+                "SELECT * FROM scans ORDER BY RAND() LIMIT 0,1", scanMapper
+        ).stream().findFirst();
     }
 }

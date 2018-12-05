@@ -26,6 +26,7 @@ import com.nsa.cubric.application.services.UserResponseServiceStatic;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.io.File;
 
@@ -59,25 +60,8 @@ public class ScanAPI {
      */
     @RequestMapping(value = "next", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getNextImage() {
-
-        //TODO needs to get these from the database
-        //I have left this as this now needs to be changed to 3 scans so logic will need to change
-        List<Scan> scans = Arrays.asList(new Scan(1, "1.jpg", "1.jpg", "1.jpg", null),
-                new Scan(2, "2.jpg", "2.jpg", "2.jpg", null),
-                new Scan(3, "3.jpg", "3.jpg", "3.jpg", null),
-                new Scan(4, "4.jpg", "4.jpg", "4.jpg", null),
-                new Scan(5, "5.jpg", "5.jpg", "5.jpg", null),
-                new Scan(6, "6.jpg", "6.jpg", "6.jpg", null),
-                new Scan(7, "7.jpg", "7.jpg", "7.jpg", null),
-                new Scan(8, "8.jpg", "8.jpg", "8.jpg", null),
-                new Scan(9, "9.jpg", "9.jpg", "9.jpg", null),
-                new Scan(10,  "10.jpg", "10.jpg", "10.jpg", null));
-
-        randomGenerator = new Random();
-        int index = randomGenerator.nextInt(scans.size());
-
-
-        return new ResponseEntity<>(scans.get(index), null, HttpStatus.OK);
+        Optional<Scan> scan = scanService.getNext();
+        return new ResponseEntity<>(scan, null, HttpStatus.OK);
     }
 
     /**

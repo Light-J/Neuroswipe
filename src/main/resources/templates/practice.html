@@ -33,9 +33,9 @@
     var loadNextImage = function(){
         $.getJSON("/scans/next", function( imageData ) {
             console.log(imageData);
-            $("#brainImage1").attr("src", "/img/quiz_images/"+imageData.path1);
-            $("#brainImage2").attr("src", "/img/quiz_images/"+imageData.path2);
-            $("#brainImage3").attr("src", "/img/quiz_images/"+imageData.path3);
+            $("#brainImage1").attr("src", "/brain_images/"+imageData.path1);
+            $("#brainImage2").attr("src", "/brain_images/"+imageData.path2);
+            $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
 
             $("#brainImage1").data("id", imageData.id);
         });
