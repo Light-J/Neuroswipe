@@ -1,7 +1,6 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.QuizServicesStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.nsa.cubric.application.services.ScanService;
 import org.springframework.context.annotation.Configuration;
@@ -35,9 +34,6 @@ import java.io.File;
 public class ScanAPI {
 
     private UserResponseServiceStatic responsesService;
-
-    @Autowired
-    QuizServicesStatic quizServices;
 
     private Random randomGenerator;
 
@@ -116,20 +112,6 @@ public class ScanAPI {
         responses.setResponse(goodBrain);
         responsesService.storeUserResponses(responses);
         return true;
-    }
-
-    /**
-     * This method is used in the quiz section in order to obtain images related to question numbers
-     * @param questionNumber integer of the question being requested
-     * @return ResponseEntity object containing image JSON.
-     */
-    @GetMapping(value = "/quiz", produces = "application/json")
-    public ResponseEntity getQuizImages(
-            @RequestParam(value = "question_number") int questionNumber) {
-        List<PracticeScan> images = quizServices.getQuizImages();
-
-        return new ResponseEntity<>(images.get(questionNumber), null, HttpStatus.OK);
-
     }
 
     /**
