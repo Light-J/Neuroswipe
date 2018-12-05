@@ -15,7 +15,7 @@
     <h1>Practice</h1>
 
     <div class="panel panel-info">
-        <div class="panel-heading">Is this a good image of a brain?</div>
+        <div class="panel-heading">Is this a good scan of a brain?</div>
         <div class="panel-body">
             <img src="" id="brainImage1" style="width:33%">
             <img src="" id="brainImage2" style="width:33%">
@@ -31,7 +31,7 @@
 
 <script>
     var loadNextImage = function(){
-        $.getJSON("/images/next", function( imageData ) {
+        $.getJSON("/scans/next", function( imageData ) {
             console.log(imageData);
             $("#brainImage1").attr("src", "/img/quiz_images/"+imageData.path1);
             $("#brainImage2").attr("src", "/img/quiz_images/"+imageData.path2);
@@ -44,7 +44,7 @@
     var saveDecisionAndNextImage = function(goodBrain){
         $.ajax({
             type: "POST",
-            url: "/images/save",
+            url: "/scans/save",
             data: {
                 "imageId": $("#brainImage1").data("id"),
                 "goodBrain": goodBrain,

@@ -1,6 +1,6 @@
 package com.nsa.cubric.application.services;
 
-import com.nsa.cubric.application.domain.PracticeImage;
+import com.nsa.cubric.application.domain.PracticeScan;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -11,20 +11,20 @@ import java.util.Map;
 @Service
 public class QuizServices implements QuizServicesStatic{
 
-    private List<PracticeImage> images = Arrays.asList(
-            new PracticeImage(1, "1.jpg", "1.jpg", "1.jpg", false),
-            new PracticeImage(2, "2.jpg", "2.jpg", "2.jpg", false),
-            new PracticeImage(3, "3.jpg", "3.jpg", "3.jpg", false),
-            new PracticeImage(4, "4.jpg", "4.jpg", "4.jpg", true),
-            new PracticeImage(5, "5.jpg", "5.jpg", "5.jpg", true),
-            new PracticeImage(6, "6.jpg", "6.jpg", "6.jpg", true),
-            new PracticeImage(7, "7.jpg", "7.jpg", "7.jpg", true),
-            new PracticeImage(8, "8.jpg", "8.jpg", "8.jpg", true),
-            new PracticeImage(9, "9.jpg", "9.jpg", "9.jpg", true),
-            new PracticeImage(10, "10.jpg", "10.jpg", "10.jpg", true));
+    private List<PracticeScan> images = Arrays.asList(
+            new PracticeScan(1, "1.jpg", "1.jpg", "1.jpg", false),
+            new PracticeScan(2, "2.jpg", "2.jpg", "2.jpg", false),
+            new PracticeScan(3, "3.jpg", "3.jpg", "3.jpg", false),
+            new PracticeScan(4, "4.jpg", "4.jpg", "4.jpg", true),
+            new PracticeScan(5, "5.jpg", "5.jpg", "5.jpg", true),
+            new PracticeScan(6, "6.jpg", "6.jpg", "6.jpg", true),
+            new PracticeScan(7, "7.jpg", "7.jpg", "7.jpg", true),
+            new PracticeScan(8, "8.jpg", "8.jpg", "8.jpg", true),
+            new PracticeScan(9, "9.jpg", "9.jpg", "9.jpg", true),
+            new PracticeScan(10, "10.jpg", "10.jpg", "10.jpg", true));
 
     @Override
-    public List<PracticeImage> getQuizImages(){
+    public List<PracticeScan> getQuizImages(){
         return images;
     }
 

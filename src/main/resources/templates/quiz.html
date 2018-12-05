@@ -16,7 +16,7 @@
 
     <div class="panel panel-info container-fluid">
         <div class="panel-heading row">
-            <div class="col-xs-8 pull-left"><p>Is this a good image of a brain?</p></div>
+            <div class="col-xs-8 pull-left"><p>Is this a good scan of a brain?</p></div>
             <div class="col-xs-2 pull-right">
                 <div class="col-xs-2 pull-left">Question:</div>
                 <div id="question_number" class="col-xs-1 pull-right">2</div>
@@ -68,7 +68,7 @@
 
     var loadQuestion = function (question_number) {
         $.ajax({
-            url: "/images/quiz?question_number="+question_number,
+            url: "/scans/quiz?question_number="+question_number,
             dataType: 'json',
             async: false,
             success: function(imageData) {

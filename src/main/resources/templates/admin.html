@@ -15,7 +15,7 @@
     <h1>Admin</h1>
 
     <h2>Upload New Image(s)</h2>
-    <form action="/images/new" method="post" enctype="multipart/form-data">
+    <form action="/scans/new" method="post" enctype="multipart/form-data">
         Select Image 1: <input type="file" name="image1"><br>
         Select Image 2: <input type="file" name="image2"><br>
         Select Image 3: <input type="file" name="image3"><br>
@@ -32,9 +32,9 @@
 
 <script>
     $(function() {
-        $.getJSON("/images/", function( images ) {
-            for (var i = 0; i < images.length; i++) {
-                $("table").append('<tr data-id="'+images[i].id+'"><td>'+images[i].id+'</td><td><a target="_blank" href="/brain_images/'+images[i].path1+'">'+images[i].path1+'</a></td><td><a target="_blank" href="/brain_images/'+images[i].path2+'">'+images[i].path2+'</a></td><td><a target="_blank" href="/brain_images/'+images[i].path3+'">'+images[i].path3+'</a></td><td class="knownGood">'+images[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
+        $.getJSON("/scans/", function( scans ) {
+            for (var i = 0; i < scans.length; i++) {
+                $("table").append('<tr data-id="'+scans[i].id+'"><td>'+scans[i].id+'</td><td><a target="_blank" href="/brain_images/'+scans[i].path1+'">'+scans[i].path1+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path2+'">'+scans[i].path2+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path3+'">'+scans[i].path3+'</a></td><td class="knownGood">'+scans[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
             }
 
             $("table tr").each(function() {
@@ -61,7 +61,7 @@
                         knownGood = null;
                     }
 
-                    $.post("/images/"+$(this).data("id")+"/setKnownGood", { knownGood: knownGood })
+                    $.post("/scans/"+$(this).data("id")+"/setKnownGood", { knownGood: knownGood })
                         .done(function( data ) {
                             location.reload();
                         });

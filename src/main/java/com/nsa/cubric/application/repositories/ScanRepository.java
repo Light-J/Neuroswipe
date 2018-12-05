@@ -1,6 +1,6 @@
 package com.nsa.cubric.application.repositories;
 
-import com.nsa.cubric.application.domain.Image;
+import com.nsa.cubric.application.domain.Scan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ImageRepository implements ImageRepositoryStatic {
+public class ScanRepository implements ScanRepositoryStatic {
     private JdbcTemplate jdbcTemplate;
-    private RowMapper<Image> imageMapper;
+    private RowMapper<Scan> imageMapper;
 
     @Autowired
-    public ImageRepository(JdbcTemplate aTemplate) {
+    public ScanRepository(JdbcTemplate aTemplate) {
         jdbcTemplate = aTemplate;
 
-        imageMapper = (rs, i) -> new Image(
+        imageMapper = (rs, i) -> new Scan(
                 rs.getInt("id"),
                 rs.getString("path1"),
                 rs.getString("path2"),
@@ -28,7 +28,7 @@ public class ImageRepository implements ImageRepositoryStatic {
     }
 
     @Override
-    public Image findById(Long id){
+    public Scan findById(Long id){
         try{
             return jdbcTemplate.queryForObject(
                     "select id, path1, path2, path3, known_good from images WHERE id = ?",
@@ -41,10 +41,10 @@ public class ImageRepository implements ImageRepositoryStatic {
     }
 
     @Override
-    public void insert(Image image){
+    public void insert(Scan scan){
         jdbcTemplate.update(
                 "INSERT into images (path1, path2, path3, known_good) values (?, ?, ?, ?)",
-                image.getPath1(), image.getPath2(), image.getPath3(), image.getKnownGood());
+                scan.getPath1(), scan.getPath2(), scan.getPath3(), scan.getKnownGood());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ImageRepository implements ImageRepositoryStatic {
     }
 
     @Override
-    public List<Image> getAll(){
+    public List<Scan> getAll(){
         return jdbcTemplate.query(
                 "SELECT id, path1, path2, path3, known_good FROM images",
                 new Object[]{},imageMapper

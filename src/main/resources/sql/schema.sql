@@ -18,9 +18,9 @@ CREATE SCHEMA IF NOT EXISTS `brainschema` DEFAULT CHARACTER SET utf8 ;
 USE `brainschema` ;
 
 -- -----------------------------------------------------
--- Table `brainschema`.`images`
+-- Table `brainschema`.`scans`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`images` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`scans` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `path1` VARCHAR(255) NULL DEFAULT NULL,
   `path2` VARCHAR(255) NULL DEFAULT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userratings` (
     REFERENCES `brainschema`.`userprofiles` (`id`),
   CONSTRAINT `userratings_ibfk_2`
     FOREIGN KEY (`imageid`)
-    REFERENCES `brainschema`.`images` (`id`))
+    REFERENCES `brainschema`.`scans` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userresponses` (
     REFERENCES `brainschema`.`userprofiles` (`id`),
   CONSTRAINT `userresponses_ibfk_2`
     FOREIGN KEY (`imageid`)
-    REFERENCES `brainschema`.`images` (`id`))
+    REFERENCES `brainschema`.`scans` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

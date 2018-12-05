@@ -1,6 +1,6 @@
 package com.nsa.cubric.application.domain;
 
-public class Image {
+public class Scan {
 
     private int id;
     private String path1;
@@ -8,7 +8,7 @@ public class Image {
     private String path3;
     private Boolean knownGood;
 
-    public Image(int id, String path1, String path2, String path3, Boolean knownGood) {
+    public Scan(int id, String path1, String path2, String path3, Boolean knownGood) {
         this.id = id;
         this.path1 = path1;
         this.path2 = path2;
