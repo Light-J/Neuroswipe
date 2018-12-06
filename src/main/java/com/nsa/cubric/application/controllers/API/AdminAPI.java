@@ -31,13 +31,13 @@ public class AdminAPI {
         } catch (NullPointerException e){
             return false;
         }
-        return adminServices.removeUser(toIntExact(userId));
+        return adminServices.removeUser(userId);
     }
 
     @PostMapping(value = "/removeUserResponses")
     public Long removeUserResponses(@RequestParam(value = "user_to_remove_responses") String userEmail){
         try{
-            return adminServices.removeUserResponses(toIntExact(accountService.findByEmail(userEmail).getId()));
+            return adminServices.removeUserResponses(accountService.findByEmail(userEmail).getId());
         } catch (NullPointerException e){
             return 0L;
         }

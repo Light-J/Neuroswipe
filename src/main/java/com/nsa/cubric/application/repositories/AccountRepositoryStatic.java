@@ -18,6 +18,6 @@ public interface AccountRepositoryStatic {
 
     ProfileDTO getProfileByEmail(String email);
 
-    public boolean removeUser(Integer userId);
-    public Long removeUserResponses(Integer userId);
+    public boolean removeUser(Long userId);
+    public Long removeUserResponses(Long userId);
 }
