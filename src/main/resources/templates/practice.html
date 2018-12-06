@@ -14,7 +14,7 @@
 <div class="container">
     <h1>Practice</h1>
 
-    <div class="panel panel-info">
+    <div class="panel panel-info" id="imagesPanel">
         <div class="panel-heading">Is this a good scan of a brain?</div>
         <div class="panel-body">
             <img src="" id="brainImage1" style="width:33%">
@@ -38,10 +38,13 @@
             $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
 
             $("#brainImage1").data("id", imageData.id);
+
+            $("#imagesPanel").fadeIn();
         });
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
+        $("#imagesPanel").fadeOut();
         $.ajax({
             type: "POST",
             url: "/scans/save",
