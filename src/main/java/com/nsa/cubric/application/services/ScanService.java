@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScanService implements ScanServiceStatic {
@@ -35,5 +36,10 @@ public class ScanService implements ScanServiceStatic {
     @Override
     public List<Scan> getAll(){
         return scanRepository.getAll();
+    }
+
+    @Override
+    public Optional<Scan> getNext(){
+        return scanRepository.getNext();
     }
 }

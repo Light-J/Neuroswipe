@@ -1,7 +1,6 @@
 package com.nsa.cubric.application.controllers.API;
 
 import com.nsa.cubric.application.controllers.AccountDTO;
-import com.nsa.cubric.application.controllers.LoginControllerTest;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.UserRating;
 import com.nsa.cubric.application.services.AccountServiceStatic;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +36,7 @@ public class RatingAPITest {
 	public void setupBasicUserRatingDetails() {
 		userRating = new UserRating();
 		userRating.setUserProfileId(1L);
-		userRating.setImageId(1);
+		userRating.setScanId(1);
 		userRating.setResponse(true);
 	}
 
@@ -47,7 +45,7 @@ public class RatingAPITest {
 		goThroughLogin();
 
 		this.mvc.perform(post("/ratings/save").param("userProfileId", userRating.getUserProfileId().toString())
-				.param("imageId", userRating.getImageId().toString())
+				.param("imageId", userRating.getScanId().toString())
 				.param("goodBrain", userRating.getResponse().toString())).andExpect(status().isOk());
 	}
 
@@ -56,7 +54,7 @@ public class RatingAPITest {
 		goThroughLogin();
 
 		this.mvc.perform(post("/ratings/save").param("userProfileId", userRating.getUserProfileId().toString())
-				.param("imageId", userRating.getImageId().toString()).param("goodBrain", "goodBrain"))
+				.param("imageId", userRating.getScanId().toString()).param("goodBrain", "goodBrain"))
 				.andExpect(status().is4xxClientError());
 	}
 

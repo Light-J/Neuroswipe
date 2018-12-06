@@ -20,25 +20,25 @@ public class UserResponseRepository implements UserResponseRepositoryStatic {
 		jdbcTemplate = aTemplate;
 
 		responsesMapper = (rs, i) -> new UserResponse(rs.getLong("id"), rs.getLong("userprofileid"),
-				rs.getInt("imageid"), rs.getBoolean("response"));
+				rs.getInt("scanid"), rs.getBoolean("response"));
 	}
 
 	@Override
-	public void storeUserResponses(UserResponse responses) {
-		jdbcTemplate.update("INSERT INTO userresponses (userprofileid, imageid, response) values (?,?,?)",
-				responses.getUserProfileId(), responses.getImageId(), responses.getResponse());
+	public void storeUserResponse(UserResponse response) {
+		jdbcTemplate.update("INSERT INTO userresponses (userprofileid, scanid, response) values (?,?,?)",
+				response.getUserProfileId(), response.getScanId(), response.getResponse());
 	}
 
 	@Override
 	public List<UserResponse> getAll() {
-		return jdbcTemplate.query("SELECT id, userprofileid, imageid, response FROM userresponses", new Object[] {},
+		return jdbcTemplate.query("SELECT id, userprofileid, scanid, response FROM userresponses", new Object[] {},
 				responsesMapper);
 	}
 
 	@Override
 	public List<UserResponse> getUserResponses(String userProfileId) {
 		return jdbcTemplate.query(
-				"SELECT id, userprofileid, imageid, response FROM userresponses WHERE userprofileid = ?",
+				"SELECT id, userprofileid, scanid, response FROM userresponses WHERE userprofileid = ?",
 				new Object[] { Integer.parseInt(userProfileId) }, responsesMapper);
 	}
 }

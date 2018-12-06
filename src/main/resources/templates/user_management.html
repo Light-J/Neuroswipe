@@ -59,16 +59,16 @@
     <div class="container">
         <h1>Remove a user</h1>
         <p>Enter the user email you wish to remove</p>
-        <input id="remove_user_input" type="text">
-        <button onclick="confirm_user_removal()">Confirm</button>
+        <input id="remove_user_input" type="text" class="form-control">
+        <button onclick="confirm_user_removal()" class="btn btn-primary">Confirm</button>
         <p id="delete_user_success"></p>
     </div>
 
     <div class="container">
         <h1>Delete a users responses</h1>
         <p>Enter the user email you wish to not include</p>
-        <input id="remove_responses_input" type="text">
-        <button onclick="confirm_user_removal_responses()">Confirm</button>
+        <input id="remove_responses_input" type="text" class="form-control">
+        <button onclick="confirm_user_removal_responses()" class="btn btn-default">Confirm</button>
         <p id="rows_affected"></p>
     </div>
 </div>

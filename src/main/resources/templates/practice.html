@@ -14,7 +14,7 @@
 <div class="container">
     <h1>Practice</h1>
 
-    <div class="panel panel-info">
+    <div class="panel panel-info" id="imagesPanel">
         <div class="panel-heading">Is this a good scan of a brain?</div>
         <div class="panel-body">
             <img src="" id="brainImage1" style="width:33%">
@@ -33,20 +33,23 @@
     var loadNextImage = function(){
         $.getJSON("/scans/next", function( imageData ) {
             console.log(imageData);
-            $("#brainImage1").attr("src", "/img/quiz_images/"+imageData.path1);
-            $("#brainImage2").attr("src", "/img/quiz_images/"+imageData.path2);
-            $("#brainImage3").attr("src", "/img/quiz_images/"+imageData.path3);
+            $("#brainImage1").attr("src", "/brain_images/"+imageData.path1);
+            $("#brainImage2").attr("src", "/brain_images/"+imageData.path2);
+            $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
 
             $("#brainImage1").data("id", imageData.id);
+
+            $("#imagesPanel").fadeIn();
         });
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
+        $("#imagesPanel").fadeOut();
         $.ajax({
             type: "POST",
             url: "/scans/save",
             data: {
-                "imageId": $("#brainImage1").data("id"),
+                "scanId": $("#brainImage1").data("id"),
                 "goodBrain": goodBrain,
             },
             success: function(data){

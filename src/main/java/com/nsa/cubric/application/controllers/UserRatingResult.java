@@ -61,8 +61,8 @@ public class UserRatingResult {
 	private void convertResultToMap(Map<Integer, Map<String, Integer>> userRatingMap, List<UserRating> ratingsList) {
 		ratingsList.forEach(userRating -> {
 			Map<String, Integer> userRatingCountMap = new HashMap<>();
-			if (userRatingMap.containsKey(userRating.getImageId())) {
-				userRatingCountMap = userRatingMap.get(userRating.getImageId());
+			if (userRatingMap.containsKey(userRating.getScanId())) {
+				userRatingCountMap = userRatingMap.get(userRating.getScanId());
 				if (userRating.getResponse()) {
 					if (null != userRatingCountMap.get("yes")) {
 						userRatingCountMap.put("yes", userRatingCountMap.get("yes") + 1);
@@ -88,7 +88,7 @@ public class UserRatingResult {
 					userRatingCountMap.put("no", 1);
 				}
 			}
-			userRatingMap.put(userRating.getImageId(), userRatingCountMap);
+			userRatingMap.put(userRating.getScanId(), userRatingCountMap);
 		});
 	}
 }
