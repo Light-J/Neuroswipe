@@ -41,7 +41,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Account findByEmail(String email){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, email, password, role from useraccount WHERE email = ?",
+                    "select id, email, password, role from useraccounts WHERE email = ?",
                     new Object[]{email},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -54,7 +54,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public void insertNewAccount(AccountDTO account){
         System.out.println("Inserting for "+account.getEmail());
         jdbcTemplate.update(
-                "INSERT into useraccount (email, password, role) values (?,?,?)",
+                "INSERT into useraccounts (email, password, role) values (?,?,?)",
                 account.getEmail(), account.getPassword(), "user");
         System.out.println("Insert for "+account.getEmail() + " was successful");
     }
@@ -62,7 +62,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public List<Account> getAll(){
         return jdbcTemplate.query(
-                "SELECT id, password, email, role FROM useraccount",
+                "SELECT id, password, email, role FROM useraccounts",
                 new Object[]{},accountMapper
         );
     }
@@ -70,7 +70,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public void insertNewProfile(ProfileDTO profile){
         jdbcTemplate.update(
-                "INSERT INTO userprofile (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
+                "INSERT INTO userprofiles (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
         profile.getUsername(), profile.getPostcode(), profile.getLoggedInUserId(), profile.getAge(), profile.getGender());
     }
 
@@ -78,7 +78,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public boolean updateProfile(ProfileDTO profile){
         try {
             jdbcTemplate.update(
-                    "UPDATE userprofile SET username=?, postcode=?, age=?, gender=? WHERE id=?",
+                    "UPDATE userprofiles SET username=?, postcode=?, age=?, gender=? WHERE id=?",
                     profile.getUsername(), profile.getPostcode(), profile.getAge(), profile.getGender(), profile.getId());
             System.out.println("User Profile Updated");
             return true;
@@ -92,7 +92,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public ProfileDTO getProfileByAccountID(long accountID){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, username, postcode, age, gender from userprofile WHERE useraccountid = ?",
+                    "select id, username, postcode, age, gender from userprofiles WHERE useraccountid = ?",
                     new Object[]{accountID},profileMapper);
 
         }catch (EmptyResultDataAccessException e){
