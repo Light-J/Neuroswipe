@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
-
 @RequestMapping("ratings")
 @RestController
 public class RatingAPI {
@@ -30,15 +28,15 @@ public class RatingAPI {
 
 	/**
 	 * This method is used to accepted and store the decision the user has made regarding
-	 * the image.
+	 * the scan.
 	 *
-	 * @param goodBrain boolean whether the user indicated that the image was "good" or
+	 * @param goodBrain boolean whether the user indicated that the scan was "good" or
 	 * not
-	 * @param imageId ID of the image that the decision was made for
+	 * @param scanId ID of the scan that the decision was made for
 	 * @return json object with success attribute and error message if applicable
 	 */
 	@RequestMapping(value = "save", method = RequestMethod.POST, produces = "application/json")
-	public Boolean storeDecision(@RequestParam("imageId") Integer imageId,
+	public Boolean storeDecision(@RequestParam("scanId") Integer scanId,
                                  @RequestParam("goodBrain") Boolean goodBrain) {
 
 
@@ -47,7 +45,7 @@ public class RatingAPI {
 
 		UserRating rating = new UserRating();
 		rating.setUserProfileId(loggedInUser.getId());
-		rating.setImageId(imageId);
+		rating.setScanId(scanId);
 		rating.setResponse(goodBrain);
 		ratingService.storeUserRatings(rating);
 		return true;

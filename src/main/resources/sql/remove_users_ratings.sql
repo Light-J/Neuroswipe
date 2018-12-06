@@ -8,8 +8,8 @@ DECLARE success boolean;
 SET success = FALSE;
 
 START TRANSACTION;
-	DELETE FROM userrating WHERE userprofileid = userId;
-	IF(SELECT COUNT(*) FROM userrating WHERE userprofileid = userId) = 0 THEN
+	DELETE FROM userratings WHERE userprofileid = userId;
+	IF(SELECT COUNT(*) FROM userratings WHERE userprofileid = userId) = 0 THEN
         SET success = TRUE;
 	END IF;
     

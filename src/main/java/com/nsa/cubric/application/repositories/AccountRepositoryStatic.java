@@ -12,7 +12,6 @@ public interface AccountRepositoryStatic {
     public List<Account> getAll();
     public void insertNewProfile(ProfileDTO profile);
 
-
     boolean updateProfile(ProfileDTO profile);
 
     ProfileDTO getProfileByAccountID(long accountID);
@@ -20,6 +19,5 @@ public interface AccountRepositoryStatic {
     ProfileDTO getProfileByEmail(String email);
 
     public boolean removeUser(Integer userId);
-    public Integer removeUserResponses(Integer userId);
-
+    public Long removeUserResponses(Integer userId);
 }

@@ -17,14 +17,14 @@
 
         <form action="/registration/profile" th:object="${profile}" method="post" class="form-horizontal">
             <div class="form-group">
-                <label class="control-label col-sm-2" for="username">Display name</label>
+                <label class="control-label col-sm-2" for="username">Display Name</label>
                 <div class="col-sm-10">
                     <input id="username" class="form-control" th:field="*{username}"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="postcode">Postcode (First 4 letters)</label>
+                <label class="control-label col-sm-2" for="postcode">Postcode (first part)</label>
                 <div class="col-sm-10">
                     <input id="postcode" class="form-control" th:field="*{postcode}"/>
 
@@ -34,7 +34,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="age">age</label>
+                <label class="control-label col-sm-2" for="age">Age</label>
                 <div class="col-sm-10">
                     <input id="age" class="form-control" th:field="*{age}"/>
                 </div>
@@ -43,7 +43,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-2" for="gender">Gender</label>
                 <div class="col-sm-10">
-                    <select id="gender" th:field="*{gender}">
+                    <select id="gender" th:field="*{gender}" class="form-control">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>

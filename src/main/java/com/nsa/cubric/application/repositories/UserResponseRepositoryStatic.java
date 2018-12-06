@@ -5,7 +5,7 @@ import com.nsa.cubric.application.domain.UserResponse;
 import java.util.List;
 
 public interface UserResponseRepositoryStatic {
-	public void storeUserResponses(UserResponse responses);
+	public void storeUserResponse(UserResponse response);
 
 	public List<UserResponse> getAll();
 

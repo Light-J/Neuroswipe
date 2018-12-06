@@ -14,10 +14,12 @@
 <div class="container">
     <h1>Practice</h1>
 
-    <div class="panel panel-info">
-        <div class="panel-heading">Is this a good image of a brain?</div>
+    <div class="panel panel-info" id="imagesPanel">
+        <div class="panel-heading">Is this a good scan of a brain?</div>
         <div class="panel-body">
-            <img src="" id="brainImage" width="800" height="500" style="width:100%">
+            <img src="" id="brainImage1" style="width:33%">
+            <img src="" id="brainImage2" style="width:33%">
+            <img src="" id="brainImage3" style="width:33%">
         </div>
         <div class="panel-footer text-center">
             <a href="#" class="btn btn-danger btn-lg" id="noButton">No</a>
@@ -29,19 +31,25 @@
 
 <script>
     var loadNextImage = function(){
-        $.getJSON("/images/next", function( imageData ) {
+        $.getJSON("/scans/next", function( imageData ) {
             console.log(imageData);
-            $("#brainImage").attr("src", "/img/practice_images/"+imageData.path);
-            $("#brainImage").data("id", imageData.id);
+            $("#brainImage1").attr("src", "/brain_images/"+imageData.path1);
+            $("#brainImage2").attr("src", "/brain_images/"+imageData.path2);
+            $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
+
+            $("#brainImage1").data("id", imageData.id);
+
+            $("#imagesPanel").fadeIn();
         });
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
+        $("#imagesPanel").fadeOut();
         $.ajax({
             type: "POST",
-            url: "/images/save",
+            url: "/scans/save",
             data: {
-                "imageId": $("#brainImage").data("id"),
+                "scanId": $("#brainImage1").data("id"),
                 "goodBrain": goodBrain,
             },
             success: function(data){

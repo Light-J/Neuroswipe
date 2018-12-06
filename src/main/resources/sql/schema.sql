@@ -18,11 +18,13 @@ CREATE SCHEMA IF NOT EXISTS `brainschema` DEFAULT CHARACTER SET utf8 ;
 USE `brainschema` ;
 
 -- -----------------------------------------------------
--- Table `brainschema`.`images`
+-- Table `brainschema`.`scans`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`images` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`scans` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `path` VARCHAR(255) NULL DEFAULT NULL,
+  `path1` VARCHAR(255) NULL DEFAULT NULL,
+  `path2` VARCHAR(255) NULL DEFAULT NULL,
+  `path3` VARCHAR(255) NULL DEFAULT NULL,
   `known_good` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
@@ -61,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userprofiles` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+CREATE TRIGGER `Create User Profile` AFTER INSERT ON `useraccounts` FOR EACH ROW INSERT INTO userprofiles (id, username, useraccountid) VALUES (NEW.id, NEW.email, NEW.id);
 
 -- -----------------------------------------------------
 -- Table `brainschema`.`userratings`
@@ -68,17 +71,17 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `brainschema`.`userratings` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `userprofileid` INT(11) NULL DEFAULT NULL,
-  `imageid` INT(11) NULL DEFAULT NULL,
+  `scanid` INT(11) NULL DEFAULT NULL,
   `response` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `userprofileid` (`userprofileid` ASC),
-  INDEX `imageid` (`imageid` ASC),
+  INDEX `scanid` (`scanid` ASC),
   CONSTRAINT `userratings_ibfk_1`
     FOREIGN KEY (`userprofileid`)
     REFERENCES `brainschema`.`userprofiles` (`id`),
   CONSTRAINT `userratings_ibfk_2`
-    FOREIGN KEY (`imageid`)
-    REFERENCES `brainschema`.`images` (`id`))
+    FOREIGN KEY (`scanid`)
+    REFERENCES `brainschema`.`scans` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -89,17 +92,17 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `brainschema`.`userresponses` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `userprofileid` INT(11) NULL DEFAULT NULL,
-  `imageid` INT(11) NULL DEFAULT NULL,
+  `scanid` INT(11) NULL DEFAULT NULL,
   `response` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `userprofileid` (`userprofileid` ASC),
-  INDEX `imageid` (`imageid` ASC),
+  INDEX `scanid` (`scanid` ASC),
   CONSTRAINT `userresponses_ibfk_1`
     FOREIGN KEY (`userprofileid`)
     REFERENCES `brainschema`.`userprofiles` (`id`),
   CONSTRAINT `userresponses_ibfk_2`
-    FOREIGN KEY (`imageid`)
-    REFERENCES `brainschema`.`images` (`id`))
+    FOREIGN KEY (`scanid`)
+    REFERENCES `brainschema`.`scans` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

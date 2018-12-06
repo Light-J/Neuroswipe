@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
-public class ImageAPITest {
+public class ScanAPITest {
 
 	UserResponse userResponse;
 
@@ -32,23 +32,23 @@ public class ImageAPITest {
 	public void setupBasicUserResponse() {
 		userResponse = new UserResponse();
 		userResponse.setUserProfileId(1L);
-		userResponse.setImageId(1);
+		userResponse.setScanId(1);
 		userResponse.setResponse(true);
 	}
 
 	@Test
 	public void storeValidDecisionTest() throws Exception {
 
-		this.mvc.perform(post("/images/save").param("userProfileId", userResponse.getUserProfileId().toString())
-				.param("imageId", userResponse.getImageId().toString())
+		this.mvc.perform(post("/scans/save").param("userProfileId", userResponse.getUserProfileId().toString())
+				.param("scanId", userResponse.getScanId().toString())
 				.param("goodBrain", userResponse.getResponse().toString())).andExpect(status().isOk());
 	}
 
 	@Test
 	public void storeInvalidDecisionTest() throws Exception {
 
-		this.mvc.perform(post("/images/save").param("userProfileId", userResponse.getUserProfileId().toString())
-				.param("imageId", userResponse.getImageId().toString()).param("goodBrain", "goodBrain"))
+		this.mvc.perform(post("/scans/save").param("userProfileId", userResponse.getUserProfileId().toString())
+				.param("scanId", userResponse.getScanId().toString()).param("goodBrain", "goodBrain"))
 				.andExpect(status().is4xxClientError());
 	}
 

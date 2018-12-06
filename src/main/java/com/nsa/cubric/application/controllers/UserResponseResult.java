@@ -62,8 +62,8 @@ public class UserResponseResult {
 			List<UserResponse> responsesList) {
 		responsesList.forEach(userResponse -> {
 			Map<String, Integer> userResponseCountMap = new HashMap<>();
-			if (userResponseMap.containsKey(userResponse.getImageId())) {
-				userResponseCountMap = userResponseMap.get(userResponse.getImageId());
+			if (userResponseMap.containsKey(userResponse.getScanId())) {
+				userResponseCountMap = userResponseMap.get(userResponse.getScanId());
 				if (userResponse.getResponse()) {
 					if (null != userResponseCountMap.get("yes")) {
 						userResponseCountMap.put("yes", userResponseCountMap.get("yes") + 1);
@@ -89,7 +89,7 @@ public class UserResponseResult {
 					userResponseCountMap.put("no", 1);
 				}
 			}
-			userResponseMap.put(userResponse.getImageId(), userResponseCountMap);
+			userResponseMap.put(userResponse.getScanId(), userResponseCountMap);
 		});
 	}
 }
