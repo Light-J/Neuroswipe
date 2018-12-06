@@ -114,15 +114,14 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public boolean removeUser(Integer userId){
-
+    public boolean removeUser(Long userId){
         int rowsAffected = jdbcTemplate.update("DELETE FROM useraccounts WHERE id=?;",(userId));
         jdbcTemplate.update("DELETE FROM userprofiles WHERE useraccountid=?",(userId));
         return rowsAffected == 1;
     }
 
     @Override
-    public Long removeUserResponses(Integer userId){
+    public Long removeUserResponses(Long userId){
         return Long.valueOf(jdbcTemplate.update("CALL removeUserRatings(?)", (userId)));
     }
 }
