@@ -1,8 +1,10 @@
 package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.services.LoggedUserService;
+import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,9 @@ import org.springframework.web.context.request.WebRequest;
 @RequestMapping(value = "/admin")
 public class Admin {
     private static final Logger LOG = LoggerFactory.getLogger(Practice.class);
+
+    @Autowired
+    LoggedUserService loggedUserService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showAdminPage(WebRequest webRequest, Model model){
@@ -38,8 +43,8 @@ public class Admin {
     }
 
     public Boolean checkIfAdmin(){
-        if(LoggedUserService.getUserRole() != null){
-            if(LoggedUserService.getUserRole().equals("admin")){
+        if(loggedUserService.getUserRole() != null){
+            if(loggedUserService.getUserRole().equals("admin")){
                 return true;
             }
         }

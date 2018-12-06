@@ -4,6 +4,7 @@ import com.nsa.cubric.application.controllers.AccountDTO;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.UserRating;
 import com.nsa.cubric.application.services.AccountServiceStatic;
+import com.nsa.cubric.application.services.LoggedUserService;
 import com.nsa.cubric.application.services.UserRatingService;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import org.junit.Before;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,6 +54,7 @@ public class RatingAPITest {
 	@Test
 	public void storeInvalidDecisionTest() throws Exception {
 		//goThroughLogin();
+
 
 		this.mvc.perform(post("/ratings/save").param("userProfileId", userRating.getUserProfileId().toString())
 				.param("imageId", userRating.getScanId().toString()).param("goodBrain", "goodBrain"))

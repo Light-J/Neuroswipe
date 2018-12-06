@@ -3,6 +3,7 @@ package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.UserRating;
 import com.nsa.cubric.application.services.AccountServiceStatic;
+import com.nsa.cubric.application.services.LoggedUserService;
 import com.nsa.cubric.application.services.UserRatingServiceStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,9 @@ public class RatingAPI {
 	@Autowired
     AccountServiceStatic accountService;
 
+	@Autowired
+	LoggedUserService loggedUserService;
+
 	/**
 	 * This method is used to accepted and store the decision the user has made regarding
 	 * the scan.
@@ -40,8 +44,7 @@ public class RatingAPI {
                                  @RequestParam("goodBrain") Boolean goodBrain) {
 
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Account loggedInUser = accountService.findByEmail(auth.getName());
+        Account loggedInUser = accountService.findByEmail(loggedUserService.getUsername());
 
 		UserRating rating = new UserRating();
 		rating.setUserProfileId(loggedInUser.getId());
