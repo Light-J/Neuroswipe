@@ -45,9 +45,4 @@ public class Admin {
         }
         return false;
     }
-
-    @GetMapping(value = "/usermanagement")
-    public String showUserManagementPage() {
-        return "user_management";
-    }
 }

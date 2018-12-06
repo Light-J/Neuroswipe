@@ -122,7 +122,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public Long removeUserResponses(Long userId){
+    public Long removeUserResponses(Integer userId){
         return Long.valueOf(jdbcTemplate.update("CALL removeUserRatings(?)", (userId)));
     }
 }

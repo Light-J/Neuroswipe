@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import static java.lang.Math.toIntExact;
+
 @RestController("/admin/utilities")
 public class AdminAPI {
 
@@ -29,13 +31,13 @@ public class AdminAPI {
         } catch (NullPointerException e){
             return false;
         }
-        return adminServices.removeUser(userId);
+        return adminServices.removeUser(toIntExact(userId));
     }
 
     @PostMapping(value = "/removeUserResponses")
     public Long removeUserResponses(@RequestParam(value = "user_to_remove_responses") String userEmail){
         try{
-            return adminServices.removeUserResponses(accountService.findByEmail(userEmail).getId());
+            return adminServices.removeUserResponses(toIntExact(accountService.findByEmail(userEmail).getId()));
         } catch (NullPointerException e){
             return 0L;
         }

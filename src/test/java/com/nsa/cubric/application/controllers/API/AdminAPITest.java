@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static java.lang.Math.toIntExact;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -49,7 +50,7 @@ public class AdminAPITest {
 
     @Test
     public void removeUserResponses() throws Exception{
-        given(adminServices.removeUserResponses(2)).willReturn(3);
+        given(toIntExact(adminServices.removeUserResponses(2))).willReturn(3);
 
 
         mvc.perform(post("/removeUserResponses")
