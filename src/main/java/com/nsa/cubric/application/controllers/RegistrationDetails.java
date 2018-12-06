@@ -2,6 +2,7 @@ package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.AccountServiceStatic;
+import com.nsa.cubric.application.services.LoggedUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class RegistrationDetails {
     @Autowired
     private AccountServiceStatic accountService;
 
+    @Autowired
+    LoggedUserService loggedUserService;
+
     @GetMapping(value = "/profile")
     public String showRegistrationForm(Model model){
         LOG.debug("Handling GET request to /registration/profile");
@@ -45,8 +49,7 @@ public class RegistrationDetails {
                                             ) {
 
         LOG.debug("Handling POST to /registration/profile");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Account loggedInUser = accountService.findByEmail(auth.getName());
+        Account loggedInUser = accountService.findByEmail(loggedUserService.getUsername());
         profileDTO.setLoggedInUserId(loggedInUser.getId());
         accountService.registerNewUserProfile(profileDTO);
 

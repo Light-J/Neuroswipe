@@ -3,6 +3,7 @@ package com.nsa.cubric.application.controllers;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.AccountService;
 import com.nsa.cubric.application.services.AccountServiceStatic;
+import com.nsa.cubric.application.services.LoggedUserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +39,9 @@ public class AccountControllerTest {
 
     @MockBean
     AccountService accountService;
+
+    @MockBean
+    LoggedUserService loggedUserService;
 
 
 
@@ -90,8 +94,11 @@ public class AccountControllerTest {
     @Test
     public void submitDetailsInvalidPostCode() throws Exception{
 
-        this.mvc.perform(post("/registration/profile")
+        Account testAccount = new Account(1L, "test@user.com", "pass", "user");
+        given(loggedUserService.getUsername()).willReturn("test@user.com");
+        given(accountService.findByEmail("test@user.com")).willReturn(testAccount);
 
+        this.mvc.perform(post("/registration/profile")
                 .param("postcode", "AAAA"))
                 .andExpect(model().hasErrors())
                 .andExpect(status().isOk());

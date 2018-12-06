@@ -18,6 +18,9 @@ public class ChangeDetails {
     AccountRepository accountRepository;
 
     @Autowired
+    LoggedUserService loggedUserService;
+
+    @Autowired
     public ChangeDetails(AccountRepository aRepo){
         accountRepository = aRepo;
     }
@@ -25,7 +28,7 @@ public class ChangeDetails {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showAdminPage(Model model){
 
-        String userName = LoggedUserService.getUsername();
+        String userName = loggedUserService.getUsername();
 
         ProfileDTO userProfile = accountRepository.getProfileByEmail(userName);
 

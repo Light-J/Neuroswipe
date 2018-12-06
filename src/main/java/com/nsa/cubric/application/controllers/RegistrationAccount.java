@@ -55,8 +55,7 @@ public class RegistrationAccount {
             @ModelAttribute("account") @Valid AccountDTO accountDTO,
             BindingResult result,
             WebRequest webRequest,
-            Errors errors,
-            HttpServletRequest request){
+            Errors errors){
 
         Account registered = new Account();
         String originalPassword = accountDTO.getPassword();
@@ -74,15 +73,7 @@ public class RegistrationAccount {
             return new ModelAndView("register_account", "account", accountDTO);
         } else {
 
-            try {
-                request.login(accountDTO.getEmail(), originalPassword);
-            } catch(ServletException e) {
-                LOG.error("User was not logged in: "+e.getMessage());
-                return new ModelAndView("redirect:/home");
-            }
-
-            return new ModelAndView("redirect:/registration/profile", "account", accountDTO);
-
+            return new ModelAndView("redirect:/login", "account", accountDTO);
         }
 
 

@@ -1,8 +1,10 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.services.AccountServiceStatic;
+import com.nsa.cubric.application.services.LoggedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.nsa.cubric.application.services.ScanService;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,9 @@ public class ScanAPI {
 
     @Autowired
     private ScanService scanService;
+
+    @Autowired
+    LoggedUserService loggedUserService;
 
     @Autowired
     AccountServiceStatic accountService;
@@ -87,8 +92,7 @@ public class ScanAPI {
     public Boolean storeDecision(@RequestParam("scanId") Integer scanId,
                                  @RequestParam("goodBrain") Boolean goodBrain) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Account loggedInUser = accountService.findByEmail(auth.getName());
+        Account loggedInUser = accountService.findByEmail(loggedUserService.getUsername());
         UserResponse response = new UserResponse();
         response.setUserProfileId(loggedInUser.getId());
         response.setScanId(scanId);
