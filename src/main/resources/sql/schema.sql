@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userprofiles` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+CREATE TRIGGER `Create User Profile` AFTER INSERT ON `useraccounts` FOR EACH ROW INSERT INTO userprofiles (id, username, useraccountid) VALUES (NEW.id, NEW.email, NEW.id);
+
 
 -- -----------------------------------------------------
 -- Table `brainschema`.`userratings`
