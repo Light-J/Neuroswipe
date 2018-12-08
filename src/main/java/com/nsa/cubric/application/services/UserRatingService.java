@@ -18,8 +18,14 @@ public class UserRatingService implements UserRatingServiceStatic {
 	}
 
 	@Override
-	public void storeUserRatings(UserRating rating) {
-		ratingRepository.storeUserRatings(rating);
+	public boolean storeUserRatings(UserRating rating) {
+		try{
+			ratingRepository.storeUserRatings(rating);
+			return true;
+		}catch (Exception e){
+			return false;
+		}
+
 	}
 
 	@Override

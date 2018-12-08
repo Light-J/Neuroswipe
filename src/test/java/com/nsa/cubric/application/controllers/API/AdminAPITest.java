@@ -14,9 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static java.lang.Math.toIntExact;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,6 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 public class AdminAPITest {
+
+
+    Account testAccount;
 
     @Autowired
     MockMvc mvc;
@@ -35,13 +36,17 @@ public class AdminAPITest {
     @MockBean
     AccountServiceStatic accountService;
 
+    @Before
+    public void setupTest() {
+        testAccount = new Account(1L, "test@account.com", "pass", "user");
+        given(accountService.findByEmail("test@account.com")).willReturn(testAccount);
+    }
+
+
 
     @Test
     public void removeUserValidTest() throws Exception{
-        Account testAccount = new Account(1L, "test@account.com", "pass", "user");
         given(adminServices.removeUser(1L)).willReturn(true);
-        given(accountService.findByEmail("test@account.com")).willReturn(testAccount);
-
         mvc.perform(post("/removeUser")
                 .param("user_to_remove", "test@account.com"))
                 .andExpect(status().isOk())
@@ -60,14 +65,10 @@ public class AdminAPITest {
 
     @Test
     public void removeUserResponses() throws Exception{
-        Account testAccount = new Account(1L, "test@account.com", "pass", "user");
         given(adminServices.removeUserResponses(1L)).willReturn(0L);
-
-
         mvc.perform(post("/removeUserResponses")
                 .param("user_to_remove_responses", "test@account.com"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("0"));
     }
-
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ScanAPITest {
 
 	UserResponse userResponse;
+	Account testAccount;
 
 	@Autowired
 	MockMvc mvc;
@@ -36,11 +38,10 @@ public class ScanAPITest {
 	@MockBean
 	AccountServiceStatic accountService;
 
-	@MockBean
-	LoggedUserService loggedUserService;
-
 	@Before
 	public void setupBasicUserResponse() {
+		testAccount = new Account(1L, "test@user.com", "pass", "user");
+
 		userResponse = new UserResponse();
 		userResponse.setUserProfileId(1L);
 		userResponse.setScanId(1);
@@ -48,10 +49,11 @@ public class ScanAPITest {
 	}
 
 	@Test
+	@WithMockUser(username = "test@user.com")
 	public void storeValidDecisionTest() throws Exception {
-		Account testAccount = new Account(1L, "test@user.com", "pass", "user");
-		given(loggedUserService.getUsername()).willReturn("test@user.com");
+
 		given(accountService.findByEmail("test@user.com")).willReturn(testAccount);
+
 		this.mvc.perform(post("/scans/save")
 				.param("scanId", userResponse.getScanId().toString())
 				.param("goodBrain", userResponse.getResponse().toString())).andExpect(status().isOk());
@@ -60,8 +62,9 @@ public class ScanAPITest {
 	@Test
 	public void storeInvalidDecisionTest() throws Exception {
 
-		this.mvc.perform(post("/scans/save").param("userProfileId", userResponse.getUserProfileId().toString())
-				.param("scanId", userResponse.getScanId().toString()).param("goodBrain", "goodBrain"))
+		this.mvc.perform(post("/scans/save")
+				.param("scanId", userResponse.getScanId().toString())
+				.param("goodBrain", "goodBrain"))
 				.andExpect(status().is4xxClientError());
 	}
 
