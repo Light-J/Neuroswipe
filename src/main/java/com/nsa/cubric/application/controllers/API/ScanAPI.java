@@ -29,17 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nsa.cubric.application.domain.Scan;
 import com.nsa.cubric.application.services.UserResponseServiceStatic;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.io.File;
 
 @RequestMapping("scans")
 @RestController
 public class ScanAPI {
-
-    private static final Logger LOG = LoggerFactory.getLogger(RegistrationAccount.class);
-
 
     private UserResponseServiceStatic responsesService;
 
@@ -158,12 +153,12 @@ public class ScanAPI {
             @RequestHeader(value = "filter_postcode") String filterPostcode,
             @RequestHeader(value = "filter_gender") String filterGender) {
 
-        LOG.debug("Handling get request to /getScansFiltered with headers, " +
-                "filter_min_responses: " + filterMinResponses +
-                "filter_percentage_good: " + filterPercentageGood +
-                "filter_age_range: " + filterAgeRange +
-                "filter_postcode: " + filterPostcode +
-                "filter_gender" + filterGender);
+        Map<String, String> filters = new HashMap<>();
+        filters.put("filter_min_responses", filterMinResponses);
+        filters.put("filter_percentage_good", filterPercentageGood);
+        filters.put("filter_age_range", filterAgeRange);
+        filters.put("filter_postcode", filterPostcode);
+        filters.put("filter_gender", filterGender);
 
         List<Scan> scans = scanService.getAll();
 
