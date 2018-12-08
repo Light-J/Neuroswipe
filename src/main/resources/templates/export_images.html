@@ -63,7 +63,8 @@
     </div>
     <div>
         <table class="table">
-            <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th><th>Known good/bad</th><th>Good responses</th><th>Bad responses</th></tr>
+            <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th></tr>
+            <div id="scan_table_body"></div>
         </table>
     </div>
 
@@ -80,18 +81,22 @@
 
         $.ajax({
             url: '/scans/getScansFiltered',
-            type: 'POST',
+            type: 'GET',
             headers: {"filter_min_responses":filter_min_responses,
                 "filter_percentage_good":filter_percentage_good,
                 "filter_age_range":filter_age_range,
                 "filter_postcode":filter_postcode,
                 "filter_gender":filter_gender},
             success: function (data) {
-                alert(data);
+                updateTableContent(data);
             }
         });
+    };
 
-
+    function updateTableContent(scans) {
+        for (var i = 0; i < scans.length; i++) {
+            $("table").append('<tr data-id="'+scans[i].id+'"><td>'+scans[i].id+'</td><td><a target="_blank" href="/brain_images/'+scans[i].path1+'">'+scans[i].path1+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path2+'">'+scans[i].path2+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path3+'">'+scans[i].path3+'</a></td></tr>');
+        }
     }
 </script>
 </body>

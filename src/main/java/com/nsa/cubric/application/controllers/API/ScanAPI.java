@@ -150,7 +150,7 @@ public class ScanAPI {
         }
     }
 
-    @PostMapping(value = "/getScansFiltered")
+    @GetMapping(value = "/getScansFiltered")
     public ResponseEntity getScansFiltered(
             @RequestHeader(value = "filter_min_responses") String filterMinResponses,
             @RequestHeader(value = "filter_percentage_good") String filterPercentageGood,
@@ -158,7 +158,12 @@ public class ScanAPI {
             @RequestHeader(value = "filter_postcode") String filterPostcode,
             @RequestHeader(value = "filter_gender") String filterGender) {
 
-        LOG.debug("Handling get request to /getScansFiltered with headers");
+        LOG.debug("Handling get request to /getScansFiltered with headers, " +
+                "filter_min_responses: " + filterMinResponses +
+                "filter_percentage_good: " + filterPercentageGood +
+                "filter_age_range: " + filterAgeRange +
+                "filter_postcode: " + filterPostcode +
+                "filter_gender" + filterGender);
 
         List<Scan> scans = scanService.getAll();
 
