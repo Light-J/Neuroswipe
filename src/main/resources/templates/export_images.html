@@ -88,10 +88,17 @@
                 "filter_postcode":filter_postcode,
                 "filter_gender":filter_gender},
             success: function (data) {
+                clearTable();
                 updateTableContent(data);
             }
         });
     };
+
+    function clearTable(){
+        var new_tbody = document.createElement('tbody');
+        var old_tbody = document.getElementById("scan_table_body");
+        old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
+    }
 
     function updateTableContent(scans) {
         for (var i = 0; i < scans.length; i++) {
