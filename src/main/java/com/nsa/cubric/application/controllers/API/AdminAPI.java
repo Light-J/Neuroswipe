@@ -43,8 +43,4 @@ public class AdminAPI {
         }
     }
 
-    @PostMapping(value = "/updateResultSet")
-    public void getUpdatedResults() {
-
-    }
 }

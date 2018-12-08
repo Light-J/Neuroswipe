@@ -143,4 +143,13 @@ public class ScanAPI {
             registry.addResourceHandler("/brain_images/**").addResourceLocations("file:brain_images/");
         }
     }
+
+    @PostMapping(value = "/getScansFiltered")
+    public ResponseEntity getScansFiltered() {
+
+        List<Scan> scans = scanService.getAll();
+
+        return new ResponseEntity<>(scans, null, HttpStatus.OK);
+    }
+
 }
