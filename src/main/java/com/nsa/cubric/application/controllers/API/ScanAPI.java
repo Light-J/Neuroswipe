@@ -1,7 +1,10 @@
 package com.nsa.cubric.application.controllers.API;
+import com.nsa.cubric.application.controllers.RegistrationAccount;
 import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import com.nsa.cubric.application.services.LoggedUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.nsa.cubric.application.services.ScanService;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -34,6 +37,9 @@ import java.io.File;
 @RequestMapping("scans")
 @RestController
 public class ScanAPI {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RegistrationAccount.class);
+
 
     private UserResponseServiceStatic responsesService;
 
@@ -145,11 +151,17 @@ public class ScanAPI {
     }
 
     @PostMapping(value = "/getScansFiltered")
-    public ResponseEntity getScansFiltered() {
+    public ResponseEntity getScansFiltered(
+            @RequestHeader(value = "filter_min_responses") String filterMinResponses,
+            @RequestHeader(value = "filter_percentage_good") String filterPercentageGood,
+            @RequestHeader(value = "filter_age_range") String filterAgeRange,
+            @RequestHeader(value = "filter_postcode") String filterPostcode,
+            @RequestHeader(value = "filter_gender") String filterGender) {
+
+        LOG.debug("Handling get request to /getScansFiltered with headers");
 
         List<Scan> scans = scanService.getAll();
 
         return new ResponseEntity<>(scans, null, HttpStatus.OK);
     }
-
 }

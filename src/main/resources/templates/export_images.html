@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary">Update</button>
+            <button class="btn btn-primary" onclick="updateTable()">Update</button>
             <button class="btn btn-primary">Download</button>
         </div>
     </div>
@@ -70,5 +70,29 @@
 
 
     </div>
+<script>
+    var updateTable = function () {
+        var filter_min_responses = document.getElementById("numResponses").value;
+        var filter_percentage_good = document.getElementById("goodPercentage").value;
+        var filter_age_range = document.getElementById("ageRange").value;
+        var filter_postcode = document.getElementById("postcode").value;
+        var filter_gender = document.getElementById("gender").value;
+
+        $.ajax({
+            url: '/scans/getScansFiltered',
+            type: 'POST',
+            headers: {"filter_min_responses":filter_min_responses,
+                "filter_percentage_good":filter_percentage_good,
+                "filter_age_range":filter_age_range,
+                "filter_postcode":filter_postcode,
+                "filter_gender":filter_gender},
+            success: function (data) {
+                alert(data);
+            }
+        });
+
+
+    }
+</script>
 </body>
 </html>
