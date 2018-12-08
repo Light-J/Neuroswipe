@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,21 +35,21 @@ public class AccountControllerTest {
 
     AccountDTO testAccount;
 
+    Account validAccount;
+
     @Autowired
     MockMvc mvc;
 
     @MockBean
     AccountService accountService;
 
-    @MockBean
-    LoggedUserService loggedUserService;
-
 
 
     @Before
     public void setupBasicAccountDTO() {
+        validAccount = new Account(1L, "test@user.com", "pass", "user");
         testAccount = new AccountDTO();
-        testAccount.setEmail("test@nsa.com");
+        testAccount.setEmail("test@user.com");
         testAccount.setPassword("Password");
         testAccount.setMatchingPassword("Password");
     }
@@ -58,7 +59,7 @@ public class AccountControllerTest {
     @Test
     public void submitRegistrationInvalidPasswords() throws Exception{
         this.mvc.perform(post("/registration/account")
-                .param("email", "test@nsa.com")
+                .param("email", "test@user.com")
                 .param("password", "Password")
                 .param("matchingPassword", "NotMatching"))
                 .andExpect(model().hasErrors())
@@ -78,7 +79,6 @@ public class AccountControllerTest {
 
     @Test
     public void submitRegistrationValid() throws Exception{
-        Account validAccount = new Account(1L, "test@nsa", "pass", "user");
 
         given(accountService.registerNewUserAccount(testAccount)).willReturn(validAccount);
 
@@ -92,11 +92,10 @@ public class AccountControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "test@user.com")
     public void submitDetailsInvalidPostCode() throws Exception{
 
-        Account testAccount = new Account(1L, "test@user.com", "pass", "user");
-        given(loggedUserService.getUsername()).willReturn("test@user.com");
-        given(accountService.findByEmail("test@user.com")).willReturn(testAccount);
+        given(accountService.findByEmail("test@user.com")).willReturn(validAccount);
 
         this.mvc.perform(post("/registration/profile")
                 .param("postcode", "AAAA"))
