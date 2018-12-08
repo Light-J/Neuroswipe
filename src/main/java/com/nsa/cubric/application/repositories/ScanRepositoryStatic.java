@@ -3,6 +3,7 @@ package com.nsa.cubric.application.repositories;
 import com.nsa.cubric.application.domain.Scan;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ScanRepositoryStatic {
@@ -11,4 +12,5 @@ public interface ScanRepositoryStatic {
     public void updateKnownGood(Long id, Boolean knownGood);
     public List<Scan> getAll();
     public Optional<Scan> getNext();
+    List<Scan> getScansFiltered(Map Filters);
 }
