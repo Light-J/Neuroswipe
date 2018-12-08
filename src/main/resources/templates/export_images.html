@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.js"></script>
+    <title>Admin | SwipeRightBrains</title>
+</head>
+<body>
+
+<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+
+<div class="container">
+
+    <h1>Get image set</h1>
+    <div>
+        <h3>Enter your criteria below for what your image set will have</h3>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="numResponses">Minimum number of responses</label>
+                <div class="col-sm-10">
+                    <input id="numResponses" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="goodPercentage">Good percentage</label>
+                <div class="col-sm-10">
+                    <input id="goodPercentage" class="form-control"/>
+                </div>
+            </div>
+
+            <h3>Filter your images using the criteria below</h3>
+            <p>This will filter the responses for individual groups</p>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <label class="control-label col-sm-2" for="ageRange">Age range</label>
+                    <div class="col-sm-10">
+                        <input id="ageRange" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <label class="control-label col-sm-2" for="postcode">Postcode</label>
+                    <div class="col-sm-10">
+                        <input id="postcode" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <label class="control-label col-sm-2" for="gender">Gender</label>
+                    <div class="col-sm-10">
+                        <input id="gender" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary">Update</button>
+            <button class="btn btn-primary">Download</button>
+        </div>
+    </div>
+
+
+
+</div>
+</body>
+</html>

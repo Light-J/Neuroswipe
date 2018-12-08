@@ -42,4 +42,9 @@ public class AdminAPI {
             return 0L;
         }
     }
+
+    @PostMapping(value = "/updateResultSet")
+    public void getUpdatedResults() {
+
+    }
 }
