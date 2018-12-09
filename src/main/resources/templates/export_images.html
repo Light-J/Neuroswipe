@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="/js/bootstrap.js"></script>
+    <script src="/js/jszip.js"></script>
     <title>Admin | SwipeRightBrains</title>
 </head>
 <body>
@@ -33,7 +34,7 @@
             </div>
 
             <button class="btn btn-primary" onclick="updateTable()">Update</button>
-            <button class="btn btn-primary">Download</button>
+            <button class="btn btn-primary" onclick="downloadImages()">Download</button>
         </div>
         <div>
             <table class="table" id="scan_table">
@@ -73,6 +74,46 @@
             $("table").append('<tr data-id="'+scans[i].id+'"><td>'+scans[i].id+'</td><td><a target="_blank" href="/brain_images/'+scans[i].path1+'">'+scans[i].path1+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path2+'">'+scans[i].path2+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path3+'">'+scans[i].path3+'</a></td></tr>');
         }
     }
+
+    function downloadImages() {
+        var filter_min_responses = document.getElementById("numResponses").value;
+        var filter_percentage_good = document.getElementById("goodPercentage").value;
+
+        downloadFile("/scans/downloadScansFiltered", {"filter_min_responses":filter_min_responses, "filter_percentage_good":filter_percentage_good}, "images.zip")
+    }
+
+    //From https://stackoverflow.com/questions/38192854/recieving-a-zip-file-as-response-on-ajax-request
+    function downloadFile(url, headers, filename) {
+
+        function handleFile(data) {
+            console.log(this.response || data);
+            var file = URL.createObjectURL(this.response || data);
+            filename = filename || url.split("/").pop();
+            var a = document.createElement("a");
+            // if `a` element has `download` property
+            if ("download" in a) {
+                a.href = file;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                // use `window.open()` if `download` not defined at `a` element
+                window.open(file)
+            }
+        }
+
+        var request = new XMLHttpRequest();
+        request.responseType = "blob";
+        request.onload = handleFile;
+        request.open("GET", url);
+        for (var prop in headers) {
+            request.setRequestHeader(prop, headers[prop]);
+        }
+
+        request.send();
+    }
+
 </script>
 </body>
 </html>
