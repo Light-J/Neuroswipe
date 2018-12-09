@@ -62,7 +62,7 @@
         </div>
     </div>
     <div>
-        <table class="table">
+        <table class="table" id="scan_table">
             <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th></tr>
             <div id="scan_table_body"></div>
         </table>
@@ -89,9 +89,7 @@
     };
 
     function clearTable(){
-        var new_tbody = document.createElement('tbody');
-        var old_tbody = document.getElementById("scan_table_body");
-        old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
+        $("#scan_table tr").remove();
     }
 
     function updateTableContent(scans) {
