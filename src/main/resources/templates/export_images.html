@@ -80,7 +80,7 @@
             url: '/scans/getScansFiltered',
             type: 'GET',
             headers: {"filter_min_responses":filter_min_responses,
-                "filter_percentage_good":filter_percentage_good,
+                "filter_percentage_good":filter_percentage_good},
             success: function (data) {
                 clearTable();
                 updateTableContent(data);

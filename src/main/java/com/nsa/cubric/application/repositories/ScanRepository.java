@@ -73,8 +73,8 @@ public class ScanRepository implements ScanRepositoryStatic {
     @Override
     public List<Scan> getScansFiltered(int minResponses, int percentageGood){
         return jdbcTemplate.query(
-                "SELECT id, path1, path2, path3 \n" +
-                        "FROM scans WHERE id in \n" +
+                "SELECT * \n" +
+                        "FROM scans WHERE known_good is null AND id in \n" +
                         "   (SELECT scanid FROM userratings\n" +
                         "       GROUP BY scanid \n" +
                         "       HAVING count(scanid) > ? AND sum(response)/count(scanid)*100 > ?);",
