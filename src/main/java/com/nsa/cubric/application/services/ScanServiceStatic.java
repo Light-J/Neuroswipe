@@ -12,5 +12,5 @@ public interface ScanServiceStatic {
     void updateKnownGood(Long id, Boolean knownGood);
     List<Scan> getAll();
     Optional<Scan> getNext();
-    List<Scan> getScansFiltered(Map filters);
+    List<Scan> getScansFiltered(int minResponses, int percentageGood);
 }

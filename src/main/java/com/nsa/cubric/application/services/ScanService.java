@@ -45,7 +45,7 @@ public class ScanService implements ScanServiceStatic {
     }
 
     @Override
-    public List<Scan> getScansFiltered(Map filters){
-        return scanRepository.getScansFiltered(filters);
+    public List<Scan> getScansFiltered(int minResponses, int percentageGood){
+        return scanRepository.getScansFiltered(minResponses, percentageGood);
     }
 }

@@ -71,10 +71,14 @@ public class ScanRepository implements ScanRepositoryStatic {
     }
 
     @Override
-    public List<Scan> getScansFiltered(Map Filters){
+    public List<Scan> getScansFiltered(int minResponses, int percentageGood){
         return jdbcTemplate.query(
-                "CALL stored_procedure()", scanMapper
+                "SELECT id, path1, path2, path3 \n" +
+                        "FROM scans WHERE id in \n" +
+                        "   (SELECT scanid FROM userratings\n" +
+                        "       GROUP BY scanid \n" +
+                        "       HAVING count(scanid) > ? AND sum(response)/count(scanid)*100 > ?);",
+                new Object[]{minResponses, percentageGood}, scanMapper
         );
-
     }
 }

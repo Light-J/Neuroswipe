@@ -148,17 +148,11 @@ public class ScanAPI {
     @GetMapping(value = "/getScansFiltered")
     public ResponseEntity getScansFiltered(
             @RequestHeader(value = "filter_min_responses") String filterMinResponses,
-            @RequestHeader(value = "filter_percentage_good") String filterPercentageGood,
-            @RequestHeader(value = "filter_age_range") String filterAgeRange,
-            @RequestHeader(value = "filter_postcode") String filterPostcode,
-            @RequestHeader(value = "filter_gender") String filterGender) {
+            @RequestHeader(value = "filter_percentage_good") String filterPercentageGood) {
 
         Map<String, String> filters = new HashMap<>();
         filters.put("filter_min_responses", filterMinResponses);
         filters.put("filter_percentage_good", filterPercentageGood);
-        filters.put("filter_age_range", filterAgeRange);
-        filters.put("filter_postcode", filterPostcode);
-        filters.put("filter_gender", filterGender);
 
         List<Scan> scans = scanService.getAll();
 

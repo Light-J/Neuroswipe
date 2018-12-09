@@ -12,5 +12,5 @@ public interface ScanRepositoryStatic {
     public void updateKnownGood(Long id, Boolean knownGood);
     public List<Scan> getAll();
     public Optional<Scan> getNext();
-    List<Scan> getScansFiltered(Map Filters);
+    List<Scan> getScansFiltered(int minResponses, int percentageGood);
 }
