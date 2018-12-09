@@ -32,41 +32,17 @@
                 </div>
             </div>
 
-            <h3>Filter your images using the criteria below</h3>
-            <p>This will filter the responses for individual groups</p>
-
-            <div class="row">
-                <div class="col-xs-4">
-                    <label class="control-label col-sm-2" for="ageRange">Age range</label>
-                    <div class="col-sm-10">
-                        <input id="ageRange" class="form-control"/>
-                    </div>
-                </div>
-
-                <div class="col-xs-4">
-                    <label class="control-label col-sm-2" for="postcode">Postcode</label>
-                    <div class="col-sm-10">
-                        <input id="postcode" class="form-control"/>
-                    </div>
-                </div>
-
-                <div class="col-xs-4">
-                    <label class="control-label col-sm-2" for="gender">Gender</label>
-                    <div class="col-sm-10">
-                        <input id="gender" class="form-control"/>
-                    </div>
-                </div>
-            </div>
             <button class="btn btn-primary" onclick="updateTable()">Update</button>
             <button class="btn btn-primary">Download</button>
         </div>
+        <div>
+            <table class="table" id="scan_table">
+                <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th></tr>
+                <div id="scan_table_body"></div>
+            </table>
+        </div>
     </div>
-    <div>
-        <table class="table" id="scan_table">
-            <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th></tr>
-            <div id="scan_table_body"></div>
-        </table>
-    </div>
+
 
 
 

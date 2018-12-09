@@ -3,6 +3,7 @@ import com.nsa.cubric.application.controllers.RegistrationAccount;
 import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import com.nsa.cubric.application.services.LoggedUserService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +31,8 @@ import com.nsa.cubric.application.domain.Scan;
 import com.nsa.cubric.application.services.UserResponseServiceStatic;
 
 import java.util.*;
-import java.io.File;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RequestMapping("scans")
 @RestController
@@ -153,5 +155,49 @@ public class ScanAPI {
         List<Scan> scans = scanService.getScansFiltered(filterMinResponses, filterPercentageGood);
 
         return new ResponseEntity<>(scans, null, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/downloadScansFiltered", produces = "application/zip")
+    public byte[] downloadScansFiltered(
+            HttpServletResponse response,
+            @RequestParam(value = "filter_min_responses") int filterMinResponses,
+            @RequestParam(value = "filter_percentage_good") int filterPercentageGood) throws IOException {
+
+        response.addHeader("Content-Disposition", "attachment; filename=\"images.zip\"");
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteArrayOutputStream);
+        ZipOutputStream zipOutputStream = new ZipOutputStream(bufferedOutputStream);
+
+        List<Scan> allScans = scanService.getScansFiltered(filterMinResponses, filterPercentageGood);
+
+        ArrayList<File> files = new ArrayList<>();
+
+        for (Scan scan:allScans) {
+            files.add(new File(scan.getPath1()));
+            files.add(new File(scan.getPath2()));
+            files.add(new File(scan.getPath3()));
+        }
+        //packing files
+        for (File file : files) {
+            //new zip entry and copying inputstream with file to zipOutputStream, after all closing streams
+            zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            IOUtils.copy(fileInputStream, zipOutputStream);
+
+            fileInputStream.close();
+            zipOutputStream.closeEntry();
+        }
+
+        if (zipOutputStream != null) {
+            zipOutputStream.finish();
+            zipOutputStream.flush();
+            IOUtils.closeQuietly(zipOutputStream);
+        }
+        IOUtils.closeQuietly(bufferedOutputStream);
+        IOUtils.closeQuietly(byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+
     }
 }
