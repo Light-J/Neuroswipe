@@ -37,10 +37,7 @@
             <button class="btn btn-primary" onclick="downloadImages()">Download</button>
         </div>
         <div>
-            <table class="table" id="scan_table">
-                <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th></tr>
-                <div id="scan_table_body"></div>
-            </table>
+
         </div>
     </div>
 
@@ -48,6 +45,10 @@
 
 
     </div>
+<table class="table" id="scan_table">
+    <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th></tr>
+    <div id="scan_table_body"></div>
+</table>
 <script>
     var updateTable = function () {
         var filter_min_responses = document.getElementById("numResponses").value;

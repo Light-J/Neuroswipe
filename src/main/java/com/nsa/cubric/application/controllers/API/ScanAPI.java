@@ -146,8 +146,8 @@ public class ScanAPI {
 
     @GetMapping(value = "/getScansFiltered")
     public ResponseEntity getScansFiltered(
-            @RequestHeader(value = "filter_min_responses") int filterMinResponses,
-            @RequestHeader(value = "filter_percentage_good") int filterPercentageGood) {
+            @RequestHeader(value = "filter_min_responses") Integer filterMinResponses,
+            @RequestHeader(value = "filter_percentage_good") Integer filterPercentageGood) {
 
         List<Scan> scans = scanService.getScansFiltered(filterMinResponses, filterPercentageGood);
 
@@ -157,8 +157,9 @@ public class ScanAPI {
     @RequestMapping(value = "/downloadScansFiltered", produces = "application/zip")
     public byte[] downloadScansFiltered(
             HttpServletResponse response,
-            @RequestHeader(value = "filter_min_responses") int filterMinResponses,
-            @RequestHeader(value = "filter_percentage_good") int filterPercentageGood) throws IOException {
+            @RequestHeader(value = "filter_min_responses") Integer filterMinResponses,
+            @RequestHeader(value = "filter_percentage_good") Integer filterPercentageGood) throws IOException {
+
 
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=download.zip");

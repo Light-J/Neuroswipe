@@ -45,7 +45,13 @@ public class ScanService implements ScanServiceStatic {
     }
 
     @Override
-    public List<Scan> getScansFiltered(int minResponses, int percentageGood){
+    public List<Scan> getScansFiltered(Integer minResponses, Integer percentageGood){
+        if (minResponses == null){
+            minResponses = 0;
+        }
+        if (percentageGood == null){
+            percentageGood = 0;
+        }
         return scanRepository.getScansFiltered(minResponses, percentageGood);
     }
 }
