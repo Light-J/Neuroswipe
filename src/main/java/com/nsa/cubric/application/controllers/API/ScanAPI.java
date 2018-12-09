@@ -1,13 +1,11 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.controllers.RegistrationAccount;
 import com.nsa.cubric.application.domain.*;
-import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.LoggedUserService;
+import com.nsa.cubric.application.services.*;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.nsa.cubric.application.services.ScanService;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nsa.cubric.application.domain.Scan;
-import com.nsa.cubric.application.services.UserResponseServiceStatic;
 
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -171,24 +168,21 @@ public class ScanAPI {
 
         List<Scan> allScans = scanService.getScansFiltered(filterMinResponses, filterPercentageGood);
 
-        ArrayList<File> files = new ArrayList<>();
+        ArrayList<File> top_files = new ArrayList<>();
+        ArrayList<File> side_files = new ArrayList<>();
+        ArrayList<File> front_files = new ArrayList<>();
 
         for (Scan scan:allScans) {
-            files.add(new File("brain_images\\" + scan.getPath1()));
-//            files.add(new File("brain_images\\" + scan.getPath2()));
-//            files.add(new File("brain_images\\" + scan.getPath3()));
+            front_files.add(new File("brain_images\\" + scan.getPath1()));
+            side_files.add(new File("brain_images\\" + scan.getPath2()));
+            top_files.add(new File("brain_images\\" + scan.getPath3()));
         }
         //packing files
-        for (File file : files) {
-            //new zip entry and copying inputstream with file to zipOutputStream, after all closing streams
-            zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
-            FileInputStream fileInputStream = new FileInputStream(file);
-
-            IOUtils.copy(fileInputStream, zipOutputStream);
-
-            fileInputStream.close();
-            zipOutputStream.closeEntry();
-        }
+        for (int i = 0; i<front_files.size(); i++) {
+            FileHelper.addFileToOutputStream(zipOutputStream, front_files.get(i), front_files.get(i).getName().replace(".jpg", "")+"_front.jpg");
+            FileHelper.addFileToOutputStream(zipOutputStream, top_files.get(i), top_files.get(i).getName().replace(".jpg", "")+"_top.jpg");
+            FileHelper.addFileToOutputStream(zipOutputStream, side_files.get(i), side_files.get(i).getName().replace(".jpg", "")+"_side.jpg");
+            }
 
         if (zipOutputStream != null) {
             zipOutputStream.finish();
@@ -200,4 +194,5 @@ public class ScanAPI {
         return byteArrayOutputStream.toByteArray();
 
     }
+
 }
