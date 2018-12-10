@@ -3,7 +3,6 @@ package com.nsa.cubric.application.services;
 import com.nsa.cubric.application.controllers.AccountDTO;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.repositories.AccountRepository;
-import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +31,7 @@ public class AccountServicesTest {
         accountToAdd.setEmail("test@nsa.com");
 
         Account alreadyExists = new Account(1L, "test@nsa.com", "pass", "user");
-        given(accountRepository.findByEmail("test@nsa.com")).willReturn(alreadyExists);
+        given(accountRepository.getAccountByEmail("test@nsa.com")).willReturn(alreadyExists);
 
         accountService.registerNewUserAccount(accountToAdd);
     }

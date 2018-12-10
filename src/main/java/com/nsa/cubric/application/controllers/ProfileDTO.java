@@ -1,11 +1,6 @@
 package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.services.registrationUtils.FirstFourLettersPostCode;
-import com.nsa.cubric.application.services.registrationUtils.PasswordMatches;
-import com.nsa.cubric.application.services.registrationUtils.ValidEmail;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 
 public class ProfileDTO {
@@ -16,7 +11,7 @@ public class ProfileDTO {
     @FirstFourLettersPostCode
     String postcode;
 
-    long loggedInUserId;
+    Long userAccountId;
 
     Integer age;
     String gender;
@@ -24,10 +19,10 @@ public class ProfileDTO {
     public ProfileDTO() {
     }
 
-    public ProfileDTO(String username, String postcode, long loggedInUserId, Integer age, String gender) {
+    public ProfileDTO(String username, String postcode, Long userAccountId, Integer age, String gender) {
         this.username = username;
         this.postcode = postcode;
-        this.loggedInUserId = loggedInUserId;
+        this.userAccountId = userAccountId;
         this.age = age;
         this.gender = gender;
     }
@@ -87,11 +82,11 @@ public class ProfileDTO {
         this.gender = gender;
     }
 
-    public long getLoggedInUserId() {
-        return loggedInUserId;
+    public long getUserAccountId() {
+        return userAccountId;
     }
 
-    public void setLoggedInUserId(long loggedInUserId) {
-        this.loggedInUserId = loggedInUserId;
+    public void setUserAccountId(long userAccountId) {
+        this.userAccountId = userAccountId;
     }
 }
