@@ -20,19 +20,12 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     private AccountRepository accountRepository;
-//    @Autowired
-//    private UserRolesRepository userRolesRepository;
+
     @Autowired
     private PasswordEncoder encoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-
-        System.out.println("password encoded = " + encoder.encode("password"));
-
-
-        System.out.println("EMAIL: ");
-        System.out.println(email);
         Account user = accountRepository.getAccountByEmail(email);
         if (user == null) {
             System.out.println("EMAIL NOT FOUND");

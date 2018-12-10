@@ -75,14 +75,7 @@ public class RegistrationAccount {
 
             return new ModelAndView("redirect:/login", "account", accountDTO);
         }
-
-
-
-
     }
-
-
-
 
     private Account createUserAccount(AccountDTO accountDTO, BindingResult result){
         Account registered = null;

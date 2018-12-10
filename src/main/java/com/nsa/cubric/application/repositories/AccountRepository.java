@@ -1,7 +1,7 @@
 package com.nsa.cubric.application.repositories;
 
 import com.nsa.cubric.application.controllers.AccountDTO;
-import com.nsa.cubric.application.controllers.ProfileDTO;
+import com.nsa.cubric.application.controllers.Profile;
 import com.nsa.cubric.application.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,7 +15,7 @@ import java.util.List;
 public class AccountRepository implements AccountRepositoryStatic {
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Account> accountMapper;
-    private RowMapper<ProfileDTO> profileMapper;
+    private RowMapper<Profile> profileMapper;
 
     @Autowired
     public AccountRepository(JdbcTemplate aTemplate) {
@@ -28,8 +28,8 @@ public class AccountRepository implements AccountRepositoryStatic {
                 rs.getString("role")
         );
 
-        profileMapper = (rs, i) -> new ProfileDTO(
-                rs.getInt("id"),
+        profileMapper = (rs, i) -> new Profile(
+                rs.getLong("id"),
                 rs.getString("username"),
                 rs.getString("postcode"),
                 rs.getInt("age"),
@@ -81,14 +81,14 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public void insertNewProfile(ProfileDTO profile){
+    public void insertNewProfile(Profile profile){
         jdbcTemplate.update(
                 "INSERT INTO userprofiles (username, postcode, useraccountid, age, gender) VALUES (?,?,?,?,?)",
         profile.getUsername(), profile.getPostcode(), profile.getUserAccountId(), profile.getAge(), profile.getGender());
     }
 
     @Override
-    public boolean updateProfile(ProfileDTO profile){
+    public boolean updateProfile(Profile profile){
         try {
             jdbcTemplate.update(
                     "UPDATE userprofiles SET username=?, postcode=?, age=?, gender=? WHERE id=?",
@@ -102,30 +102,22 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public ProfileDTO getProfileByAccountId(Long accountId){
-        try{
+    public Profile getProfileByAccountId(Long accountId){
             return jdbcTemplate.queryForObject(
-                    "SELECT id, username, postcode, age, gender FROM userprofiles WHERE useraccountid = ?",
+                    "SELECT id, username, postcode, age, gender FROM userprofiles WHERE id = ?",
                     new Object[]{accountId},profileMapper);
-        }catch (EmptyResultDataAccessException e){
-            return null;
-        }
     }
 
     @Override
-    public ProfileDTO getProfileByEmail(String email) {
-        try {
-            Account account = getAccountByEmail(email);
-            return getProfileByAccountId(account.getId());
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+    public Profile getProfileByEmail(String email) {
+        Account account = getAccountByEmail(email);
+        return getProfileByAccountId(account.getId());
     }
 
     @Override
     public boolean removeUser(Long userId){
         int rowsAffected = jdbcTemplate.update("DELETE FROM useraccounts WHERE id=?;",(userId));
-        jdbcTemplate.update("DELETE FROM userprofiles WHERE useraccountid=?",(userId));
+        jdbcTemplate.update("DELETE FROM userprofiles WHERE id=?",(userId));
         return rowsAffected == 1;
     }
 
