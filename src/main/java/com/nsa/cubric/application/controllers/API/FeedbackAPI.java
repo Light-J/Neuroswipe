@@ -5,6 +5,8 @@ import com.nsa.cubric.application.domain.Feedback;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import com.nsa.cubric.application.services.FeedbackServiceStatic;
 import com.nsa.cubric.application.services.LoggedUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,6 @@ import java.util.List;
 @RequestMapping("/feedback")
 @RestController
 public class FeedbackAPI {
-
     private LoggedUserService loggedUserService;
     private AccountServiceStatic accountService;
     private FeedbackServiceStatic feedbackService;
@@ -32,7 +33,7 @@ public class FeedbackAPI {
      * requests to /feedback.
      * @return Boolean true indicating success.
      */
-    @PostMapping(value = "/")
+    @PostMapping(value = "/", produces = "application/json")
     public ResponseEntity addFeedback(@RequestParam(value = "feedbackText") String feedbackText) {
         if(loggedUserService.getUsername() == null){
             return new ResponseEntity<>(false, null, HttpStatus.FORBIDDEN);
