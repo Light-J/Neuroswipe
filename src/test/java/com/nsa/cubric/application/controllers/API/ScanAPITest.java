@@ -60,6 +60,7 @@ public class ScanAPITest {
 	}
 
 	@Test
+	@WithMockUser(username = "test@user.com")
 	public void storeInvalidDecisionTest() throws Exception {
 
 		this.mvc.perform(post("/scans/save")
