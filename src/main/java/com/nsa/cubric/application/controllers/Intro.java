@@ -12,9 +12,9 @@ public class Intro {
     private static final Logger LOG = LoggerFactory.getLogger(Intro.class);
 
     //Handles get request for homepage
-    @RequestMapping(path = "/home")
+    @RequestMapping(path = "/")
     public String homepage() {
-        LOG.debug("Handling GET request to /home");
+        LOG.debug("Handling GET request to /");
         return "home";
     }
 }
