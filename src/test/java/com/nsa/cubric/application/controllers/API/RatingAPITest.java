@@ -1,11 +1,9 @@
 package com.nsa.cubric.application.controllers.API;
 
-import com.nsa.cubric.application.controllers.AccountDTO;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.UserRating;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import com.nsa.cubric.application.services.UserRatingService;
-import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.security.test.context.support.WithMockUser;
@@ -53,7 +50,7 @@ public class RatingAPITest {
 		userRating.setScanId(1);
 		userRating.setResponse(true);
 
-		given(accountService.findByEmail("user@test.com")).willReturn(testAccount);
+		given(accountService.getAccountByEmail("user@test.com")).willReturn(testAccount);
 	}
 
 	@Test

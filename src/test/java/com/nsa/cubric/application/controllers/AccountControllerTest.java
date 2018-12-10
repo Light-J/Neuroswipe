@@ -2,24 +2,14 @@ package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.AccountService;
-import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.LoggedUserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -95,7 +85,7 @@ public class AccountControllerTest {
     @WithMockUser(username = "test@user.com")
     public void submitDetailsInvalidPostCode() throws Exception{
 
-        given(accountService.findByEmail("test@user.com")).willReturn(validAccount);
+        given(accountService.getAccountByEmail("test@user.com")).willReturn(validAccount);
 
         this.mvc.perform(post("/registration/profile")
                 .param("postcode", "AAAA"))

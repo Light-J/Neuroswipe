@@ -1,17 +1,12 @@
 package com.nsa.cubric.application.controllers.API;
-import com.nsa.cubric.application.controllers.RegistrationAccount;
 import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.services.*;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import com.nsa.cubric.application.services.ScanService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nsa.cubric.application.domain.Scan;
 
 import java.util.*;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @RequestMapping("scans")
@@ -92,7 +86,7 @@ public class ScanAPI {
     public Boolean storeDecision(@RequestParam("scanId") Integer scanId,
                                  @RequestParam("goodBrain") Boolean goodBrain) {
 
-        Account loggedInUser = accountService.findByEmail(loggedUserService.getUsername());
+        Account loggedInUser = accountService.getAccountByEmail(loggedUserService.getUsername());
         UserResponse response = new UserResponse();
         response.setUserProfileId(loggedInUser.getId());
         response.setScanId(scanId);

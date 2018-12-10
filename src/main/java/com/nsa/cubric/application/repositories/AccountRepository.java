@@ -38,11 +38,24 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public Account findByEmail(String email){
+    public Account getAccountByEmail(String email){
         try{
             return jdbcTemplate.queryForObject(
                     "select id, email, password, role from useraccounts WHERE email = ?",
                     new Object[]{email},accountMapper);
+
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
+    }
+
+    @Override
+    public Account getAccountById(Long id){
+        try{
+            return jdbcTemplate.queryForObject(
+                    "select id, email, password, role from useraccounts WHERE id = ?",
+                    new Object[]{id},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
             return null;
@@ -60,7 +73,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public List<Account> getAll(){
+    public List<Account> getAllAccounts(){
         return jdbcTemplate.query(
                 "SELECT id, password, email, role FROM useraccounts",
                 new Object[]{},accountMapper
@@ -70,8 +83,8 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public void insertNewProfile(ProfileDTO profile){
         jdbcTemplate.update(
-                "INSERT INTO userprofiles (username, postcode, useraccountid, age, gender) values (?,?,?,?,?)",
-        profile.getUsername(), profile.getPostcode(), profile.getLoggedInUserId(), profile.getAge(), profile.getGender());
+                "INSERT INTO userprofiles (username, postcode, useraccountid, age, gender) VALUES (?,?,?,?,?)",
+        profile.getUsername(), profile.getPostcode(), profile.getUserAccountId(), profile.getAge(), profile.getGender());
     }
 
     @Override
@@ -89,25 +102,21 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public ProfileDTO getProfileByAccountID(long accountID){
+    public ProfileDTO getProfileByAccountId(Long accountId){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, username, postcode, age, gender from userprofiles WHERE useraccountid = ?",
-                    new Object[]{accountID},profileMapper);
-
+                    "SELECT id, username, postcode, age, gender FROM userprofiles WHERE useraccountid = ?",
+                    new Object[]{accountId},profileMapper);
         }catch (EmptyResultDataAccessException e){
             return null;
         }
-
     }
 
     @Override
     public ProfileDTO getProfileByEmail(String email) {
         try {
-            Account userAcount = findByEmail(email);
-
-            return getProfileByAccountID(userAcount.getId());
-
+            Account account = getAccountByEmail(email);
+            return getProfileByAccountId(account.getId());
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

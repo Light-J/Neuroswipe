@@ -6,20 +6,15 @@ import com.nsa.cubric.application.services.LoggedUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @Controller
 @RequestMapping(value = "/registration")
@@ -49,8 +44,8 @@ public class RegistrationDetails {
                                             ) {
 
         LOG.debug("Handling POST to /registration/profile");
-        Account loggedInUser = accountService.findByEmail(loggedUserService.getUsername());
-        profileDTO.setLoggedInUserId(loggedInUser.getId());
+        Account loggedInUser = accountService.getAccountByEmail(loggedUserService.getUsername());
+        profileDTO.setUserAccountId(loggedInUser.getId());
         accountService.registerNewUserProfile(profileDTO);
 
 

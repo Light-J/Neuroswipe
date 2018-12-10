@@ -38,8 +38,13 @@ public class Admin {
     }
 
     @GetMapping(value = "/export_images")
-    public String getExportImagesPage(){
+    public String getExportImagesPage() {
         return "export_images";
+    }
+
+    @GetMapping(value = "/feedback")
+    public String showFeedbackListPage() {
+        return "feedback_list";
     }
         
     @RequestMapping(value = "/noaccess", method=RequestMethod.GET)

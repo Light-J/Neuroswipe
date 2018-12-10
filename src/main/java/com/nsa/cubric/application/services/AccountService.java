@@ -1,22 +1,13 @@
 package com.nsa.cubric.application.services;
 
-import com.nsa.cubric.application.configurators.MyUserPrincipal;
 import com.nsa.cubric.application.controllers.AccountDTO;
 import com.nsa.cubric.application.controllers.ProfileDTO;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
-import java.util.List;
 
 import static com.nsa.cubric.application.configurators.WebSecurityConfig.passwordEncoder;
 
@@ -45,7 +36,7 @@ public class AccountService implements AccountServiceStatic {
         account.setPassword(passwordEncoder().encode(account.getPassword()));
         accountRepository.insertNewAccount(account);
 
-        return accountRepository.findByEmail(account.getEmail());
+        return accountRepository.getAccountByEmail(account.getEmail());
     }
 
     @Override
@@ -54,18 +45,18 @@ public class AccountService implements AccountServiceStatic {
     }
 
     @Override
-    public Account findByEmail(String email){
-        return accountRepository.findByEmail(email);
+    public Account getAccountByEmail(String email){
+        return accountRepository.getAccountByEmail(email);
     }
 
-
-
+    @Override
+    public Account getAccountById(Long id){
+        return accountRepository.getAccountById(id);
+    }
 
     //true if email exists in DB
     private boolean emailExist(String email) {
-        return (accountRepository.findByEmail(email) != null);
+        return (accountRepository.getAccountByEmail(email) != null);
 
     }
-
-
 }

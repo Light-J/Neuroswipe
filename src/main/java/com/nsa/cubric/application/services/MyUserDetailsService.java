@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +33,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
         System.out.println("EMAIL: ");
         System.out.println(email);
-        Account user = accountRepository.findByEmail(email);
+        Account user = accountRepository.getAccountByEmail(email);
         if (user == null) {
             System.out.println("EMAIL NOT FOUND");
             throw new UsernameNotFoundException(email);
