@@ -32,13 +32,18 @@
         <script>
             $(function() {
                 $("#feedbackForm").submit(function (e) {
+                    e.preventDefault();
                     $.ajax({
                         url: '/feedback/',
                         type: 'POST',
                         data: {"feedbackText": $("#feedbackText").val()},
                         success: function (data) {
-                            window.location.replace('/feedback/submitted')
-                        }
+                            window.location.replace('/userfeedback/submitted');
+                        },
+                        error: function(data){
+                            alert("There was an error storing your feedback. Please try again.")
+                        },
+                        dataType: 'json'
                     });
                 });
             });
