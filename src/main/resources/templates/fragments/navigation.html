@@ -39,6 +39,9 @@
 
             <ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
                 <li>
+                    <a class="navbar-link" href="/userfeedback/">Feedback</a>
+                </li>
+                <li>
                     <a class="navbar-link" href="/registration/profile" th:text="${#authentication.name}"></a>
                 </li>
                 <li>
