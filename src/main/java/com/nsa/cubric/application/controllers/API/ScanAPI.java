@@ -36,9 +36,7 @@ import java.io.File;
 public class ScanAPI {
 
     private UserResponseServiceStatic responsesService;
-
-    private Random randomGenerator;
-
+    
     @Autowired
     private ScanService scanService;
 
