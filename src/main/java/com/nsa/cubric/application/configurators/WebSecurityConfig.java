@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/scans/**/setKnownGood").hasAuthority("admin")
                 .antMatchers("/tutorial/**").hasAuthority("user")
                 .antMatchers("/practice/**").hasAuthority("user")
+                .antMatchers("/ratings/**").hasAuthority("user")
                 .antMatchers("/scans/**").authenticated()
                 .antMatchers("/changedetails/**").authenticated()
                 .anyRequest().permitAll()
