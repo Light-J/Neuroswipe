@@ -1,7 +1,7 @@
 package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.controllers.AccountDTO;
-import com.nsa.cubric.application.controllers.ProfileDTO;
+import com.nsa.cubric.application.controllers.Profile;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
@@ -21,27 +21,15 @@ public class AccountService implements AccountServiceStatic {
         accountRepository = aRepo;
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Transactional
     @Override
     public Account registerNewUserAccount(AccountDTO account) throws EmailExistsException {
         if(emailExist(account.getEmail())){
-                throw new EmailExistsException("Account already exists");
-
+            throw new EmailExistsException("Account already exists");
         }
         account.setPassword(passwordEncoder().encode(account.getPassword()));
         accountRepository.insertNewAccount(account);
-
         return accountRepository.getAccountByEmail(account.getEmail());
-    }
-
-    @Override
-    public void registerNewUserProfile(ProfileDTO profile){
-        accountRepository.insertNewProfile(profile);
     }
 
     @Override
@@ -50,11 +38,20 @@ public class AccountService implements AccountServiceStatic {
     }
 
     @Override
+    public Profile getProfileByEmail(String email){
+        return accountRepository.getProfileByEmail(email);
+    }
+
+    @Override
     public Account getAccountById(Long id){
         return accountRepository.getAccountById(id);
     }
 
-    //true if email exists in DB
+    @Override
+    public Boolean updateProfile(Profile profile) {
+        return accountRepository.updateProfile(profile);
+    }
+
     private boolean emailExist(String email) {
         return (accountRepository.getAccountByEmail(email) != null);
 

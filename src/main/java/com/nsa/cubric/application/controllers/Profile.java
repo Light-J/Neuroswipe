@@ -3,8 +3,8 @@ package com.nsa.cubric.application.controllers;
 import com.nsa.cubric.application.services.registrationUtils.FirstFourLettersPostCode;
 
 
-public class ProfileDTO {
-    Integer id;
+public class Profile {
+    Long id;
 
     String username;
 
@@ -16,10 +16,10 @@ public class ProfileDTO {
     Integer age;
     String gender;
 
-    public ProfileDTO() {
+    public Profile() {
     }
 
-    public ProfileDTO(String username, String postcode, Long userAccountId, Integer age, String gender) {
+    public Profile(String username, String postcode, Long userAccountId, Integer age, String gender) {
         this.username = username;
         this.postcode = postcode;
         this.userAccountId = userAccountId;
@@ -27,14 +27,14 @@ public class ProfileDTO {
         this.gender = gender;
     }
 
-    public ProfileDTO(String username, String postcode, Integer age, String gender) {
+    public Profile(String username, String postcode, Integer age, String gender) {
         this.username = username;
         this.postcode = postcode;
         this.age = age;
         this.gender = gender;
     }
 
-    public ProfileDTO(Integer id, String username, String postcode, Integer age, String gender) {
+    public Profile(Long id, String username, String postcode, Integer age, String gender) {
         this.id = id;
         this.username = username;
         this.postcode = postcode;
@@ -42,11 +42,11 @@ public class ProfileDTO {
         this.gender = gender;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
