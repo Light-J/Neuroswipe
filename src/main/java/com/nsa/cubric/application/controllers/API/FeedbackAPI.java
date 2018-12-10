@@ -12,22 +12,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/feedback")
+@RequestMapping("/feedback")
+@RestController
 public class FeedbackAPI {
 
+    private LoggedUserService loggedUserService;
+    private AccountServiceStatic accountService;
     private FeedbackServiceStatic feedbackService;
 
     @Autowired
-    public FeedbackAPI(FeedbackServiceStatic aRepo) {
-        feedbackService = aRepo;
+    public FeedbackAPI(LoggedUserService loggedUserService, AccountServiceStatic accountService, FeedbackServiceStatic feedbackService) {
+        this.loggedUserService = loggedUserService;
+        this.accountService = accountService;
+        this.feedbackService = feedbackService;
     }
-
-    @Autowired
-    LoggedUserService loggedUserService;
-
-    @Autowired
-    AccountServiceStatic accountService;
-
 
     /**
      * This method is accepts posted JSON containing feedback information. It responds to POST
@@ -35,11 +33,14 @@ public class FeedbackAPI {
      * @return Boolean true indicating success.
      */
     @PostMapping(value = "/")
-    public Boolean addFeedback(@RequestParam(value = "feedback") String feedbackText) {
+    public ResponseEntity addFeedback(@RequestParam(value = "feedbackText") String feedbackText) {
+        if(loggedUserService.getUsername() == null){
+            return new ResponseEntity<>(false, null, HttpStatus.FORBIDDEN);
+        }
         Account loggedInUser = accountService.findByEmail(loggedUserService.getUsername());
         Feedback feedback = new Feedback(null, loggedInUser.getId(), feedbackText);
         feedbackService.insertNewFeedback(feedback);
-        return true;
+        return new ResponseEntity<>(true, null, HttpStatus.OK);
     }
 
     /**
