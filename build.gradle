@@ -36,4 +36,5 @@ dependencies {
     compileOnly('org.projectlombok:lombok:1.18.4')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
+    compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
 }
