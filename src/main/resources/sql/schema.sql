@@ -120,6 +120,22 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- Table `brainschema`.`feedback`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `brainschema`.`userfeedback` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `userprofileid` INT(11) NULL DEFAULT NULL,
+  `feedback` TEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `userprofileid` (`userprofileid` ASC),
+  CONSTRAINT `userfeedback_ibfk_1`
+    FOREIGN KEY (`userprofileid`)
+    REFERENCES `brainschema`.`userprofiles` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

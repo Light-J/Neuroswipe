@@ -3,12 +3,10 @@ package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.UserResponse;
 import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.LoggedUserService;
 import com.nsa.cubric.application.services.UserResponseService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,7 +50,7 @@ public class ScanAPITest {
 	@WithMockUser(username = "test@user.com")
 	public void storeValidDecisionTest() throws Exception {
 
-		given(accountService.findByEmail("test@user.com")).willReturn(testAccount);
+		given(accountService.getAccountByEmail("test@user.com")).willReturn(testAccount);
 
 		this.mvc.perform(post("/scans/save")
 				.param("scanId", userResponse.getScanId().toString())

@@ -36,6 +36,16 @@ public class Admin {
     public String showUserManagementPage() {
         return "user_management";
     }
+
+    @GetMapping(value = "/export_images")
+    public String getExportImagesPage() {
+        return "export_images";
+    }
+
+    @GetMapping(value = "/feedback")
+    public String showFeedbackListPage() {
+        return "feedback_list";
+    }
         
     @RequestMapping(value = "/noaccess", method=RequestMethod.GET)
     public String showNoAccessPage(){

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -41,5 +42,16 @@ public class ScanService implements ScanServiceStatic {
     @Override
     public Optional<Scan> getNext(){
         return scanRepository.getNext();
+    }
+
+    @Override
+    public List<Scan> getScansFiltered(Integer minResponses, Integer percentageGood){
+        if (minResponses == null){
+            minResponses = 0;
+        }
+        if (percentageGood == null){
+            percentageGood = 0;
+        }
+        return scanRepository.getScansFiltered(minResponses, percentageGood);
     }
 }

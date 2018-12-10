@@ -39,7 +39,7 @@ public class AdminAPITest {
     @Before
     public void setupTest() {
         testAccount = new Account(1L, "test@account.com", "pass", "user");
-        given(accountService.findByEmail("test@account.com")).willReturn(testAccount);
+        given(accountService.getAccountByEmail("test@account.com")).willReturn(testAccount);
     }
 
 

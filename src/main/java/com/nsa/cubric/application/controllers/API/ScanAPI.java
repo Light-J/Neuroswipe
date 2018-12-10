@@ -1,22 +1,19 @@
 package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.*;
-import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.LoggedUserService;
+import com.nsa.cubric.application.services.*;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.nsa.cubric.application.services.ScanService;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,12 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nsa.cubric.application.domain.Scan;
-import com.nsa.cubric.application.services.UserResponseServiceStatic;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.io.File;
+import java.util.*;
+import java.util.zip.ZipOutputStream;
 
 @RequestMapping("scans")
 @RestController
@@ -90,7 +84,7 @@ public class ScanAPI {
     public Boolean storeDecision(@RequestParam("scanId") Integer scanId,
                                  @RequestParam("goodBrain") Boolean goodBrain) {
 
-        Account loggedInUser = accountService.findByEmail(loggedUserService.getUsername());
+        Account loggedInUser = accountService.getAccountByEmail(loggedUserService.getUsername());
         UserResponse response = new UserResponse();
         response.setUserProfileId(loggedInUser.getId());
         response.setScanId(scanId);
@@ -141,4 +135,57 @@ public class ScanAPI {
             registry.addResourceHandler("/brain_images/**").addResourceLocations("file:brain_images/");
         }
     }
+
+    @GetMapping(value = "/getScansFiltered")
+    public ResponseEntity getScansFiltered(
+            @RequestHeader(value = "filter_min_responses") Integer filterMinResponses,
+            @RequestHeader(value = "filter_percentage_good") Integer filterPercentageGood) {
+
+        List<Scan> scans = scanService.getScansFiltered(filterMinResponses, filterPercentageGood);
+
+        return new ResponseEntity<>(scans, null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/downloadScansFiltered", produces = "application/zip")
+    public byte[] downloadScansFiltered(
+            HttpServletResponse response,
+            @RequestHeader(value = "filter_min_responses") Integer filterMinResponses,
+            @RequestHeader(value = "filter_percentage_good") Integer filterPercentageGood) throws IOException {
+
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=download.zip");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteArrayOutputStream);
+        ZipOutputStream zipOutputStream = new ZipOutputStream(bufferedOutputStream);
+
+        List<Scan> allScans = scanService.getScansFiltered(filterMinResponses, filterPercentageGood);
+
+        ArrayList<File> top_files = new ArrayList<>();
+        ArrayList<File> side_files = new ArrayList<>();
+        ArrayList<File> front_files = new ArrayList<>();
+
+        for (Scan scan:allScans) {
+            front_files.add(new File("brain_images\\" + scan.getPath1()));
+            side_files.add(new File("brain_images\\" + scan.getPath2()));
+            top_files.add(new File("brain_images\\" + scan.getPath3()));
+        }
+        //packing files
+        for (int i = 0; i<front_files.size(); i++) {
+            FileHelper.addFileToOutputStream(zipOutputStream, front_files.get(i), front_files.get(i).getName().replace(".jpg", "")+"_front.jpg");
+            FileHelper.addFileToOutputStream(zipOutputStream, top_files.get(i), top_files.get(i).getName().replace(".jpg", "")+"_top.jpg");
+            FileHelper.addFileToOutputStream(zipOutputStream, side_files.get(i), side_files.get(i).getName().replace(".jpg", "")+"_side.jpg");
+            }
+
+        if (zipOutputStream != null) {
+            zipOutputStream.finish();
+            zipOutputStream.flush();
+            IOUtils.closeQuietly(zipOutputStream);
+        }
+        IOUtils.closeQuietly(bufferedOutputStream);
+        IOUtils.closeQuietly(byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+
+    }
+
 }
