@@ -4,6 +4,7 @@ public class Feedback {
     Long id;
     Long userProfileId;
     String feedback;
+    String userEmail;
 
     public Feedback(Long id, Long userProfileId, String feedback) {
         this.id = id;
@@ -34,4 +35,8 @@ public class Feedback {
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
+
+    public String getUserEmail(){ return userEmail; }
+
+    public void setUserEmail(String userEmail){ this.userEmail = userEmail; }
 }

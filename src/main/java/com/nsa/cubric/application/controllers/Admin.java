@@ -36,6 +36,11 @@ public class Admin {
     public String showUserManagementPage() {
         return "user_management";
     }
+
+    @GetMapping(value = "/feedback")
+    public String showFeedbackListPage() {
+        return "feedback_list";
+    }
         
     @RequestMapping(value = "/noaccess", method=RequestMethod.GET)
     public String showNoAccessPage(){

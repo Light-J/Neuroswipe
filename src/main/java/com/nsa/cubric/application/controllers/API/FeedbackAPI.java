@@ -5,8 +5,6 @@ import com.nsa.cubric.application.domain.Feedback;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import com.nsa.cubric.application.services.FeedbackServiceStatic;
 import com.nsa.cubric.application.services.LoggedUserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +36,7 @@ public class FeedbackAPI {
         if(loggedUserService.getUsername() == null){
             return new ResponseEntity<>(false, null, HttpStatus.FORBIDDEN);
         }
-        Account loggedInUser = accountService.findByEmail(loggedUserService.getUsername());
+        Account loggedInUser = accountService.getAccountByEmail(loggedUserService.getUsername());
         Feedback feedback = new Feedback(null, loggedInUser.getId(), feedbackText);
         feedbackService.insertNewFeedback(feedback);
         return new ResponseEntity<>(true, null, HttpStatus.OK);
@@ -52,6 +50,12 @@ public class FeedbackAPI {
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getFeedback() {
         List<Feedback> feedback = feedbackService.getAll();
+
+        for (Feedback feedbackObject : feedback) {
+            Account account = accountService.getAccountById(feedbackObject.getUserProfileId());
+            feedbackObject.setUserEmail(account.getEmail());
+        }
+
         return new ResponseEntity<>(feedback, null, HttpStatus.OK);
     }
 }
