@@ -15,14 +15,14 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemovalModalLongTitle">Privacy notice and GDPR</h5>
+                <h5 class="modal-title" id="confirmRemovalModalLongTitle">Remove user</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to remove the following user</p>
-                <p id="user_to_remove"></p>
+                <div id="remove_user_account"><p></p></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
@@ -36,14 +36,14 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemovalResponsesModalLongTitle">Privacy notice and GDPR</h5>
+                <h5 class="modal-title" id="confirmRemovalResponsesModalLongTitle">Remove user responses</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to remove the following users responses</p>
-                <p id="user_to_remove_responses"></p>
+                <div id="remove_user_responses"><p></p></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
@@ -55,73 +55,120 @@
 
 
 
-<div>
-    <div class="container">
-        <h1>Remove a user</h1>
-        <p>Enter the user email you wish to remove</p>
-        <input id="remove_user_input" type="text" class="form-control">
-        <button onclick="confirm_user_removal()" class="btn btn-primary">Confirm</button>
-        <p id="delete_user_success"></p>
+<div class="container">
+    <div>
+        <div class="form-group form-inline">
+            <input class="form-control" type="text" id="search_box">
+            <button class="btn btn-primary" onclick="getResults(1)">Search</button>
+        </div>
+
+        <table class="table" id="user_table">
+            <tr><th>User ID</th><th>User email</th><th>User role</th><th></th><th></th></tr>
+            <div id="user_table_body"></div>
+        </table>
+
+        <nav>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" onclick="changePage(-1)" href="#">Previous</a></li>
+                <li class="page-item"><a id="pageNumber" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" onclick="changePage(1)" href="#">Next</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <div class="container">
-        <h1>Delete a users responses</h1>
-        <p>Enter the user email you wish to not include</p>
-        <input id="remove_responses_input" type="text" class="form-control">
-        <button onclick="confirm_user_removal_responses()" class="btn btn-primary">Confirm</button>
-        <p id="rows_affected"></p>
-    </div>
 </div>
 
 <script>
-    function set_result_delete_user(result) {
-        if(result){
-            $("#delete_user_success").text("Successfully removed user");
-        }else{
-            $("#delete_user_success").text("Failed to find user");
-        }
+    function changePage(changeBy) {
+        var curPage = $("#pageNumber").text();
+        getResults(parseInt(curPage)+changeBy);
     }
 
-    function set_result_delete_responses(rows_effected) {
-        $("#rows_affected").text("Responses removed");
-    }
-    function remove_user() {
-        var user_email = $("#remove_user_input").val();
-            $.ajax({
-                url: '/removeUser',
-                type: 'POST',
-                data: {"user_to_remove": user_email},
-                success: function (data) {
-                    set_result_delete_user(data);
-                }
-            });
+    function updatePageNumber(pageNumber) {
+        var curPage = $("#pageNumber").text(pageNumber);
     }
 
-    function confirm_user_removal() {
-        var user_email = $("#remove_user_input").val();
-        $('#confirmRemovalModal').modal('show');
-        $("#user_to_remove").val(user_email);
-    }
-
-    function confirm_user_removal_responses() {
-        var user_email = $("#remove_responses_input").val();
-        $('#confirmRemovalResponsesModal').modal('show');
-        $("#user_to_remove_responses").text(user_email);
-    }
-
-    function remove_user_responses() {
-        var user_id = $("#remove_responses_input").val();
+    function getResults(page){
+        var searchTerm = $("#search_box").val();
         $.ajax({
-            url: '/removeUserResponses',
-            type: 'POST',
-            data: {"user_to_remove_responses":user_id},
+            url: '/api/admin/searchUsers?searchTerm='+searchTerm,
+
+            type: 'GET',
+            headers: {
+                "page" : page },
             success: function (data) {
-                set_result_delete_responses(data);
+                clearTable();
+                updateTableContent(data);
+                updatePageNumber(page);
+
             }
         });
     }
+
+    function updateTableContent(users) {
+        for (var i = 0; i < users.length; i++) {
+            $("table").append('' +
+                '<tr data-email="'+users[i].email+'">' +
+                '<td class="col-md-3">'+users[i].id+'</td>' +
+                '<td class="col-md-3">'+users[i].email+'</td>' +
+                '<td class="col-md-3">'+users[i].role+'</td>' +
+                '<td class="col-md-1"><button class="removeResponsesButton btn btn-primary">Remove responses</button></td>' +
+                '<td class="col-md-1"><button class="removeUserButton btn btn-primary">Delete user</button></td>' +
+                '</tr>');
+        }
+
+        $(".removeResponsesButton").click(function (e) {
+            var email = $(this).parent().parent().data("email");
+            confirm_user_removal_responses(email);
+        });
+
+        $(".removeUserButton").click(function (e) {
+            var email = $(this).parent().parent().data("email");
+            confirm_user_removal(email);
+        });
+    }
+
+    function clearTable(){
+        var table = document.getElementById("user_table");
+        var rowCount = table.rows.length;
+        for (var i = rowCount - 1; i > 0; i--) {
+            table.deleteRow(i);
+        }
+    }
+
+    function confirm_user_removal(userEmail) {
+        $('#remove_user_account').find("p").html(userEmail);
+        $('#confirmRemovalModal').modal('show');
+    }
+
+    function confirm_user_removal_responses(userEmail) {
+        $('#confirmRemovalResponsesModal').modal('show');
+        $('#remove_user_responses').find("p").html(userEmail);
+    }
+
+    function remove_user() {
+        var userEmail = $('#remove_user_account').find("p").text();
+        var curPage = $("#pageNumber").text();
+        $.ajax({
+            url: '/api/admin/removeUser?userToRemove='+userEmail,
+            type: 'POST',
+            success: function (data) {
+                getResults(curPage);
+            }
+        });
+    }
+
+    function remove_user_responses() {
+        var userEmail = $('#remove_user_responses').find("p").text();
+        $.ajax({
+            url: '/api/admin/removeUserResponses?userToRemoveResponses='+userEmail,
+            type: 'POST'
+        });
+    }
+
+    $(function () {
+        getResults(1);
+    })
 </script>
-
-
 </body>
 </html>
