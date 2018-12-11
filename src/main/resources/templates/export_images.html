@@ -42,9 +42,25 @@
         <tr><th>ID</th><th>Front</th><th>Side</th><th>Top</th></tr>
         <div id="scan_table_body"></div>
     </table>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" onclick="changePage(-1)" href="#">Previous</a></li>
+            <li class="page-item"><a id="pageNumber" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" onclick="changePage(1)" href="#">Next</a></li>
+        </ul>
+    </nav>
 </div>
 <script>
-    var updateTable = function () {
+    function changePage(changeBy) {
+        var curPage = $("#pageNumber").text();
+        getResults(parseInt(curPage)+changeBy);
+    }
+
+    function updatePageNumber(pageNumber) {
+        var curPage = $("#pageNumber").text(pageNumber);
+    }
+
+    var updateTable = function (page) {
         var filter_min_responses = document.getElementById("numResponses").value;
         var filter_percentage_good = document.getElementById("goodPercentage").value;
 
@@ -52,10 +68,12 @@
             url: '/scans/getScansFiltered',
             type: 'GET',
             headers: {"filter_min_responses":filter_min_responses,
-                "filter_percentage_good":filter_percentage_good},
+                "filter_percentage_good":filter_percentage_good,
+                "page":page},
             success: function (data) {
                 clearTable();
                 updateTableContent(data);
+                updatePageNumber(page);
             }
         });
     };
