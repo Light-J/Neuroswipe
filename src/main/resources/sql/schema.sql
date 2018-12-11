@@ -85,28 +85,6 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userratings` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
--- -----------------------------------------------------
--- Table `brainschema`.`userresponses`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`userresponses` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `userprofileid` INT(11) NULL DEFAULT NULL,
-  `scanid` INT(11) NULL DEFAULT NULL,
-  `response` TINYINT(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `userprofileid` (`userprofileid` ASC),
-  INDEX `scanid` (`scanid` ASC),
-  CONSTRAINT `userresponses_ibfk_1`
-    FOREIGN KEY (`userprofileid`)
-    REFERENCES `brainschema`.`userprofiles` (`id`),
-  CONSTRAINT `userresponses_ibfk_2`
-    FOREIGN KEY (`scanid`)
-    REFERENCES `brainschema`.`scans` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
 -- -----------------------------------------------------
 -- Table `brainschema`.`versions`
 -- -----------------------------------------------------
