@@ -25,7 +25,7 @@ public class AdminAPI {
     AccountServiceStatic accountService;
 
     @PostMapping(value = "/removeUser")
-    public Boolean removeUser(@RequestParam(value = "user_to_remove") String userEmail) {
+    public Boolean removeUser(@RequestParam(value = "userToRemove") String userEmail) {
         Long userId;
         try{
             userId = accountService.getAccountByEmail(userEmail).getId();
@@ -36,7 +36,7 @@ public class AdminAPI {
     }
 
     @PostMapping(value = "/removeUserResponses")
-    public Long removeUserResponses(@RequestParam(value = "user_to_remove_responses") String userEmail){
+    public Long removeUserResponses(@RequestParam(value = "userToRemoveResponses") String userEmail){
         try{
             return adminServices.removeUserResponses(accountService.getAccountByEmail(userEmail).getId());
         } catch (NullPointerException e){

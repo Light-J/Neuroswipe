@@ -15,7 +15,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemovalModalLongTitle">Privacy notice and GDPR</h5>
+                <h5 class="modal-title" id="confirmRemovalModalLongTitle">Remove user</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -36,7 +36,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemovalResponsesModalLongTitle">Privacy notice and GDPR</h5>
+                <h5 class="modal-title" id="confirmRemovalResponsesModalLongTitle">Remove user responses</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -56,21 +56,6 @@
 
 
 <div class="container">
-    <div>
-        <h1>Remove a user</h1>
-        <p>Enter the user email you wish to remove</p>
-        <input id="remove_user_input" type="text" class="form-control">
-        <button onclick="confirm_user_removal()" class="btn btn-primary">Confirm</button>
-        <p id="delete_user_success"></p>
-    </div>
-
-    <div>
-        <h1>Delete a users responses</h1>
-        <p>Enter the user email you wish to not include</p>
-        <input id="remove_responses_input" type="text" class="form-control">
-        <button onclick="confirm_user_removal_responses()" class="btn btn-primary">Confirm</button>
-        <p id="rows_affected"></p>
-    </div>
     <div>
         <input type="text" id="search_box">
         <button onclick="getResults()">Search</button>
@@ -98,10 +83,12 @@
     function updateTableContent(users) {
         for (var i = 0; i < users.length; i++) {
             $("table").append('' +
-                '<tr data-id="'+users[i].id+'">' +
+                '<tr>' +
                 '<td>'+users[i].id+'</td>' +
                 '<td>'+users[i].email+'</td>' +
                 '<td>'+users[i].role+'</td>' +
+                '<td><button onclick="confirm_user_removal_responses(\''+users[i].email+'\')">Remove responses</button></td>' +
+                '<td><button onclick="confirm_user_removal(\''+users[i].email+'\')">Delete user</button></td>' +
                 '</tr>');
         }
     }
@@ -125,43 +112,40 @@
     function set_result_delete_responses(rows_effected) {
         $("#rows_affected").text("Responses removed");
     }
-    function remove_user() {
-        var user_email = $("#remove_user_input").val();
-            $.ajax({
-                url: '/api/admin/removeUser',
-                type: 'POST',
-                data: {"user_to_remove": user_email},
-                success: function (data) {
-                    set_result_delete_user(data);
-                }
-            });
-    }
 
-    function confirm_user_removal() {
-        var user_email = $("#remove_user_input").val();
+    function confirm_user_removal(userEmail) {
+        $("#user_to_remove").text(userEmail);
         $('#confirmRemovalModal').modal('show');
-        $("#user_to_remove").val(user_email);
+
     }
 
-    function confirm_user_removal_responses() {
-        var user_email = $("#remove_responses_input").val();
+    function confirm_user_removal_responses(userEmail) {
+        $("#user_to_remove_responses").text(userEmail);
         $('#confirmRemovalResponsesModal').modal('show');
-        $("#user_to_remove_responses").text(user_email);
     }
+
+    function remove_user() {
+        var userEmail = $("#user_to_remove_responses").text();
+        $.ajax({
+            url: '/api/admin/removeUser?userToRemove='+userEmail,
+            type: 'POST',
+            success: function (data) {
+                set_result_delete_user(data);
+            }
+        });
+    }
+
 
     function remove_user_responses() {
-        var user_id = $("#remove_responses_input").val();
+        var userEmail = $("#user_to_remove").text();
         $.ajax({
-            url: '/api/admin/removeUserResponses',
+            url: '/api/admin/removeUserResponses?userToRemoveResponses='+userEmail,
             type: 'POST',
-            data: {"user_to_remove_responses":user_id},
             success: function (data) {
                 set_result_delete_responses(data);
             }
         });
     }
 </script>
-
-
 </body>
 </html>
