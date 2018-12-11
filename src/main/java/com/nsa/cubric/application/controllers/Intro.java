@@ -22,4 +22,10 @@ public class Intro {
         LOG.debug("Handling GET request to /about");
         return "about_brain_imaging";
     }
+
+    @RequestMapping(path = "/training")
+    public String training() {
+        LOG.debug("Handling GET request to /training");
+        return "training";
+    }
 }
