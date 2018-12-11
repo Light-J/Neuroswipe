@@ -40,7 +40,7 @@
 <script>
     function changePage(changeBy) {
         var curPage = $("#pageNumber").text();
-        updateTable(parseInt(curPage)+changeBy);
+        getScans(parseInt(curPage)+changeBy);
     }
 
     function updatePageNumber(pageNumber) {
@@ -48,7 +48,8 @@
     }
 
     function getScans(page){
-        $.getJSON("/scans/", function( scans ) {
+        $.getJSON("/scans/?page="+page, function( scans ) {
+            updatePageNumber(page);
             for (var i = 0; i < scans.length; i++) {
                 $("table").append('<tr data-id="'+scans[i].id+'"><td>'+scans[i].id+'</td><td><a target="_blank" href="/brain_images/'+scans[i].path1+'">'+scans[i].path1.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path2+'">'+scans[i].path2.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path3+'">'+scans[i].path3.substring(0,15)+"..."+'</a></td><td class="knownGood">'+scans[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
             }
