@@ -71,7 +71,11 @@
     };
 
     function clearTable(){
-        $("#scan_table tr").remove();
+        var table = document.getElementById("scan_table");
+        var rowCount = table.rows.length;
+        for (var i = rowCount - 1; i > 0; i--) {
+            table.deleteRow(i);
+        }
     }
 
     function updateTableContent(scans) {
