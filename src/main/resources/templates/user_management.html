@@ -55,8 +55,8 @@
 
 
 
-<div>
-    <div class="container">
+<div class="container">
+    <div>
         <h1>Remove a user</h1>
         <p>Enter the user email you wish to remove</p>
         <input id="remove_user_input" type="text" class="form-control">
@@ -64,16 +64,25 @@
         <p id="delete_user_success"></p>
     </div>
 
-    <div class="container">
+    <div>
         <h1>Delete a users responses</h1>
         <p>Enter the user email you wish to not include</p>
         <input id="remove_responses_input" type="text" class="form-control">
         <button onclick="confirm_user_removal_responses()" class="btn btn-primary">Confirm</button>
         <p id="rows_affected"></p>
     </div>
+    <div>
+        <input type="text"><button>Search</button>
+        <table class="table" id="user_table">
+            <tr><th>ID</th><th>User ID</th><th>User email</th><th>User role</th></tr>
+            <div id="user_table_body"></div>
+        </table>
+    </div>
 </div>
 
 <script>
+
+
     function set_result_delete_user(result) {
         if(result){
             $("#delete_user_success").text("Successfully removed user");
