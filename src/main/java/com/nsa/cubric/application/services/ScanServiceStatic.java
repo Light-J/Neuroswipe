@@ -13,4 +13,5 @@ public interface ScanServiceStatic {
     List<Scan> getAll();
     Optional<Scan> getNext();
     List<Scan> getScansFiltered(Integer minResponses, Integer percentageGood);
+    List<Scan> getScansFilteredPaginated(Integer minResponses, Integer percentageGood, int Paginated);
 }

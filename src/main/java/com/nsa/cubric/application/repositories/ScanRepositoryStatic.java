@@ -13,4 +13,5 @@ public interface ScanRepositoryStatic {
     public List<Scan> getAll();
     public Optional<Scan> getNext();
     List<Scan> getScansFiltered(int minResponses, int percentageGood);
+    List<Scan> getScansFilteredPaginated(int minResponses, int percentageGood, int offset);
 }

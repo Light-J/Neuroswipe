@@ -109,9 +109,10 @@ public class ScanAPI {
     @GetMapping(value = "/getScansFiltered")
     public ResponseEntity getScansFiltered(
             @RequestHeader(value = "filter_min_responses") Integer filterMinResponses,
-            @RequestHeader(value = "filter_percentage_good") Integer filterPercentageGood) {
+            @RequestHeader(value = "filter_percentage_good") Integer filterPercentageGood,
+            @RequestHeader(value = "page") int page) {
 
-        List<Scan> scans = scanService.getScansFiltered(filterMinResponses, filterPercentageGood);
+        List<Scan> scans = scanService.getScansFilteredPaginated(filterMinResponses, filterPercentageGood, page);
 
         return new ResponseEntity<>(scans, null, HttpStatus.OK);
     }

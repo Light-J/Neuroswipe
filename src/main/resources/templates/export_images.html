@@ -32,7 +32,7 @@
                     <input id="goodPercentage" class="form-control"/>
 
                     <p class="text text-info">Note leaving these fields empty will get all images</p>
-                    <button class="btn btn-primary" onclick="updateTable()">Update</button>
+                    <button class="btn btn-primary" onclick="updateTable(1)">Update</button>
                     <button class="btn btn-primary" onclick="downloadImages()">Download</button>
                 </div>
             </div>
@@ -53,7 +53,7 @@
 <script>
     function changePage(changeBy) {
         var curPage = $("#pageNumber").text();
-        getResults(parseInt(curPage)+changeBy);
+        updateTable(parseInt(curPage)+changeBy);
     }
 
     function updatePageNumber(pageNumber) {
