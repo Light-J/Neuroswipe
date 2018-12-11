@@ -5,10 +5,14 @@ import com.nsa.cubric.application.controllers.Profile;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 
+import java.util.List;
+
 public interface AccountServiceStatic {
-    public Account registerNewUserAccount(AccountDTO account) throws EmailExistsException;
-    public Account getAccountByEmail(String email);
-    public Account getAccountById(Long id);
-    public Profile getProfileByEmail(String email);
-    public Boolean updateProfile(Profile profile);
+    Account registerNewUserAccount(AccountDTO account) throws EmailExistsException;
+    Account getAccountByEmail(String email);
+    Account getAccountById(Long id);
+    Profile getProfileByEmail(String email);
+    Boolean updateProfile(Profile profile);
+    List<Account> searchUsers(String searchTerm);
+
 }

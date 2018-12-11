@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.nsa.cubric.application.configurators.WebSecurityConfig.passwordEncoder;
 
 @Service
@@ -52,8 +54,14 @@ public class AccountService implements AccountServiceStatic {
         return accountRepository.updateProfile(profile);
     }
 
+    @Override
+    public List<Account> searchUsers(String searchTerm){
+        return accountRepository.searchUsers(searchTerm);
+    }
+
     private boolean emailExist(String email) {
         return (accountRepository.getAccountByEmail(email) != null);
-
     }
+
+
 }

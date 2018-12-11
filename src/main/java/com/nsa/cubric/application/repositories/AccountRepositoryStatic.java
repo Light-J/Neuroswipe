@@ -7,18 +7,15 @@ import com.nsa.cubric.application.domain.Account;
 import java.util.List;
 
 public interface AccountRepositoryStatic {
-    public Account getAccountByEmail(String email);
-    public void insertNewAccount(AccountDTO account);
-    public List<Account> getAllAccounts();
-    public void insertNewProfile(Profile profile);
-
+    Account getAccountByEmail(String email);
+    void insertNewAccount(AccountDTO account);
+    List<Account> getAllAccounts();
+    void insertNewProfile(Profile profile);
     boolean updateProfile(Profile profile);
-
     Profile getProfileByAccountId(Long accountId);
-
     Profile getProfileByEmail(String email);
     Account getAccountById(Long Id);
-
-    public boolean removeUser(Long userId);
-    public Long removeUserResponses(Long userId);
+    boolean removeUser(Long userId);
+    Long removeUserResponses(Long userId);
+    List<Account> searchUsers(String searchTerm);
 }
