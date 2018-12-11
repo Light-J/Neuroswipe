@@ -80,17 +80,4 @@ public class AccountControllerTest {
                 .andExpect(model().hasNoErrors())
                 .andExpect(status().is3xxRedirection());
     }
-
-    @Test
-    @WithMockUser(username = "test@user.com")
-    public void submitDetailsInvalidPostCode() throws Exception{
-
-        given(accountService.getAccountByEmail("test@user.com")).willReturn(validAccount);
-
-        this.mvc.perform(post("/userprofile/")
-                .param("postcode", "AAAA"))
-                .andExpect(model().hasErrors())
-                .andExpect(status().isOk());
-    }
-
 }

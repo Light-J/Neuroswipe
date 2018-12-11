@@ -5,13 +5,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema brainschema
--- -----------------------------------------------------
-
--- -----------------------------------------------------
 -- Schema brainschema
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `brainschema` DEFAULT CHARACTER SET utf8 ;
@@ -84,28 +77,6 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userratings` (
     REFERENCES `brainschema`.`scans` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `brainschema`.`userresponses`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`userresponses` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `userprofileid` INT(11) NULL DEFAULT NULL,
-  `scanid` INT(11) NULL DEFAULT NULL,
-  `response` TINYINT(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `userprofileid` (`userprofileid` ASC),
-  INDEX `scanid` (`scanid` ASC),
-  CONSTRAINT `userresponses_ibfk_1`
-    FOREIGN KEY (`userprofileid`)
-    REFERENCES `brainschema`.`userprofiles` (`id`),
-  CONSTRAINT `userresponses_ibfk_2`
-    FOREIGN KEY (`scanid`)
-    REFERENCES `brainschema`.`scans` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
 
 -- -----------------------------------------------------
 -- Table `brainschema`.`versions`

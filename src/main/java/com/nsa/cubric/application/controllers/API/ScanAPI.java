@@ -29,23 +29,15 @@ import java.util.zip.ZipOutputStream;
 @RestController
 public class ScanAPI {
 
-    private UserResponseServiceStatic responsesService;
-    
-    @Autowired
-    private ScanService scanService;
-
-    @Autowired
-    LoggedUserService loggedUserService;
-
-    @Autowired
-    AccountServiceStatic accountService;
+    private ScanServiceStatic scanService;
+    private AccountServiceStatic accountService;
 
     public static final String imageUploadDirectory = System.getProperty("user.dir") + "/brain_images/";
 
     @Autowired
-    public ScanAPI(ScanService scanService, UserResponseServiceStatic aRepo){
+    public ScanAPI(ScanService scanService, AccountServiceStatic accountService){
         this.scanService = scanService;
-        this.responsesService = aRepo;
+        this.accountService = accountService;
     }
 
     /**
@@ -69,28 +61,6 @@ public class ScanAPI {
     public ResponseEntity getAllScans() {
         List<Scan> scans = scanService.getAll();
         return new ResponseEntity<>(scans,null, HttpStatus.OK);
-    }
-
-    /**
-     * This method is used to accepted and store the decision the user has made regarding
-     * the scan.
-     *
-     * @param goodBrain boolean whether the user indicated that the scan was "good" or
-     * not
-     * @param scanId ID of the scan that the decision was made for
-     * @return json object with success attribute and error message if applicable
-     */
-    @RequestMapping(value = "save", method = RequestMethod.POST, produces = "application/json")
-    public Boolean storeDecision(@RequestParam("scanId") Integer scanId,
-                                 @RequestParam("goodBrain") Boolean goodBrain) {
-
-        Account loggedInUser = accountService.getAccountByEmail(loggedUserService.getUsername());
-        UserResponse response = new UserResponse();
-        response.setUserProfileId(loggedInUser.getId());
-        response.setScanId(scanId);
-        response.setResponse(goodBrain);
-        responsesService.storeUserResponse(response);
-        return true;
     }
 
     /**
