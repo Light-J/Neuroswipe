@@ -13,6 +13,6 @@ public interface AccountServiceStatic {
     Account getAccountById(Long id);
     Profile getProfileByEmail(String email);
     Boolean updateProfile(Profile profile);
-    List<Account> searchUsers(String searchTerm);
+    List<Account> searchUsers(String searchTerm, int page);
 
 }

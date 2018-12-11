@@ -46,7 +46,8 @@ public class AdminAPI {
 
     @GetMapping(value = "/searchUsers")
     public List<Account> searchUsers(
-            @RequestParam(value = "searchTerm") String searchTerm) {
-        return accountService.searchUsers(searchTerm);
+            @RequestParam(value = "searchTerm") String searchTerm,
+            @RequestHeader(value = "page") int page) {
+        return accountService.searchUsers(searchTerm, page);
     }
 }

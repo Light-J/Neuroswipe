@@ -57,25 +57,50 @@
 
 <div class="container">
     <div>
-        <input type="text" id="search_box">
-        <button onclick="getResults()">Search</button>
+        <div class="form-group form-inline">
+            <input class="form-control" type="text" id="search_box">
+            <button class="btn btn-primary" onclick="getResults(1)">Search</button>
+        </div>
+
         <table class="table" id="user_table">
-            <tr><th>User ID</th><th>User email</th><th>User role</th></tr>
+            <tr><th>User ID</th><th>User email</th><th>User role</th><th></th><th></th></tr>
             <div id="user_table_body"></div>
         </table>
+
+        <nav>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" onclick="changePage(-1)" href="#">Previous</a></li>
+                <li class="page-item"><a id="pageNumber" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" onclick="changePage(1)" href="#">Next</a></li>
+            </ul>
+        </nav>
     </div>
+
 </div>
 
 <script>
-    function getResults(){
-        var searchTerm = $("#search_box").val();
+    function changePage(changeBy) {
+        var curPage = $("#pageNumber").text();
+        getResults(parseInt(curPage)+changeBy);
+    }
 
+    function updatePageNumber(pageNumber) {
+        var curPage = $("#pageNumber").text(pageNumber);
+    }
+
+    function getResults(page){
+        var searchTerm = $("#search_box").val();
         $.ajax({
             url: '/api/admin/searchUsers?searchTerm='+searchTerm,
+
             type: 'GET',
+            headers: {
+                "page" : page },
             success: function (data) {
                 clearTable();
                 updateTableContent(data);
+                updatePageNumber(page);
+
             }
         });
     }
@@ -84,11 +109,11 @@
         for (var i = 0; i < users.length; i++) {
             $("table").append('' +
                 '<tr data-email="'+users[i].email+'">' +
-                '<td>'+users[i].id+'</td>' +
-                '<td>'+users[i].email+'</td>' +
-                '<td>'+users[i].role+'</td>' +
-                '<td><button class="removeResponsesButton">Remove responses</button></td>' +
-                '<td><button class="removeUserButton">Delete user</button></td>' +
+                '<td class="col-md-3">'+users[i].id+'</td>' +
+                '<td class="col-md-3">'+users[i].email+'</td>' +
+                '<td class="col-md-3">'+users[i].role+'</td>' +
+                '<td class="col-md-1"><button class="removeResponsesButton btn btn-primary">Remove responses</button></td>' +
+                '<td class="col-md-1"><button class="removeUserButton btn btn-primary">Delete user</button></td>' +
                 '</tr>');
         }
 
@@ -123,15 +148,15 @@
 
     function remove_user() {
         var userEmail = $('#remove_user_account').find("p").text();
+        var curPage = $("#pageNumber").text();
         $.ajax({
             url: '/api/admin/removeUser?userToRemove='+userEmail,
             type: 'POST',
             success: function (data) {
-                getResults();
+                getResults(curPage);
             }
         });
     }
-
 
     function remove_user_responses() {
         var userEmail = $('#remove_user_responses').find("p").text();
@@ -140,6 +165,10 @@
             type: 'POST'
         });
     }
+
+    $(function () {
+        getResults(1);
+    })
 </script>
 </body>
 </html>

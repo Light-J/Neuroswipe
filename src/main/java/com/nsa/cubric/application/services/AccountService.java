@@ -55,13 +55,11 @@ public class AccountService implements AccountServiceStatic {
     }
 
     @Override
-    public List<Account> searchUsers(String searchTerm){
-        return accountRepository.searchUsers(searchTerm);
+    public List<Account> searchUsers(String searchTerm, int page){
+        return accountRepository.searchUsers(searchTerm, (10 * (page-1)));
     }
 
     private boolean emailExist(String email) {
         return (accountRepository.getAccountByEmail(email) != null);
     }
-
-
 }
