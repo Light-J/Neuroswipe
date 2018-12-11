@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.services.AccountService;
+import com.nsa.cubric.application.services.AccountServiceStatic;
 import com.nsa.cubric.application.services.LoggedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,16 +16,14 @@ import java.util.Map;
 @RequestMapping(value = "/userprofile")
 public class UserProfile {
 
-    AccountService accountService;
-
-    @Autowired
+    AccountServiceStatic accountService;
     LoggedUserService loggedUserService;
 
     @Autowired
-    public UserProfile(AccountService aService){
-        accountService = aService;
+    public UserProfile(AccountServiceStatic accountService, LoggedUserService loggedUserService){
+        this.accountService = accountService;
+        this.loggedUserService = loggedUserService;
     }
-
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView showUserProfile(Model model){
