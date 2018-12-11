@@ -18,4 +18,16 @@ public class Ratings {
 		LOG.debug("Handling GET request to /ratings/");
 		return "ratings";
 	}
+
+	@RequestMapping(value = "/after25", method = RequestMethod.GET)
+	public String after25(WebRequest webRequest, Model model){
+		LOG.debug("Handling GET request to /ratings/after25/");
+		return "ratings_after_25";
+	}
+
+	@RequestMapping(value = "/after50", method = RequestMethod.GET)
+	public String after50(WebRequest webRequest, Model model){
+		LOG.debug("Handling GET request to /ratings/after25/");
+		return "ratings_after_50";
+	}
 }
