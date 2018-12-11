@@ -1,12 +1,15 @@
 package com.nsa.cubric.application.controllers.API;
 
 import com.nsa.cubric.application.controllers.RegistrationAccount;
+import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.AccountServiceStatic;
 import com.nsa.cubric.application.services.AdminServicesStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController("/admin/utilities")
 public class AdminAPI {
@@ -38,6 +41,12 @@ public class AdminAPI {
         } catch (NullPointerException e){
             return 0L;
         }
+    }
+
+    @PostMapping(value = "/searchUsers")
+    public List<Account> searchUsers(
+            @RequestParam(value = "searchTerm") String searchTerm) {
+
     }
 
 
