@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//controller
 @Controller
 public class Intro {
 
@@ -16,5 +15,11 @@ public class Intro {
     public String homepage() {
         LOG.debug("Handling GET request to /");
         return "home";
+    }
+
+    @RequestMapping(path = "/about")
+    public String about() {
+        LOG.debug("Handling GET request to /about");
+        return "about_brain_imaging";
     }
 }
