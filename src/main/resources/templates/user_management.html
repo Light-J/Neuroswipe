@@ -22,7 +22,7 @@
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to remove the following user</p>
-                <p id="user_to_remove"></p>
+                <div id="remove_user_account"><p></p></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
@@ -43,7 +43,7 @@
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to remove the following users responses</p>
-                <p id="user_to_remove_responses"></p>
+                <div id="remove_user_responses"><p></p></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
@@ -68,7 +68,7 @@
 
 <script>
     function getResults(){
-        var searchTerm = document.getElementById("search_box").value;
+        var searchTerm = $("#search_box").val();
 
         $.ajax({
             url: '/api/admin/searchUsers?searchTerm='+searchTerm,
@@ -83,14 +83,24 @@
     function updateTableContent(users) {
         for (var i = 0; i < users.length; i++) {
             $("table").append('' +
-                '<tr>' +
+                '<tr data-email="'+users[i].email+'">' +
                 '<td>'+users[i].id+'</td>' +
                 '<td>'+users[i].email+'</td>' +
                 '<td>'+users[i].role+'</td>' +
-                '<td><button onclick="confirm_user_removal_responses(\''+users[i].email+'\')">Remove responses</button></td>' +
-                '<td><button onclick="confirm_user_removal(\''+users[i].email+'\')">Delete user</button></td>' +
+                '<td><button class="removeResponsesButton">Remove responses</button></td>' +
+                '<td><button class="removeUserButton">Delete user</button></td>' +
                 '</tr>');
         }
+
+        $(".removeResponsesButton").click(function (e) {
+            var email = $(this).parent().parent().data("email");
+            confirm_user_removal_responses(email);
+        });
+
+        $(".removeUserButton").click(function (e) {
+            var email = $(this).parent().parent().data("email");
+            confirm_user_removal(email);
+        });
     }
 
     function clearTable(){
@@ -101,49 +111,33 @@
         }
     }
 
-    function set_result_delete_user(result) {
-        if(result){
-            $("#delete_user_success").text("Successfully removed user");
-        }else{
-            $("#delete_user_success").text("Failed to find user");
-        }
-    }
-
-    function set_result_delete_responses(rows_effected) {
-        $("#rows_affected").text("Responses removed");
-    }
-
     function confirm_user_removal(userEmail) {
-        $("#user_to_remove").text(userEmail);
+        $('#remove_user_account').find("p").html(userEmail);
         $('#confirmRemovalModal').modal('show');
-
     }
 
     function confirm_user_removal_responses(userEmail) {
-        $("#user_to_remove_responses").text(userEmail);
         $('#confirmRemovalResponsesModal').modal('show');
+        $('#remove_user_responses').find("p").html(userEmail);
     }
 
     function remove_user() {
-        var userEmail = $("#user_to_remove_responses").text();
+        var userEmail = $('#remove_user_account').find("p").text();
         $.ajax({
             url: '/api/admin/removeUser?userToRemove='+userEmail,
             type: 'POST',
             success: function (data) {
-                set_result_delete_user(data);
+                getResults();
             }
         });
     }
 
 
     function remove_user_responses() {
-        var userEmail = $("#user_to_remove").text();
+        var userEmail = $('#remove_user_responses').find("p").text();
         $.ajax({
             url: '/api/admin/removeUserResponses?userToRemoveResponses='+userEmail,
-            type: 'POST',
-            success: function (data) {
-                set_result_delete_responses(data);
-            }
+            type: 'POST'
         });
     }
 </script>
