@@ -47,8 +47,8 @@ public class AdminAPITest {
     @Test
     public void removeUserValidTest() throws Exception{
         given(adminServices.removeUser(1L)).willReturn(true);
-        mvc.perform(post("/removeUser")
-                .param("user_to_remove", "test@account.com"))
+        mvc.perform(post("/api/admin/removeUser")
+                .param("userToRemove", "test@account.com"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
     }
@@ -57,8 +57,8 @@ public class AdminAPITest {
     public void removeUserInvalidTest() throws Exception{
         given(adminServices.removeUser(2L)).willReturn(false);
 
-        mvc.perform(post("/removeUser")
-                .param("user_to_remove", "2"))
+        mvc.perform(post("/api/admin/removeUser")
+                .param("userToRemove", "2"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
     }
@@ -66,8 +66,8 @@ public class AdminAPITest {
     @Test
     public void removeUserResponses() throws Exception{
         given(adminServices.removeUserResponses(1L)).willReturn(0L);
-        mvc.perform(post("/removeUserResponses")
-                .param("user_to_remove_responses", "test@account.com"))
+        mvc.perform(post("/api/admin/removeUserResponses")
+                .param("userToRemoveResponses", "test@account.com"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("0"));
     }
