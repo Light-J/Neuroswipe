@@ -68,7 +68,7 @@
         <h1>Delete a users responses</h1>
         <p>Enter the user email you wish to not include</p>
         <input id="remove_responses_input" type="text" class="form-control">
-        <button onclick="confirm_user_removal_responses()" class="btn btn-default">Confirm</button>
+        <button onclick="confirm_user_removal_responses()" class="btn btn-primary">Confirm</button>
         <p id="rows_affected"></p>
     </div>
 </div>
@@ -76,21 +76,21 @@
 <script>
     function set_result_delete_user(result) {
         if(result){
-            document.getElementById("delete_user_success").innerText = "Successfully removed user";
-        } else {
-            document.getElementById("delete_user_success").innerText = "Failed to find user";
+            $("#delete_user_success").text("Successfully removed user");
+        }else{
+            $("#delete_user_success").text("Failed to find user");
         }
     }
 
     function set_result_delete_responses(rows_effected) {
-        document.getElementById("rows_affected").innerText = "Responses removed";
+        $("#rows_affected").text("Responses removed");
     }
     function remove_user() {
-        var user_email = document.getElementById("remove_user_input").value;
+        var user_email = $("#remove_user_input").val();
             $.ajax({
                 url: '/removeUser',
                 type: 'POST',
-                data: {"user_to_remove":user_email},
+                data: {"user_to_remove": user_email},
                 success: function (data) {
                     set_result_delete_user(data);
                 }
@@ -98,19 +98,19 @@
     }
 
     function confirm_user_removal() {
-        var user_email = document.getElementById("remove_user_input").value;
+        var user_email = $("#remove_user_input").val();
         $('#confirmRemovalModal').modal('show');
-        document.getElementById("user_to_remove").innerText = user_email
+        $("#user_to_remove").val(user_email);
     }
 
     function confirm_user_removal_responses() {
-        var user_email = document.getElementById("remove_responses_input").value;
+        var user_email = $("#remove_responses_input").val();
         $('#confirmRemovalResponsesModal').modal('show');
-        document.getElementById("user_to_remove_responses").innerText = user_email
+        $("#user_to_remove_responses").text(user_email);
     }
 
     function remove_user_responses() {
-        var user_id = document.getElementById("remove_responses_input").value;
+        var user_id = $("#remove_responses_input").val();
         $.ajax({
             url: '/removeUserResponses',
             type: 'POST',
