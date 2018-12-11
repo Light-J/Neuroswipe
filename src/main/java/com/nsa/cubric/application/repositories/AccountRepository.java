@@ -125,4 +125,10 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Long removeUserResponses(Long userId){
         return Long.valueOf(jdbcTemplate.update("CALL removeUserRatings(?)", (userId)));
     }
+
+    @Override
+    public List<Account> searchUsers(String searchTerm){
+        return jdbcTemplate.query("SELECT * FROM useraccounts WHERE email like '%?%'",
+                new Object[]{searchTerm}, accountMapper);
+    }
 }
