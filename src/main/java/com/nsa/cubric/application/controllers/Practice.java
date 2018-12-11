@@ -18,4 +18,10 @@ public class Practice {
         LOG.debug("Handling GET request to /practice/");
         return "practice";
     }
+
+    @RequestMapping(value = "/feedback", method = RequestMethod.GET)
+    public String showPracticeFeedback(WebRequest webRequest, Model model){
+        LOG.debug("Handling GET request to /feedback/");
+        return "practice_feedback";
+    }
 }
