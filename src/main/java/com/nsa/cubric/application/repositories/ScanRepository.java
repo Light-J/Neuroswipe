@@ -77,7 +77,7 @@ public class ScanRepository implements ScanRepositoryStatic {
                         "FROM scans WHERE known_good is null AND id in \n" +
                         "   (SELECT scanid FROM userratings\n" +
                         "       GROUP BY scanid \n" +
-                        "       HAVING count(scanid) > ? AND sum(response)/count(scanid)*100 > ?);",
+                        "       HAVING count(scanid) >= ? AND sum(response)/count(scanid)*100 >= ?);",
                 new Object[]{minResponses, percentageGood}, scanMapper
         );
     }
