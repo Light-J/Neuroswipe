@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/admin/utilities")
+@RestController()
+@RequestMapping("api/admin")
 public class AdminAPI {
 
 
@@ -43,9 +44,9 @@ public class AdminAPI {
         }
     }
 
-    @PostMapping(value = "/searchUsers")
+    @GetMapping(value = "/searchUsers")
     public List<Account> searchUsers(
-            @RequestParam(value = "search_term") String searchTerm) {
+            @RequestParam(value = "searchTerm") String searchTerm) {
         return accountService.searchUsers(searchTerm);
     }
 }

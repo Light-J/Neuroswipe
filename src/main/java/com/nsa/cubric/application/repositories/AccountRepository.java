@@ -128,7 +128,7 @@ public class AccountRepository implements AccountRepositoryStatic {
 
     @Override
     public List<Account> searchUsers(String searchTerm){
-        return jdbcTemplate.query("SELECT * FROM useraccounts WHERE email like '%?%'",
-                new Object[]{searchTerm}, accountMapper);
+        return jdbcTemplate.query("SELECT * FROM useraccounts WHERE email like ?",
+                new Object[]{'%'+searchTerm+'%'}, accountMapper);
     }
 }

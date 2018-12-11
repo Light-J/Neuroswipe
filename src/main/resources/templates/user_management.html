@@ -72,9 +72,10 @@
         <p id="rows_affected"></p>
     </div>
     <div>
-        <input type="text" id="search_box"><button>Search</button>
+        <input type="text" id="search_box">
+        <button onclick="getResults()">Search</button>
         <table class="table" id="user_table">
-            <tr><th>ID</th><th>User ID</th><th>User email</th><th>User role</th></tr>
+            <tr><th>User ID</th><th>User email</th><th>User role</th></tr>
             <div id="user_table_body"></div>
         </table>
     </div>
@@ -82,16 +83,35 @@
 
 <script>
     function getResults(){
-        var search_term = document.getElementById("search_box").value;
+        var searchTerm = document.getElementById("search_box").value;
 
         $.ajax({
-            url: '/search_users',
-            type: 'POST',
-            data: {"searchTerm": user_email},
+            url: '/api/admin/searchUsers?searchTerm='+searchTerm,
+            type: 'GET',
             success: function (data) {
-                set_result_delete_user(data);
+                clearTable();
+                updateTableContent(data);
             }
         });
+    }
+
+    function updateTableContent(users) {
+        for (var i = 0; i < users.length; i++) {
+            $("table").append('' +
+                '<tr data-id="'+users[i].id+'">' +
+                '<td>'+users[i].id+'</td>' +
+                '<td>'+users[i].email+'</td>' +
+                '<td>'+users[i].role+'</td>' +
+                '</tr>');
+        }
+    }
+
+    function clearTable(){
+        var table = document.getElementById("user_table");
+        var rowCount = table.rows.length;
+        for (var i = rowCount - 1; i > 0; i--) {
+            table.deleteRow(i);
+        }
     }
 
     function set_result_delete_user(result) {
@@ -108,7 +128,7 @@
     function remove_user() {
         var user_email = $("#remove_user_input").val();
             $.ajax({
-                url: '/removeUser',
+                url: '/api/admin/removeUser',
                 type: 'POST',
                 data: {"user_to_remove": user_email},
                 success: function (data) {
@@ -132,7 +152,7 @@
     function remove_user_responses() {
         var user_id = $("#remove_responses_input").val();
         $.ajax({
-            url: '/removeUserResponses',
+            url: '/api/admin/removeUserResponses',
             type: 'POST',
             data: {"user_to_remove_responses":user_id},
             success: function (data) {
