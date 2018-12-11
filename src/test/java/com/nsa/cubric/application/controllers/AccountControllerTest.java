@@ -87,7 +87,7 @@ public class AccountControllerTest {
 
         given(accountService.getAccountByEmail("test@user.com")).willReturn(validAccount);
 
-        this.mvc.perform(post("/registration/profile")
+        this.mvc.perform(post("/userprofile/")
                 .param("postcode", "AAAA"))
                 .andExpect(model().hasErrors())
                 .andExpect(status().isOk());
