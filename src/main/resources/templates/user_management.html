@@ -72,7 +72,7 @@
         <p id="rows_affected"></p>
     </div>
     <div>
-        <input type="text"><button>Search</button>
+        <input type="text" id="search_box"><button>Search</button>
         <table class="table" id="user_table">
             <tr><th>ID</th><th>User ID</th><th>User email</th><th>User role</th></tr>
             <div id="user_table_body"></div>
@@ -81,7 +81,18 @@
 </div>
 
 <script>
+    function getResults(){
+        var search_term = document.getElementById("search_box").value;
 
+        $.ajax({
+            url: '/search_users',
+            type: 'POST',
+            data: {"searchTerm": user_email},
+            success: function (data) {
+                set_result_delete_user(data);
+            }
+        });
+    }
 
     function set_result_delete_user(result) {
         if(result){

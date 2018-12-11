@@ -45,7 +45,7 @@ public class AdminAPI {
 
     @PostMapping(value = "/searchUsers")
     public List<Account> searchUsers(
-            @RequestParam(value = "searchTerm") String searchTerm) {
+            @RequestParam(value = "search_term") String searchTerm) {
         return accountService.searchUsers(searchTerm);
     }
 }
