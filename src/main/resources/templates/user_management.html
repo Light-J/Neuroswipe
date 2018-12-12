@@ -91,11 +91,9 @@
     function getResults(page){
         var searchTerm = $("#search_box").val();
         $.ajax({
-            url: '/api/admin/searchUsers?searchTerm='+searchTerm,
+            url: '/api/admin/searchUsers?searchTerm='+searchTerm+'&page='+page,
 
             type: 'GET',
-            headers: {
-                "page" : page },
             success: function (data) {
                 clearTable();
                 updateTableContent(data);

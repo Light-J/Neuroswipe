@@ -65,11 +65,8 @@
         var filter_percentage_good = document.getElementById("goodPercentage").value;
 
         $.ajax({
-            url: '/scans/getScansFiltered',
+            url: '/scans/getScansFiltered?filter_min_responses='+filter_min_responses+'&filter_percentage_good='+filter_percentage_good+'&page='+page,
             type: 'GET',
-            headers: {"filter_min_responses":filter_min_responses,
-                "filter_percentage_good":filter_percentage_good,
-                "page":page},
             success: function (data) {
                 clearTable();
                 updateTableContent(data);
@@ -96,7 +93,7 @@
         var filter_min_responses = document.getElementById("numResponses").value;
         var filter_percentage_good = document.getElementById("goodPercentage").value;
 
-        downloadFile("/scans/downloadScansFiltered", {"filter_min_responses":filter_min_responses, "filter_percentage_good":filter_percentage_good}, "images.zip")
+        downloadFile('/scans/downloadScansFiltered?filter_min_responses='+filter_min_responses+'&filter_percentage_good='+filter_percentage_good, "images.zip")
     }
 
     //From https://stackoverflow.com/questions/38192854/recieving-a-zip-file-as-response-on-ajax-request
