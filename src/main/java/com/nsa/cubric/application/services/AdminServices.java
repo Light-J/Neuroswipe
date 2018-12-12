@@ -14,7 +14,7 @@ public class AdminServices implements AdminServicesStatic {
         return accountRepository.removeUser(userId);
     }
 
-    public Long removeUserResponses(Long userId){
+    public Integer removeUserResponses(Long userId){
         return accountRepository.removeUserResponses(userId);
     }
 

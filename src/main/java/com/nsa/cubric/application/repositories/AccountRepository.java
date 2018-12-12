@@ -122,8 +122,14 @@ public class AccountRepository implements AccountRepositoryStatic {
     }
 
     @Override
-    public Long removeUserResponses(Long userId){
-        return Long.valueOf(jdbcTemplate.update("CALL removeUserRatings(?)", (userId)));
+    public Integer removeUserResponses(Long userId){
+        int rowsAffected = jdbcTemplate.queryForObject(
+                "SELECT count(*) FROM userratings WHERE userprofileid = \n" +
+                        "(SELECT id FROM userprofiles WHERE useraccountid = ?);",
+                new Object[]{userId}, Integer.class);
+
+        jdbcTemplate.update("CALL removeUserRatings(?)", (userId));
+        return rowsAffected;
     }
 
     @Override
