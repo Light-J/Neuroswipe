@@ -65,7 +65,7 @@ public class AdminAPITest {
 
     @Test
     public void removeUserResponses() throws Exception{
-        given(adminServices.removeUserResponses(1L)).willReturn(0L);
+        given(adminServices.removeUserResponses(1L)).willReturn(0);
         mvc.perform(post("/api/admin/removeUserResponses")
                 .param("userToRemoveResponses", "test@account.com"))
                 .andExpect(status().isOk())

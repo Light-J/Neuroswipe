@@ -1,7 +1,9 @@
 package com.nsa.cubric.application.services;
 
 public interface AdminServicesStatic {
-    public boolean removeUser(Long userId);
-    public Integer removeUserResponses(Long userId);
+    boolean removeUser(Long userId);
+    Integer removeUserResponses(Long userId);
+    boolean updateUserRole(Long userId, String role);
+
 
 }

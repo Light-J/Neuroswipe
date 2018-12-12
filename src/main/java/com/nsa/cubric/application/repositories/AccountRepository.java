@@ -137,4 +137,10 @@ public class AccountRepository implements AccountRepositoryStatic {
         return jdbcTemplate.query("SELECT * FROM useraccounts WHERE email like ? LIMIT ?, 10",
                 new Object[]{'%'+searchTerm+'%', offset}, accountMapper);
     }
+
+    @Override
+    public boolean updateUserRole(Long userId, String role){
+        int rowsAffected = jdbcTemplate.update("UPDATE useraccounts SET role = ? WHERE id = ?", role, userId);
+        return rowsAffected == 1;
+    }
 }
