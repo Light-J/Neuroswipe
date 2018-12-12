@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="/js/bootstrap.js"></script>
+    <script src="/js/bootstrap-notify.js"></script>
     <title>Admin | SwipeRightBrains</title>
 </head>
 <body>
@@ -24,7 +25,7 @@
 
     <h2>Images</h2>
 
-    <table class="table">
+    <table class="table" id="scan_table">
         <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th><th>Known good/bad</th><th>Good responses</th><th>Bad responses</th></tr>
     </table>
     <nav>
@@ -38,6 +39,14 @@
 </div>
 
 <script>
+    function clearTable(){
+        var table = document.getElementById("scan_table");
+        var rowCount = table.rows.length;
+        for (var i = rowCount - 1; i > 0; i--) {
+            table.deleteRow(i);
+        }
+    }
+
     function changePage(changeBy) {
         var curPage = $("#pageNumber").text();
         getScans(parseInt(curPage)+changeBy);
@@ -50,6 +59,7 @@
     function getScans(page){
         $.getJSON("/scans/?page="+page, function( scans ) {
             updatePageNumber(page);
+            clearTable();
             for (var i = 0; i < scans.length; i++) {
                 $("table").append('<tr data-id="'+scans[i].id+'"><td>'+scans[i].id+'</td><td><a target="_blank" href="/brain_images/'+scans[i].path1+'">'+scans[i].path1.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path2+'">'+scans[i].path2.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path3+'">'+scans[i].path3.substring(0,15)+"..."+'</a></td><td class="knownGood">'+scans[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
             }
@@ -80,7 +90,8 @@
 
                     $.post("/scans/"+$(this).data("id")+"/setKnownGood", { knownGood: knownGood })
                         .done(function( data ) {
-                            location.reload();
+                            $.notify("Option saved", {
+                            });
                         });
                 });
             });
