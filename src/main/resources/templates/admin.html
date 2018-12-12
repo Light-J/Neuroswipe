@@ -22,13 +22,12 @@
         <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th><th>Known good/bad</th><th>Good responses</th><th>Bad responses</th></tr>
     </table>
     <nav>
-        <ul class="pagination">
+        <ul class="pagination justify-content-center">
             <li class="page-item"><a class="page-link" onclick="changePage(-1)" href="#">Previous</a></li>
-            <li class="page-item"><a id="pageNumber" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" id="pageNumber" href="#">1</a></li>
             <li class="page-item"><a class="page-link" onclick="changePage(1)" href="#">Next</a></li>
         </ul>
     </nav>
-
 </div>
 
 <script>
@@ -63,8 +62,8 @@
 
                 $(this).find(".knownGood").html('<select class="form-control" data-id="'+id+'">\n' +
                     '    <option value="null">Unknown</option>\n' +
-                    '    <option value="true">True</option>\n' +
-                    '    <option value="false">False</option>\n' +
+                    '    <option value="true">Good</option>\n' +
+                    '    <option value="false">Bad</option>\n' +
                     '</select>');
 
                 $(this).find(".knownGood select").val(knownGood);
