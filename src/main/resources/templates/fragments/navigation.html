@@ -23,6 +23,9 @@
                 <li>
                     <a class="navbar-link" href="/ratings/">Sort Images</a>
                 </li>
+                <li>
+                    <a class="navbar-link" href="/userfeedback/">Feedback</a>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav" sec:authorize="${hasAuthority('admin')}">
@@ -38,12 +41,13 @@
                 <li>
                     <a class="navbar-link" href="/admin/export_images">Export images</a>
                 </li>
+                <li>
+                    <a class="navbar-link" href="/admin/feedback">Feedback</a>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
-                <li>
-                    <a class="navbar-link" href="/userfeedback/">Feedback</a>
-                </li>
+
                 <li>
                     <a class="navbar-link" href="/userprofile/" th:text="${#authentication.name}"></a>
                 </li>
