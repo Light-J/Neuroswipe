@@ -6,13 +6,24 @@
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
-    <h1>Practice</h1>
 
     <div class="panel panel-info" id="imagesPanel">
-        <div class="panel-heading row">
-            <div class="col-xs-7">Is this a good scan of a brain?</div>
-            <div class="col-xs-2">Answers correct:<p id="answersCorrect"></p></div>
-            <div class="col-xs-2">Answers incorrect:<p id="answersIncorrect"></p></div>
+        <div class="panel-heading">
+
+            <h4>Practice</h4>
+            Is this a good scan of a brain?
+
+            <div class="pull-right">
+
+                <h5>
+                    <span>Correct&nbsp;&nbsp;</span>
+                    <span id="answersCorrect" class="badge badge-secondary">0</span>
+                </h5>
+                <h5>
+                    <span>Incorrect </span>
+                    <span id="answersIncorrect" class="badge badge-secondary">0</span>
+                </h5>
+            </div>
         </div>
         <div class="panel-body">
             <img src="" id="brainImage1" style="width:33%">
@@ -28,6 +39,17 @@
 </div>
 
 <script>
+    function correctAnswer() {
+        var answersCorrect = $("#answersCorrect").text();
+        $("#answersCorrect").text(parseInt(answersCorrect)+1)
+    }
+
+
+    function incorrectAnswer() {
+        var answersCorrect = $("#answersIncorrect").text();
+        $("#answersIncorrect").text(parseInt(answersCorrect)+1)
+    }
+
     var loadNextImage = function(){
         $.getJSON("/scans/next/practice", function( imageData ) {
             console.log(imageData);
@@ -36,12 +58,19 @@
             $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
 
             $("#brainImage1").data("id", imageData.id);
+            $("#brainImage1").data("knownGood", imageData.knownGood);
 
             $("#imagesPanel").fadeIn();
         });
     };
 
-    var saveDecisionAndNextImage = function(goodBrain){
+    var saveDecisionAndNextImage = function(userAnswer){
+        if(userAnswer == $("#brainImage1").data("knownGood")){
+            correctAnswer();
+        } else {
+            incorrectAnswer();
+        }
+
         $("#imagesPanel").fadeOut();
         loadNextImage();
     };
