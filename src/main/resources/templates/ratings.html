@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='Ratings')" ></head>
-<body>
+<body class="overflow-hidden">
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
@@ -52,8 +52,10 @@
             $("#brainImage2").attr("src", "/brain_images/"+imageData.path2);
             $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
             $("#brainImage1").data("id", imageData.id);
-            $("#imagesCard").fadeIn(function() {
-                $("#yesButton, #noButton").show();
+            $("#yesButton, #noButton").fadeIn(250);
+            $("#imagesCard").fadeOut(250, function () {
+                $("#imagesCard").removeClass("swipe-right swipe-left");
+                $("#imagesCard").fadeIn(250);
             });
         });
 
@@ -80,7 +82,12 @@
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
-        $("#imagesCard").fadeOut();
+        if(goodBrain){
+            $("#imagesCard").addClass("swipe-right");
+        }else{
+            $("#imagesCard").addClass("swipe-left");
+        }
+
         $.ajax({
             type: "POST",
             url: "/ratings/save",
@@ -89,7 +96,9 @@
                 "goodBrain": goodBrain,
             },
             success: function(data){
-                loadNextImage();
+                setTimeout(function(){
+                    loadNextImage();
+                }, 250);
             },
             error: function(){
                 alert("There was an error submitting the data.");
@@ -99,6 +108,7 @@
     };
 
     $(function() {
+        $("#imagesCard").hide();
         loadNextImage();
 
         $("#yesButton").on("click", function(){
