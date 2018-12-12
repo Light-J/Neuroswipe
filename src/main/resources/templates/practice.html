@@ -7,34 +7,34 @@
 
 <div class="container">
 
-    <div class="panel panel-info" id="imagesPanel">
-        <div class="panel-heading">
-
-            <h4>Practice</h4>
-            Is this a good scan of a brain?
-
-            <div class="pull-right">
-
-                <h5>
-                    <span>Correct&nbsp;&nbsp;</span>
-                    <span id="answersCorrect" class="badge badge-secondary">0</span>
-                </h5>
-                <h5>
-                    <span>Incorrect </span>
-                    <span id="answersIncorrect" class="badge badge-secondary">0</span>
-                </h5>
+    <div class="card">
+        <div class="card-body row text-center">
+            <div class="col-sm">
+                <h5>Correct answers: <span id="answersCorrect" class="badge badge-success">0</span></h5>
+            </div>
+            <div class="col-sm">
+                <h5>Incorrect answers: <span id="answersIncorrect" class="badge badge-danger">0</span></h5>
             </div>
         </div>
-        <div class="panel-body">
+    </div>
+
+    <br><br>
+
+    <div class="card" id="imagesCard">
+        <div class="card-body">
+            <h5 class="card-title text-center">Practice</h5>
+            <p class="card-text text-center lead">Is this a good scan of a brain?</p>
             <img src="" id="brainImage1" style="width:33%">
             <img src="" id="brainImage2" style="width:33%">
             <img src="" id="brainImage3" style="width:33%">
-        </div>
-        <div class="panel-footer text-center">
-            <a href="#" class="btn btn-danger btn-lg" id="noButton">No</a>
-            <a href="#" class="btn btn-success btn-lg" id="yesButton">Yes</a>
+            <p class="text-center">
+                <br><br>
+                <a href="#" id="noButton" class="btn btn-danger btn-lg">No</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" id="yesButton" class="btn btn-success btn-lg">Yes</a>
+            </p>
         </div>
     </div>
+
 
 </div>
 
@@ -60,7 +60,7 @@
             $("#brainImage1").data("id", imageData.id);
             $("#brainImage1").data("knownGood", imageData.knownGood);
 
-            $("#imagesPanel").fadeIn();
+            $("#imagesCard").fadeIn();
         });
     };
 
@@ -71,7 +71,7 @@
             incorrectAnswer();
         }
 
-        $("#imagesPanel").fadeOut();
+        $("#imagesCard").fadeOut();
         loadNextImage();
     };
 
