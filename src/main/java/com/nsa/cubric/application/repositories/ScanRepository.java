@@ -57,9 +57,10 @@ public class ScanRepository implements ScanRepositoryStatic {
     }
 
     @Override
-    public List<Scan> getAll(){
+    public List<Scan> getAll(int offset){
         return jdbcTemplate.query(
-                "SELECT id, path1, path2, path3, known_good FROM scans",scanMapper
+                "SELECT id, path1, path2, path3, known_good FROM scans LIMIT ?, 10",
+                new Object[]{offset}, scanMapper
         );
     }
 

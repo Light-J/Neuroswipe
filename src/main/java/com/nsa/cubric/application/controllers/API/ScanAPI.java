@@ -58,8 +58,10 @@ public class ScanAPI {
      * @return      ResponseEntity object containing scans JSON.
      */
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getAllScans() {
-        List<Scan> scans = scanService.getAll();
+    public ResponseEntity getAllScans(
+            @RequestParam(value = "page") int page) {
+
+        List<Scan> scans = scanService.getAll(page);
         return new ResponseEntity<>(scans,null, HttpStatus.OK);
     }
 
