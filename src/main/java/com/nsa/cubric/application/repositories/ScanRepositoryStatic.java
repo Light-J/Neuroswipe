@@ -10,7 +10,8 @@ public interface ScanRepositoryStatic {
     public Scan findById(Long id);
     public void insert(Scan scan);
     public void updateKnownGood(Long id, Boolean knownGood);
-    public List<Scan> getAll();
+    public List<Scan> getAll(int offset);
     public Optional<Scan> getNext();
     List<Scan> getScansFiltered(int minResponses, int percentageGood);
+    List<Scan> getScansFilteredPaginated(int minResponses, int percentageGood, int offset);
 }

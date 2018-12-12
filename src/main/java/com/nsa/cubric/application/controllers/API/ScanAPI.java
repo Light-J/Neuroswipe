@@ -58,8 +58,10 @@ public class ScanAPI {
      * @return      ResponseEntity object containing scans JSON.
      */
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getAllScans() {
-        List<Scan> scans = scanService.getAll();
+    public ResponseEntity getAllScans(
+            @RequestParam(value = "page") int page) {
+
+        List<Scan> scans = scanService.getAll(page);
         return new ResponseEntity<>(scans,null, HttpStatus.OK);
     }
 
@@ -93,7 +95,8 @@ public class ScanAPI {
      * @param knownGood boolean containing whether the images is good or not
      */
     @RequestMapping(value = "/{id}/setKnownGood", method = RequestMethod.POST)
-    public String updateKnownGood(@PathVariable("id") Long id, @RequestParam("knownGood") Boolean knownGood) {
+    public String updateKnownGood(@PathVariable("id") Long id,
+                                  @RequestParam("knownGood") Boolean knownGood) {
         scanService.updateKnownGood(id, knownGood);
         return "OK";
     }
@@ -108,10 +111,11 @@ public class ScanAPI {
 
     @GetMapping(value = "/getScansFiltered")
     public ResponseEntity getScansFiltered(
-            @RequestHeader(value = "filter_min_responses") Integer filterMinResponses,
-            @RequestHeader(value = "filter_percentage_good") Integer filterPercentageGood) {
+            @RequestParam(value = "filter_min_responses") Integer filterMinResponses,
+            @RequestParam(value = "filter_percentage_good") Integer filterPercentageGood,
+            @RequestParam(value = "page") int page) {
 
-        List<Scan> scans = scanService.getScansFiltered(filterMinResponses, filterPercentageGood);
+        List<Scan> scans = scanService.getScansFilteredPaginated(filterMinResponses, filterPercentageGood, page);
 
         return new ResponseEntity<>(scans, null, HttpStatus.OK);
     }
@@ -119,8 +123,8 @@ public class ScanAPI {
     @RequestMapping(value = "/downloadScansFiltered", produces = "application/zip")
     public byte[] downloadScansFiltered(
             HttpServletResponse response,
-            @RequestHeader(value = "filter_min_responses") Integer filterMinResponses,
-            @RequestHeader(value = "filter_percentage_good") Integer filterPercentageGood) throws IOException {
+            @RequestParam(value = "filter_min_responses") Integer filterMinResponses,
+            @RequestParam(value = "filter_percentage_good") Integer filterPercentageGood) throws IOException {
 
 
         response.setContentType("application/octet-stream");

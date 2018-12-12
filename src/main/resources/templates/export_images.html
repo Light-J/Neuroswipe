@@ -32,7 +32,7 @@
                     <input id="goodPercentage" class="form-control"/>
 
                     <p class="text text-info">Note leaving these fields empty will get all images</p>
-                    <button class="btn btn-primary" onclick="updateTable()">Update</button>
+                    <button class="btn btn-primary" onclick="updateTable(1)">Update</button>
                     <button class="btn btn-primary" onclick="downloadImages()">Download</button>
                 </div>
             </div>
@@ -42,20 +42,35 @@
         <tr><th>ID</th><th>Front</th><th>Side</th><th>Top</th></tr>
         <div id="scan_table_body"></div>
     </table>
+    <nav>
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" onclick="changePage(-1)" href="#">Previous</a></li>
+            <li class="page-item"><a id="pageNumber" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" onclick="changePage(1)" href="#">Next</a></li>
+        </ul>
+    </nav>
 </div>
 <script>
-    var updateTable = function () {
+    function changePage(changeBy) {
+        var curPage = $("#pageNumber").text();
+        updateTable(parseInt(curPage)+changeBy);
+    }
+
+    function updatePageNumber(pageNumber) {
+        var curPage = $("#pageNumber").text(pageNumber);
+    }
+
+    var updateTable = function (page) {
         var filter_min_responses = document.getElementById("numResponses").value;
         var filter_percentage_good = document.getElementById("goodPercentage").value;
 
         $.ajax({
-            url: '/scans/getScansFiltered',
+            url: '/scans/getScansFiltered?filter_min_responses='+filter_min_responses+'&filter_percentage_good='+filter_percentage_good+'&page='+page,
             type: 'GET',
-            headers: {"filter_min_responses":filter_min_responses,
-                "filter_percentage_good":filter_percentage_good},
             success: function (data) {
                 clearTable();
                 updateTableContent(data);
+                updatePageNumber(page);
             }
         });
     };
@@ -78,7 +93,7 @@
         var filter_min_responses = document.getElementById("numResponses").value;
         var filter_percentage_good = document.getElementById("goodPercentage").value;
 
-        downloadFile("/scans/downloadScansFiltered", {"filter_min_responses":filter_min_responses, "filter_percentage_good":filter_percentage_good}, "images.zip")
+        downloadFile('/scans/downloadScansFiltered?filter_min_responses='+filter_min_responses+'&filter_percentage_good='+filter_percentage_good, "images.zip")
     }
 
     //From https://stackoverflow.com/questions/38192854/recieving-a-zip-file-as-response-on-ajax-request

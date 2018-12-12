@@ -10,7 +10,8 @@ public interface ScanServiceStatic {
     Scan findById(Long id);
     void insert(Scan scan);
     void updateKnownGood(Long id, Boolean knownGood);
-    List<Scan> getAll();
+    List<Scan> getAll(int page);
     Optional<Scan> getNext();
     List<Scan> getScansFiltered(Integer minResponses, Integer percentageGood);
+    List<Scan> getScansFilteredPaginated(Integer minResponses, Integer percentageGood, int Paginated);
 }

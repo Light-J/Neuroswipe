@@ -57,9 +57,10 @@ public class ScanRepository implements ScanRepositoryStatic {
     }
 
     @Override
-    public List<Scan> getAll(){
+    public List<Scan> getAll(int offset){
         return jdbcTemplate.query(
-                "SELECT id, path1, path2, path3, known_good FROM scans",scanMapper
+                "SELECT id, path1, path2, path3, known_good FROM scans LIMIT ?, 10",
+                new Object[]{offset}, scanMapper
         );
     }
 
@@ -79,6 +80,19 @@ public class ScanRepository implements ScanRepositoryStatic {
                         "       GROUP BY scanid \n" +
                         "       HAVING count(scanid) >= ? AND sum(response)/count(scanid)*100 >= ?);",
                 new Object[]{minResponses, percentageGood}, scanMapper
+        );
+    }
+
+    @Override
+    public List<Scan> getScansFilteredPaginated(int minResponses, int percentageGood, int offset){
+        return jdbcTemplate.query(
+                "SELECT * \n" +
+                        "FROM scans WHERE known_good is null AND id in \n" +
+                        "   (SELECT scanid FROM userratings\n" +
+                        "       GROUP BY scanid \n" +
+                        "       HAVING count(scanid) >= ? AND sum(response)/count(scanid)*100 >= ?)" +
+                        "LIMIT ?, 10;",
+                new Object[]{minResponses, percentageGood, offset}, scanMapper
         );
     }
 }
