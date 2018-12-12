@@ -51,20 +51,20 @@
 
 <div class="container">
     <div>
-        <div class="form-group form-inline">
+        <div class="form-inline text-right">
             <input class="form-control" type="text" id="search_box">
             <button class="btn btn-primary" onclick="getResults(1)">Search</button>
         </div>
 
         <table class="table" id="user_table">
-            <tr><th>User ID</th><th>User email</th><th>User role</th><th></th><th></th></tr>
+            <tr><th>User ID</th><th>User Email</th><th>User Role</th><th></th><th></th></tr>
             <div id="user_table_body"></div>
         </table>
 
         <nav>
-            <ul class="pagination">
+            <ul class="pagination justify-content-center">
                 <li class="page-item"><a class="page-link" onclick="changePage(-1)" href="#">Previous</a></li>
-                <li class="page-item"><a id="pageNumber" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" id="pageNumber" href="#">1</a></li>
                 <li class="page-item"><a class="page-link" onclick="changePage(1)" href="#">Next</a></li>
             </ul>
         </nav>
@@ -104,9 +104,9 @@
                 '<td class="col-md-3">'+users[i].id+'</td>' +
                 '<td class="col-md-3">'+users[i].email+'</td>' +
                 '<td class="col-md-3">'+users[i].role+'</td>' +
-                '<td class="col-md-1"><button class="viewResponsesButton btn btn-primary">View responses</button></td>' +
-                '<td class="col-md-1"><button class="removeResponsesButton btn btn-primary">Remove responses</button></td>' +
-                '<td class="col-md-1"><button class="removeUserButton btn btn-primary">Delete user</button></td>' +
+                '<td class="col-md-1"><button class="viewResponsesButton btn btn-info">View responses</button></td>' +
+                '<td class="col-md-1"><button class="removeResponsesButton btn btn-warning">Remove responses</button></td>' +
+                '<td class="col-md-1"><button class="removeUserButton btn btn-danger">Delete user</button></td>' +
                 '</tr>');
         }
 
