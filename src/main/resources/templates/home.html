@@ -1,11 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>Home | SwipeRightBrains</title>
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="/js/bootstrap.js"></script>
+    <head th:replace="fragments/head(title='Home')" ></head>
+    <body>
+        <div class="modal fade" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="privacyModalLongTitle">Privacy notice and GDPR</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        This is a privacy notice, it contains privacy stuff so you know you are safe. If you have issues you may contact us at brainy@brainyFace.com
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+        <div class="container">
+
+            <section>
+                <h1>Can you help us analyse MRI brain scans and help cure brain diseases?</h1>
+                <p>At Cardiff University Brain Research Imaging Centre (CUBRIC) we map out the pathways in the brain using state-of-the-art diffusion Magnetic Resonance Imaging (dMRI).</p>
+
+                <p>Its important we map these pathways correctly.</p>
+
+                <p>We need your help to tell us which pathways are wrong!</p>
+
+                <p>Anyone can take part and no scientific background is needed. Join us and together we can learn more about the brain and help scientists pioneer cures for diseases such as dementia and schizophrenia.</p>
+            </section>
+
+            <section>
+                <!--Will be adding the siemens video once the client sends the video over-->
+                <h2> Siemens Video</h2>
+                <iframe width="853" height="480" src="https://www.youtube.com/embed/svCgy-Oa9ts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!--<video width="400" controls>-->
+                    <!--<source src="#.mp4" type="video/mp4">-->
+                </video>
+            </section>
+
+            <footer>
+                <p><a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
+                <p>Copyright &copy; 2017 Swipe Right Brains</p>
+            </footer>
+        </div>
         <script>
             $(document).ready(function() {
                 var isshow = localStorage.getItem('isshow');
@@ -16,54 +59,5 @@
                 }
             });
         </script>
-    </head>
-    <body>
-    <div class="modal fade" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="privacyModalLongTitle">Privacy notice and GDPR</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    This is a privacy notice, it contains privacy stuff so you know you are safe. If you have issues you may contact us at brainy@brainyFace.com
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
-    <div class="container">
-
-        <section>
-            <h1>Can you help us analyse MRI brain scans and help cure brain diseases?</h1>
-            <p>At Cardiff University Brain Research Imaging Centre (CUBRIC) we map out the pathways in the brain using state-of-the-art diffusion Magnetic Resonance Imaging (dMRI).</p>
-
-            <p>Its important we map these pathways correctly.</p>
-
-            <p>We need your help to tell us which pathways are wrong!</p>
-
-            <p>Anyone can take part and no scientific background is needed. Join us and together we can learn more about the brain and help scientists pioneer cures for diseases such as dementia and schizophrenia.</p>
-        </section>
-
-        <section>
-            <!--Will be adding the siemens video once the client sends the video over-->
-            <h2> Siemens Video</h2>
-            <iframe width="853" height="480" src="https://www.youtube.com/embed/svCgy-Oa9ts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <!--<video width="400" controls>-->
-                <!--<source src="#.mp4" type="video/mp4">-->
-            </video>
-        </section>
-
-        <footer>
-            <p><a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
-            <p>Copyright &copy; 2017 Swipe Right Brains</p>
-        </footer>
-    </div>
-</body>
+    </body>
 </html>

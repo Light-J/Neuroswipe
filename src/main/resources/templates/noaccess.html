@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>No Access</title>
-        <link rel="stylesheet" type="text/css" href="css/">
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
-        <script src="/js/bootstrap.js"></script>
-    </head>
-</head>
+<head th:replace="fragments/head(title='Error')" ></head>
 <body>
     <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
     <div class="container">
