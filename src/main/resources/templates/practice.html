@@ -1,59 +1,119 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='Practice')" ></head>
-<body>
+<body class="overflow-hidden">
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
-    <h1>Practice</h1>
 
-    <div class="panel panel-info" id="imagesPanel">
-        <div class="panel-heading">Is this a good scan of a brain?</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body row text-center">
+            <div class="col-sm">
+                <h5>Correct answers: <span id="answersCorrect" class="badge badge-success">0</span></h5>
+            </div>
+            <div class="col-sm">
+                <h5>Incorrect answers: <span id="answersIncorrect" class="badge badge-danger">0</span></h5>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="card" id="imagesCard">
+        <div class="card-body">
+            <h5 class="card-title text-center">Practice</h5>
+            <p class="card-text text-center lead">Is this a good scan of a brain?</p>
             <img src="" id="brainImage1" style="width:33%">
             <img src="" id="brainImage2" style="width:33%">
             <img src="" id="brainImage3" style="width:33%">
-        </div>
-        <div class="panel-footer text-center">
-            <a href="#" class="btn btn-danger btn-lg" id="noButton">No</a>
-            <a href="#" class="btn btn-success btn-lg" id="yesButton">Yes</a>
+            <p class="text-center">
+                <br><br>
+                <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
+            </p>
         </div>
     </div>
+
 
 </div>
 
 <script>
+    function correctAnswer() {
+        var answersCorrect = $("#answersCorrect").text();
+        $("#answersCorrect").text(parseInt(answersCorrect)+1)
+    }
+
+
+    function incorrectAnswer() {
+        var answersCorrect = $("#answersIncorrect").text();
+        $("#answersIncorrect").text(parseInt(answersCorrect)+1)
+    }
+
     var loadNextImage = function(){
-        $.getJSON("/scans/next", function( imageData ) {
-            console.log(imageData);
+        $.getJSON("/scans/next/practice", function( imageData ) {
             $("#brainImage1").attr("src", "/brain_images/"+imageData.path1);
             $("#brainImage2").attr("src", "/brain_images/"+imageData.path2);
             $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
 
             $("#brainImage1").data("id", imageData.id);
-
-            $("#imagesPanel").fadeIn();
+            $("#brainImage1").data("knownGood", imageData.knownGood);
+            $("#yesButton, #noButton").fadeIn(250);
+            $("#imagesCard").fadeOut(250, function () {
+                $("#imagesCard").removeClass("swipe-right swipe-left");
+                $("#imagesCard").fadeIn(250);
+            });
         });
     };
 
-    var saveDecisionAndNextImage = function(goodBrain){
-        $("#imagesPanel").fadeOut();
-        loadNextImage();
+    var saveDecisionAndNextImage = function(userAnswer){
+        if(userAnswer == $("#brainImage1").data("knownGood")){
+            correctAnswer();
+        } else {
+            incorrectAnswer();
+        }
+
+        if(userAnswer){
+            $("#imagesCard").addClass("swipe-right");
+        }else{
+            $("#imagesCard").addClass("swipe-left");
+        }
+
+        setTimeout(function(){
+            loadNextImage();
+        }, 250);
     };
 
     $(function() {
+        $("#imagesCard").hide();
         loadNextImage();
 
         $("#yesButton").on("click", function(){
+            $("#yesButton, #noButton").hide();
             saveDecisionAndNextImage(true);
         });
 
         $("#noButton").on("click", function(){
             saveDecisionAndNextImage(false);
         });
+
+        $(document).keydown(function(e) {
+            switch(e.which) {
+                case 37: // left
+                    if($("#noButton").is(":visible")){
+                        saveDecisionAndNextImage(false);
+                    }
+                    break;
+                case 39: // right
+                    if($("#yesButton").is(":visible")) {
+                        saveDecisionAndNextImage(true);
+                    }
+                    break;
+                default: return; // exit this handler for other keys
+            }
+            e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
     });
 </script>
-
 </body>
 </html>

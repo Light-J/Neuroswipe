@@ -72,6 +72,13 @@ public class ScanRepository implements ScanRepositoryStatic {
     }
 
     @Override
+    public Optional<Scan> getNextPractice(){
+        return jdbcTemplate.query(
+                "SELECT * FROM scans WHERE known_good in (1,0) ORDER BY RAND() LIMIT 0,1", scanMapper
+        ).stream().findFirst();
+    }
+
+    @Override
     public List<Scan> getScansFiltered(int minResponses, int percentageGood){
         return jdbcTemplate.query(
                 "SELECT * \n" +

@@ -52,6 +52,12 @@ public class ScanAPI {
         return new ResponseEntity<>(scan, null, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "next/practice", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity getNextPracticeScan() {
+        Optional<Scan> scan = scanService.getNextPractice();
+        return new ResponseEntity<>(scan, null, HttpStatus.OK);
+    }
+
     /**
      * This method is used to serve the JSON for all the scans in the database. It responds to GET requests to /scans/.
      *

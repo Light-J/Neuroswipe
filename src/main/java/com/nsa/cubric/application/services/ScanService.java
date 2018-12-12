@@ -45,6 +45,11 @@ public class ScanService implements ScanServiceStatic {
     }
 
     @Override
+    public Optional<Scan> getNextPractice(){
+        return scanRepository.getNextPractice();
+    }
+
+    @Override
     public List<Scan> getScansFiltered(Integer minResponses, Integer percentageGood){
         if (minResponses == null){
             minResponses = 0;
