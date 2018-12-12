@@ -9,5 +9,5 @@ public interface UserRatingRepositoryStatic {
 
 	public List<UserRating> getAll();
 
-	public List<UserRating> getUserRatings(String userProfileId);
+	public List<UserRating> getUserRatings(String userEmail);
 }

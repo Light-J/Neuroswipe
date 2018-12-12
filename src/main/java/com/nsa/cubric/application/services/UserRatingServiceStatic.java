@@ -6,9 +6,6 @@ import java.util.List;
 
 public interface UserRatingServiceStatic {
 	public boolean storeUserRatings(UserRating rating);
-
 	public List<UserRating> getAll();
-
-	public List<UserRating> getUserRatings(String userProfileId);
-
+	public List<UserRating> getUserRatings(String userEmail);
 }

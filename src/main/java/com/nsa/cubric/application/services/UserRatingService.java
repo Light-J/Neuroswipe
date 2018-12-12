@@ -34,7 +34,7 @@ public class UserRatingService implements UserRatingServiceStatic {
 	}
 
 	@Override
-	public List<UserRating> getUserRatings(String userProfileId) {
-		return ratingRepository.getUserRatings(userProfileId);
+	public List<UserRating> getUserRatings(String userEmail) {
+		return ratingRepository.getUserRatings(userEmail);
 	}
 }

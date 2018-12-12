@@ -104,6 +104,7 @@
                 '<td class="col-md-3">'+users[i].id+'</td>' +
                 '<td class="col-md-3">'+users[i].email+'</td>' +
                 '<td class="col-md-3">'+users[i].role+'</td>' +
+                '<td class="col-md-1"><button class="viewResponsesButton btn btn-primary">View responses</button></td>' +
                 '<td class="col-md-1"><button class="removeResponsesButton btn btn-primary">Remove responses</button></td>' +
                 '<td class="col-md-1"><button class="removeUserButton btn btn-primary">Delete user</button></td>' +
                 '</tr>');
@@ -117,6 +118,11 @@
         $(".removeUserButton").click(function (e) {
             var email = $(this).parent().parent().data("email");
             confirm_user_removal(email);
+        });
+
+        $(".viewResponsesButton").click(function (e) {
+            var email = $(this).parent().parent().data("email");
+            $(location).attr('href', '/user/ratings/'+email);
         });
     }
 
