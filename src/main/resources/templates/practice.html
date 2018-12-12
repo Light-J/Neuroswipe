@@ -89,6 +89,7 @@
     };
 
     var saveDecisionAndNextImage = function(userAnswer){
+        $("#yesButton, #noButton").hide();
         if(userAnswer == $("#brainImage1").data("knownGood")){
             correctAnswer();
         } else {
@@ -111,7 +112,6 @@
         loadNextImage();
 
         $("#yesButton").on("click", function(){
-            $("#yesButton, #noButton").hide();
             saveDecisionAndNextImage(true);
         });
 
