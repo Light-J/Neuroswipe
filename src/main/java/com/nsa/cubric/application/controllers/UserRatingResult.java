@@ -40,13 +40,14 @@ public class UserRatingResult {
 		return "all_user_rating_result";
 	}
 
-	@RequestMapping(value = "/ratings/{userProfileId}", method = RequestMethod.GET)
-	public String getSingleUserResponse(@PathVariable("userProfileId") String userProfileId, WebRequest webRequest,
+	@RequestMapping(value = "/ratings/{userEmail}", method = RequestMethod.GET)
+	public String getSingleUserResponse(@PathVariable("userEmail") String userEmail,
 			Model model) {
 		LOG.debug("Handling GET request to /ratings/");
 
 		Map<Integer, Map<String, Integer>> userRatingMap = new HashMap<>();
-		List<UserRating> responsesList = ratingService.getUserRatings(userProfileId);
+
+		List<UserRating> responsesList = ratingService.getUserRatings(userEmail);
 		convertResultToMap(userRatingMap, responsesList);
 		model.addAttribute("userRatingMap", userRatingMap);
 		return "single_user_rating_result";
