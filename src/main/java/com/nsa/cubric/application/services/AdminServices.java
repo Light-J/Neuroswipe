@@ -10,12 +10,20 @@ public class AdminServices implements AdminServicesStatic {
     @Autowired
     AccountRepositoryStatic accountRepository;
 
+    @Override
     public boolean removeUser(Long userId){
         return accountRepository.removeUser(userId);
     }
 
+    @Override
     public Integer removeUserResponses(Long userId){
         return accountRepository.removeUserResponses(userId);
     }
+
+    @Override
+    public boolean updateUserRole(Long userId, String role){
+        return accountRepository.updateUserRole(userId, role);
+    }
+
 
 }
