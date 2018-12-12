@@ -82,6 +82,7 @@
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
+        $("#yesButton, #noButton").hide();
         if(goodBrain){
             $("#imagesCard").addClass("swipe-right");
         }else{
@@ -112,7 +113,6 @@
         loadNextImage();
 
         $("#yesButton").on("click", function(){
-            $("#yesButton, #noButton").hide();
             saveDecisionAndNextImage(true);
         });
 
