@@ -53,7 +53,7 @@
             $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
             $("#brainImage1").data("id", imageData.id);
             $("#imagesCard").fadeIn(function() {
-                $("#yesButton, #noButton").removeAttr("disabled");
+                $("#yesButton, #noButton").show();
             });
         });
 
@@ -102,7 +102,7 @@
         loadNextImage();
 
         $("#yesButton").on("click", function(){
-            $("#yesButton, #noButton").attr("disabled", "");
+            $("#yesButton, #noButton").hide();
             saveDecisionAndNextImage(true);
         });
 

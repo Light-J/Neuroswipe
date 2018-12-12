@@ -61,7 +61,7 @@
             $("#brainImage1").data("knownGood", imageData.knownGood);
 
             $("#imagesCard").fadeIn(function() {
-                $("#yesButton, #noButton").removeAttr("disabled");
+                $("#yesButton, #noButton").show();
             });
         });
     };
@@ -81,7 +81,7 @@
         loadNextImage();
 
         $("#yesButton").on("click", function(){
-            $("#yesButton, #noButton").attr("disabled", "");
+            $("#yesButton, #noButton").hide();
             saveDecisionAndNextImage(true);
         });
 
