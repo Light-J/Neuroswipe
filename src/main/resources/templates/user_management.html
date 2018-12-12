@@ -4,52 +4,49 @@
 <body>
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
-
-<div class="modal fade" id="confirmRemovalModal" tabindex="-1" role="dialog" aria-labelledby="confirmRemovalModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemovalModalLongTitle">Remove user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to remove the following user</p>
-                <div id="remove_user_account"><p></p></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                <button type="button" onclick="remove_user()" class="btn btn-primary" data-dismiss="modal">Confirm removal</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="confirmRemovalResponsesModal" tabindex="-1" role="dialog" aria-labelledby="confirmRemovalResponsesModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemovalResponsesModalLongTitle">Remove user responses</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to remove the following users responses</p>
-                <div id="remove_user_responses"><p></p></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                <button type="button" onclick="remove_user_responses()" class="btn btn-primary" data-dismiss="modal">Confirm removal</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 <div class="container">
+    <div class="modal fade" id="confirmRemovalModal" tabindex="-1" role="dialog" aria-labelledby="confirmRemovalModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmRemovalModalLongTitle">Remove user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to remove the following user</p>
+                    <div id="remove_user_account"><p></p></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                    <button type="button" onclick="remove_user()" class="btn btn-primary" data-dismiss="modal">Confirm removal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmRemovalResponsesModal" tabindex="-1" role="dialog" aria-labelledby="confirmRemovalResponsesModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmRemovalResponsesModalLongTitle">Remove user responses</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to remove the following users responses</p>
+                    <div id="remove_user_responses"><p></p></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                    <button type="button" onclick="remove_user_responses()" class="btn btn-primary" data-dismiss="modal">Confirm removal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div>
         <div class="form-inline text-right">
             <input class="form-control" type="text" id="search_box">
@@ -69,7 +66,6 @@
             </ul>
         </nav>
     </div>
-
 </div>
 
 <script>
@@ -151,6 +147,22 @@
             url: '/api/admin/removeUser?userToRemove='+userEmail,
             type: 'POST',
             success: function (data) {
+                if(data){
+                    $.notify(userEmail + " was removed", {
+                        animate: {
+                            enter: 'animated lightSpeedIn',
+                            exit: 'animated lightSpeedOut'
+                        }
+                    });
+                } else {
+                    $.notify(userEmail + " failed to be removed", {
+                        animate: {
+                            enter: 'animated lightSpeedIn',
+                            exit: 'animated lightSpeedOut'
+                        }
+                    });
+                }
+
                 getResults(curPage);
             }
         });
@@ -160,7 +172,15 @@
         var userEmail = $('#remove_user_responses').find("p").text();
         $.ajax({
             url: '/api/admin/removeUserResponses?userToRemoveResponses='+userEmail,
-            type: 'POST'
+            type: 'POST',
+            success: function (data) {
+                $.notify(data + " user responses removed", {
+                    animate: {
+                        enter: 'animated lightSpeedIn',
+                        exit: 'animated lightSpeedOut'
+                    }
+                });
+            }
         });
     }
 

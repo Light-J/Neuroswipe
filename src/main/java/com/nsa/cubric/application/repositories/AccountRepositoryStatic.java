@@ -16,6 +16,6 @@ public interface AccountRepositoryStatic {
     Profile getProfileByEmail(String email);
     Account getAccountById(Long Id);
     boolean removeUser(Long userId);
-    Long removeUserResponses(Long userId);
+    Integer removeUserResponses(Long userId);
     List<Account> searchUsers(String searchTerm, int offset);
 }
