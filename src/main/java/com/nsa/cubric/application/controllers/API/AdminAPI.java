@@ -56,6 +56,7 @@ public class AdminAPI {
             @PathVariable(value = "userId") Long userId,
             @RequestBody() String role){
 
-        return adminServices.updateUserRole(userId, role);
+        return adminServices.updateUserRole(userId, role.replace("role=", ""));
     }
+
 }
