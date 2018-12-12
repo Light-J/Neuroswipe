@@ -88,6 +88,23 @@
         $("#noButton").on("click", function(){
             saveDecisionAndNextImage(false);
         });
+
+        $(document).keydown(function(e) {
+            switch(e.which) {
+                case 37: // left
+                    if($("#noButton").is(":visible")){
+                        saveDecisionAndNextImage(false);
+                    }
+                    break;
+                case 39: // right
+                    if($("#yesButton").is(":visible")) {
+                        saveDecisionAndNextImage(true);
+                    }
+                    break;
+                default: return; // exit this handler for other keys
+            }
+            e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
     });
 </script>
 
