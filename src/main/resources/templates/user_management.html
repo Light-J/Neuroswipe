@@ -147,6 +147,22 @@
             url: '/api/admin/removeUser?userToRemove='+userEmail,
             type: 'POST',
             success: function (data) {
+                if(data){
+                    $.notify(userEmail + " was removed", {
+                        animate: {
+                            enter: 'animated lightSpeedIn',
+                            exit: 'animated lightSpeedOut'
+                        }
+                    });
+                } else {
+                    $.notify(userEmail + " failed to be removed", {
+                        animate: {
+                            enter: 'animated lightSpeedIn',
+                            exit: 'animated lightSpeedOut'
+                        }
+                    });
+                }
+
                 getResults(curPage);
             }
         });
