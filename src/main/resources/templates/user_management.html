@@ -121,8 +121,8 @@
         });
 
         $(".viewResponsesButton").click(function (e) {
-
-
+            var email = $(this).parent().parent().data("email");
+            $(location).attr('href', '/user/ratings/'+email);
         });
     }
 

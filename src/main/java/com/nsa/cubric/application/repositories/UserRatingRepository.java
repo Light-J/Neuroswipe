@@ -37,7 +37,9 @@ public class UserRatingRepository implements UserRatingRepositoryStatic {
 
 	@Override
 	public List<UserRating> getUserRatings(String userEmail) {
-		return jdbcTemplate.query("SELECT id, userprofileid, scanid, response FROM userratings WHERE userprofileid = (SELECT userprofileid FROM useraccounts WHERE email = ?)",
-				new Object[] { Integer.parseInt(userEmail) }, responsesMapper);
+		return jdbcTemplate.query("SELECT id, userprofileid, scanid, response FROM userratings WHERE userprofileid = \n" +
+						"	(SELECT id FROM userprofiles WHERE useraccountid = \n" +
+						"		(SELECT id FROM useraccounts WHERE email = ?));",
+				new Object[] {userEmail}, responsesMapper);
 	}
 }
