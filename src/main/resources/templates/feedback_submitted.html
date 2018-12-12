@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="/js/bootstrap.js"></script>
         <title>Feedback | SwipeRightBrains</title>
     </head>
@@ -10,11 +11,37 @@
 
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
+        <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>The cerebellum in disease</h3>
+                        <p>Diseases such as multiple sclerosis and brain tumours can cause damage to the cerebellum. Patients with this condition often walk with an unstable, uncoordinated gait and frequently stumble or fall over. Excellent! You have unlocked the cerebellum. The cerebellum is Latin for ‘little brain.’ This area is vital for fine tuning your movements and controlling balance. </p>
+                        <img src="/img/img24.jpg" height="300">
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="container">
             <div class="alert alert-success">
                 <h1>Thank you for your feedback!</h1>
                 <p>We have saved your feedback and will review it soon.</p>
             </div>
         </div>
+    <script>
+        $(function () {
+            $('#rewardModal').modal('show');
+        })
+    </script>
     </body>
 </html>

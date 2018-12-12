@@ -12,6 +12,26 @@
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
+    <div class="modal fade" id="reward25Modal" tabindex="-1" role="dialog" aria-labelledby="reward25ModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reward25ModalLongTitle">Congratulations</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3>The cerebellum in disease</h3>
+                    <p>Diseases such as multiple sclerosis and brain tumours can cause damage to the cerebellum. Patients with this condition often walk with an unstable, uncoordinated gait and frequently stumble or fall over. Excellent! You have unlocked the cerebellum. The cerebellum is Latin for ‘little brain.’ This area is vital for fine tuning your movements and controlling balance. </p>
+                    <img src="/img/reward_images/cerebellum.jpg" height="300">
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <h1>Ratings</h1>
 
     <div class="panel panel-info" id="imagesPanel">
@@ -30,6 +50,8 @@
 </div>
 
 <script>
+    var counter = 0;
+
     var loadNextImage = function(){
         $.getJSON("/scans/next", function( imageData ) {
             console.log(imageData);
@@ -39,6 +61,8 @@
             $("#brainImage1").data("id", imageData.id);
             $("#imagesPanel").fadeIn();
         });
+        counter = counter+1;
+
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
