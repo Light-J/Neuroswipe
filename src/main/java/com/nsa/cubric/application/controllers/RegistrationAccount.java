@@ -54,7 +54,7 @@ public class RegistrationAccount {
     public ModelAndView registerUserAccount(
             @ModelAttribute("account") @Valid AccountDTO accountDTO,
             BindingResult result,
-            WebRequest webRequest,
+            HttpServletRequest request,
             Errors errors){
 
         Account registered = new Account();
@@ -72,8 +72,8 @@ public class RegistrationAccount {
         if(result.hasErrors()){
             return new ModelAndView("register_account", "account", accountDTO);
         } else {
-
-            return new ModelAndView("redirect:/login", "account", accountDTO);
+            authWithHttpServletRequest(request, accountDTO.getEmail(), originalPassword);
+            return new ModelAndView("redirect:/", "account", accountDTO);
         }
     }
 
@@ -85,5 +85,13 @@ public class RegistrationAccount {
             return null;
         }
         return registered;
+    }
+
+    public void authWithHttpServletRequest(HttpServletRequest request, String username, String password) {
+        try {
+            request.login(username, password);
+        } catch (ServletException e) {
+            LOG.debug("Error logging in");
+        }
     }
 }
