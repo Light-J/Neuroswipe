@@ -29,8 +29,8 @@
             <img src="" id="brainImage3" style="width:33%">
             <p class="text-center">
                 <br><br>
-                <a href="#" id="noButton" class="btn btn-danger btn-lg">No</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="#" id="yesButton" class="btn btn-success btn-lg">Yes</a>
+                <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
             </p>
         </div>
     </div>
@@ -60,7 +60,9 @@
             $("#brainImage1").data("id", imageData.id);
             $("#brainImage1").data("knownGood", imageData.knownGood);
 
-            $("#imagesCard").fadeIn();
+            $("#imagesCard").fadeIn(function() {
+                $("#yesButton, #noButton").removeAttr("disabled");
+            });
         });
     };
 
@@ -79,6 +81,7 @@
         loadNextImage();
 
         $("#yesButton").on("click", function(){
+            $("#yesButton, #noButton").attr("disabled", "");
             saveDecisionAndNextImage(true);
         });
 
