@@ -82,7 +82,6 @@
         var searchTerm = $("#search_box").val();
         $.ajax({
             url: '/api/admin/searchUsers?searchTerm='+searchTerm+'&page='+page,
-
             type: 'GET',
             success: function (data) {
                 clearTable();

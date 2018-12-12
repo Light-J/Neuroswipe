@@ -50,4 +50,11 @@ public class AdminAPI {
             @RequestParam(value = "page") int page) {
         return accountService.searchUsers(searchTerm, page);
     }
+
+    @PostMapping(value = "/update/role")
+    public boolean updateUserRole(
+            @RequestParam(value = "userId") Long userId,
+            @RequestParam(value = "role") String role){
+
+    }
 }
