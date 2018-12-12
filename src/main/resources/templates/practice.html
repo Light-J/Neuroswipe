@@ -9,7 +9,11 @@
     <h1>Practice</h1>
 
     <div class="panel panel-info" id="imagesPanel">
-        <div class="panel-heading">Is this a good scan of a brain?</div>
+        <div class="panel-heading row">
+            <div class="col-xs-7">Is this a good scan of a brain?</div>
+            <div class="col-xs-2">Answers correct:<p id="answersCorrect"></p></div>
+            <div class="col-xs-2">Answers incorrect:<p id="answersIncorrect"></p></div>
+        </div>
         <div class="panel-body">
             <img src="" id="brainImage1" style="width:33%">
             <img src="" id="brainImage2" style="width:33%">
@@ -25,7 +29,7 @@
 
 <script>
     var loadNextImage = function(){
-        $.getJSON("/scans/next", function( imageData ) {
+        $.getJSON("/scans/next/practice", function( imageData ) {
             console.log(imageData);
             $("#brainImage1").attr("src", "/brain_images/"+imageData.path1);
             $("#brainImage2").attr("src", "/brain_images/"+imageData.path2);

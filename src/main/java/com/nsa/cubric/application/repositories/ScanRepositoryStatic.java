@@ -12,6 +12,7 @@ public interface ScanRepositoryStatic {
     public void updateKnownGood(Long id, Boolean knownGood);
     public List<Scan> getAll(int offset);
     public Optional<Scan> getNext();
+    public Optional<Scan> getNextPractice();
     List<Scan> getScansFiltered(int minResponses, int percentageGood);
     List<Scan> getScansFilteredPaginated(int minResponses, int percentageGood, int offset);
 }
