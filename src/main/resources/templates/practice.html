@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='Practice')" ></head>
-<body>
+<body class="overflow-hidden">
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
@@ -59,9 +59,10 @@
 
             $("#brainImage1").data("id", imageData.id);
             $("#brainImage1").data("knownGood", imageData.knownGood);
-
-            $("#imagesCard").fadeIn(function() {
-                $("#yesButton, #noButton").show();
+            $("#yesButton, #noButton").fadeIn(250);
+            $("#imagesCard").fadeOut(250, function () {
+                $("#imagesCard").removeClass("swipe-right swipe-left");
+                $("#imagesCard").fadeIn(250);
             });
         });
     };
@@ -73,11 +74,19 @@
             incorrectAnswer();
         }
 
-        $("#imagesCard").fadeOut();
-        loadNextImage();
+        if(userAnswer){
+            $("#imagesCard").addClass("swipe-right");
+        }else{
+            $("#imagesCard").addClass("swipe-left");
+        }
+
+        setTimeout(function(){
+            loadNextImage();
+        }, 250);
     };
 
     $(function() {
+        $("#imagesCard").hide();
         loadNextImage();
 
         $("#yesButton").on("click", function(){
@@ -107,6 +116,5 @@
         });
     });
 </script>
-
 </body>
 </html>
