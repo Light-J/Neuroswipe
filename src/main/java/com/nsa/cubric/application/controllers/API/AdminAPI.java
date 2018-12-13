@@ -36,7 +36,8 @@ public class AdminAPI {
     }
 
     @PostMapping(value = "/removeUserResponses")
-    public Integer removeUserResponses(@RequestParam(value = "userToRemoveResponses") String userEmail){
+    public Integer removeUserResponses(
+            @RequestParam(value = "userToRemoveResponses") String userEmail){
         try{
             return adminServices.removeUserResponses(accountService.getAccountByEmail(userEmail).getId());
         } catch (NullPointerException e){
