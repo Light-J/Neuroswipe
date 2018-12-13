@@ -1,6 +1,6 @@
 use brainschema;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `removeUserRatings`(userId Int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_user_ratings`(userId Int)
 BEGIN
     
 DECLARE success boolean;
@@ -8,8 +8,8 @@ DECLARE success boolean;
 SET success = FALSE;
 
 START TRANSACTION;
-	DELETE FROM userratings WHERE userprofileid = userId;
-	IF(SELECT COUNT(*) FROM userratings WHERE userprofileid = userId) = 0 THEN
+	DELETE FROM userrating WHERE userprofileid = userId;
+	IF(SELECT COUNT(*) FROM userrating WHERE userprofileid = userId) = 0 THEN
         SET success = TRUE;
 	END IF;
     

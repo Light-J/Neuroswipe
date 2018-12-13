@@ -33,7 +33,7 @@ public class ScanRepository implements ScanRepositoryStatic {
     public Scan findById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "SELECT id, path1, path2, path3, known_good FROM scans WHERE id = ?",
+                    "SELECT id, path1, path2, path3, known_good FROM scan WHERE id = ?",
                     new Object[]{id},scanMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -45,21 +45,21 @@ public class ScanRepository implements ScanRepositoryStatic {
     @Override
     public void insert(Scan scan){
         jdbcTemplate.update(
-                "INSERT into scans (path1, path2, path3, known_good) values (?, ?, ?, ?)",
+                "INSERT into scan (path1, path2, path3, known_good) values (?, ?, ?, ?)",
                 scan.getPath1(), scan.getPath2(), scan.getPath3(), scan.getKnownGood());
     }
 
     @Override
     public void updateKnownGood(Long id, Boolean knownGood) {
         jdbcTemplate.update(
-                "UPDATE scans SET known_good = ? WHERE id = ?",
+                "UPDATE scan SET known_good = ? WHERE id = ?",
                 knownGood, id);
     }
 
     @Override
     public List<Scan> getAll(int offset){
         return jdbcTemplate.query(
-                "SELECT id, path1, path2, path3, known_good FROM scans LIMIT ?, 10",
+                "SELECT id, path1, path2, path3, known_good FROM scan LIMIT ?, 10",
                 new Object[]{offset}, scanMapper
         );
     }
@@ -67,14 +67,14 @@ public class ScanRepository implements ScanRepositoryStatic {
     @Override
     public Optional<Scan> getNext(){
         return jdbcTemplate.query(
-                "SELECT * FROM scans ORDER BY RAND() LIMIT 0,1", scanMapper
+                "SELECT * FROM scan ORDER BY RAND() LIMIT 0,1", scanMapper
         ).stream().findFirst();
     }
 
     @Override
     public Optional<Scan> getNextPractice(){
         return jdbcTemplate.query(
-                "SELECT * FROM scans WHERE known_good in (1,0) ORDER BY RAND() LIMIT 0,1", scanMapper
+                "SELECT * FROM scan WHERE known_good in (1,0) ORDER BY RAND() LIMIT 0,1", scanMapper
         ).stream().findFirst();
     }
 
@@ -82,7 +82,7 @@ public class ScanRepository implements ScanRepositoryStatic {
     public List<Scan> getScansFiltered(int minResponses, int percentageGood){
         return jdbcTemplate.query(
                 "SELECT * \n" +
-                        "FROM scans WHERE known_good is null AND id in \n" +
+                        "FROM scan WHERE known_good is null AND id in \n" +
                         "   (SELECT scanid FROM userratings\n" +
                         "       GROUP BY scanid \n" +
                         "       HAVING count(scanid) >= ? AND sum(response)/count(scanid)*100 >= ?);",
@@ -94,8 +94,8 @@ public class ScanRepository implements ScanRepositoryStatic {
     public List<Scan> getScansFilteredPaginated(int minResponses, int percentageGood, int offset){
         return jdbcTemplate.query(
                 "SELECT * \n" +
-                        "FROM scans WHERE known_good is null AND id in \n" +
-                        "   (SELECT scanid FROM userratings\n" +
+                        "FROM scan WHERE known_good is null AND id in \n" +
+                        "   (SELECT scanid FROM userrating\n" +
                         "       GROUP BY scanid \n" +
                         "       HAVING count(scanid) >= ? AND sum(response)/count(scanid)*100 >= ?)" +
                         "LIMIT ?, 10;",

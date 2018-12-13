@@ -25,21 +25,21 @@ public class UserRatingRepository implements UserRatingRepositoryStatic {
 
 	@Override
 	public void storeUserRatings(UserRating rating) {
-		jdbcTemplate.update("INSERT INTO userratings (userprofileid, scanid, response) values (?,?,?)",
+		jdbcTemplate.update("INSERT INTO userrating (userprofileid, scanid, response) values (?,?,?)",
 				rating.getUserProfileId(), rating.getScanId(), rating.getResponse());
 	}
 
 	@Override
 	public List<UserRating> getAll() {
-		return jdbcTemplate.query("SELECT id, userprofileid, scanid, response FROM userratings", new Object[] {},
+		return jdbcTemplate.query("SELECT id, userprofileid, scanid, response FROM userrating", new Object[] {},
 				responsesMapper);
 	}
 
 	@Override
 	public List<UserRating> getUserRatings(String userEmail) {
-		return jdbcTemplate.query("SELECT id, userprofileid, scanid, response FROM userratings WHERE userprofileid = \n" +
-						"	(SELECT id FROM userprofiles WHERE useraccountid = \n" +
-						"		(SELECT id FROM useraccounts WHERE email = ?));",
+		return jdbcTemplate.query("SELECT id, userprofileid, scanid, response FROM userrating WHERE userprofileid = \n" +
+						"	(SELECT id FROM userprofile WHERE useraccountid = \n" +
+						"		(SELECT id FROM useraccount WHERE email = ?));",
 				new Object[] {userEmail}, responsesMapper);
 	}
 }

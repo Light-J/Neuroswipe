@@ -11,9 +11,9 @@ CREATE SCHEMA IF NOT EXISTS `brainschema` DEFAULT CHARACTER SET utf8 ;
 USE `brainschema` ;
 
 -- -----------------------------------------------------
--- Table `brainschema`.`scans`
+-- Table `brainschema`.`scan`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`scans` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`scan` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `path1` VARCHAR(255) NULL DEFAULT NULL,
   `path2` VARCHAR(255) NULL DEFAULT NULL,
@@ -25,9 +25,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `brainschema`.`useraccounts`
+-- Table `brainschema`.`useraccount`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`useraccounts` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`useraccount` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `password` VARCHAR(90) NOT NULL,
   `email` VARCHAR(45) NULL DEFAULT NULL,
@@ -39,9 +39,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `brainschema`.`userprofiles`
+-- Table `brainschema`.`userprofile`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`userprofiles` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`userprofile` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NULL DEFAULT NULL,
   `postcode` VARCHAR(90) NULL DEFAULT NULL,
@@ -50,18 +50,18 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userprofiles` (
   `age` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `useraccountid` (`useraccountid` ASC),
-  CONSTRAINT `userprofiles_ibfk_1`
+  CONSTRAINT `userprofile_ibfk_1`
     FOREIGN KEY (`useraccountid`)
-    REFERENCES `brainschema`.`useraccounts` (`id`))
+    REFERENCES `brainschema`.`useraccount` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TRIGGER `Create User Profile` AFTER INSERT ON `useraccounts` FOR EACH ROW INSERT INTO userprofiles (id, username, useraccountid) VALUES (NEW.id, NEW.email, NEW.id);
+CREATE TRIGGER `Create User Profile` AFTER INSERT ON `useraccount` FOR EACH ROW INSERT INTO userprofile (id, username, useraccountid) VALUES (NEW.id, NEW.email, NEW.id);
 
 -- -----------------------------------------------------
--- Table `brainschema`.`userratings`
+-- Table `brainschema`.`userrating`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`userratings` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`userrating` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `userprofileid` INT(11) NULL DEFAULT NULL,
   `scanid` INT(11) NULL DEFAULT NULL,
@@ -71,17 +71,17 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userratings` (
   INDEX `scanid` (`scanid` ASC),
   CONSTRAINT `userratings_ibfk_1`
     FOREIGN KEY (`userprofileid`)
-    REFERENCES `brainschema`.`userprofiles` (`id`),
-  CONSTRAINT `userratings_ibfk_2`
+    REFERENCES `brainschema`.`userprofile` (`id`),
+  CONSTRAINT `userrating_ibfk_2`
     FOREIGN KEY (`scanid`)
-    REFERENCES `brainschema`.`scans` (`id`))
+    REFERENCES `brainschema`.`scan` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `brainschema`.`versions`
+-- Table `brainschema`.`version`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`versions` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`version` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `versionNumber` FLOAT NOT NULL,
   `changeBy` VARCHAR(45) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userfeedback` (
   INDEX `userprofileid` (`userprofileid` ASC),
   CONSTRAINT `userfeedback_ibfk_1`
     FOREIGN KEY (`userprofileid`)
-    REFERENCES `brainschema`.`userprofiles` (`id`))
+    REFERENCES `brainschema`.`userprofile` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
