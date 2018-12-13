@@ -9,7 +9,7 @@ BEFORE DELETE ON useraccount FOR EACH ROW
 BEGIN
 	DECLARE user_profile_id integer;
     
-    SET user_profile_id := (SELECT userprofileid FROM userprofile WHERE useraccountid = old.id);
+    SET user_profile_id := (SELECT id FROM userprofile WHERE useraccountid = old.id);
     
     UPDATE userrating SET userprofileid = null WHERE userprofileid = user_profile_id;
     DELETE FROM userfeedback WHERE userprofileid = user_profile_id;

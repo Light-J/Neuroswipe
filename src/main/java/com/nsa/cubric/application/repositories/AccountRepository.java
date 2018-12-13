@@ -128,7 +128,7 @@ public class AccountRepository implements AccountRepositoryStatic {
                         "(SELECT id FROM userprofile WHERE useraccountid = ?);",
                 new Object[]{userId}, Integer.class);
 
-        jdbcTemplate.update("CALL removeUserRatings(?)", (userId));
+        jdbcTemplate.update("CALL remove_user_ratings(?)", (userId));
         return rowsAffected;
     }
 

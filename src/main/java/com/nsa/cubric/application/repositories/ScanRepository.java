@@ -83,7 +83,7 @@ public class ScanRepository implements ScanRepositoryStatic {
         return jdbcTemplate.query(
                 "SELECT * \n" +
                         "FROM scan WHERE known_good is null AND id in \n" +
-                        "   (SELECT scanid FROM userratings\n" +
+                        "   (SELECT scanid FROM userrating\n" +
                         "       GROUP BY scanid \n" +
                         "       HAVING count(scanid) >= ? AND sum(response)/count(scanid)*100 >= ?);",
                 new Object[]{minResponses, percentageGood}, scanMapper
