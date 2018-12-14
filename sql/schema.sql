@@ -106,8 +106,63 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userfeedback` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+-- Trigger on DELETE
+-- When a user account is removed due to GDPR we need to set all responses and raitings to null
+DELIMITER //
+DROP TRIGGER IF EXISTS brainschema.TRIGGER_user_deleted//
+USE brainschema//
+CREATE DEFINER = CURRENT_USER 
+TRIGGER brainschema.TRIGGER_user_deleted 
+BEFORE DELETE ON useraccount FOR EACH ROW
+BEGIN
+	DECLARE user_profile_id integer;
+    
+    SET user_profile_id := (SELECT id FROM userprofile WHERE useraccountid = old.id);
+    
+    UPDATE userrating SET userprofileid = null WHERE userprofileid = user_profile_id;
+    DELETE FROM userfeedback WHERE userprofileid = user_profile_id;
+	DELETE FROM userprofile WHERE id = old.id;
+    
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_user_ratings`(userId Int)
+BEGIN
+    
+DECLARE success boolean;
+
+SET success = FALSE;
+
+START TRANSACTION;
+	DELETE FROM userrating WHERE userprofileid = userId;
+	IF(SELECT COUNT(*) FROM userrating WHERE userprofileid = userId) = 0 THEN
+        SET success = TRUE;
+	END IF;
+    
+	IF Success = FALSE THEN
+		ROLLBACK;
+		SELECT "Transaction has been rolled back because the delete failed." as Message;
+	ELSE
+		COMMIT;
+		SELECT CONCAT("Transaction has been commited.") as Message;
+	END IF;
+END//
+
+-- Function to return the percentage of responses that were good for a scan
+DELIMITER //
+CREATE FUNCTION get_good_percentage_for_scan(scanId int) 
+RETURNS FLOAT 
+BEGIN
+
+RETURN (SELECT sum(response)/count(scanid)*100 
+		FROM userrating WHERE scanid = scanId group by scanid);
+
+END//
+DELIMITER ;
+
