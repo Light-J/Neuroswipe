@@ -29,16 +29,6 @@ public class UserRatingResult {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserRatingResult.class);
 
-	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
-	public String getAllUserResponse(WebRequest webRequest, Model model) {
-		LOG.debug("Handling GET request to /ratings/");
-
-		Map<Integer, Map<String, Integer>> userRatingMap = new HashMap<>();
-		List<UserRating> ratingsList = ratingService.getAll();
-		convertResultToMap(userRatingMap, ratingsList);
-		model.addAttribute("userRatingMap", userRatingMap);
-		return "all_user_rating_result";
-	}
 
 	@RequestMapping(value = "/ratings/{userEmail}", method = RequestMethod.GET)
 	public String getSingleUserResponse(@PathVariable("userEmail") String userEmail,
