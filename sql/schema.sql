@@ -5,6 +5,14 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema brainschema
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `brainschema` ;
+
+-- -----------------------------------------------------
 -- Schema brainschema
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `brainschema` DEFAULT CHARACTER SET utf8 ;
@@ -13,6 +21,8 @@ USE `brainschema` ;
 -- -----------------------------------------------------
 -- Table `brainschema`.`scan`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`scan` ;
+
 CREATE TABLE IF NOT EXISTS `brainschema`.`scan` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `path1` VARCHAR(255) NULL DEFAULT NULL,
@@ -27,6 +37,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `brainschema`.`useraccount`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`useraccount` ;
+
 CREATE TABLE IF NOT EXISTS `brainschema`.`useraccount` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `password` VARCHAR(90) NOT NULL,
@@ -41,26 +53,50 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `brainschema`.`userprofile`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`userprofile` ;
+
 CREATE TABLE IF NOT EXISTS `brainschema`.`userprofile` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NULL DEFAULT NULL,
   `postcode` VARCHAR(90) NULL DEFAULT NULL,
-  `useraccountid` INT(11) NULL DEFAULT NULL,
   `gender` VARCHAR(45) NULL DEFAULT NULL,
   `age` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `useraccountid` (`useraccountid` ASC),
-  CONSTRAINT `userprofile_ibfk_1`
+  `useraccountid` INT(11) NOT NULL,
+  PRIMARY KEY (`id`, `useraccountid`),
+  INDEX `fk_userprofile_useraccount1_idx` (`useraccountid` ASC),
+  CONSTRAINT `fk_userprofile_useraccount1`
     FOREIGN KEY (`useraccountid`)
-    REFERENCES `brainschema`.`useraccount` (`id`))
+    REFERENCES `brainschema`.`useraccount` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TRIGGER `Create User Profile` AFTER INSERT ON `useraccount` FOR EACH ROW INSERT INTO userprofile (id, username, useraccountid) VALUES (NEW.id, NEW.email, NEW.id);
+
+-- -----------------------------------------------------
+-- Table `brainschema`.`userfeedback`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`userfeedback` ;
+
+CREATE TABLE IF NOT EXISTS `brainschema`.`userfeedback` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `userprofileid` INT(11) NULL DEFAULT NULL,
+  `feedback` TEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `userprofileid` (`userprofileid` ASC),
+  CONSTRAINT `userfeedback_ibfk_1`
+    FOREIGN KEY (`userprofileid`)
+    REFERENCES `brainschema`.`userprofile` (`id`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 -- -----------------------------------------------------
 -- Table `brainschema`.`userrating`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`userrating` ;
+
 CREATE TABLE IF NOT EXISTS `brainschema`.`userrating` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `userprofileid` INT(11) NULL DEFAULT NULL,
@@ -69,18 +105,22 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`userrating` (
   PRIMARY KEY (`id`),
   INDEX `userprofileid` (`userprofileid` ASC),
   INDEX `scanid` (`scanid` ASC),
-  CONSTRAINT `userratings_ibfk_1`
-    FOREIGN KEY (`userprofileid`)
-    REFERENCES `brainschema`.`userprofile` (`id`),
   CONSTRAINT `userrating_ibfk_2`
     FOREIGN KEY (`scanid`)
-    REFERENCES `brainschema`.`scan` (`id`))
+    REFERENCES `brainschema`.`scan` (`id`),
+  CONSTRAINT `userratings_ibfk_1`
+    FOREIGN KEY (`userprofileid`)
+    REFERENCES `brainschema`.`userprofile` (`id`)
+    ON DELETE SET NULL)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
 
 -- -----------------------------------------------------
 -- Table `brainschema`.`version`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`version` ;
+
 CREATE TABLE IF NOT EXISTS `brainschema`.`version` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `versionNumber` FLOAT NOT NULL,
@@ -91,49 +131,77 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8;
 
+USE `brainschema` ;
+
 -- -----------------------------------------------------
--- Table `brainschema`.`feedback`
+-- function get_good_percentage_for_scan
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `brainschema`.`userfeedback` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `userprofileid` INT(11) NULL DEFAULT NULL,
-  `feedback` TEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `userprofileid` (`userprofileid` ASC),
-  CONSTRAINT `userfeedback_ibfk_1`
-    FOREIGN KEY (`userprofileid`)
-    REFERENCES `brainschema`.`userprofile` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+USE `brainschema`;
+DROP function IF EXISTS `brainschema`.`get_good_percentage_for_scan`;
 
-
--- Trigger on DELETE
--- When a user account is removed due to GDPR we need to set all responses and raitings to null
-DELIMITER //
-DROP TRIGGER IF EXISTS brainschema.TRIGGER_user_deleted//
-USE brainschema//
-CREATE DEFINER = CURRENT_USER 
-TRIGGER brainschema.TRIGGER_user_deleted 
-BEFORE DELETE ON useraccount FOR EACH ROW
+DELIMITER $$
+USE `brainschema`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_good_percentage_for_scan`(scanId int) RETURNS float
 BEGIN
-	DECLARE user_profile_id integer;
-    
-    SET user_profile_id := (SELECT id FROM userprofile WHERE useraccountid = old.id);
-    
-    UPDATE userrating SET userprofileid = null WHERE userprofileid = user_profile_id;
-    DELETE FROM userfeedback WHERE userprofileid = user_profile_id;
-	DELETE FROM userprofile WHERE id = old.id;
-    
-END//
+
+RETURN (SELECT sum(response)/count(scanid)*100 
+		FROM userrating WHERE scanid = scanId group by scanid);
+
+END$$
+
 DELIMITER ;
 
-DELIMITER //
-DROP PROCEDURE IF EXISTS remove_user_ratings//
-CREATE DEFINER=`root`@`localhost` PROCEDURE remove_user_ratings(userId Int)
+-- -----------------------------------------------------
+-- function get_total_good_responses_for_user
+-- -----------------------------------------------------
+
+USE `brainschema`;
+DROP function IF EXISTS `brainschema`.`get_total_good_responses_for_user`;
+
+DELIMITER $$
+USE `brainschema`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_total_good_responses_for_user`(user_email VARCHAR(255)) RETURNS int(11)
+BEGIN
+
+	RETURN (SELECT count(*) FROM userrating WHERE response = 1 AND userprofileid = 
+				(SELECT id FROM userprofile WHERE useraccountid =
+					(SELECT id FROM useraccount WHERE email = user_email)));
+					
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- function get_total_responses_for_user
+-- -----------------------------------------------------
+
+USE `brainschema`;
+DROP function IF EXISTS `brainschema`.`get_total_responses_for_user`;
+
+DELIMITER $$
+USE `brainschema`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_total_responses_for_user`(user_email VARCHAR(255)) RETURNS int(11)
+BEGIN
+
+	RETURN (SELECT count(*) FROM userrating WHERE userprofileid = 
+				(SELECT id FROM userprofile WHERE useraccountid =
+					(SELECT id FROM useraccount WHERE email = user_email)));
+					
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure remove_user_ratings
+-- -----------------------------------------------------
+
+USE `brainschema`;
+DROP procedure IF EXISTS `brainschema`.`remove_user_ratings`;
+
+DELIMITER $$
+USE `brainschema`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_user_ratings`(userId Int)
 BEGIN
     
 DECLARE success boolean;
@@ -153,46 +221,26 @@ START TRANSACTION;
 		COMMIT;
 		SELECT CONCAT("Transaction has been commited.") as Message;
 	END IF;
-END//
+END$$
 
--- Function to return the percentage of responses that were good for a scan
-DELIMITER //
-DROP FUNCTION IF EXISTS get_good_percentage_for_scan//
-CREATE FUNCTION get_good_percentage_for_scan(scanId int) 
-RETURNS FLOAT 
-BEGIN
+DELIMITER ;
+USE `brainschema`;
 
-RETURN (SELECT sum(response)/count(scanid)*100 
-		FROM userrating WHERE scanid = scanId group by scanid);
+DELIMITER $$
 
-END//
+USE `brainschema`$$
+DROP TRIGGER IF EXISTS `brainschema`.`Create User Profile` $$
+USE `brainschema`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `brainschema`.`Create User Profile`
+AFTER INSERT ON `brainschema`.`useraccount`
+FOR EACH ROW
+INSERT INTO userprofile (id, username, useraccountid) VALUES (NEW.id, NEW.email, NEW.id)$$
+
+
 DELIMITER ;
 
- -- Function to get the total number of good responses a user has made
-DELIMITER //
-DROP FUNCTION IF EXISTS get_total_good_responses_for_user//
-CREATE FUNCTION get_total_good_responses_for_user(user_email VARCHAR(255))
-RETURNs INTEGER
-BEGIN
-
-	RETURN (SELECT count(*) FROM userrating WHERE response = 1 AND userprofileid = 
-				(SELECT id FROM userprofile WHERE useraccountid =
-					(SELECT id FROM useraccount WHERE email = user_email)));
-					
-END//
-DELIMITER ;
-
- -- Function to get the total number of responses a user has made
-DELIMITER //
-DROP FUNCTION IF EXISTS get_total_responses_for_user//
-CREATE FUNCTION get_total_responses_for_user(user_email VARCHAR(255))
-RETURNs INTEGER
-BEGIN
-
-	RETURN (SELECT count(*) FROM userrating WHERE userprofileid = 
-				(SELECT id FROM userprofile WHERE useraccountid =
-					(SELECT id FROM useraccount WHERE email = user_email)));
-					
-END//
-DELIMITER ;
-
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
