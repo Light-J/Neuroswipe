@@ -91,7 +91,7 @@
     }
 
     //From https://stackoverflow.com/questions/38192854/recieving-a-zip-file-as-response-on-ajax-request
-    function downloadFile(url, headers, filename) {
+    function downloadFile(url, filename) {
 
         function handleFile(data) {
             console.log(this.response || data);
@@ -115,10 +115,6 @@
         request.responseType = "blob";
         request.onload = handleFile;
         request.open("GET", url);
-        for (var prop in headers) {
-            request.setRequestHeader(prop, headers[prop]);
-        }
-
         request.send();
     }
 
