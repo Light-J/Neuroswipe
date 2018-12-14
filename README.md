@@ -6,7 +6,7 @@ To run the project
 
  - First create your MySQL database, you will need the host, database name, username, and password to access this.
  - In the application.properties you will need to add this information (URL contains the host and database name)
- - On this database you will need to run schema.sql on your MySQL database
+ - On this database you will need to run schema.sql
  - Ensure there is a directory in the root of the project called brain_images that contains insert_images.py. (You will need to add database credentials to this script)*
  - Run the jar and navigate to localhost:8080 and you will land on the home page
   
