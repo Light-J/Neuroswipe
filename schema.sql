@@ -132,7 +132,8 @@ END//
 DELIMITER ;
 
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_user_ratings`(userId Int)
+DROP PROCEDURE IF EXISTS remove_user_ratings//
+CREATE DEFINER=`root`@`localhost` PROCEDURE remove_user_ratings(userId Int)
 BEGIN
     
 DECLARE success boolean;
@@ -156,6 +157,7 @@ END//
 
 -- Function to return the percentage of responses that were good for a scan
 DELIMITER //
+DROP FUNCTION IF EXISTS get_good_percentage_for_scan//
 CREATE FUNCTION get_good_percentage_for_scan(scanId int) 
 RETURNS FLOAT 
 BEGIN
@@ -163,6 +165,34 @@ BEGIN
 RETURN (SELECT sum(response)/count(scanid)*100 
 		FROM userrating WHERE scanid = scanId group by scanid);
 
+END//
+DELIMITER ;
+
+ -- Function to get the total number of good responses a user has made
+DELIMITER //
+DROP FUNCTION IF EXISTS get_total_good_responses_for_user//
+CREATE FUNCTION get_total_good_responses_for_user(user_email VARCHAR(255))
+RETURNs INTEGER
+BEGIN
+
+	RETURN (SELECT count(*) FROM userrating WHERE response = 1 AND userprofileid = 
+				(SELECT id FROM userprofile WHERE useraccountid =
+					(SELECT id FROM useraccount WHERE email = user_email)));
+					
+END//
+DELIMITER ;
+
+ -- Function to get the total number of responses a user has made
+DELIMITER //
+DROP FUNCTION IF EXISTS get_total_responses_for_user//
+CREATE FUNCTION get_total_responses_for_user(user_email VARCHAR(255))
+RETURNs INTEGER
+BEGIN
+
+	RETURN (SELECT count(*) FROM userrating WHERE userprofileid = 
+				(SELECT id FROM userprofile WHERE useraccountid =
+					(SELECT id FROM useraccount WHERE email = user_email)));
+					
 END//
 DELIMITER ;
 
