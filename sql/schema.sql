@@ -193,6 +193,57 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- function get_side_with_majority
+-- -----------------------------------------------------
+ -- Function used to get a percentage of howmany times a user is siding with the majority
+DELIMITER $$
+USE `brainschema`$$
+DROP FUNCTION IF EXISTS get_side_with_majority $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_side_with_majority`(user_profile_id INT) 
+RETURNS DECIMAL
+BEGIN
+	DECLARE variable_scan_rated_id INT;
+    DECLARE variable_user_response INT;
+    DECLARE variable_user_majority_response FLOAT;
+    DECLARE variable_num_of_response_participation INT;
+    DECLARE flag INT DEFAULT 0;
+	DECLARE rating_cursor CURSOR FOR SELECT scanid FROM userrating WHERE userprofileid = user_profile_id;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag = 1;
+    SET variable_user_majority_response = 0;
+    SET variable_num_of_response_participation = 0;
+    
+    OPEN rating_cursor;
+		REPEAT
+		FETCH rating_cursor INTO variable_scan_rated_id;
+	
+			SET variable_num_of_response_participation := variable_num_of_response_participation + 1;
+            
+            IF (SELECT sum(response)/count(response) FROM userrating WHERE scanid = variable_scan_rated_id AND userprofileid = user_profile_id GROUP BY scanid) > 0.5 THEN
+				SET variable_user_response := 1;
+			ELSE
+				SET variable_user_response := 0;
+			END IF;
+            
+            IF (SELECT sum(response)/count(scanid) FROM userrating WHERE scanid = variable_scan_rated_id GROUP BY scanid) >= 0.5 THEN
+				IF(variable_user_response = 1) THEN
+					SET variable_user_majority_response := variable_user_majority_response + 1;
+				END IF;
+			ELSE
+				IF(variable_user_response = 0) THEN
+					SET variable_user_majority_response := variable_user_majority_response + 1;
+				END IF;
+			END IF;
+            
+		UNTIL flag END REPEAT;
+	CLOSE rating_cursor;
+    
+    RETURN variable_user_majority_response / variable_num_of_response_participation *100;
+				
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- procedure remove_user_ratings
 -- -----------------------------------------------------
 
