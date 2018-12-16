@@ -79,7 +79,7 @@
 
     function updateTableContent(scans) {
         for (var i = 0; i < scans.length; i++) {
-            $("table").append('<tr data-id="'+scans[i].id+'"><td>'+scans[i].id+'</td><td><a target="_blank" href="/brain_images/'+scans[i].path1+'">'+scans[i].path1.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path2+'">'+scans[i].path2.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].path3+'">'+scans[i].path3.substring(0,15)+"..."+'</a></td></tr>');
+            $("table").append('<tr data-id="'+scans[i].id+'"><td>'+scans[i].id+'</td><td><a target="_blank" href="/brain_images/'+scans[i].topImage+'">'+scans[i].topImage.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].sideImage+'">'+scans[i].sideImage.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].frontImage+'">'+scans[i].frontImage.substring(0,15)+"..."+'</a></td></tr>');
         }
     }
 

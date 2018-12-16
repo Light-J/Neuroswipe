@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -21,7 +20,7 @@ public class ScanRepository implements ScanRepositoryStatic {
         jdbcTemplate = aTemplate;
 
         scanMapper = (rs, i) -> new Scan(
-                rs.getInt("id"),
+                rs.getInt("scan_id"),
                 rs.getString("top_image"),
                 rs.getString("front_image"),
                 rs.getString("side_image"),
@@ -33,7 +32,7 @@ public class ScanRepository implements ScanRepositoryStatic {
     public Scan findById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "SELECT id, top_image, front_image, side_image, known_good FROM scan WHERE scan_id = ?",
+                    "SELECT scan_id, top_image, front_image, side_image, known_good FROM scan WHERE scan_id = ?",
                     new Object[]{id},scanMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -46,7 +45,7 @@ public class ScanRepository implements ScanRepositoryStatic {
     public void insert(Scan scan){
         jdbcTemplate.update(
                 "INSERT into scan (top_image, front_image, side_image, known_good) values (?, ?, ?, ?)",
-                scan.getPath1(), scan.getPath2(), scan.getPath3(), scan.getKnownGood());
+                scan.getTopImage(), scan.getSideImage(), scan.getFrontImage(), scan.getKnownGood());
     }
 
     @Override
@@ -59,7 +58,7 @@ public class ScanRepository implements ScanRepositoryStatic {
     @Override
     public List<Scan> getAll(int offset){
         return jdbcTemplate.query(
-                "SELECT id, top_image, front_image, side_image, known_good FROM scan LIMIT ?, 10",
+                "SELECT scan_id, top_image, front_image, side_image, known_good FROM scan LIMIT ?, 10",
                 new Object[]{offset}, scanMapper
         );
     }

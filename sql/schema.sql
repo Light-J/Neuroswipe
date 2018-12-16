@@ -95,7 +95,7 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `brainschema`.`feedback` ;
 
 CREATE TABLE IF NOT EXISTS `brainschema`.`feedback` (
-  `feedback_id` INT(11) NOT NULL,
+  `feedback_id` INT(11) NOT NULL AUTO_INCREMENT,
   `profile_id` INT(11) NOT NULL,
   `feedback` TEXT NOT NULL,
   PRIMARY KEY (`feedback_id`),
@@ -147,6 +147,9 @@ AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8;
 
 USE `brainschema` ;
+
+ -- Default admin account Pass is 'admin'
+insert into account (email, password, role) VALUES ('default@admin', '$2a$10$xVWy4YGH2TgjMoA1ITfJRubHPp9ijz926vkEUKHMa.AaVG5gP4ANm', 'admin');
 
 -- -----------------------------------------------------
 -- function get_good_percentage_for_scan

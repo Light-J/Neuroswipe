@@ -74,9 +74,9 @@
 
     var loadNextImage = function(){
         $.getJSON("/scans/next/practice", function( imageData ) {
-            $("#brainImage1").attr("src", "/brain_images/"+imageData.path1);
-            $("#brainImage2").attr("src", "/brain_images/"+imageData.path2);
-            $("#brainImage3").attr("src", "/brain_images/"+imageData.path3);
+            $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
+            $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
+            $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
 
             $("#brainImage1").data("id", imageData.id);
             $("#brainImage1").data("knownGood", imageData.knownGood);

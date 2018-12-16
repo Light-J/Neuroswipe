@@ -3,6 +3,8 @@ package com.nsa.cubric.application.repositories;
 import com.nsa.cubric.application.controllers.AccountDTO;
 import com.nsa.cubric.application.controllers.Profile;
 import com.nsa.cubric.application.domain.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Repository
 public class AccountRepository implements AccountRepositoryStatic {
+    private static final Logger LOG = LoggerFactory.getLogger(AccountRepository.class);
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Account> accountMapper;
     private RowMapper<Profile> profileMapper;
@@ -41,7 +44,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Account getAccountByEmail(String email){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, email, password, role from account WHERE email = ?",
+                    "select account_id, email, password, role from account WHERE email = ?",
                     new Object[]{email},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -54,7 +57,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Account getAccountById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "select account_id, email, password, role from account WHERE id = ?",
+                    "select account_id, email, password, role from account WHERE account_id = ?",
                     new Object[]{id},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -93,20 +96,17 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public boolean updateProfile(Profile profile){
         try {
-            if(profile.getPostcode().isEmpty()) {
-                jdbcTemplate.update(
-                        "UPDATE profile SET display_name=?, age=?, gender=? WHERE profile_id=?",
-                        profile.getUsername(), profile.getAge(), profile.getGender(), profile.getId());
+            if(profile.getPostcode().equals("")) {
+                jdbcTemplate.update("UPDATE profile SET postcode_id = null WHERE profile_id = ?", profile.getId());
             } else {
-                int postcode_id = jdbcTemplate.queryForObject("SELECT brainschema.check_or_add_postcode(?)",
-                        new Object[]{profile.getPostcode()}, Integer.class);
-
-                jdbcTemplate.update(
-                        "UPDATE profile SET display_name=?, age=?, gender=?, postcode_id = ? WHERE profile_id=?",
-                        profile.getUsername(), profile.getAge(), profile.getGender(), profile.getId(), postcode_id);
+                jdbcTemplate.update("UPDATE profile SET postcode_id = (SELECT brainschema.check_or_add_postcode(?)) WHERE profile_id = ?", profile.getPostcode(), profile.getId());
             }
+
+            jdbcTemplate.update("UPDATE profile SET display_name=?, age=?, gender=? WHERE profile_id=?",
+                        profile.getUsername(), profile.getAge(), profile.getGender(), profile.getId());
             return true;
         } catch (Exception e){
+            LOG.debug(e.getMessage());
             return false;
         }
     }
@@ -115,8 +115,8 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Profile getProfileByAccountId(Long accountId){
             return jdbcTemplate.queryForObject(
                     "SELECT profile.profile_id, profile.display_name, postcode.postcode, profile.age, profile.gender \n" +
-                            "\tFROM profile \n" +
-                            "    INNER JOIN postcode ON postcode.postcode_id = profile.postcode_id\n" +
+                            "   FROM profile \n" +
+                            "    LEFT JOIN postcode ON postcode.postcode_id = profile.postcode_id\n" +
                             "    WHERE profile_id = ?;",
                     new Object[]{accountId},profileMapper);
     }
@@ -137,7 +137,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Integer removeUserResponses(Long userId){
         int rowsAffected = jdbcTemplate.queryForObject(
                 "SELECT count(*) FROM rating WHERE profile_id = \n" +
-                        "(SELECT id FROM profile WHERE account_id = ?);",
+                        "(SELECT profile_id FROM profile WHERE account_id = ?);",
                 new Object[]{userId}, Integer.class);
 
         jdbcTemplate.update("CALL remove_user_ratings(?)", (userId));
