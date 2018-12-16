@@ -114,7 +114,10 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public Profile getProfileByAccountId(Long accountId){
             return jdbcTemplate.queryForObject(
-                    "SELECT profile_id, username, postcode, age, gender FROM userprofile WHERE profile_id = ?",
+                    "SELECT profile.profile_id, profile.display_name, postcode.postcode, profile.age, profile.gender \n" +
+                            "\tFROM profile \n" +
+                            "    INNER JOIN postcode ON postcode.postcode_id = profile.postcode_id\n" +
+                            "    WHERE profile_id = ?;",
                     new Object[]{accountId},profileMapper);
     }
 
