@@ -22,15 +22,15 @@ public class AccountRepository implements AccountRepositoryStatic {
         jdbcTemplate = aTemplate;
 
         accountMapper = (rs, i) -> new Account(
-                rs.getLong("id"),
+                rs.getLong("account_id"),
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getString("role")
         );
 
         profileMapper = (rs, i) -> new Profile(
-                rs.getLong("id"),
-                rs.getString("username"),
+                rs.getLong("profile_id"),
+                rs.getString("display_name"),
                 rs.getString("postcode"),
                 rs.getInt("age"),
                 rs.getString("gender")
@@ -41,7 +41,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Account getAccountByEmail(String email){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, email, password, role from useraccount WHERE email = ?",
+                    "select id, email, password, role from account WHERE email = ?",
                     new Object[]{email},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -54,7 +54,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public Account getAccountById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "select id, email, password, role from useraccount WHERE id = ?",
+                    "select account_id, email, password, role from account WHERE id = ?",
                     new Object[]{id},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -67,7 +67,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     public void insertNewAccount(AccountDTO account){
         System.out.println("Inserting for "+account.getEmail());
         jdbcTemplate.update(
-                "INSERT into useraccount (email, password, role) values (?,?,?)",
+                "INSERT into account (email, password, role) values (?,?,?)",
                 account.getEmail(), account.getPassword(), "user");
         System.out.println("Insert for "+account.getEmail() + " was successful");
     }
@@ -75,28 +75,38 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public List<Account> getAllAccounts(){
         return jdbcTemplate.query(
-                "SELECT id, password, email, role FROM useraccount",
+                "SELECT account_id, password, email, role FROM account",
                 new Object[]{},accountMapper
         );
     }
 
     @Override
     public void insertNewProfile(Profile profile){
+        int postcode_id = jdbcTemplate.queryForObject("SELECT brainschema.check_or_add_postcode(?)",
+                new Object[]{profile.getPostcode()}, Integer.class);
+
         jdbcTemplate.update(
-                "INSERT INTO userprofile (username, postcode, useraccountid, age, gender) VALUES (?,?,?,?,?)",
-        profile.getUsername(), profile.getPostcode(), profile.getUserAccountId(), profile.getAge(), profile.getGender());
+                "INSERT INTO profile (display_name, postcode_id, account_id, age, gender) VALUES (?,?,?,?,?)",
+        profile.getUsername(), postcode_id, profile.getUserAccountId(), profile.getAge(), profile.getGender());
     }
 
     @Override
     public boolean updateProfile(Profile profile){
         try {
-            jdbcTemplate.update(
-                    "UPDATE userprofile SET username=?, postcode=?, age=?, gender=? WHERE id=?",
-                    profile.getUsername(), profile.getPostcode(), profile.getAge(), profile.getGender(), profile.getId());
-            System.out.println("User Profile Updated");
+            if(profile.getPostcode().isEmpty()) {
+                jdbcTemplate.update(
+                        "UPDATE profile SET display_name=?, age=?, gender=? WHERE profile_id=?",
+                        profile.getUsername(), profile.getAge(), profile.getGender(), profile.getId());
+            } else {
+                int postcode_id = jdbcTemplate.queryForObject("SELECT brainschema.check_or_add_postcode(?)",
+                        new Object[]{profile.getPostcode()}, Integer.class);
+
+                jdbcTemplate.update(
+                        "UPDATE profile SET display_name=?, age=?, gender=?, postcode_id = ? WHERE profile_id=?",
+                        profile.getUsername(), profile.getAge(), profile.getGender(), profile.getId(), postcode_id);
+            }
             return true;
         } catch (Exception e){
-            System.out.println("ERROR in updating user profile: " + e.toString());
             return false;
         }
     }
@@ -104,7 +114,7 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public Profile getProfileByAccountId(Long accountId){
             return jdbcTemplate.queryForObject(
-                    "SELECT id, username, postcode, age, gender FROM userprofile WHERE id = ?",
+                    "SELECT profile_id, username, postcode, age, gender FROM userprofile WHERE profile_id = ?",
                     new Object[]{accountId},profileMapper);
     }
 
@@ -116,15 +126,15 @@ public class AccountRepository implements AccountRepositoryStatic {
 
     @Override
     public boolean removeUser(Long userId){
-        int rowsAffected = jdbcTemplate.update("DELETE FROM useraccount WHERE id=?;",(userId));
+        int rowsAffected = jdbcTemplate.update("DELETE FROM account WHERE account_id=?;",(userId));
         return rowsAffected == 1;
     }
 
     @Override
     public Integer removeUserResponses(Long userId){
         int rowsAffected = jdbcTemplate.queryForObject(
-                "SELECT count(*) FROM userrating WHERE userprofileid = \n" +
-                        "(SELECT id FROM userprofile WHERE useraccountid = ?);",
+                "SELECT count(*) FROM rating WHERE profile_id = \n" +
+                        "(SELECT id FROM profile WHERE account_id = ?);",
                 new Object[]{userId}, Integer.class);
 
         jdbcTemplate.update("CALL remove_user_ratings(?)", (userId));
@@ -133,13 +143,13 @@ public class AccountRepository implements AccountRepositoryStatic {
 
     @Override
     public List<Account> searchUsers(String searchTerm, int offset){
-        return jdbcTemplate.query("SELECT * FROM useraccount WHERE email like ? LIMIT ?, 10",
+        return jdbcTemplate.query("SELECT * FROM account WHERE email like ? LIMIT ?, 10",
                 new Object[]{'%'+searchTerm+'%', offset}, accountMapper);
     }
 
     @Override
     public boolean updateUserRole(Long userId, String role){
-        int rowsAffected = jdbcTemplate.update("UPDATE useraccount SET role = ? WHERE id = ?", role, userId);
+        int rowsAffected = jdbcTemplate.update("UPDATE account SET role = ? WHERE account_id = ?", role, userId);
         return rowsAffected == 1;
     }
 }

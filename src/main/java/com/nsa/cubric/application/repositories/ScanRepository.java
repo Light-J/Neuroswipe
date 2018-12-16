@@ -22,9 +22,9 @@ public class ScanRepository implements ScanRepositoryStatic {
 
         scanMapper = (rs, i) -> new Scan(
                 rs.getInt("id"),
-                rs.getString("path1"),
-                rs.getString("path2"),
-                rs.getString("path3"),
+                rs.getString("top_image"),
+                rs.getString("front_image"),
+                rs.getString("side_image"),
                 (Boolean) rs.getObject("known_good")
         );
     }
@@ -33,7 +33,7 @@ public class ScanRepository implements ScanRepositoryStatic {
     public Scan findById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "SELECT id, path1, path2, path3, known_good FROM scan WHERE id = ?",
+                    "SELECT id, top_image, front_image, side_image, known_good FROM scan WHERE scan_id = ?",
                     new Object[]{id},scanMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -45,21 +45,21 @@ public class ScanRepository implements ScanRepositoryStatic {
     @Override
     public void insert(Scan scan){
         jdbcTemplate.update(
-                "INSERT into scan (path1, path2, path3, known_good) values (?, ?, ?, ?)",
+                "INSERT into scan (top_image, front_image, side_image, known_good) values (?, ?, ?, ?)",
                 scan.getPath1(), scan.getPath2(), scan.getPath3(), scan.getKnownGood());
     }
 
     @Override
     public void updateKnownGood(Long id, Boolean knownGood) {
         jdbcTemplate.update(
-                "UPDATE scan SET known_good = ? WHERE id = ?",
+                "UPDATE scan SET known_good = ? WHERE scan_id = ?",
                 knownGood, id);
     }
 
     @Override
     public List<Scan> getAll(int offset){
         return jdbcTemplate.query(
-                "SELECT id, path1, path2, path3, known_good FROM scan LIMIT ?, 10",
+                "SELECT id, top_image, front_image, side_image, known_good FROM scan LIMIT ?, 10",
                 new Object[]{offset}, scanMapper
         );
     }
@@ -82,10 +82,10 @@ public class ScanRepository implements ScanRepositoryStatic {
     public List<Scan> getScansFiltered(int minResponses, int percentageGood){
         return jdbcTemplate.query(
                 "SELECT * \n" +
-                        "FROM scan WHERE known_good is null AND id in \n" +
-                        "   (SELECT scanid FROM userrating\n" +
-                        "       GROUP BY scanid \n" +
-                        "       HAVING count(scanid) >= ? AND sum(response)/count(scanid)*100 >= ?);",
+                        "FROM scan WHERE known_good is null AND scan_id in \n" +
+                        "   (SELECT scan_id FROM rating\n" +
+                        "       GROUP BY scan_id \n" +
+                        "       HAVING count(scan_id) >= ? AND sum(response)/count(scan_id)*100 >= ?);",
                 new Object[]{minResponses, percentageGood}, scanMapper
         );
     }
@@ -94,10 +94,10 @@ public class ScanRepository implements ScanRepositoryStatic {
     public List<Scan> getScansFilteredPaginated(int minResponses, int percentageGood, int offset){
         return jdbcTemplate.query(
                 "SELECT * \n" +
-                        "FROM scan WHERE known_good is null AND id in \n" +
-                        "   (SELECT scanid FROM userrating\n" +
-                        "       GROUP BY scanid \n" +
-                        "       HAVING count(scanid) >= ? AND sum(response)/count(scanid)*100 >= ?)" +
+                        "FROM scan WHERE known_good is null AND scan_id in \n" +
+                        "   (SELECT scan_id FROM rating\n" +
+                        "       GROUP BY scan_id \n" +
+                        "       HAVING count(scan_id) >= ? AND sum(response)/count(scan_id)*100 >= ?)" +
                         "LIMIT ?, 10;",
                 new Object[]{minResponses, percentageGood, offset}, scanMapper
         );
