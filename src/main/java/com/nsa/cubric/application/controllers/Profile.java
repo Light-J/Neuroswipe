@@ -16,28 +16,12 @@ public class Profile {
     Integer age;
     String gender;
 
-    public Profile() {
-    }
 
-    public Profile(String username, String postcode, Long userAccountId, Integer age, String gender) {
-        this.username = username;
-        this.postcode = postcode;
-        this.userAccountId = userAccountId;
-        this.age = age;
-        this.gender = gender;
-    }
-
-    public Profile(String username, String postcode, Integer age, String gender) {
-        this.username = username;
-        this.postcode = postcode;
-        this.age = age;
-        this.gender = gender;
-    }
-
-    public Profile(Long id, String username, String postcode, Integer age, String gender) {
+    public Profile(Long id, String username, String postcode, Long userAccountId, Integer age, String gender) {
         this.id = id;
         this.username = username;
         this.postcode = postcode;
+        this.userAccountId = userAccountId;
         this.age = age;
         this.gender = gender;
     }

@@ -35,6 +35,7 @@ public class AccountRepository implements AccountRepositoryStatic {
                 rs.getLong("profile_id"),
                 rs.getString("display_name"),
                 rs.getString("postcode"),
+                rs.getLong("account_id"),
                 rs.getInt("age"),
                 rs.getString("gender")
         );
@@ -68,11 +69,9 @@ public class AccountRepository implements AccountRepositoryStatic {
 
     @Override
     public void insertNewAccount(AccountDTO account){
-        System.out.println("Inserting for "+account.getEmail());
         jdbcTemplate.update(
                 "INSERT into account (email, password, role) values (?,?,?)",
                 account.getEmail(), account.getPassword(), "user");
-        System.out.println("Insert for "+account.getEmail() + " was successful");
     }
 
     @Override
@@ -83,15 +82,6 @@ public class AccountRepository implements AccountRepositoryStatic {
         );
     }
 
-    @Override
-    public void insertNewProfile(Profile profile){
-        int postcode_id = jdbcTemplate.queryForObject("SELECT brainschema.check_or_add_postcode(?)",
-                new Object[]{profile.getPostcode()}, Integer.class);
-
-        jdbcTemplate.update(
-                "INSERT INTO profile (display_name, postcode_id, account_id, age, gender) VALUES (?,?,?,?,?)",
-        profile.getUsername(), postcode_id, profile.getUserAccountId(), profile.getAge(), profile.getGender());
-    }
 
     @Override
     public boolean updateProfile(Profile profile){
@@ -114,10 +104,10 @@ public class AccountRepository implements AccountRepositoryStatic {
     @Override
     public Profile getProfileByAccountId(Long accountId){
             return jdbcTemplate.queryForObject(
-                    "SELECT profile.profile_id, profile.display_name, postcode.postcode, profile.age, profile.gender \n" +
+                    "SELECT profile.profile_id, profile.display_name, postcode.postcode, profile.age, profile.gender, profile.account_id \n" +
                             "   FROM profile \n" +
                             "    LEFT JOIN postcode ON postcode.postcode_id = profile.postcode_id\n" +
-                            "    WHERE profile_id = ?;",
+                            "    WHERE account_id = ?;",
                     new Object[]{accountId},profileMapper);
     }
 
@@ -155,4 +145,5 @@ public class AccountRepository implements AccountRepositoryStatic {
         int rowsAffected = jdbcTemplate.update("UPDATE account SET role = ? WHERE account_id = ?", role, userId);
         return rowsAffected == 1;
     }
+
 }
