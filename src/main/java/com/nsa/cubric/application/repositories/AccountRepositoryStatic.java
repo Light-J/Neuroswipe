@@ -10,7 +10,6 @@ public interface AccountRepositoryStatic {
     Account getAccountByEmail(String email);
     void insertNewAccount(AccountDTO account);
     List<Account> getAllAccounts();
-    void insertNewProfile(Profile profile);
     boolean updateProfile(Profile profile);
     Profile getProfileByAccountId(Long accountId);
     Profile getProfileByEmail(String email);
@@ -19,5 +18,6 @@ public interface AccountRepositoryStatic {
     Integer removeUserResponses(Long userId);
     List<Account> searchUsers(String searchTerm, int offset);
     boolean updateUserRole(Long userId, String role);
+    List<Profile> getAllProfiles();
 
 }

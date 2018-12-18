@@ -83,15 +83,6 @@ public class AccountRepository implements AccountRepositoryStatic {
         );
     }
 
-    @Override
-    public void insertNewProfile(Profile profile){
-        int postcode_id = jdbcTemplate.queryForObject("SELECT brainschema.check_or_add_postcode(?)",
-                new Object[]{profile.getPostcode()}, Integer.class);
-
-        jdbcTemplate.update(
-                "INSERT INTO profile (display_name, postcode_id, account_id, age, gender) VALUES (?,?,?,?,?)",
-        profile.getUsername(), postcode_id, profile.getUserAccountId(), profile.getAge(), profile.getGender());
-    }
 
     @Override
     public boolean updateProfile(Profile profile){
@@ -154,5 +145,13 @@ public class AccountRepository implements AccountRepositoryStatic {
     public boolean updateUserRole(Long userId, String role){
         int rowsAffected = jdbcTemplate.update("UPDATE account SET role = ? WHERE account_id = ?", role, userId);
         return rowsAffected == 1;
+    }
+
+    @Override
+    public List<Profile> getAllProfiles(){
+        return jdbcTemplate.query(
+                "SELECT * role FROM profile",
+                new Object[]{},profileMapper
+        );
     }
 }
