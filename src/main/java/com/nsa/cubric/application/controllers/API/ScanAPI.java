@@ -1,5 +1,4 @@
 package com.nsa.cubric.application.controllers.API;
-import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.services.*;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,9 +145,9 @@ public class ScanAPI {
         ArrayList<File> front_files = new ArrayList<>();
 
         for (Scan scan:allScans) {
-            front_files.add(new File("brain_images\\" + scan.getPath1()));
-            side_files.add(new File("brain_images\\" + scan.getPath2()));
-            top_files.add(new File("brain_images\\" + scan.getPath3()));
+            front_files.add(new File("brain_images\\" + scan.getTopImage()));
+            side_files.add(new File("brain_images\\" + scan.getSideImage()));
+            top_files.add(new File("brain_images\\" + scan.getFrontImage()));
         }
         //packing files
         for (int i = 0; i<front_files.size(); i++) {

@@ -18,8 +18,8 @@ public class FeedbackRepository implements FeedbackRepositoryStatic {
         jdbcTemplate = aTemplate;
 
         feedbackMapper = (rs, i) -> new Feedback(
-                rs.getLong("id"),
-                rs.getLong("userprofileid"),
+                rs.getLong("feedback_id"),
+                rs.getLong("profile_id"),
                 rs.getString("feedback")
         );
     }
@@ -27,14 +27,14 @@ public class FeedbackRepository implements FeedbackRepositoryStatic {
     @Override
     public void insertNewFeedback(Feedback feedback){
         jdbcTemplate.update(
-                "INSERT into userfeedback (userprofileid, feedback) values (?,?)",
+                "INSERT into feedback (profile_id, feedback) values (?,?)",
                 feedback.getUserProfileId(), feedback.getFeedback());
     }
 
     @Override
     public List<Feedback> getAll(){
         return jdbcTemplate.query(
-                "SELECT id, userprofileid, feedback FROM userfeedback",
+                "SELECT feedback_id, profile_id, feedback FROM feedback",
                 new Object[]{},feedbackMapper
         );
     }

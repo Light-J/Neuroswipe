@@ -15,7 +15,7 @@ mycursor = mydb.cursor()
 #Warning, images need to be in top, middle and side folders and must have the same names and same amount
 #I used the CUBRIC .zip images which work well for this
 def insert_images():
-   sql_scans = "INSERT INTO brainschema.scan (path1, path2, path3) VALUES (%s, %s, %s)"
+   sql_scans = "INSERT INTO brainschema.scan (topImage, sideImage, frontImage) VALUES (%s, %s, %s)"
    path = '.' 
    files_front = os.listdir(path+"/front")
    files_side = os.listdir(path+"/side")
