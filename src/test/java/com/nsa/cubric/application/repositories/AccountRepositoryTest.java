@@ -2,21 +2,24 @@ package com.nsa.cubric.application.repositories;
 
 
 import com.nsa.cubric.application.controllers.AccountDTO;
+import com.nsa.cubric.application.controllers.Profile;
 import com.nsa.cubric.application.domain.Account;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
 @AutoConfigureJdbc
 public class AccountRepositoryTest {
 
@@ -27,6 +30,8 @@ public class AccountRepositoryTest {
 
     @Before
     public void setupBasicDetails(){
+        //Insert this test data to use before each test
+        //This email is invalid so couldn't exist in the database under normal conditions
         accountDTO = new AccountDTO();
         accountDTO.setEmail("user@test");
         accountDTO.setPassword("pass");
@@ -34,10 +39,31 @@ public class AccountRepositoryTest {
         accountRepository.insertNewAccount(accountDTO);
     }
 
+    @After
+    public void removeBasicDetails(){
+        //Remove the test data so they are repeatable
+        accountRepository.removeUser(accountRepository.getAccountByEmail("user@test").getId());
+    }
+
+
     @Test
     public void insertUserAccountAndCheckDetails() throws Exception{
         Account retrievedAccount = accountRepository.getAccountByEmail("user@test");
+        Profile retrievedProfile = accountRepository.getProfileByEmail("user@test");
         assertEquals("user@test", retrievedAccount.getEmail());
+        assertEquals(retrievedAccount.getId().longValue(), retrievedProfile.getUserAccountId());
+    }
+
+
+    @Test
+    public void updateProfileDetails() throws Exception{
+        Profile profile = accountRepository.getProfileByEmail("user@test");
+        profile.setUsername("Jack");
+        profile.setAge(23);
+        accountRepository.updateProfile(profile);
+        Profile profileAfterUpdate = accountRepository.getProfileByEmail("user@test");
+        assertEquals("Jack", profileAfterUpdate.getUsername());
+        assertEquals(23, profileAfterUpdate.getAge().intValue());
     }
 
     @Test

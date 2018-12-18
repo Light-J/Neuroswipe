@@ -10,14 +10,14 @@ public interface AccountRepositoryStatic {
     Account getAccountByEmail(String email);
     void insertNewAccount(AccountDTO account);
     List<Account> getAllAccounts();
-    boolean updateProfile(Profile profile);
     Profile getProfileByAccountId(Long accountId);
     Profile getProfileByEmail(String email);
     Account getAccountById(Long Id);
-    boolean removeUser(Long userId);
     Integer removeUserResponses(Long userId);
     List<Account> searchUsers(String searchTerm, int offset);
+    boolean updateProfile(Profile profile);
+    boolean removeUser(Long userId);
     boolean updateUserRole(Long userId, String role);
-    List<Profile> getAllProfiles();
+
 
 }
