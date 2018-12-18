@@ -28,21 +28,26 @@ public class AccountRepositoryTest {
 
     AccountDTO accountDTO;
 
-    @Before
-    public void setupBasicDetails(){
-        //Insert this test data to use before each test
-        //This email is invalid so couldn't exist in the database under normal conditions
-        accountDTO = new AccountDTO();
+    static AccountDTO insertBasicAccount(AccountRepositoryStatic accountRepository){
+        AccountDTO accountDTO = new AccountDTO();
         accountDTO.setEmail("user@test");
         accountDTO.setPassword("pass");
         accountDTO.setMatchingPassword("pass");
         accountRepository.insertNewAccount(accountDTO);
+        return accountDTO;
+    }
+
+    @Before
+    public void setupBasicDetails(){
+        //Insert this test data to use before each test
+        //This email is invalid so couldn't exist in the database under normal conditions
+        accountDTO = insertBasicAccount(accountRepository);
     }
 
     @After
     public void removeBasicDetails(){
         //Remove the test data so they are repeatable
-        accountRepository.removeUser(accountRepository.getAccountByEmail("user@test").getId());
+        accountRepository.removeUser(accountRepository.getAccountByEmail(accountDTO.getEmail()).getId());
     }
 
 
@@ -54,17 +59,6 @@ public class AccountRepositoryTest {
         assertEquals(retrievedAccount.getId().longValue(), retrievedProfile.getUserAccountId());
     }
 
-
-    @Test
-    public void updateProfileDetails() throws Exception{
-        Profile profile = accountRepository.getProfileByEmail("user@test");
-        profile.setUsername("Jack");
-        profile.setAge(23);
-        accountRepository.updateProfile(profile);
-        Profile profileAfterUpdate = accountRepository.getProfileByEmail("user@test");
-        assertEquals("Jack", profileAfterUpdate.getUsername());
-        assertEquals(23, profileAfterUpdate.getAge().intValue());
-    }
 
     @Test
     public void updateUserRole() throws Exception{
