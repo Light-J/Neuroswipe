@@ -10,7 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping(value = "/userfeedback")
-public class Feedback {
+public class FeedbackController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showFeedbackForm(){

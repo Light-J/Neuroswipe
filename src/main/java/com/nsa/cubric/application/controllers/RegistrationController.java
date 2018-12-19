@@ -1,20 +1,12 @@
 package com.nsa.cubric.application.controllers;
 
-import com.nsa.cubric.application.configurators.MyUserPrincipal;
 import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.services.MyUserDetailsService;
+import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
-import com.nsa.cubric.application.services.AccountServiceStatic;
+import com.nsa.cubric.application.services.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,38 +23,37 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/registration")
-public class RegistrationAccount {
-    private AccountServiceStatic accountService;
+public class RegistrationController {
+    private AccountService accountService;
 
     @Autowired
-    public RegistrationAccount(AccountServiceStatic aRepo){
+    public RegistrationController(AccountService aRepo){
         accountService = aRepo;
     }
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(RegistrationAccount.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
 
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     public String showRegistrationForm(WebRequest webRequest, Model model){
-        LOG.debug("Handling GET request to /registration/");
+        LOG.debug("Handling GET request to /registration/account");
 
-        model.addAttribute("account", new AccountDTO());
+        model.addAttribute("account", new AccountDto());
         return "register_account";
     }
 
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public ModelAndView registerUserAccount(
-            @ModelAttribute("account") @Valid AccountDTO accountDTO,
+            @ModelAttribute("account") @Valid AccountDto accountDto,
             BindingResult result,
-            HttpServletRequest request,
-            Errors errors){
+            HttpServletRequest request){
 
         Account registered = new Account();
-        String originalPassword = accountDTO.getPassword();
+        String originalPassword = accountDto.getPassword();
 
         if(!result.hasErrors()){
             LOG.debug("Creating user account");
-            registered = createUserAccount(accountDTO, result);
+            registered = createUserAccount(accountDto);
         }
 
         if(registered == null){
@@ -70,17 +61,17 @@ public class RegistrationAccount {
         }
 
         if(result.hasErrors()){
-            return new ModelAndView("register_account", "account", accountDTO);
+            return new ModelAndView("register_account", "account", accountDto);
         } else {
-            authWithHttpServletRequest(request, accountDTO.getEmail(), originalPassword);
-            return new ModelAndView("redirect:/", "account", accountDTO);
+            authWithHttpServletRequest(request, accountDto.getEmail(), originalPassword);
+            return new ModelAndView("redirect:/", "account", accountDto);
         }
     }
 
-    private Account createUserAccount(AccountDTO accountDTO, BindingResult result){
+    private Account createUserAccount(AccountDto accountDto){
         Account registered = null;
         try{
-            registered = accountService.registerNewUserAccount(accountDTO);
+            registered = accountService.registerNewUserAccount(accountDto);
         } catch (EmailExistsException e){
             return null;
         }

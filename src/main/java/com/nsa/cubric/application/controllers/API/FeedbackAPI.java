@@ -2,8 +2,8 @@ package com.nsa.cubric.application.controllers.API;
 
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.Feedback;
-import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.FeedbackServiceStatic;
+import com.nsa.cubric.application.services.AccountService;
+import com.nsa.cubric.application.services.FeedbackService;
 import com.nsa.cubric.application.services.LoggedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +16,11 @@ import java.util.List;
 @RestController
 public class FeedbackAPI {
     private LoggedUserService loggedUserService;
-    private AccountServiceStatic accountService;
-    private FeedbackServiceStatic feedbackService;
+    private AccountService accountService;
+    private FeedbackService feedbackService;
 
     @Autowired
-    public FeedbackAPI(LoggedUserService loggedUserService, AccountServiceStatic accountService, FeedbackServiceStatic feedbackService) {
+    public FeedbackAPI(LoggedUserService loggedUserService, AccountService accountService, FeedbackService feedbackService) {
         this.loggedUserService = loggedUserService;
         this.accountService = accountService;
         this.feedbackService = feedbackService;

@@ -1,9 +1,9 @@
-package com.nsa.cubric.application.controllers;
+package com.nsa.cubric.application.dto;
 
 import com.nsa.cubric.application.services.registrationUtils.FirstFourLettersPostCode;
 
 
-public class Profile {
+public class ProfileDto {
     Long id;
 
     String username;
@@ -17,7 +17,7 @@ public class Profile {
     String gender;
 
 
-    public Profile(Long id, String username, String postcode, Long userAccountId, Integer age, String gender) {
+    public ProfileDto(Long id, String username, String postcode, Long userAccountId, Integer age, String gender) {
         this.id = id;
         this.username = username;
         this.postcode = postcode;

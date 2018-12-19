@@ -1,6 +1,6 @@
 package com.nsa.cubric.application.services.registrationUtils;
 
-import com.nsa.cubric.application.controllers.AccountDTO;
+import com.nsa.cubric.application.dto.AccountDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -14,7 +14,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context){
 
-        AccountDTO account = (AccountDTO) obj;
+        AccountDto account = (AccountDto) obj;
         return account.getPassword().equals(account.getMatchingPassword());
     }
 }

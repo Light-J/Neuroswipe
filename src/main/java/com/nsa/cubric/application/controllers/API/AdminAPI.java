@@ -1,9 +1,9 @@
 package com.nsa.cubric.application.controllers.API;
 
-import com.nsa.cubric.application.controllers.RegistrationAccount;
+import com.nsa.cubric.application.controllers.RegistrationController;
 import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.AdminServicesStatic;
+import com.nsa.cubric.application.services.AccountService;
+import com.nsa.cubric.application.services.AdminServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,16 @@ import java.util.List;
 public class AdminAPI {
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(RegistrationAccount.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
 
-    @Autowired
-    AdminServicesStatic adminServices;
+    private AdminServices adminServices;
 
-    @Autowired
-    AccountServiceStatic accountService;
+    private AccountService accountService;
+
+    public AdminAPI(AdminServices adminServices, AccountService accountService){
+        this.adminServices = adminServices;
+        this.accountService = accountService;
+    }
 
     @PostMapping(value = "/removeUser")
     public Boolean removeUser(@RequestParam(value = "userToRemove") String userEmail) {
