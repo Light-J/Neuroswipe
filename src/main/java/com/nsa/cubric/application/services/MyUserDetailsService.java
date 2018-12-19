@@ -3,7 +3,7 @@ package com.nsa.cubric.application.services;
 import com.nsa.cubric.application.configurators.MyUserPrincipal;
 import com.nsa.cubric.application.domain.Account;
 //import com.nsa.cubric.application.domain.User;
-import com.nsa.cubric.application.repositories.AccountRepository;
+import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
 //import com.nsa.cubric.application.repositories.UserRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,14 +19,14 @@ import java.util.List;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountRepositoryStatic accountRepositoryStatic;
 
     @Autowired
     private PasswordEncoder encoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        Account user = accountRepository.getAccountByEmail(email);
+        Account user = accountRepositoryStatic.getAccountByEmail(email);
         if (user == null) {
             System.out.println("EMAIL NOT FOUND");
             throw new UsernameNotFoundException(email);

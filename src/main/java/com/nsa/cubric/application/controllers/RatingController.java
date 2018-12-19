@@ -10,12 +10,12 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping(value = "/ratings")
-public class Ratings {
-	private static final Logger LOG = LoggerFactory.getLogger(Ratings.class);
+public class RatingController {
+	private static final Logger LOG = LoggerFactory.getLogger(RatingController.class);
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showTutorialOverview(WebRequest webRequest, Model model) {
 		LOG.debug("Handling GET request to /ratings/");
-		return "ratings";
+		return "ratingController";
 	}
 }

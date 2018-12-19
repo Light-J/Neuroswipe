@@ -1,8 +1,8 @@
 package com.nsa.cubric.application.repositories;
 
 
-import com.nsa.cubric.application.controllers.AccountDTO;
-import com.nsa.cubric.application.controllers.Profile;
+import com.nsa.cubric.application.dto.AccountDto;
+import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
 import org.junit.After;
 import org.junit.Before;
@@ -21,39 +21,39 @@ import static junit.framework.TestCase.assertEquals;
 public class AccountRepositoryTest {
 
     @Autowired
-    private AccountRepositoryStatic accountRepository;
+    private AccountRepository accountRepository;
 
-    AccountDTO accountDTO;
+    AccountDto accountDto;
 
-    static AccountDTO insertBasicAccount(AccountRepositoryStatic accountRepository){
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setEmail("user@test");
-        accountDTO.setPassword("pass");
-        accountDTO.setMatchingPassword("pass");
-        accountRepository.insertNewAccount(accountDTO);
-        return accountDTO;
+    static AccountDto insertBasicAccount(AccountRepository accountRepository){
+        AccountDto accountDto = new AccountDto();
+        accountDto.setEmail("user@test");
+        accountDto.setPassword("pass");
+        accountDto.setMatchingPassword("pass");
+        accountRepository.insertNewAccount(accountDto);
+        return accountDto;
     }
 
     @Before
     public void setupBasicDetails(){
         //Insert this test data to use before each test
         //This email is invalid so couldn't exist in the database under normal conditions
-        accountDTO = insertBasicAccount(accountRepository);
+        accountDto = insertBasicAccount(accountRepository);
     }
 
     @After
     public void removeBasicDetails(){
         //Remove the test data so they are repeatable
-        accountRepository.removeUser(accountRepository.getAccountByEmail(accountDTO.getEmail()).getId());
+        accountRepository.removeUser(accountRepository.getAccountByEmail(accountDto.getEmail()).getId());
     }
 
 
     @Test
     public void insertUserAccountAndCheckDetails() throws Exception{
         Account retrievedAccount = accountRepository.getAccountByEmail("user@test");
-        Profile retrievedProfile = accountRepository.getProfileByEmail("user@test");
+        ProfileDto retrievedProfileDto = accountRepository.getProfileByEmail("user@test");
         assertEquals("user@test", retrievedAccount.getEmail());
-        assertEquals(retrievedAccount.getId().longValue(), retrievedProfile.getUserAccountId());
+        assertEquals(retrievedAccount.getId().longValue(), retrievedProfileDto.getUserAccountId());
     }
 
 

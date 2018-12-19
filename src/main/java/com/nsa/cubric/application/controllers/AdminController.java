@@ -1,7 +1,6 @@
 package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.services.LoggedUserService;
-import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,16 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping(value = "/admin")
-public class Admin {
-    private static final Logger LOG = LoggerFactory.getLogger(Practice.class);
+public class AdminController {
+    private static final Logger LOG = LoggerFactory.getLogger(PracticeController.class);
+
+    private LoggedUserService loggedUserService;
 
     @Autowired
-    LoggedUserService loggedUserService;
+    public AdminController(LoggedUserService loggedUserService){
+        this.loggedUserService = loggedUserService;
+    }
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showAdminPage(WebRequest webRequest, Model model){
@@ -29,7 +33,7 @@ public class Admin {
             return "noaccess";
         }
 
-        return "admin";
+        return "adminController";
     }
 
     @GetMapping(value = "/usermanagement")

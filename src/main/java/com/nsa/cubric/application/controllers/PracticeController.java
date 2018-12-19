@@ -10,13 +10,13 @@ import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping(value = "/practice")
-public class Practice {
-    private static final Logger LOG = LoggerFactory.getLogger(Practice.class);
+public class PracticeController {
+    private static final Logger LOG = LoggerFactory.getLogger(PracticeController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showTutorialOverview(WebRequest webRequest, Model model){
         LOG.debug("Handling GET request to /practice/");
-        return "practice";
+        return "practiceController";
     }
 
     @RequestMapping(value = "/feedback", method = RequestMethod.GET)

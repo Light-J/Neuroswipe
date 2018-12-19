@@ -2,8 +2,8 @@ package com.nsa.cubric.application.controllers.API;
 
 
 import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.AdminServicesStatic;
+import com.nsa.cubric.application.services.AccountService;
+import com.nsa.cubric.application.services.AdminServices;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
-public class AdminAPITest {
+public class AdminControllerAPITest {
 
 
     Account testAccount;
@@ -31,10 +31,10 @@ public class AdminAPITest {
     MockMvc mvc;
 
     @MockBean
-    AdminServicesStatic adminServices;
+    AdminServices adminServices;
 
     @MockBean
-    AccountServiceStatic accountService;
+    AccountService accountService;
 
     @Before
     public void setupTest() {

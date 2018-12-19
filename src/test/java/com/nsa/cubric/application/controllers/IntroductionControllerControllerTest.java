@@ -9,13 +9,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class IntroControllerTest {
+public class IntroductionControllerControllerTest {
 
     @Autowired
-    private Intro introController;
+    private IntroductionController introductionControllerController;
 
     @Test
     public void loadcontroller() throws Exception{
-        assertThat(introController).isNotNull();
+        assertThat(introductionControllerController).isNotNull();
     }
 }

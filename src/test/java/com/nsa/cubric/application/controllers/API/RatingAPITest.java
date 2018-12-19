@@ -2,8 +2,8 @@ package com.nsa.cubric.application.controllers.API;
 
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.UserRating;
-import com.nsa.cubric.application.services.AccountServiceStatic;
-import com.nsa.cubric.application.services.UserRatingService;
+import com.nsa.cubric.application.services.AccountService;
+import com.nsa.cubric.application.services.UserRatingServiceStatic;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,10 +37,10 @@ public class RatingAPITest {
 	MockMvc mvc;
 
 	@MockBean
-    UserRatingService userRatingService;
+	UserRatingServiceStatic userRatingService;
 
 	@MockBean
-	AccountServiceStatic accountService;
+	AccountService accountService;
 
 	@Before
 	public void setupBasicUserRatingDetails() {

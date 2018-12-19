@@ -2,7 +2,7 @@ package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.services.*;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.nsa.cubric.application.services.ScanService;
+import com.nsa.cubric.application.services.ScanServiceStatic;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +28,13 @@ import java.util.zip.ZipOutputStream;
 @RestController
 public class ScanAPI {
 
-    private ScanServiceStatic scanService;
-    private AccountServiceStatic accountService;
+    private ScanService scanService;
+    private AccountService accountService;
 
     public static final String imageUploadDirectory = System.getProperty("user.dir") + "/brain_images/";
 
     @Autowired
-    public ScanAPI(ScanService scanService, AccountServiceStatic accountService){
+    public ScanAPI(ScanServiceStatic scanService, AccountService accountService){
         this.scanService = scanService;
         this.accountService = accountService;
     }

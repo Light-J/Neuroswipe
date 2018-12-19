@@ -61,11 +61,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `brainschema`.`profile`
+-- Table `brainschema`.`profileDto`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `brainschema`.`profile` ;
+DROP TABLE IF EXISTS `brainschema`.`profileDto` ;
 
-CREATE TABLE IF NOT EXISTS `brainschema`.`profile` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`profileDto` (
   `profile_id` INT(11) NOT NULL AUTO_INCREMENT,
   `display_name` VARCHAR(45) NULL,
   `gender` VARCHAR(45) NULL DEFAULT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`feedback` (
   INDEX `userprofileid` (`profile_id` ASC),
   CONSTRAINT `userfeedback_ibfk_1`
     FOREIGN KEY (`profile_id`)
-    REFERENCES `brainschema`.`profile` (`profile_id`)
+    REFERENCES `brainschema`.`profileDto` (`profile_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`rating` (
     REFERENCES `brainschema`.`scan` (`scan_id`),
   CONSTRAINT `userratings_ibfk_1`
     FOREIGN KEY (`profile_id`)
-    REFERENCES `brainschema`.`profile` (`profile_id`)
+    REFERENCES `brainschema`.`profileDto` (`profile_id`)
     ON DELETE SET NULL)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -235,7 +235,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_total_good_responses_for_user`(g
 BEGIN
 
 	RETURN (SELECT count(*) FROM rating WHERE response = 1 AND profile_id = 
-				(SELECT profile_id FROM profile WHERE account_id =
+				(SELECT profile_id FROM profileDto WHERE account_id =
 					(SELECT account_id FROM account WHERE email = given_user_email)));
 					
 END$$
@@ -255,7 +255,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_total_responses_for_user`(given_
 BEGIN
 
 	RETURN (SELECT count(*) FROM rating WHERE profile_id = 
-				(SELECT profile_id FROM profile WHERE account_id =
+				(SELECT profile_id FROM profileDto WHERE account_id =
 					(SELECT account_id FROM account WHERE email = given_user_email)));
 					
 END$$
@@ -334,7 +334,7 @@ DEFINER=`root`@`localhost`
 TRIGGER `brainschema`.`Create User Profile`
 AFTER INSERT ON `brainschema`.`account`
 FOR EACH ROW
-INSERT INTO profile (display_name, account_id) VALUES (NEW.email, NEW.account_id)$$
+INSERT INTO profileDto (display_name, account_id) VALUES (NEW.email, NEW.account_id)$$
 
 
 DELIMITER ;
