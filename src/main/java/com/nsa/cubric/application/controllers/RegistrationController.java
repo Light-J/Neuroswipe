@@ -30,8 +30,7 @@ public class RegistrationController {
     public RegistrationController(AccountService aRepo){
         accountService = aRepo;
     }
-
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
 
     @RequestMapping(value = "/account", method = RequestMethod.GET)
