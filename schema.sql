@@ -148,8 +148,6 @@ DEFAULT CHARACTER SET = utf8;
 
 USE `brainschema` ;
 
- -- Default admin account Pass is 'admin'
-insert into account (email, password, role) VALUES ('default@admin', '$2a$10$xVWy4YGH2TgjMoA1ITfJRubHPp9ijz926vkEUKHMa.AaVG5gP4ANm', 'admin');
 
 -- -----------------------------------------------------
 -- function get_good_percentage_for_scan
@@ -339,7 +337,8 @@ INSERT INTO profile (display_name, account_id) VALUES (NEW.email, NEW.account_id
 
 DELIMITER ;
 
-
+ -- Default admin account Pass is 'admin'
+insert into account (email, password, role) VALUES ('default@admin', '$2a$10$xVWy4YGH2TgjMoA1ITfJRubHPp9ijz926vkEUKHMa.AaVG5gP4ANm', 'admin');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
