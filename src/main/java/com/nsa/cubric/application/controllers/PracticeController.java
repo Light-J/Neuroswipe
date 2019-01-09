@@ -16,7 +16,7 @@ public class PracticeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showTutorialOverview(WebRequest webRequest, Model model){
         LOG.debug("Handling GET request to /practice/");
-        return "practiceController";
+        return "practice";
     }
 
     @RequestMapping(value = "/feedback", method = RequestMethod.GET)

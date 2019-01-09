@@ -8,14 +8,22 @@ import org.springframework.stereotype.Service;
 public class AdminServicesStatic implements AdminServices {
 
     private AccountRepository accountRepository;
+    private LoggedUserService loggedUserService;
 
     @Autowired
-    public AdminServicesStatic(AccountRepository accountRepository){
+    public AdminServicesStatic(AccountRepository accountRepository, LoggedUserService loggedUserService){
         this.accountRepository = accountRepository;
+        this.loggedUserService = loggedUserService;
     }
 
     @Override
     public boolean removeUser(Long userId){
+        Long loggedInUserId = accountRepository.getAccountByEmail(loggedUserService.getUsername()).getId();
+        Long defaultAdminId = accountRepository.getAccountByEmail("default@admin").getId();
+        if(loggedInUserId.equals(userId) || defaultAdminId.equals(userId)){
+            return false;
+        }
+
         return accountRepository.removeUser(userId);
     }
 
@@ -26,8 +34,12 @@ public class AdminServicesStatic implements AdminServices {
 
     @Override
     public boolean updateUserRole(Long userId, String role){
+        Long loggedInUserId = accountRepository.getAccountByEmail(loggedUserService.getUsername()).getId();
+        Long defaultAdminId = accountRepository.getAccountByEmail("default@admin").getId();
+        if(loggedInUserId.equals(userId) || defaultAdminId.equals(userId)){
+            return false;
+        }
         return accountRepository.updateUserRole(userId, role);
     }
-
 
 }
