@@ -111,10 +111,38 @@ This tab lets you manage the images currently on the system, if you inserted a b
 - Log out the default admin and log in as "carl@valid.me" with the password "password1"
 
 ##### Practice images
-These images are known good / bad images that the user can practice on, the results are not saved
+These images are known good / bad images that the user can practice on, the results are not saved in this section. The images are loaded randomly.
+- Click on either the "yes" or "no" buttons or use the left and right arrow keys to answer the question
+- If the user is correct the Correct answers will increase and if they are wrong incorrect answers will increase
+- After the correct answers reaches 10 then a reward will appear
+
+##### Sorting images
+These images are from all the scans, they are picked at random
+- Click on either the "yes" or "no" buttons or use the left and right arrow keys to answer the question
+- After 25 questions have been answered a reward will appear
+- After 50 questions have been answered a reward will appear
+
+##### Leaving feedback
+This tab allows a logged in user to leave feedback
+- Enter "This is my feedback" into the field and click submit
+- You will be redirected and a reward will appear
+- Close the reward and you will see a thank you for your feedback page
 
 
+####Manage the responses to questions and feedback
+- Log out of "carl@valid.me" and log in as the "default@admin" with "admin"
 
+##### Viewing feedback
+- Click on the feedback tab
+- A page will load with the feedback from "carl@valid.me" with the feedback "This is my feedback"
+
+
+##### Exporting images
+This page allows you to download a zip archive of all the images that match your criteria
+- Click on the update button without entering anything into the search boxes 
+- A result of scans will be shown, these will be all the scans that have responses from users
+- Clicking download will download all of the images shown in this list as a .zip archive
+- Entering values into these fields will allows you to filter your results
 
 
 ##### Managing users
@@ -128,20 +156,21 @@ This page allows you to search through users, change a users role, view a specif
 - Click on "admin" for the user "default@admin" and then click "user", a notification will appear saying it had failed to change as you cant change yourself or the default admin
 
 ###### Viewing users response
-- Click on "View responses", another page will appear showing all the responses for that user. None will show as no images have been rated yet
+- Click on "View responses", another page will appear showing all the responses for that user.
+- "carl@valid.me" should appear with all of your responses from earlier
 
 ###### Removing a users responses
-- Click on "Remove user responses", a confirm box will appear saying are you sure you want to remove the responses for said user. Clicking cancel will close the box and nothing will happen, clicking confirm will cause a notification saying "0 responses removed"
+- Click on "Remove user responses", a confirm box will appear saying are you sure you want to remove the responses for said user.
+- Click "cancel" and the box will disappear and nothing will happen
+- Doing this again but clicking confirm will cause a notification saying a number of responses was removed
 
 ###### Deleting a user
-- Click on "delete user", a confirm box will appear saying are you sure you want to delete that users. Clicking confirm will remove the user and clicking cancel will close the box and nothing will happen
+- Click on "delete user", a confirm box will appear saying are you sure you want to delete that users. 
+- Click "cancel" and the box will disappear and nothing will happen
+- Doing this again but clicking confirm will cause a notification saying the user was removed
+- Note users responses will remain on the system, also that users feedback will be removed
 - Note trying this on the default admin will fail as you cannot remove the default admin
 
-##### Exporting images
-This page allows you to download a zip archive of all the images that match your criteria
-- Click on the update button without entering anything into the search boxes (Note as no ratings have been done yet entering into these boxes and clicking update will show 0 results)
-- Clicking on update will show all images that have at least been rated. Entering requirements will change the results
-- The results will appear in the list below
  
 
 
