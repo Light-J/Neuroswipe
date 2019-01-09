@@ -8,7 +8,8 @@ To run the project
  - In the application.properties you will need to add this information (URL contains the host and database name)
  - On this database you will need to run schema.sql which is provided
  
-#### Step 2: Create the directory to run the application
+#### Step 2: Create the directory and build the application
+ - Build the applications jar. You will first need to make sure that the active profile is dev in application properties and that your database details are correct in application-dev.properties  
  - You will need to assemble your directory as seen below. This includes your jar file for the application and a brain_images folder with 3 sub folders (top, front, side)
  ````
 *your_jar_name*.jar
