@@ -16,6 +16,6 @@ public class RatingController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showTutorialOverview(WebRequest webRequest, Model model) {
 		LOG.debug("Handling GET request to /ratings/");
-		return "ratingController";
+		return "ratings";
 	}
 }
