@@ -1,4 +1,4 @@
-package com.nsa.cubric.application.controllers;
+package com.nsa.cubric.application.dto;
 
 import com.nsa.cubric.application.services.registrationUtils.PasswordMatches;
 import com.nsa.cubric.application.services.registrationUtils.ValidEmail;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @PasswordMatches()
-public class AccountDTO {
+public class AccountDto {
     @NotNull
     @NotEmpty
     @ValidEmail
@@ -48,7 +48,7 @@ public class AccountDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountDTO that = (AccountDTO) o;
+        AccountDto that = (AccountDto) o;
         return Objects.equals(email, that.email) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(matchingPassword, that.matchingPassword);

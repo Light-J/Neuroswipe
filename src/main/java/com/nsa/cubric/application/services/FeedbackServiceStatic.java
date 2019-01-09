@@ -1,10 +1,29 @@
 package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.domain.Feedback;
+import com.nsa.cubric.application.repositories.FeedbackRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface FeedbackServiceStatic {
-    public List<Feedback> getAll();
-    public void insertNewFeedback(Feedback feedback);
+@Service
+public class FeedbackServiceStatic implements FeedbackService {
+
+    private FeedbackRepository feedbackRepository;
+
+    @Autowired
+    public FeedbackServiceStatic(FeedbackRepository aRepo){
+        feedbackRepository = aRepo;
+    }
+
+    @Override
+    public void insertNewFeedback(Feedback feedback){
+        feedbackRepository.insertNewFeedback(feedback);
+    }
+
+    @Override
+    public List<Feedback> getAll(){
+        return feedbackRepository.getAll();
+    }
 }

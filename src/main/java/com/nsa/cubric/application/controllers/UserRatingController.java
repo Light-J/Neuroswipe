@@ -1,7 +1,7 @@
 package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.domain.UserRating;
-import com.nsa.cubric.application.services.UserRatingServiceStatic;
+import com.nsa.cubric.application.services.UserRatingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.WebRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,16 +17,16 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/user")
-public class UserRatingResult {
+public class UserRatingController {
 
-	private UserRatingServiceStatic ratingService;
+	private UserRatingService ratingService;
 
 	@Autowired
-	public UserRatingResult(UserRatingServiceStatic aRepo) {
+	public UserRatingController(UserRatingService aRepo) {
 		ratingService = aRepo;
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserRatingResult.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserRatingController.class);
 
 
 	@RequestMapping(value = "/ratings/{userEmail}", method = RequestMethod.GET)

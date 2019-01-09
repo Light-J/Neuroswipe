@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.controllers;
 
-import com.nsa.cubric.application.services.AccountService;
+import com.nsa.cubric.application.dto.AccountDto;
+import com.nsa.cubric.application.services.AccountServiceStatic;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -21,15 +21,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 public class LoginControllerTest {
 
-    AccountDTO testAccount;
+    AccountDto testAccount;
     @Autowired
     MockMvc mmvc;
     @MockBean
-    AccountService accountService;
+    AccountServiceStatic accountService;
 
     @Before
     public void makeTestAccount() {
-        testAccount = new AccountDTO();
+        testAccount = new AccountDto();
         testAccount.setEmail("test@test.test");
         testAccount.setPassword("pass");
         testAccount.setMatchingPassword("pass");

@@ -1,8 +1,8 @@
 package com.nsa.cubric.application.services;
 
-import com.nsa.cubric.application.controllers.AccountDTO;
+import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.repositories.AccountRepository;
+import com.nsa.cubric.application.repositories.AccountRepositoryStatic;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,18 +20,18 @@ import static org.mockito.BDDMockito.given;
 public class AccountServicesTest {
 
     @Autowired
-    private AccountServiceStatic accountService;
+    private AccountService accountService;
 
     @MockBean
-    private AccountRepository accountRepository;
+    private AccountRepositoryStatic accountRepositoryStatic;
 
     @Test(expected = EmailExistsException.class)
     public void checkEmailIsUnique() throws Exception{
-        AccountDTO accountToAdd = new AccountDTO();
+        AccountDto accountToAdd = new AccountDto();
         accountToAdd.setEmail("test@nsa.com");
 
         Account alreadyExists = new Account(1L, "test@nsa.com", "pass", "user");
-        given(accountRepository.getAccountByEmail("test@nsa.com")).willReturn(alreadyExists);
+        given(accountRepositoryStatic.getAccountByEmail("test@nsa.com")).willReturn(alreadyExists);
 
         accountService.registerNewUserAccount(accountToAdd);
     }

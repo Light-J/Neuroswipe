@@ -2,9 +2,9 @@ package com.nsa.cubric.application.controllers.API;
 
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.UserRating;
-import com.nsa.cubric.application.services.AccountServiceStatic;
+import com.nsa.cubric.application.services.AccountService;
 import com.nsa.cubric.application.services.LoggedUserService;
-import com.nsa.cubric.application.services.UserRatingServiceStatic;
+import com.nsa.cubric.application.services.UserRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RatingAPI {
 
-	private UserRatingServiceStatic ratingService;
+	private UserRatingService ratingService;
+
+	private AccountService accountService;
+
+	private LoggedUserService loggedUserService;
 
 	@Autowired
-	public RatingAPI(UserRatingServiceStatic aRepo) {
-		ratingService = aRepo;
+	public RatingAPI(UserRatingService userRatingService, AccountService accountService, LoggedUserService loggedUserService) {
+		this.ratingService = userRatingService;
+		this.accountService = accountService;
+		this.loggedUserService = loggedUserService;
 	}
-
-	@Autowired
-    AccountServiceStatic accountService;
-
-	@Autowired
-	LoggedUserService loggedUserService;
 
 	/**
 	 * This method is used to accepted and store the decision the user has made regarding

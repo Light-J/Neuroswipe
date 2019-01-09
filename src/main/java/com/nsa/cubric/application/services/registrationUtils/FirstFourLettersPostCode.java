@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = FirstFourLettersOfPostcodeValidator.class)
 @Documented
 public @interface FirstFourLettersPostCode {
-    String message() default "Please provide your postcode in the correct format (EG 'AB12'";
+    String message() default "Please provide your postcode in the correct format (EG 'AB12')";
     Class<?>[] groups() default{};
     Class<? extends Payload>[] payload() default {};
 }
