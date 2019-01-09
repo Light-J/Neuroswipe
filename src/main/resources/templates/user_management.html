@@ -121,13 +121,17 @@
 
             $(this).find(".role select").on("change", function (e) {
 
-                var role = $(this).val();
+                var newRole = $(this).val();
 
-                if(role === "user" || role === "admin"){
-                    $.post("/api/admin/"+id+"/role", { role: role })
+                if(newRole === "user" || newRole === "admin"){
+                    $.post("/api/admin/"+id+"/role", { role: newRole })
                         .done(function( data ) {
-                            $.notify("User saved", {
-                            });
+                            if(data){
+                                $.notify("User saved", {});
+                            } else {
+                                $.notify("Failed, cannot change role", {});
+                                getResults(1);
+                            }
                         });
                 }
             });
