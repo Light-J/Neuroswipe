@@ -52,7 +52,7 @@ public class RatingAPI {
 		return true;
 	}
 
-	@RequestMapping(value = "get_responses", method = RequestMethod.GET)
+	@RequestMapping(value = "responses/amount", method = RequestMethod.GET)
 	public Integer getNumberOfRatingsForUser(){
 
 

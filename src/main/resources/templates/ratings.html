@@ -112,7 +112,22 @@
         });
     };
 
+    var getNumberOfUserResponses = function(){
+        $.ajax({
+            type: "GET",
+            url: "/ratings/responses/amount",
+            success: function(data){
+                console.log(data);
+            },
+            error: function(){
+                alert("There was an error submitting the data.");
+            },
+            dataType: "json"
+        });
+    }
+
     $(function() {
+        getNumberOfUserResponses()
         $("#imagesCard").hide();
         loadNextImage();
 
