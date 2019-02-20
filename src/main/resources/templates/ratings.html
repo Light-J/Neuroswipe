@@ -53,6 +53,10 @@
         </div>
     </div>
 
+    <div class="float-right">
+        <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary" id="save">Save and Exit</button>
+    </div>
+
 </div>
 
 <script>
@@ -95,7 +99,7 @@
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
-        $("#yesButton, #noButton").hide();
+        //$("#yesButton, #noButton").hide();
         if(goodBrain){
             $("#imagesCard").addClass("swipe-right");
         }else{
@@ -179,6 +183,10 @@
 </script>
 <style>
     .card {
+        margin: 10px;
+    }
+
+    #save {
         margin: 10px;
     }
 
