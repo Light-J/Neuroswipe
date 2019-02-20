@@ -10,4 +10,6 @@ public interface UserRatingRepository {
 	public List<UserRating> getAll();
 
 	public List<UserRating> getUserRatings(String userEmail);
+
+	public Integer getNumberOfRatingsForUser(String userEmail);
 }
