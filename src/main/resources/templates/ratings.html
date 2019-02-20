@@ -26,10 +26,18 @@
         </div>
     </div>
 
-    <div id="progress">
-        <div id="bar"></div>
+
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text text-center lead">Your progress to 50 images:</p>
+            <div id="progress">
+                <div id="bar">
+                    <p class="text-center text-light" id="completedText" hidden="hidden">Completed!</p>
+                </div>
+            </div>
+        </div>
     </div>
-    
+
     <div class="card" id="imagesCard">
         <div class="card-body">
             <h5 class="card-title text-center">Sort scans for real!</h5>
@@ -133,6 +141,7 @@
     var updateProgressBar = function(percentage){
         if(percentage>100){
             percentage = 100;
+            $("#completedText").removeAttr("hidden");
         }
         $("#bar").width(percentage+"%");
     };
@@ -169,6 +178,10 @@
     });
 </script>
 <style>
+    .card {
+        margin: 10px;
+    }
+
     #progress {
         width: 100%;
         background-color: grey;
