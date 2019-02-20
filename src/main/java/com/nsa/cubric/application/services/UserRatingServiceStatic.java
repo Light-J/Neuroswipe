@@ -12,10 +12,14 @@ public class UserRatingServiceStatic implements UserRatingService {
 
 	private UserRatingRepository ratingRepository;
 
+	private LoggedUserService loggedUserService;
+
 	@Autowired
-	public UserRatingServiceStatic(UserRatingRepository aRepo) {
-		ratingRepository = aRepo;
+	public UserRatingServiceStatic(UserRatingRepository userRatingRepository, LoggedUserService aloggedUserService) {
+		ratingRepository = userRatingRepository;
+		loggedUserService = aloggedUserService;
 	}
+
 
 	@Override
 	public boolean storeUserRatings(UserRating rating) {
@@ -36,5 +40,10 @@ public class UserRatingServiceStatic implements UserRatingService {
 	@Override
 	public List<UserRating> getUserRatings(String userEmail) {
 		return ratingRepository.getUserRatings(userEmail);
+	}
+
+	@Override
+	public Integer getNumberOfRatingsForUser(){
+		return ratingRepository.getNumberOfRatingsForUser(loggedUserService.getUsername());
 	}
 }
