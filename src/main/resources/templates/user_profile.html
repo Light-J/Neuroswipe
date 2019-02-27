@@ -15,7 +15,7 @@
                     <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
                         <input th:field="*{id}" name="id" hidden/>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="email">Username</label>
+                            <label class="control-label col-sm-2" for="email">Name</label>
                             <div class="col-sm-10">
                                 <input id="email" class="form-control" name="username" th:field="*{username}"/>
                             </div>
@@ -60,23 +60,23 @@
                     <h1>Your progress</h1>
 
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="training">
+                        <input type="checkbox" class="form-check-input" id="training" onclick="return false;">
                         <label class="form-check-label" for="training">Completed Training</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="practice">
+                        <input type="checkbox" class="form-check-input" id="practice" onclick="return false;">
                         <label class="form-check-label" for="practice">10 Correct practice questions</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="sort25">
+                        <input type="checkbox" class="form-check-input" id="sort25" onclick="return false;">
                         <label class="form-check-label" for="sort25">Sorted 25 scans</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="sort50">
+                        <input type="checkbox" class="form-check-input" id="sort50" onclick="return false;">
                         <label class="form-check-label" for="sort50">Sorted 50 scans</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="feedback">
+                        <input type="checkbox" class="form-check-input" id="feedback" onclick="return false;">
                         <label class="form-check-label" for="feedback">Left feedback</label>
                     </div>
                 </div>
@@ -89,6 +89,11 @@
             <div class="card">
                 <div class="card-body">
                     <h1>Your rewards</h1>
+                    <img src="/img/img18.jpg" width="18%" id="">
+                    <img src="/img/img20.png" width="18%" id="">
+                    <img src="/img/img23.png" width="18%" id="">
+                    <img src="/img/img7.png" width="18%" id="">
+                    <img src="/img/img24.jpg" width="18%" id="">
                 </div>
             </div>
         </div>
