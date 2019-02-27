@@ -89,11 +89,23 @@
             <div class="card">
                 <div class="card-body">
                     <h1>Your rewards</h1>
-                    <img src="/img/img18.jpg" width="18%" id="practice_reward_image">
-                    <img src="/img/img20.png" width="18%" id="sort25_reward_image">
-                    <img src="/img/img23.png" width="18%" id="sort50_reward_image">
-                    <img src="/img/img7.png" width="18%" id="training_reward_image">
-                    <img src="/img/img24.jpg" width="18%" id="feedback_reward_image">
+                    <div class="row">
+                        <div class="col" data-toggle="tooltip" title="Rewarded for completing the training!" data-placement="bottom">
+                            <img src="/img/img7.png" width="100%" id="training_reward_image">
+                        </div>
+                        <div class="col" data-toggle="tooltip" title="Rewarded for completing 10 correct practice questions!" data-placement="bottom">
+                            <img src="/img/img18.jpg" width="100%" id="practice_reward_image">
+                        </div>
+                        <div class="col" data-toggle="tooltip" title="Rewarded for sorting 25 real images for us!" data-placement="bottom">
+                            <img src="/img/img20.png" width="100%" id="sort25_reward_image">
+                        </div>
+                        <div class="col" data-toggle="tooltip" title="Rewarded for sorting 50 real images for us!" data-placement="bottom">
+                            <img src="/img/img23.png" width="100%" id="sort50_reward_image">
+                        </div>
+                        <div class="col" data-toggle="tooltip" title="Rewarded for leaving feedback about swipe right for brain science!" data-placement="bottom">
+                            <img src="/img/img24.jpg" width="100%" id="feedback_reward_image">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,6 +117,11 @@
     .card {
         margin-top: 10px;
     }
+
+    .locked_reward {
+        opacity: 0.2;
+    }
+
 
 
 
@@ -120,6 +137,8 @@
                 jQuery.each(data, function(i, val) {
                     if(val == 1){
                         $("#"+i).prop("checked", true);
+                    } else {
+                        $("#"+i+"_reward_image").addClass("locked_reward");
                     }
                 })
             },
@@ -127,62 +146,11 @@
                 alert("There was an error getting this data.");
             }
         });
+
+        $('[data-toggle="tooltip"]').tooltip();
     })
 
 </script>
 
-
-<!---
-    <div class="container">
-        <div class="row">
-            <div class="card">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="materialUnchecked">
-                    <label class="form-check-label" for="materialUnchecked">Material unchecked</label>
-                </div>
-            </div>
-
-            <h2>Change Details</h2>
-            <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
-                <input th:field="*{id}" name="id" hidden/>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Username</label>
-                    <div class="col-sm-10">
-                        <input id="email" class="form-control" name="username" th:field="*{username}"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="postcode">Postcode</label>
-                    <div class="col-sm-10">
-                        <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
-                        <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
-                           th:text="${error}">Validation error</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="age">Age</label>
-                    <div class="col-sm-10">
-                        <input id="age" class="form-control" name="age" th:field="*{age}"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="gender">Gender</label>
-                    <div class="col-sm-10">
-                        <select id="gender" class="form-control" name="gender" th:field="*{gender}">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                            <option value="prefer not to say">Prefer not to say</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div> --->
 </body>
 </html>
