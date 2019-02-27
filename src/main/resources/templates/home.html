@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/head(title='Home')" ></head>
+    <head th:replace="fragments/head(title='Home')" >
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
     <body>
         <div class="modal fade" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -35,10 +37,12 @@
                 <p>Anyone can take part and no scientific background is needed. Join us and together we can learn more about the brain and help scientists pioneer cures for diseases such as dementia and schizophrenia.</p>
             </section>
 
-            <div class="card" style="width: 900px;">
+            <div class="card" style="width: 100%;">
                 <div class="card-body">
                     <h5 class="card-title">Siemens Video</h5>
-                    <iframe width="853" height="480" src="https://www.youtube.com/embed/svCgy-Oa9ts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/svCgy-Oa9ts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
                 </div>
             </div>
 

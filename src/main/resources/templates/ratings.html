@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/head(title='Ratings')" ></head>
 <body class="overflow-hidden">
 
@@ -42,9 +42,9 @@
         <div class="card-body">
             <h5 class="card-title text-center">Sort scans for real!</h5>
             <p class="card-text text-center lead">Is this a good scan of a brain?</p>
-            <img src="" id="brainImage1" style="width:33%">
-            <img src="" id="brainImage2" style="width:33%">
-            <img src="" id="brainImage3" style="width:33%">
+            <img class="image-order" src="" id="brainImage1" style="width:33%">
+            <img class="image-order" src="" id="brainImage2" style="width:33%">
+            <img class="image-order" src="" id="brainImage3" style="width:33%">
             <p class="text-center">
                 <br><br>
                 <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -243,6 +243,19 @@
         height: 30px;
         background-color: green;
     }
+
+    @media only screen and (max-width: 992px)  {
+        .card-body{
+            height: 100%;
+        }
+        .image-order{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px;
+        }
+    }
+
 </style>
 
 </body>
