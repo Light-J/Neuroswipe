@@ -11,7 +11,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h1>Your profile</h1>
+                    <h2>Your profile</h2>
                     <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
                         <input th:field="*{id}" name="id" hidden/>
                         <div class="form-group">
@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col card-container">
             <div class="card">
                 <div class="card-body">
                     <h1>Your progress</h1>
@@ -81,6 +81,14 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <h2>Statistics</h2>
+                    <p>This is the number of scans you have helped rate</p>
+                    <p id="numberScansRated">10</p>
+                    <p>Thank you for your contribution</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -88,7 +96,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h1>Your rewards</h1>
+                    <h2>Your rewards</h2>
                     <div class="row">
                         <div class="col" data-toggle="tooltip" title="Rewarded for completing the training!" data-placement="bottom">
                             <img src="/img/img7.png" width="100%" id="training_reward_image">
@@ -122,8 +130,11 @@
         opacity: 0.2;
     }
 
-
-
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 
 </style>
 
