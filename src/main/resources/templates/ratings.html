@@ -192,10 +192,17 @@
         $("#bar").width(percentage+"%");
     };
 
+    $(window).on("swipe", function() {
+        $.mobile.changePage("/home");
+    });
+
     $(function() {
         getNumberOfUserResponses();
         $("#imagesCard").hide();
         loadNextImage();
+
+
+
 
         $("#yesButton").on("click", function(){
             saveDecisionAndNextImage(true);
@@ -221,6 +228,10 @@
             }
             e.preventDefault(); // prevent the default action (scroll / move caret)
         });
+
+
+
+
     });
 </script>
 <style>
