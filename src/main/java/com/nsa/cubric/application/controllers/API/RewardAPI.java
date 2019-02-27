@@ -17,7 +17,7 @@ import java.util.*;
 
 @RestController()
 @RequestMapping("api/rewards")
-public class RewardsAPI {
+public class RewardAPI {
 
 
     private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
@@ -25,7 +25,7 @@ public class RewardsAPI {
     private RewardService rewardService;
 
     @Autowired
-    public RewardsAPI(RewardService rewardService){
+    public RewardAPI(RewardService rewardService){
         this.rewardService = rewardService;
 
     }
@@ -35,6 +35,15 @@ public class RewardsAPI {
     public ResponseEntity getUserRewards() {
 
         return new ResponseEntity<>(rewardService.getRewardsForUser(), null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/set/{reward}", method = RequestMethod.POST)
+    public Boolean setUserReward(@RequestParam(value="rewardValue") Integer rewardValue,
+                                 @PathVariable(value="reward") String reward){
+
+        System.out.println(reward + " is being changed to "+rewardValue.toString());
+
+        return true;
     }
 
 

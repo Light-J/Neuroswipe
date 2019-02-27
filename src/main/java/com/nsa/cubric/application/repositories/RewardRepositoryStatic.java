@@ -35,5 +35,4 @@ public class RewardRepositoryStatic implements RewardRepository {
         });
     }
 
-
 }
