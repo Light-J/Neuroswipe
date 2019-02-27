@@ -40,4 +40,11 @@ public class RewardRepositoryStatic implements RewardRepository {
         return jdbcTemplate.update(sql, value, profileId) == 1;
     }
 
+
+    @Override
+    public boolean checkIfUserHasReward(Long profileId, String reward){
+        String sql = "SELECT " + reward +" FROM reward WHERE profile_id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, profileId ) == 1;
+    }
+
 }

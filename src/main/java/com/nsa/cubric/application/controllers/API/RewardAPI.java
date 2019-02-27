@@ -30,7 +30,6 @@ public class RewardAPI {
 
     }
 
-
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getUserRewards() {
 
@@ -43,44 +42,9 @@ public class RewardAPI {
         return rewardService.updateRewardValue(reward, value);
     }
 
-
-
-    /*
-
-    @PostMapping(value = "/removeUser")
-    public Boolean removeUser(@RequestParam(value = "userToRemove") String userEmail) {
-        Long userId;
-        try{
-            userId = accountService.getAccountByEmail(userEmail).getId();
-        } catch (NullPointerException e){
-            return false;
-        }
-        return adminServices.removeUser(userId);
+    @RequestMapping(value = "/get/{reward}", method = RequestMethod.GET)
+    public Boolean checkIfUserHasReward(@PathVariable(value = "reward") String reward){
+        return rewardService.checkIfUserHasReward(reward);
     }
 
-    @PostMapping(value = "/removeUserResponses")
-    public Integer removeUserResponses(
-            @RequestParam(value = "userToRemoveResponses") String userEmail){
-        try{
-            return adminServices.removeUserResponses(accountService.getAccountByEmail(userEmail).getId());
-        } catch (NullPointerException e){
-            return 0;
-        }
-    }
-
-    @GetMapping(value = "/searchUsers")
-    public List<Account> searchUsers(
-            @RequestParam(value = "searchTerm") String searchTerm,
-            @RequestParam(value = "page") int page) {
-        return accountService.searchUsers(searchTerm, page);
-    }
-
-    @PostMapping(value = "/{userId}/role")
-    public boolean updateUserRole(
-            @PathVariable(value = "userId") Long userId,
-            @RequestBody() String role){
-
-        return adminServices.updateUserRole(userId, role.replace("role=", ""));
-    }
-*/
 }

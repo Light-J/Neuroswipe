@@ -14,20 +14,17 @@ public class RewardServicesStatic implements RewardService {
 
     private RewardRepository rewardRepository;
     private LoggedUserService loggedUserService;
-    private AccountRepository accountRepository;
 
     @Autowired
-    public RewardServicesStatic(RewardRepository rewardRepository, LoggedUserService loggedUserService, AccountRepository accountRepository){
+    public RewardServicesStatic(RewardRepository rewardRepository, LoggedUserService loggedUserService){
         this.rewardRepository = rewardRepository;
         this.loggedUserService = loggedUserService;
-        this.accountRepository = accountRepository;
     }
 
     @Override
     public Map<String, Integer> getRewardsForUser(){
-        Long profile_id = accountRepository.getProfileByEmail(loggedUserService.getUsername()).getId();
 
-        return rewardRepository.getRewardsByProfileId(profile_id);
+        return rewardRepository.getRewardsByProfileId(loggedUserService.getUserProfileId());
     }
 
 
@@ -35,11 +32,20 @@ public class RewardServicesStatic implements RewardService {
     public boolean updateRewardValue(String reward, int value){
 
         if(rewardExists(reward)){
-            Long profile_id = accountRepository.getProfileByEmail(loggedUserService.getUsername()).getId();
-            return rewardRepository.updateRewardValue(profile_id, reward, value);
+            return rewardRepository.updateRewardValue(loggedUserService.getUserProfileId(), reward, value);
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean checkIfUserHasReward(String reward){
+        if(rewardExists(reward)){
+            return rewardRepository.checkIfUserHasReward(loggedUserService.getUserProfileId(), reward);
+        } else {
+            return false;
+        }
+
     }
 
 
