@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-interface RewardRepository {
+public interface RewardRepository {
     public Map<String, Integer> getRewardsByProfileId(Long profile_id);
 
 }
