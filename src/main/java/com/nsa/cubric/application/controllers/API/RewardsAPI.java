@@ -5,8 +5,10 @@ import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.Scan;
 import com.nsa.cubric.application.services.AccountService;
 import com.nsa.cubric.application.services.AdminServices;
+import com.nsa.cubric.application.services.RewardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,20 +22,19 @@ public class RewardsAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
 
-    public RewardsAPI(){}
+    private RewardService rewardService;
+
+    @Autowired
+    public RewardsAPI(RewardService rewardService){
+        this.rewardService = rewardService;
+
+    }
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getUserRewards() {
-        Map<String, Integer> rewards_achieved = new HashMap<>();
 
-        //TODO update map with actual user rewards
-        rewards_achieved.put("Reward1", 1);
-        rewards_achieved.put("Reward2", 1);
-        rewards_achieved.put("Reward3", 0);
-        rewards_achieved.put("Reward4", 1);
-
-        return new ResponseEntity<>(rewards_achieved, null, HttpStatus.OK);
+        return new ResponseEntity<>(rewardService.getRewardsForUser(), null, HttpStatus.OK);
     }
 
 
