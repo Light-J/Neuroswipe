@@ -7,17 +7,90 @@
 
 
 <div class="container">
-    <div class="row">
-        <div class="card">
-            <h1>Your profile</h1>
+    <div class="row ">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Your profile</h1>
+                    <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
+                        <input th:field="*{id}" name="id" hidden/>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email">Username</label>
+                            <div class="col-sm-10">
+                                <input id="email" class="form-control" name="username" th:field="*{username}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="postcode">Postcode</label>
+                            <div class="col-sm-10">
+                                <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
+                                <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
+                                   th:text="${error}">Validation error</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="age">Age</label>
+                            <div class="col-sm-10">
+                                <input id="age" class="form-control" name="age" th:field="*{age}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="gender">Gender</label>
+                            <div class="col-sm-10">
+                                <select id="gender" class="form-control" name="gender" th:field="*{gender}">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                    <option value="prefer not to say">Prefer not to say</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="card">
-            <h1>Your progress</h1>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Your progress</h1>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="training">
+                        <label class="form-check-label" for="training">Completed Training</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="practice">
+                        <label class="form-check-label" for="practice">10 Correct practice questions</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="sort25">
+                        <label class="form-check-label" for="sort25">Sorted 25 scans</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="sort50">
+                        <label class="form-check-label" for="sort50">Sorted 50 scans</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="feedback">
+                        <label class="form-check-label" for="feedback">Left feedback</label>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="row">
-        <div class="card">
-            <h1>Your rewards</h1>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Your rewards</h1>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -27,7 +100,31 @@
     .card {
         margin-top: 10px;
     }
+
+
+
 </style>
+
+<script>
+
+    $(function() {
+        $.ajax({
+            type: "GET",
+            url: "/api/rewards/",
+            success: function(data){
+                jQuery.each(data, function(i, val) {
+                    if(val == 1){
+                        $("#"+i).prop("checked", true);
+                    }
+                })
+            },
+            error: function(){
+                alert("There was an error getting this data.");
+            }
+        });
+    })
+
+</script>
 
 
 <!---
