@@ -149,15 +149,15 @@ DEFAULT CHARACTER SET = utf8;
 
 
 
-DROP TABLE IF EXISTS `brainschema`.`rewards`;
+DROP TABLE IF EXISTS `brainschema`.`reward`;
 
-CREATE TABLE IF NOT EXISTS `brainschema`.`rewards` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`reward` (
   `profile_id` INT(11) NOT NULL,
-  `reward_training` INT(1) NOT NULL,
-  `reward_practice` INT(1) NOT NULL,
-  `reward_sort_25` INT(1) NOT NULL,
-  `reward_sort_50` INT(1) NOT NULL,
-  `reward_feedback` INT(1) NOT NULL
+  `training` INT(1) NOT NULL,
+  `practice` INT(1) NOT NULL,
+  `sort25` INT(1) NOT NULL,
+  `sort50` INT(1) NOT NULL,
+  `feedback` INT(1) NOT NULL
 )ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -365,7 +365,7 @@ DEFINER=`root`@`localhost`
 TRIGGER `brainschema`.`Create User Rewards Entry`
 AFTER INSERT ON `brainschema`.`profile`
 FOR EACH ROW
-INSERT INTO rewards (profile_id, reward_training, reward_practice, reward_sort_25, reward_sort_50, reward_feedback) VALUES (NEW.profile_id, 0, 0 ,0 ,0 ,0)$$
+INSERT INTO reward (profile_id, training, practice, sort25, sort50, feedback) VALUES (NEW.profile_id, 0, 0 ,0 ,0 ,0)$$
 
 DELIMITER ;
 
