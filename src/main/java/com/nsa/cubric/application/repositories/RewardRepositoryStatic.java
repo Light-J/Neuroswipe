@@ -36,7 +36,7 @@ public class RewardRepositoryStatic implements RewardRepository {
 
     @Override
     public boolean updateRewardValue(Long profileId, String reward, int value){
-        return jdbcTemplate.update("UPDATE reward SET ?=? WHERE profile_id = ?", profileId, reward, value) == 1;
+        return jdbcTemplate.update("UPDATE reward SET ?=? WHERE profile_id = ?", reward, value, profileId) == 1;
     }
 
 }
