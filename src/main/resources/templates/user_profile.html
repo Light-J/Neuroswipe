@@ -84,9 +84,9 @@
             <div class="card">
                 <div class="card-body">
                     <h2>Statistics</h2>
-                    <p>This is the number of scans you have helped rate</p>
-                    <p id="numberScansRated">10</p>
-                    <p>Thank you for your contribution</p>
+                    <h5>This is the number of scans you have helped rate</h5>
+                    <h5 style="text-align: center" id="numberScansRated"></h5>
+                    <p>Thank you for your contribution to swipe right for brain science</p>
                 </div>
             </div>
         </div>
@@ -157,6 +157,18 @@
                 alert("There was an error getting this data.");
             }
         });
+
+        $.ajax({
+            type: "GET",
+            url: "/ratings/responses/amount",
+            success: function(data){
+                $("#numberScansRated").text(data);
+            },
+            error: function(){
+                alert("There was an error getting this data.");
+            }
+        });
+
 
         $('[data-toggle="tooltip"]').tooltip();
     })
