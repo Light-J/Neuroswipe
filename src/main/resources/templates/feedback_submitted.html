@@ -34,12 +34,23 @@
         </div>
     <script>
         $(function () {
-            $('#rewardModal').modal('show');
             $.ajax({
-                type: "POST",
-                url: "/api/rewards/set/feedback?value=1",
+                type: "GET",
+                url: "/api/rewards/get/feedback",
                 success: function(data){
-                    alert(data);
+                    if(!data){
+                        $('#rewardModal').modal('show');
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/rewards/set/feedback?value=1",
+                            success: function(data){
+                                alert(data);
+                            },
+                            error: function(){
+                                alert("There was an error getting this data.");
+                            }
+                        });
+                    }
                 },
                 error: function(){
                     alert("There was an error getting this data.");

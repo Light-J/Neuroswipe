@@ -60,22 +60,31 @@
     function correctAnswer() {
         var answersCorrect = $("#answersCorrect").text();
         if(answersCorrect == 9){
-            $('#rewardModal').modal('show');
             $.ajax({
-                type: "POST",
-                url: "/api/rewards/set/practice?value=1",
+                type: "GET",
+                url: "/api/rewards/get/practice",
                 success: function(data){
-                    alert(data);
+                    if(!data){
+                        $('#rewardModal').modal('show');
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/rewards/set/practice?value=1",
+                            success: function(data){
+                            },
+                            error: function(){
+                                alert("There was an error getting this data.");
+                            }
+                        });
+                    }
                 },
                 error: function(){
                     alert("There was an error getting this data.");
                 }
             });
+
         }
         $("#answersCorrect").text(parseInt(answersCorrect)+1)
-
     }
-
 
     function incorrectAnswer() {
         var answersCorrect = $("#answersIncorrect").text();
