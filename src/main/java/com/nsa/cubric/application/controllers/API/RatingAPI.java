@@ -51,4 +51,13 @@ public class RatingAPI {
 		ratingService.storeUserRatings(rating);
 		return true;
 	}
+
+	@RequestMapping(value = "responses/amount", method = RequestMethod.GET)
+	public Integer getNumberOfRatingsForUser(){
+
+
+	return ratingService.getNumberOfRatingsForUser();
+
+
+	}
 }

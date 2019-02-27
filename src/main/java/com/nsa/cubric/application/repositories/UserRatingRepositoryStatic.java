@@ -45,4 +45,10 @@ public class UserRatingRepositoryStatic implements UserRatingRepository {
 						"		(SELECT account_id FROM account WHERE email = ?));",
 				new Object[] {userEmail}, responsesMapper);
 	}
+
+	@Override
+	public Integer getNumberOfRatingsForUser(String userEmail){
+		return jdbcTemplate.queryForObject("SELECT count(response) FROM rating WHERE profile_id = (SELECT profile_id FROM profile where account_id = (SELECT account_id FROM account WHERE email = ?));",
+				Integer.class, userEmail );
+	}
 }

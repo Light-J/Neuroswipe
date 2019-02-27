@@ -33,7 +33,7 @@ public class AdminController {
             return "noaccess";
         }
 
-        return "adminController";
+        return "admin";
     }
 
     @GetMapping(value = "/usermanagement")

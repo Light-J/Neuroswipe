@@ -25,7 +25,19 @@
             </div>
         </div>
     </div>
-    
+
+
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text text-center lead">Your progress to 50 images:</p>
+            <div id="progress">
+                <div id="bar">
+                    <p class="text-center text-light" id="completedText" hidden="hidden">Completed!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card" id="imagesCard">
         <div class="card-body">
             <h5 class="card-title text-center">Sort scans for real!</h5>
@@ -41,11 +53,13 @@
         </div>
     </div>
 
+    <div class="float-right">
+        <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary" id="save">Save and Exit</button>
+    </div>
+
 </div>
 
 <script>
-    var counter = 0;
-
     var loadNextImage = function(){
         $.getJSON("/scans/next", function( imageData ) {
             $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
@@ -59,30 +73,75 @@
             });
         });
 
-        counter = counter+1;
+        var percentage = ($("#bar").width() / $('#bar').parent().width() * 100)+2;
+        updateProgressBar(percentage);
 
-        if(counter == 25){
-            //Show 25 modal
-            $('#rewardModal').find("h3").html("The temporal lobe");
-            $('#rewardModal').find("p").html("Great work! You just unlocked the temporal lobe. The temporal is involved in perceiving and remembering sounds. It also works in conjunction with the hippocampus to form conscious memories.\n" +
-                "The case of Henry Molaison 1926-2008: \n" +
-                "From an early age, Henry suffered from severe epilepsy. In an effort to control his seizures, he had an operation that removed a large part of his temporal lobe and hippocampus on both sides. Whilst the surgery cured him of his epilepsy, tragically he was left unable to form new memories.   \n");
-            $('#rewardModal').find("img").attr("src","/img/img20.png");
-            $('#rewardModal').modal('show');
-        } else if(counter == 50){
-            //show 50 modal
-            $('#rewardModal').find("h3").html("The parietal lobe");
-            $('#rewardModal').find("p").html("Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of gray matter called the sensory strip. This processes sensory information such as pain, touch and temperature. \n" +
-                "\n" +
-                "The somatosensory homunculus: \n" +
-                "The sensory strip contains a map of our body. This is called the somatosensory homunculus and is shown below. When you touch something soft with your hand, this information will travel up to the sensory strip to where the hand is mapped on the homunculus. \n");
-            $('#rewardModal').find("img").attr("src","/img/img23.png");
-            $('#rewardModal').modal('show');
+
+        //TODO update this rewards when rewards table is added to database
+        if(percentage > 49.5 && percentage < 50.5){
+            $.ajax({
+                type: "GET",
+                url: "/api/rewards/get/sort25",
+                success: function(data){
+                    if(!data){
+                        //Show 25 modal
+                        $('#rewardModal').find("h3").html("The temporal lobe");
+                        $('#rewardModal').find("p").html("Great work! You just unlocked the temporal lobe. The temporal is involved in perceiving and remembering sounds. It also works in conjunction with the hippocampus to form conscious memories.\n" +
+                            "The case of Henry Molaison 1926-2008: \n" +
+                            "From an early age, Henry suffered from severe epilepsy. In an effort to control his seizures, he had an operation that removed a large part of his temporal lobe and hippocampus on both sides. Whilst the surgery cured him of his epilepsy, tragically he was left unable to form new memories.   \n");
+                        $('#rewardModal').find("img").attr("src","/img/img20.png");
+                        $('#rewardModal').modal('show');
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/rewards/set/sort25?value=1",
+                            success: function(data){
+                            },
+                            error: function(){
+                                alert("There was an error getting this data.");
+                            }
+                        });
+                    }
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+
+        } else if(percentage > 99.5 && percentage < 100.5){
+            $.ajax({
+                type: "GET",
+                url: "/api/rewards/get/sort50",
+                success: function(data){
+                    if(!data){
+                        //show 50 modal
+                        $('#rewardModal').find("h3").html("The parietal lobe");
+                        $('#rewardModal').find("p").html("Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of gray matter called the sensory strip. This processes sensory information such as pain, touch and temperature. \n" +
+                            "\n" +
+                            "The somatosensory homunculus: \n" +
+                            "The sensory strip contains a map of our body. This is called the somatosensory homunculus and is shown below. When you touch something soft with your hand, this information will travel up to the sensory strip to where the hand is mapped on the homunculus. \n");
+                        $('#rewardModal').find("img").attr("src","/img/img23.png");
+                        $('#rewardModal').modal('show');
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/rewards/set/sort50?value=1",
+                            success: function(data){
+                            },
+                            error: function(){
+                                alert("There was an error getting this data.");
+                            }
+                        });
+                    }
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+
         }
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
-        $("#yesButton, #noButton").hide();
+        //$("#yesButton, #noButton").hide();
         if(goodBrain){
             $("#imagesCard").addClass("swipe-right");
         }else{
@@ -97,6 +156,8 @@
                 "goodBrain": goodBrain,
             },
             success: function(data){
+
+
                 setTimeout(function(){
                     loadNextImage();
                 }, 250);
@@ -108,7 +169,31 @@
         });
     };
 
+    function getNumberOfUserResponses(){
+        $.ajax({
+            type: "GET",
+            url: "/ratings/responses/amount",
+            success: function(data){
+                updateProgressBar(data*2);
+            },
+            error: function(){
+                alert("There was an error getting this data.");
+            }
+        });
+
+    }
+
+
+    var updateProgressBar = function(percentage){
+        if(percentage>100){
+            percentage = 100;
+            $("#completedText").removeAttr("hidden");
+        }
+        $("#bar").width(percentage+"%");
+    };
+
     $(function() {
+        getNumberOfUserResponses();
         $("#imagesCard").hide();
         loadNextImage();
 
@@ -138,6 +223,27 @@
         });
     });
 </script>
+<style>
+    .card {
+        margin: 10px;
+    }
+
+    #save {
+        margin: 10px;
+    }
+
+    #progress {
+        width: 100%;
+        background-color: grey;
+        margin-bottom: 10px;
+    }
+
+    #bar {
+        width: 0%;
+        height: 30px;
+        background-color: green;
+    }
+</style>
 
 </body>
 </html>
