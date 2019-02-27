@@ -78,7 +78,7 @@
 
 
         //TODO update this rewards when rewards table is added to database
-        if(percentage > 49.5 && percentage < 50.5){
+        if(percentage > 49.5 && percentage < 50.5 & !jQuery.get("/api/rewards/get/sort25")){
             //Show 25 modal
             $('#rewardModal').find("h3").html("The temporal lobe");
             $('#rewardModal').find("p").html("Great work! You just unlocked the temporal lobe. The temporal is involved in perceiving and remembering sounds. It also works in conjunction with the hippocampus to form conscious memories.\n" +
@@ -95,7 +95,7 @@
                     alert("There was an error getting this data.");
                 }
             });
-        } else if(percentage > 99.5 && percentage < 100.5){
+        } else if(percentage > 99.5 && percentage < 100.5 & !jQuery.get("/api/rewards/get/sort50")){
             //show 50 modal
             $('#rewardModal').find("h3").html("The parietal lobe");
             $('#rewardModal').find("p").html("Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of gray matter called the sensory strip. This processes sensory information such as pain, touch and temperature. \n" +
