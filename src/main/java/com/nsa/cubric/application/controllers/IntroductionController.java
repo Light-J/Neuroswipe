@@ -28,4 +28,5 @@ public class IntroductionController {
         LOG.debug("Handling GET request to /training");
         return "training";
     }
+
 }

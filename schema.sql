@@ -146,6 +146,25 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8;
 
+
+
+
+DROP TABLE IF EXISTS `brainschema`.`reward`;
+
+CREATE TABLE IF NOT EXISTS `brainschema`.`reward` (
+  `profile_id` INT(11) NOT NULL,
+  `training` INT(1) NOT NULL,
+  `practice` INT(1) NOT NULL,
+  `sort25` INT(1) NOT NULL,
+  `sort50` INT(1) NOT NULL,
+  `feedback` INT(1) NOT NULL,
+  CONSTRAINT `user_to_reward` FOREIGN KEY (`profile_id`) REFERENCES `brainschema`.`profile` (`profile_id`) ON DELETE CASCADE
+)ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
 USE `brainschema` ;
 
 
@@ -334,6 +353,20 @@ AFTER INSERT ON `brainschema`.`account`
 FOR EACH ROW
 INSERT INTO profile (display_name, account_id) VALUES (NEW.email, NEW.account_id)$$
 
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `brainschema`$$
+DROP TRIGGER IF EXISTS `brainschema`.`Create User Rewards Entry` $$
+USE `brainschema`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `brainschema`.`Create User Rewards Entry`
+AFTER INSERT ON `brainschema`.`profile`
+FOR EACH ROW
+INSERT INTO reward (profile_id, training, practice, sort25, sort50, feedback) VALUES (NEW.profile_id, 0, 0 ,0 ,0 ,0)$$
 
 DELIMITER ;
 

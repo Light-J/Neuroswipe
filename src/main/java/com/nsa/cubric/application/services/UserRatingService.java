@@ -8,4 +8,5 @@ public interface UserRatingService {
 	public boolean storeUserRatings(UserRating rating);
 	public List<UserRating> getAll();
 	public List<UserRating> getUserRatings(String userEmail);
+	public Integer getNumberOfRatingsForUser();
 }
