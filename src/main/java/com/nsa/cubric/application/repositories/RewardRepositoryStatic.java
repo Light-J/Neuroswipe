@@ -25,6 +25,7 @@ public class RewardRepositoryStatic implements RewardRepository {
 
         return jdbcTemplate.query("SELECT * FROM reward WHERE profile_id = ?",new Object[] {profile_id}, (ResultSet rs) -> {
             HashMap<String,Integer> results = new HashMap<>();
+            rs.next();
             results.put("training", rs.getInt("reward_training"));
             results.put("practice", rs.getInt("reward_practice"));
             results.put("sort25", rs.getInt("reward_sort_25"));
