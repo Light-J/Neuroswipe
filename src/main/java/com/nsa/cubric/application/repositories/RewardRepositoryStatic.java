@@ -1,9 +1,7 @@
 package com.nsa.cubric.application.repositories;
 
-import com.nsa.cubric.application.domain.Scan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -21,9 +19,9 @@ public class RewardRepositoryStatic implements RewardRepository {
     }
 
     @Override
-    public Map<String, Integer> getRewardsByProfileId(Long profile_id){
+    public Map<String, Integer> getRewardsByProfileId(Long profileId){
 
-        return jdbcTemplate.query("SELECT * FROM reward WHERE profile_id = ?",new Object[] {profile_id}, (ResultSet rs) -> {
+        return jdbcTemplate.query("SELECT * FROM reward WHERE profile_id = ?",new Object[] {profileId}, (ResultSet rs) -> {
             HashMap<String,Integer> results = new HashMap<>();
             rs.next();
             results.put("training", rs.getInt("reward_training"));
@@ -33,6 +31,12 @@ public class RewardRepositoryStatic implements RewardRepository {
             results.put("feedback", rs.getInt("reward_feedback"));
             return results;
         });
+    }
+
+
+    @Override
+    public boolean updateRewardValue(Long profileId, String reward, int value){
+        return jdbcTemplate.update("UPDATE reward SET ?=? WHERE profile_id = ?", profileId, reward, value) == 1;
     }
 
 }

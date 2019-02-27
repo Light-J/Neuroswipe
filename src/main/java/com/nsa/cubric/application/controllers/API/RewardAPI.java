@@ -38,10 +38,10 @@ public class RewardAPI {
     }
 
     @RequestMapping(value = "/set/{reward}", method = RequestMethod.POST)
-    public Boolean setUserReward(@RequestParam(value="rewardValue") Integer rewardValue,
+    public Boolean setUserReward(@RequestParam(value="rewardValue") int rewardValue,
                                  @PathVariable(value="reward") String reward){
 
-        System.out.println(reward + " is being changed to "+rewardValue.toString());
+        System.out.println(reward + " is being changed");
 
         return true;
     }
