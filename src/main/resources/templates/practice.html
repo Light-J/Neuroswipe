@@ -3,6 +3,21 @@
 <head th:replace="fragments/head(title='Practice')" ></head>
 <body class="overflow-hidden">
 
+<style>
+    @media only screen and (max-width: 992px)  {
+        .card-body{
+            height: 100%;
+        }
+        .image-order{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px;
+        }
+    }
+
+</style>
+
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
@@ -24,9 +39,9 @@
         <div class="card-body">
             <h5 class="card-title text-center">Practice</h5>
             <p class="card-text text-center lead">Is this a good scan of a brain?</p>
-            <img src="" id="brainImage1" style="width:33%">
-            <img src="" id="brainImage2" style="width:33%">
-            <img src="" id="brainImage3" style="width:33%">
+            <img class="image-order" src="" id="brainImage1" style="width:33%">
+            <img class="image-order" src="" id="brainImage2" style="width:33%">
+            <img class="image-order" src="" id="brainImage3" style="width:33%">
             <p class="text-center">
                 <br><br>
                 <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
