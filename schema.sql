@@ -157,7 +157,8 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`reward` (
   `practice` INT(1) NOT NULL,
   `sort25` INT(1) NOT NULL,
   `sort50` INT(1) NOT NULL,
-  `feedback` INT(1) NOT NULL
+  `feedback` INT(1) NOT NULL,
+  CONSTRAINT `user_to_reward` FOREIGN KEY (`profile_id`) REFERENCES `brainschema`.`profile` (`profile_id`) ON DELETE CASCADE
 )ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
