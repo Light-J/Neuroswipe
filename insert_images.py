@@ -2,11 +2,15 @@ import mysql.connector
 import random
 import os
 
+host = input("Please enter your database url (ie localhost): ")
+user = input("Please enter your database username: ")
+password = input("Please enter your database password: ")
+
 #Credentials for database
 mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  passwd="comsc"
+  host=host,
+  user=user,
+  passwd=password
 )
 
 mycursor = mydb.cursor()
@@ -23,7 +27,7 @@ def insert_images():
       val_scans = ("front/" + files_front[i], "side/"+files_side[i], "top/"+files_top[i])
       mycursor.execute(sql_scans, val_scans)
       mydb.commit()
-   print("Image entry succesful")
+   input("Image entry succesful")
       
 insert_images()
     
