@@ -50,6 +50,10 @@
         </div>
     </div>
 </div>
+
+
+<!--Modal displayed when the user reaches 10 correct answers-->
+
 <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -60,37 +64,33 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h3>The occipital lobe</h3>
-                <p>Fantastic work! -  you just unlocked the occipital lobe.
-                    The eyes in the back of your head:
-                    The occipital lobe sits at the back of the brain. It processes the information we see and allows us to remember and assign meanings to different images.
-                </p>
-                <img src="/img/img18.jpg" height="250">
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="container-fluid">
 
-
-<div class="modal fade" id="promptModal" tabindex="-1" role="dialog" aria-labelledby="promptModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="promptModalLongTitle">Congratulations</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3>You have 10 correct answers!</h3>
-                <p>Why don't you keep up the good work by sorting images for real?</p>
-                <div class="container">
-                <form method="get" action="/ratings/">
                     <div class="row">
-                    <button type="submit" class="btn btn-primary col-lg-6">Lets do it</button>
-                    <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">Keep practicing</button>
+
+                    <h3>The occipital lobe</h3>
+                    <p>Fantastic work! -  you just unlocked the occipital lobe.
+                        The eyes in the back of your head:
+                        The occipital lobe sits at the back of the brain. It processes the information we see and allows us to remember and assign meanings to different images.
+                    </p>
+                    <img src="/img/img18.jpg" height="250">
+
                     </div>
-                </form>
+
+                    <div class="row">
+
+                        <h3>You have 10 correct answers!</h3>
+                        <p>Why don't you keep up the good work by sorting images for real?</p>
+                        <div class="container">
+                            <form method="get" action="/ratings/">
+                                <div class="row">
+                                    <button type="submit" class="btn btn-primary col-lg-6">Lets do it</button>
+                                    <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">Keep practicing</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
@@ -103,7 +103,6 @@
     function correctAnswer() {
         var answersCorrect = $("#answersCorrect").text();
         if(answersCorrect == 9){
-            $('#promptModal').modal('show');
             $.ajax({
                 type: "GET",
                 url: "/api/rewards/get/practice",
