@@ -27,6 +27,7 @@ public class PracticeController {
 
     @RequestMapping(value = "/ratings/", method = RequestMethod.GET)
     public String showSorting(WebRequest webRequest, Model model){
+        LOG.debug("Handling GET request to /ratings/");
         return "ratings";
     }
 }
