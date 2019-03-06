@@ -6,7 +6,35 @@
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
-    <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+
+    <div th:replace="fragments/information"></div>
+
+<!--//Modal displayed after 25 answers, giving 1 reward-->
+<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <h3 id="reward25_title">Temporal Lobe</h3>
+                <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal is involved in perceiving and remembering sounds. It also works in conjunction with the hippocampus to form conscious memories. The case of Henry Molaison 1926-2008: From an early age, Henry suffered from severe epilepsy. In an effort to control his seizures, he had an operation that removed a large part of his temporal lobe and hippocampus on both sides. Whilst the surgery cured him of his epilepsy, tragically he was left unable to form new memories.</p>
+                <img id="reward25_image" src="/img/reward_images/cerebellum.jpg" height="300">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!--Modal displayed after 50 answers, giving 1 reward and a prompt for the user to move onto feedback-->
+    <div class="modal fade" id="feedbackRewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -16,9 +44,34 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h3 id="reward_title">The cerebellum in disease</h3>
-                    <p id="reward_body">Diseases such as multiple sclerosis and brain tumours can cause damage to the cerebellum. Patients with this condition often walk with an unstable, uncoordinated gait and frequently stumble or fall over. Excellent! You have unlocked the cerebellum. The cerebellum is Latin for ‘little brain.’ This area is vital for fine tuning your movements and controlling balance. </p>
-                    <img id="reward_image" src="/img/reward_images/cerebellum.jpg" height="300">
+
+                    <div class="container-fluid">
+
+                        <div class="row">
+
+                        <h3 id="reward_title">The parietal lobe</h3>
+                        <p id="reward_body">Well done – you just unlocked the parietal lobe! The parietal lobe contains an area of gray matter called the sensory strip. This processes sensory information such as pain, touch and temperature. The somatosensory homunculus: The sensory strip contains a map of our body. This is called the somatosensory homunculus and is shown below. When you touch something soft with your hand, this information will travel up to the sensory strip to where the hand is mapped on the homunculus. </p>
+                        <img id="reward_image" src="/img/reward_images/cerebellum.jpg" height="300">
+
+                        </div>
+
+                        <div class="row">
+
+                            <h3>50 ratings complete</h3>
+                            <p>Thank you for the good work! Why don't you take a break and leave some feedback?</p>
+                            <div class="container">
+                                <form method="get" action="/userfeedback/">
+                                    <div class="row">
+                                        <button type="submit" class="btn btn-primary col-lg-6">Go to feedback</button>
+                                        <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">I'll Do It Later</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                 </div>
@@ -85,10 +138,6 @@
                 success: function(data){
                     if(!data){
                         //Show 25 modal
-                        $('#rewardModal').find("h3").html("The temporal lobe");
-                        $('#rewardModal').find("p").html("Great work! You just unlocked the temporal lobe. The temporal is involved in perceiving and remembering sounds. It also works in conjunction with the hippocampus to form conscious memories.\n" +
-                            "The case of Henry Molaison 1926-2008: \n" +
-                            "From an early age, Henry suffered from severe epilepsy. In an effort to control his seizures, he had an operation that removed a large part of his temporal lobe and hippocampus on both sides. Whilst the surgery cured him of his epilepsy, tragically he was left unable to form new memories.   \n");
                         $('#rewardModal').find("img").attr("src","/img/img20.png");
                         $('#rewardModal').modal('show');
                         $.ajax({
@@ -114,13 +163,8 @@
                 success: function(data){
                     if(!data){
                         //show 50 modal
-                        $('#rewardModal').find("h3").html("The parietal lobe");
-                        $('#rewardModal').find("p").html("Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of gray matter called the sensory strip. This processes sensory information such as pain, touch and temperature. \n" +
-                            "\n" +
-                            "The somatosensory homunculus: \n" +
-                            "The sensory strip contains a map of our body. This is called the somatosensory homunculus and is shown below. When you touch something soft with your hand, this information will travel up to the sensory strip to where the hand is mapped on the homunculus. \n");
-                        $('#rewardModal').find("img").attr("src","/img/img23.png");
-                        $('#rewardModal').modal('show');
+                        $('#feedbackRewardModal').find("img").attr("src","/img/img23.png");
+                        $('#feedbackRewardModal').modal('show');
                         $.ajax({
                             type: "POST",
                             url: "/api/rewards/set/sort50?value=1",
@@ -153,7 +197,7 @@
             url: "/ratings/save",
             data: {
             	"scanId": $("#brainImage1").data("id"),
-                "goodBrain": goodBrain,
+                "goodBrain": goodBrain
             },
             success: function(data){
 
@@ -196,7 +240,6 @@
         getNumberOfUserResponses();
         $("#imagesCard").hide();
         loadNextImage();
-
         $("#yesButton").on("click", function(){
             saveDecisionAndNextImage(true);
         });
@@ -205,15 +248,25 @@
             saveDecisionAndNextImage(false);
         });
 
-        $(document).keydown(function(e) {
+        $("#imagesCard").swipe( {
+            swipe: function(event, direction){
+                if(direction == "left"){
+                    saveDecisionAndNextImage(false);
+                } else if (direction == "right") {
+                    saveDecisionAndNextImage(true);
+                }
+            }
+        });
+
+        $(document).keyup(function(e) {
             switch(e.which) {
                 case 37: // left
-                    if($("#noButton").is(":visible")){
+                    if(!$("#noButton").prop("disabled")){
                         saveDecisionAndNextImage(false);
                     }
                     break;
                 case 39: // right
-                    if($("#yesButton").is(":visible")) {
+                    if(!$("#yesButton").prop("disabled")) {
                         saveDecisionAndNextImage(true);
                     }
                     break;
@@ -222,6 +275,7 @@
             e.preventDefault(); // prevent the default action (scroll / move caret)
         });
     });
+
 </script>
 <style>
     .card {
