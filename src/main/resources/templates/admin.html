@@ -19,7 +19,7 @@
     <h2>Images</h2>
 
     <table class="table" id="scan_table">
-        <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th><th>Known good/bad</th><th>Good responses</th><th>Bad responses</th></tr>
+        <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th><th>Known good/bad</th><th>Why is scan good / bad</th></tr>
     </table>
     <nav>
         <ul class="pagination justify-content-center">
@@ -53,12 +53,25 @@
             updatePageNumber(page);
             clearTable();
             for (var i = 0; i < scans.length; i++) {
-                $("table").append('<tr data-id="'+scans[i].id+'"><td>'+scans[i].id+'</td><td><a target="_blank" href="/brain_images/'+scans[i].topImage+'">'+scans[i].topImage.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].sideImage+'">'+scans[i].sideImage.substring(0,15)+"..."+'</a></td><td><a target="_blank" href="/brain_images/'+scans[i].frontImage+'">'+scans[i].frontImage.substring(0,15)+"..."+'</a></td><td class="knownGood">'+scans[i].knownGood+'</td><td>Good responses</td><td>Bad responses</td></tr>');
+                $("table").append('<tr data-id="'+scans[i].id+'">' +
+                    '<td>'+scans[i].id+'</td>' +
+                    '<td><a target="_blank" href="/brain_images/'+scans[i].topImage+'">'+scans[i].topImage.substring(0,15)+"..."+'</a></td>' +
+                    '<td><a target="_blank" href="/brain_images/'+scans[i].sideImage+'">'+scans[i].sideImage.substring(0,15)+"..."+'</a></td>' +
+                    '<td><a target="_blank" href="/brain_images/'+scans[i].frontImage+'">'+scans[i].frontImage.substring(0,15)+"..."+'</a></td>' +
+                    '<td class="knownGood">'+scans[i].knownGood+'</td>' +
+                    '<td id="reason">'+scans[i].reason+'</td></tr>');
             }
 
             $("table tr").each(function() {
                 var id = $(this).data("id");
                 var knownGood = $(this).find(".knownGood").text();
+                var reason = $(this).find("#reason").text();
+
+
+
+                if(knownGood == "null"){
+                    $(this).find("#reason").hide();
+                }
 
                 $(this).find(".knownGood").html('<select class="form-control" data-id="'+id+'">\n' +
                     '    <option value="null">Unknown</option>\n' +
@@ -66,7 +79,25 @@
                     '    <option value="false">Bad</option>\n' +
                     '</select>');
 
+
+                $(this).find("#reason").html('<textarea data-id="'+id+'" class="reason"></textarea><button class="btn btn-primary reasonSave">save</button>');
+                if(reason == "null"){
+                    $('textarea[data-id='+id+']').val("Please provide a reason");
+                } else {
+                    $('textarea[data-id='+id+']').val(reason);
+                }
+
+
+
                 $(this).find(".knownGood select").val(knownGood);
+
+                $(this).find(".reasonSave").on("click", function (e) {
+                    $.post("/scans/"+id+"/setReason", { reason: $('textarea[data-id='+id+']').val() })
+                        .done(function( data ) {
+                            $.notify("Reason saved", {
+                            });
+                        });
+                });
 
                 $(this).find(".knownGood select").on("change", function (e) {
 
@@ -84,16 +115,25 @@
                         .done(function( data ) {
                             $.notify("Option saved", {
                             });
+                            getScans(page);
                         });
+
                 });
             });
         });
     }
 
+
     $(function() {
         getScans(1);
     });
 </script>
+
+<style>
+    #reason {
+        width: 20%;
+    }
+</style>
 
 </body>
 </html>

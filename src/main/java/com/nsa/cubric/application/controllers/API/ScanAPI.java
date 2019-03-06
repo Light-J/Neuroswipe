@@ -89,7 +89,7 @@ public class ScanAPI {
         image3.transferTo(file3);
 
 
-        Scan scan = new Scan(1, file1.getName(), file2.getName(), file3.getName(), null);
+        Scan scan = new Scan(1, file1.getName(), file2.getName(), file3.getName(), null, null);
         scanService.insert(scan);
 
         response.sendRedirect("/admin/");
@@ -103,6 +103,14 @@ public class ScanAPI {
     public String updateKnownGood(@PathVariable("id") Long id,
                                   @RequestParam("knownGood") Boolean knownGood) {
         scanService.updateKnownGood(id, knownGood);
+        return "OK";
+    }
+
+
+    @RequestMapping(value = "/{id}/setReason", method = RequestMethod.POST)
+    public String updateReason(@PathVariable("id") Long id,
+                                  @RequestParam String reason){
+        scanService.updateReason(id, reason);
         return "OK";
     }
 

@@ -20,8 +20,6 @@
         </div>
     </div>
 
-    <br>
-
     <div class="card" id="imagesCard">
         <div class="card-body">
             <h5 class="card-title text-center">Practice</h5>
@@ -30,10 +28,13 @@
             <img class="image-order" src="" id="brainImage2" style="width:33%">
             <img class="image-order" src="" id="brainImage3" style="width:33%">
             <p class="text-center">
-                <br><br>
                 <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
             </p>
+            <div id="wrongAnswerAlert" class="alert alert-danger">
+                <p id="wrongAnswerReason">Filler text</p>
+                <button class="btn btn-danger" onclick="incorrectAnswer()">Continue</button>
+            </div>
         </div>
     </div>
     <div class="float-left">
@@ -89,11 +90,19 @@
 
         }
         $("#answersCorrect").text(parseInt(answersCorrect)+1)
+        saveDecisionAndNextImage()
     }
 
     function incorrectAnswer() {
         var answersCorrect = $("#answersIncorrect").text();
-        $("#answersIncorrect").text(parseInt(answersCorrect)+1)
+        $("#answersIncorrect").text(parseInt(answersCorrect)+1);
+
+        if($("#brainImage1").data("knownGood")){
+            $("#imagesCard").addClass("swipe-right");
+        }else{
+            $("#imagesCard").addClass("swipe-left");
+        }
+        saveDecisionAndNextImage()
     }
 
     var loadNextImage = function(){
@@ -104,6 +113,8 @@
 
             $("#brainImage1").data("id", imageData.id);
             $("#brainImage1").data("knownGood", imageData.knownGood);
+            $("#wrongAnswerReason").text(imageData.reason);
+            $("#wrongAnswerAlert").hide();
             $("#yesButton, #noButton").fadeIn(250);
             $("#imagesCard").fadeOut(250, function () {
                 $("#imagesCard").removeClass("swipe-right swipe-left");
@@ -113,20 +124,22 @@
         });
     };
 
-    var saveDecisionAndNextImage = function(userAnswer){
-        $("#yesButton, #noButton").prop("disabled", true);
+    var checkAnswer = function(userAnswer) {
         if(userAnswer == $("#brainImage1").data("knownGood")){
+            if(userAnswer){
+                $("#imagesCard").addClass("swipe-right");
+            }else{
+                $("#imagesCard").addClass("swipe-left");
+            }
             correctAnswer();
         } else {
-            incorrectAnswer();
+            $("#wrongAnswerAlert").show();
         }
+    };
 
-        if(userAnswer){
-            $("#imagesCard").addClass("swipe-right");
-        }else{
-            $("#imagesCard").addClass("swipe-left");
-        }
 
+    var saveDecisionAndNextImage = function(){
+        $("#yesButton, #noButton").prop("disabled", true);
         setTimeout(function(){
             loadNextImage();
         }, 250);
@@ -137,19 +150,19 @@
         loadNextImage();
 
         $("#yesButton").on("click", function(){
-            saveDecisionAndNextImage(true);
+            checkAnswer(true);
         });
 
         $("#noButton").on("click", function(){
-            saveDecisionAndNextImage(false);
+            checkAnswer(false);
         });
 
         $("#imagesCard").swipe( {
             swipe: function(event, direction){
                 if(direction == "left"){
-                    saveDecisionAndNextImage(false);
+                    checkAnswer(false);
                 } else if (direction == "right") {
-                    saveDecisionAndNextImage(true);
+                    checkAnswer(true);
                 }
             }
         });
@@ -158,12 +171,12 @@
             switch(e.which) {
                 case 37: // left
                     if(!$("#noButton").prop("disabled")){
-                        saveDecisionAndNextImage(false);
+                        checkAnswer(false);
                     }
                     break;
                 case 39: // right
                     if(!$("#yesButton").prop("disabled")) {
-                        saveDecisionAndNextImage(true);
+                        checkAnswer(true);
                     }
                     break;
                 default: return; // exit this handler for other keys
@@ -192,6 +205,7 @@
     .bottom_buttons {
         margin: 10px;
     }
+
 
 </style>
 </body>
