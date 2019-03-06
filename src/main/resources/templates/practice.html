@@ -84,9 +84,14 @@
             <div class="modal-body">
                 <h3>You have 10 correct answers!</h3>
                 <p>Why don't you keep up the good work by sorting images for real?</p>
+                <div class="container">
                 <form method="get" action="/ratings/">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Lets do it</button>
+                    <div class="row">
+                    <button type="submit" class="btn btn-primary col-lg-6">Lets do it</button>
+                    <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">Keep practicing</button>
+                    </div>
                 </form>
+                </div>
 
             </div>
         </div>
