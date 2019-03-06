@@ -59,7 +59,7 @@
                     '<td><a target="_blank" href="/brain_images/'+scans[i].sideImage+'">'+scans[i].sideImage.substring(0,15)+"..."+'</a></td>' +
                     '<td><a target="_blank" href="/brain_images/'+scans[i].frontImage+'">'+scans[i].frontImage.substring(0,15)+"..."+'</a></td>' +
                     '<td class="knownGood">'+scans[i].knownGood+'</td>' +
-                    '<td><input class="badReason"><button class="btn btn-primary badReasonSave">save</button></td></tr>');
+                    '<td><span id="badReason"></span></td></tr>');
             }
 
             $("table tr").each(function() {
@@ -67,7 +67,7 @@
                 var knownGood = $(this).find(".knownGood").text();
 
                 if(!(knownGood == "false")){
-                    $(this).find(".badReason, .badReasonSave").hide();
+                    $(this).find("#badReason").hide();
                 }
 
                 $(this).find(".knownGood").html('<select class="form-control" data-id="'+id+'">\n' +
@@ -77,11 +77,17 @@
                     '</select>');
 
 
+                $(this).find("#badReason").html('<input data-id="'+id+'" class="badReason"><button class="btn btn-primary badReasonSave">save</button>');
+
+
                 $(this).find(".knownGood select").val(knownGood);
 
-
                 $(this).find(".badReasonSave").on("click", function (e) {
-                    alert("You clicked the button for row" + id)
+                    $.post("/scans/"+id+"/setBadReason", { reason: $('input[data-id='+id+']').val() })
+                        .done(function( data ) {
+                            $.notify("Reason saved", {
+                            });
+                        });
                 });
 
                 $(this).find(".knownGood select").on("change", function (e) {
