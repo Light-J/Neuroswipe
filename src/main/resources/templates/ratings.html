@@ -31,8 +31,6 @@
         </div>
     </div>
 
-
-
     <div class="card">
         <div class="card-body">
             <p class="card-text text-center lead">Your progress to 50 images:</p>
@@ -79,8 +77,10 @@
             $("#imagesCard").fadeOut(250, function () {
                 $("#imagesCard").removeClass("swipe-right swipe-left");
                 $("#imagesCard").fadeIn(250);
+                $("#yesButton, #noButton").prop("disabled", false);
             });
         });
+
 
         var percentage = ($("#bar").width() / $('#bar').parent().width() * 100)+2;
         updateProgressBar(percentage);
@@ -150,7 +150,7 @@
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
-        //$("#yesButton, #noButton").hide();
+        $("#yesButton, #noButton").prop("disabled", true);
         if(goodBrain){
             $("#imagesCard").addClass("swipe-right");
         }else{
@@ -162,13 +162,14 @@
             url: "/ratings/save",
             data: {
             	"scanId": $("#brainImage1").data("id"),
-                "goodBrain": goodBrain,
+                "goodBrain": goodBrain
             },
             success: function(data){
 
 
                 setTimeout(function(){
                     loadNextImage();
+
                 }, 250);
             },
             error: function(){
@@ -192,7 +193,6 @@
 
     }
 
-
     var updateProgressBar = function(percentage){
         if(percentage>100){
             percentage = 100;
@@ -205,10 +205,6 @@
         getNumberOfUserResponses();
         $("#imagesCard").hide();
         loadNextImage();
-
-
-
-
         $("#yesButton").on("click", function(){
             saveDecisionAndNextImage(true);
         });
@@ -227,15 +223,15 @@
             }
         });
 
-        $(document).keydown(function(e) {
+        $(document).keyup(function(e) {
             switch(e.which) {
                 case 37: // left
-                    if($("#noButton").is(":visible")){
+                    if(!$("#noButton").prop("disabled")){
                         saveDecisionAndNextImage(false);
                     }
                     break;
                 case 39: // right
-                    if($("#yesButton").is(":visible")) {
+                    if(!$("#yesButton").prop("disabled")) {
                         saveDecisionAndNextImage(true);
                     }
                     break;
@@ -243,17 +239,9 @@
             }
             e.preventDefault(); // prevent the default action (scroll / move caret)
         });
-
-
-
-
     });
 </script>
 <style>
-
-
-
-
     .card {
         margin: 10px;
     }
@@ -285,8 +273,6 @@
             margin-bottom: 10px;
         }
     }
-
 </style>
-
 </body>
 </html>
