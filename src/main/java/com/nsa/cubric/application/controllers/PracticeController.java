@@ -24,4 +24,9 @@ public class PracticeController {
         LOG.debug("Handling GET request to /feedback/");
         return "practice_feedback";
     }
+
+    @RequestMapping(value = "/ratings/", method = RequestMethod.GET)
+    public String showSorting(WebRequest webRequest, Model model){
+        return "ratings";
+    }
 }
