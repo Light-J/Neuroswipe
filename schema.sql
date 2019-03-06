@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`scan` (
   `front_image` VARCHAR(255) NOT NULL,
   `side_image` VARCHAR(255) NOT NULL,
   `known_good` TINYINT(1) NULL,
+  `bad_reason` VARCHAR(255) NULL,
   PRIMARY KEY (`scan_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
