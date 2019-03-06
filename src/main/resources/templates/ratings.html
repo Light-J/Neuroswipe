@@ -240,7 +240,6 @@
         getNumberOfUserResponses();
         $("#imagesCard").hide();
         loadNextImage();
-
         $("#yesButton").on("click", function(){
             saveDecisionAndNextImage(true);
         });
@@ -249,15 +248,25 @@
             saveDecisionAndNextImage(false);
         });
 
-        $(document).keydown(function(e) {
+        $("#imagesCard").swipe( {
+            swipe: function(event, direction){
+                if(direction == "left"){
+                    saveDecisionAndNextImage(false);
+                } else if (direction == "right") {
+                    saveDecisionAndNextImage(true);
+                }
+            }
+        });
+
+        $(document).keyup(function(e) {
             switch(e.which) {
                 case 37: // left
-                    if($("#noButton").is(":visible")){
+                    if(!$("#noButton").prop("disabled")){
                         saveDecisionAndNextImage(false);
                     }
                     break;
                 case 39: // right
-                    if($("#yesButton").is(":visible")) {
+                    if(!$("#yesButton").prop("disabled")) {
                         saveDecisionAndNextImage(true);
                     }
                     break;
@@ -266,6 +275,7 @@
             e.preventDefault(); // prevent the default action (scroll / move caret)
         });
     });
+
 </script>
 <style>
     .card {
