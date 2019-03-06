@@ -9,7 +9,6 @@
 
     <div th:replace="fragments/information"></div>
 
-    <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
 <!--//Modal displayed after 25 answers, giving 1 reward-->
 <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -198,7 +197,7 @@
             url: "/ratings/save",
             data: {
             	"scanId": $("#brainImage1").data("id"),
-                "goodBrain": goodBrain,
+                "goodBrain": goodBrain
             },
             success: function(data){
 
