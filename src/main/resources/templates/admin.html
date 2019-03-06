@@ -59,12 +59,14 @@
                     '<td><a target="_blank" href="/brain_images/'+scans[i].sideImage+'">'+scans[i].sideImage.substring(0,15)+"..."+'</a></td>' +
                     '<td><a target="_blank" href="/brain_images/'+scans[i].frontImage+'">'+scans[i].frontImage.substring(0,15)+"..."+'</a></td>' +
                     '<td class="knownGood">'+scans[i].knownGood+'</td>' +
-                    '<td><span id="badReason"></span></td></tr>');
+                    '<td id="badReason">'+scans[i].badReason+'</td></tr>');
             }
 
             $("table tr").each(function() {
                 var id = $(this).data("id");
                 var knownGood = $(this).find(".knownGood").text();
+                var badReason = $(this).find("#badReason").text();
+
 
                 if(!(knownGood == "false")){
                     $(this).find("#badReason").hide();
@@ -78,6 +80,7 @@
 
 
                 $(this).find("#badReason").html('<input data-id="'+id+'" class="badReason"><button class="btn btn-primary badReasonSave">save</button>');
+                $('input[data-id='+id+']').val(badReason);
 
 
                 $(this).find(".knownGood select").val(knownGood);

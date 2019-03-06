@@ -89,7 +89,7 @@ public class ScanAPI {
         image3.transferTo(file3);
 
 
-        Scan scan = new Scan(1, file1.getName(), file2.getName(), file3.getName(), null);
+        Scan scan = new Scan(1, file1.getName(), file2.getName(), file3.getName(), null, null);
         scanService.insert(scan);
 
         response.sendRedirect("/admin/");

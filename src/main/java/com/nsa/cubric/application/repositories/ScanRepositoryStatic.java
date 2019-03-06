@@ -24,7 +24,8 @@ public class ScanRepositoryStatic implements ScanRepository {
                 rs.getString("top_image"),
                 rs.getString("front_image"),
                 rs.getString("side_image"),
-                (Boolean) rs.getObject("known_good")
+                (Boolean) rs.getObject("known_good"),
+                rs.getString("bad_reason")
         );
     }
 
@@ -32,7 +33,7 @@ public class ScanRepositoryStatic implements ScanRepository {
     public Scan findById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "SELECT scan_id, top_image, front_image, side_image, known_good FROM scan WHERE scan_id = ?",
+                    "SELECT * FROM scan WHERE scan_id = ?",
                     new Object[]{id},scanMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -44,7 +45,7 @@ public class ScanRepositoryStatic implements ScanRepository {
     @Override
     public void insert(Scan scan){
         jdbcTemplate.update(
-                "INSERT into scan (top_image, front_image, side_image, known_good) values (?, ?, ?, ?)",
+                "INSERT into scan (top_image, front_image, side_image, known_good, bad_reason) values (?, ?, ?, ?)",
                 scan.getTopImage(), scan.getSideImage(), scan.getFrontImage(), scan.getKnownGood());
     }
 
@@ -58,7 +59,7 @@ public class ScanRepositoryStatic implements ScanRepository {
     @Override
     public List<Scan> getAll(int offset){
         return jdbcTemplate.query(
-                "SELECT scan_id, top_image, front_image, side_image, known_good FROM scan LIMIT ?, 10",
+                "SELECT * FROM scan LIMIT ?, 10",
                 new Object[]{offset}, scanMapper
         );
     }
