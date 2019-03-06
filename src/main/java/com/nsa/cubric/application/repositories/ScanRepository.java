@@ -10,6 +10,7 @@ public interface ScanRepository {
     public Scan findById(Long id);
     public void insert(Scan scan);
     public void updateKnownGood(Long id, Boolean knownGood);
+    public void updateBadReason(Long id, String badReason);
     public List<Scan> getAll(int offset);
     public Optional<Scan> getNext();
     public Optional<Scan> getNextPractice();
