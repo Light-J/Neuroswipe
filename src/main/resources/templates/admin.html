@@ -19,7 +19,7 @@
     <h2>Images</h2>
 
     <table class="table" id="scan_table">
-        <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th><th>Known good/bad</th><th>Reason scan is bad</th></tr>
+        <tr><th>ID</th><th>Filename 1</th><th>Filename 2</th><th>Filename 3</th><th>Known good/bad</th><th>Why is scan good / bad</th></tr>
     </table>
     <nav>
         <ul class="pagination justify-content-center">
@@ -59,17 +59,18 @@
                     '<td><a target="_blank" href="/brain_images/'+scans[i].sideImage+'">'+scans[i].sideImage.substring(0,15)+"..."+'</a></td>' +
                     '<td><a target="_blank" href="/brain_images/'+scans[i].frontImage+'">'+scans[i].frontImage.substring(0,15)+"..."+'</a></td>' +
                     '<td class="knownGood">'+scans[i].knownGood+'</td>' +
-                    '<td id="badReason">'+scans[i].badReason+'</td></tr>');
+                    '<td id="reason">'+scans[i].reason+'</td></tr>');
             }
 
             $("table tr").each(function() {
                 var id = $(this).data("id");
                 var knownGood = $(this).find(".knownGood").text();
-                var badReason = $(this).find("#badReason").text();
+                var reason = $(this).find("#reason").text();
 
 
-                if(!(knownGood == "false")){
-                    $(this).find("#badReason").hide();
+
+                if(knownGood == "null"){
+                    $(this).find("#reason").hide();
                 }
 
                 $(this).find(".knownGood").html('<select class="form-control" data-id="'+id+'">\n' +
@@ -79,19 +80,19 @@
                     '</select>');
 
 
-                $(this).find("#badReason").html('<input data-id="'+id+'" class="badReason"><button class="btn btn-primary badReasonSave">save</button>');
-                if(badReason == "null"){
-                    $('input[data-id='+id+']').val("Please provide a reason");
+                $(this).find("#reason").html('<textarea data-id="'+id+'" class="reason"></textarea><button class="btn btn-primary reasonSave">save</button>');
+                if(reason == "null"){
+                    $('textarea[data-id='+id+']').val("Please provide a reason");
                 } else {
-                    $('input[data-id='+id+']').val(badReason);
+                    $('textarea[data-id='+id+']').val(reason);
                 }
 
 
 
                 $(this).find(".knownGood select").val(knownGood);
 
-                $(this).find(".badReasonSave").on("click", function (e) {
-                    $.post("/scans/"+id+"/setBadReason", { badReason: $('input[data-id='+id+']').val() })
+                $(this).find(".reasonSave").on("click", function (e) {
+                    $.post("/scans/"+id+"/setReason", { reason: $('textarea[data-id='+id+']').val() })
                         .done(function( data ) {
                             $.notify("Reason saved", {
                             });
@@ -114,8 +115,9 @@
                         .done(function( data ) {
                             $.notify("Option saved", {
                             });
+                            getScans(page);
                         });
-                    getScans(page);
+
                 });
             });
         });
@@ -126,6 +128,12 @@
         getScans(1);
     });
 </script>
+
+<style>
+    #reason {
+        width: 20%;
+    }
+</style>
 
 </body>
 </html>

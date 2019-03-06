@@ -57,7 +57,7 @@ public class ScanRepositoryStatic implements ScanRepository {
     }
 
     @Override
-    public void updateBadReason(Long id, String badReason) {
+    public void updateReason(Long id, String badReason) {
         jdbcTemplate.update(
                 "UPDATE scan SET bad_reason = ? WHERE scan_id = ?",
                 badReason, id);

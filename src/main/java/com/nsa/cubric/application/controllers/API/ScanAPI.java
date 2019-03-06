@@ -107,10 +107,10 @@ public class ScanAPI {
     }
 
 
-    @RequestMapping(value = "/{id}/setBadReason", method = RequestMethod.POST)
-    public String updateBadReason(@PathVariable("id") Long id,
-                                  @RequestParam String badReason){
-        scanService.updateBadReason(id, badReason);
+    @RequestMapping(value = "/{id}/setReason", method = RequestMethod.POST)
+    public String updateReason(@PathVariable("id") Long id,
+                                  @RequestParam String reason){
+        scanService.updateReason(id, reason);
         return "OK";
     }
 
