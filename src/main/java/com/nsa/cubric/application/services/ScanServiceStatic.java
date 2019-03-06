@@ -35,6 +35,11 @@ public class ScanServiceStatic implements ScanService {
     }
 
     @Override
+    public void updateBadReason(Long id, String badReason){
+        scanRepository.updateBadReason(id, badReason);
+    }
+
+    @Override
     public List<Scan> getAll(int page){
         return scanRepository.getAll(10*(page-1));
     }

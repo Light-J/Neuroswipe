@@ -80,13 +80,18 @@
 
 
                 $(this).find("#badReason").html('<input data-id="'+id+'" class="badReason"><button class="btn btn-primary badReasonSave">save</button>');
-                $('input[data-id='+id+']').val(badReason);
+                if(badReason == "null"){
+                    $('input[data-id='+id+']').val("Please provide a reason");
+                } else {
+                    $('input[data-id='+id+']').val(badReason);
+                }
+
 
 
                 $(this).find(".knownGood select").val(knownGood);
 
                 $(this).find(".badReasonSave").on("click", function (e) {
-                    $.post("/scans/"+id+"/setBadReason", { reason: $('input[data-id='+id+']').val() })
+                    $.post("/scans/"+id+"/setBadReason", { badReason: $('input[data-id='+id+']').val() })
                         .done(function( data ) {
                             $.notify("Reason saved", {
                             });
@@ -115,6 +120,7 @@
             });
         });
     }
+
 
     $(function() {
         getScans(1);

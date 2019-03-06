@@ -10,6 +10,7 @@ public interface ScanService {
     Scan findById(Long id);
     void insert(Scan scan);
     void updateKnownGood(Long id, Boolean knownGood);
+    void updateBadReason(Long id, String badReason);
     List<Scan> getAll(int page);
     Optional<Scan> getNext();
     Optional<Scan> getNextPractice();
