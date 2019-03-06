@@ -4,9 +4,13 @@
 
 <body class="overflow-hidden">
 
+
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
+
+    <div th:replace="fragments/information"></div>
+
     <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -26,6 +30,7 @@
             </div>
         </div>
     </div>
+
 
 
     <div class="card">
@@ -55,7 +60,10 @@
     </div>
 
     <div class="float-right">
-        <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary" id="save">Save and Exit</button>
+        <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary bottom_buttons">Save and Exit</button>
+    </div>
+    <div class="float-left">
+        <button type="button" class="btn btn-outline-secondary bottom_buttons" data-toggle="modal" data-target="#informationModal">More information</button>
     </div>
 
 </div>
@@ -242,11 +250,15 @@
     });
 </script>
 <style>
+
+
+
+
     .card {
         margin: 10px;
     }
 
-    #save {
+    .bottom_buttons {
         margin: 10px;
     }
 

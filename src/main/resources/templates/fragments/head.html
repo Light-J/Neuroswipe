@@ -13,13 +13,12 @@
 
     <script>$(document).ready(function() {
         $('body').bootstrapMaterialDesign();
-        $.mobile.ajaxEnabled = false;
-        $.mobile.pushStateEnabled = false;
     });</script>
     <title th:text="${title} +' | Swipe Right Brains'"></title>
     <style>
         body{
             padding-top: 80px;
+            padding-right: 0px !important
         }
         @keyframes swipe-left {
             to {
@@ -50,5 +49,6 @@
         .roleSelect {
             width: 50px;
         }
+
     </style>
 </head>
