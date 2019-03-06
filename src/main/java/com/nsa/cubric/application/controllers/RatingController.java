@@ -18,4 +18,10 @@ public class RatingController {
 		LOG.debug("Handling GET request to /ratings/");
 		return "ratings";
 	}
+
+	@RequestMapping(value = "/userfeedback", method = RequestMethod.GET)
+	public String promptedFeedback(WebRequest webRequest, Model model){
+	    LOG.debug("Handling GET request to /userfeedback");
+		return "feedback_form";
+	}
 }
