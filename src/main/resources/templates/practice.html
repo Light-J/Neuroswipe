@@ -21,7 +21,7 @@
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
-
+    <div th:replace="fragments/information"></div>
     <div class="card">
         <div class="card-body row text-center">
             <div class="col-sm">
@@ -48,6 +48,9 @@
                 <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
             </p>
         </div>
+    </div>
+    <div class="float-left">
+        <button type="button" class="btn btn-outline-secondary bottom_buttons" data-toggle="modal" data-target="#informationModal">More information</button>
     </div>
 </div>
 <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
