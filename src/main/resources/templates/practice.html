@@ -3,25 +3,12 @@
 <head th:replace="fragments/head(title='Practice')" ></head>
 <body class="overflow-hidden">
 
-<style>
-    @media only screen and (max-width: 992px)  {
-        .card-body{
-            height: 100%;
-        }
-        .image-order{
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 10px;
-        }
-    }
 
-</style>
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
-
+    <div th:replace="fragments/information"></div>
     <div class="card">
         <div class="card-body row text-center">
             <div class="col-sm">
@@ -33,7 +20,7 @@
         </div>
     </div>
 
-    <br><br>
+    <br>
 
     <div class="card" id="imagesCard">
         <div class="card-body">
@@ -48,6 +35,9 @@
                 <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
             </p>
         </div>
+    </div>
+    <div class="float-left">
+        <button type="button" class="btn btn-outline-secondary bottom_buttons" data-toggle="modal" data-target="#informationModal">More information</button>
     </div>
 </div>
 <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
@@ -118,12 +108,13 @@
             $("#imagesCard").fadeOut(250, function () {
                 $("#imagesCard").removeClass("swipe-right swipe-left");
                 $("#imagesCard").fadeIn(250);
+                $("#yesButton, #noButton").prop("disabled", false);
             });
         });
     };
 
     var saveDecisionAndNextImage = function(userAnswer){
-        $("#yesButton, #noButton").hide();
+        $("#yesButton, #noButton").prop("disabled", true);
         if(userAnswer == $("#brainImage1").data("knownGood")){
             correctAnswer();
         } else {
@@ -153,15 +144,25 @@
             saveDecisionAndNextImage(false);
         });
 
-        $(document).keydown(function(e) {
+        $("#imagesCard").swipe( {
+            swipe: function(event, direction){
+                if(direction == "left"){
+                    saveDecisionAndNextImage(false);
+                } else if (direction == "right") {
+                    saveDecisionAndNextImage(true);
+                }
+            }
+        });
+
+        $(document).keyup(function(e) {
             switch(e.which) {
                 case 37: // left
-                    if($("#noButton").is(":visible")){
+                    if(!$("#noButton").prop("disabled")){
                         saveDecisionAndNextImage(false);
                     }
                     break;
                 case 39: // right
-                    if($("#yesButton").is(":visible")) {
+                    if(!$("#yesButton").prop("disabled")) {
                         saveDecisionAndNextImage(true);
                     }
                     break;
@@ -171,5 +172,27 @@
         });
     });
 </script>
+<style>
+    @media only screen and (max-width: 992px)  {
+        .card-body{
+            height: 100%;
+        }
+        .image-order{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px;
+        }
+    }
+
+    .card {
+        margin: 10px;
+    }
+
+    .bottom_buttons {
+        margin: 10px;
+    }
+
+</style>
 </body>
 </html>

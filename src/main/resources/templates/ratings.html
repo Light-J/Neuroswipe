@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/head(title='Ratings')" ></head>
+
 <body class="overflow-hidden">
+
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
+
+    <div th:replace="fragments/information"></div>
+
     <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -25,7 +30,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="card">
         <div class="card-body">
@@ -54,7 +58,10 @@
     </div>
 
     <div class="float-right">
-        <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary" id="save">Save and Exit</button>
+        <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary bottom_buttons">Save and Exit</button>
+    </div>
+    <div class="float-left">
+        <button type="button" class="btn btn-outline-secondary bottom_buttons" data-toggle="modal" data-target="#informationModal">More information</button>
     </div>
 
 </div>
@@ -70,8 +77,10 @@
             $("#imagesCard").fadeOut(250, function () {
                 $("#imagesCard").removeClass("swipe-right swipe-left");
                 $("#imagesCard").fadeIn(250);
+                $("#yesButton, #noButton").prop("disabled", false);
             });
         });
+
 
         var percentage = ($("#bar").width() / $('#bar').parent().width() * 100)+2;
         updateProgressBar(percentage);
@@ -141,7 +150,7 @@
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
-        //$("#yesButton, #noButton").hide();
+        $("#yesButton, #noButton").prop("disabled", true);
         if(goodBrain){
             $("#imagesCard").addClass("swipe-right");
         }else{
@@ -153,13 +162,14 @@
             url: "/ratings/save",
             data: {
             	"scanId": $("#brainImage1").data("id"),
-                "goodBrain": goodBrain,
+                "goodBrain": goodBrain
             },
             success: function(data){
 
 
                 setTimeout(function(){
                     loadNextImage();
+
                 }, 250);
             },
             error: function(){
@@ -183,7 +193,6 @@
 
     }
 
-
     var updateProgressBar = function(percentage){
         if(percentage>100){
             percentage = 100;
@@ -196,7 +205,6 @@
         getNumberOfUserResponses();
         $("#imagesCard").hide();
         loadNextImage();
-
         $("#yesButton").on("click", function(){
             saveDecisionAndNextImage(true);
         });
@@ -205,15 +213,25 @@
             saveDecisionAndNextImage(false);
         });
 
-        $(document).keydown(function(e) {
+        $("#imagesCard").swipe( {
+            swipe: function(event, direction){
+                if(direction == "left"){
+                    saveDecisionAndNextImage(false);
+                } else if (direction == "right") {
+                    saveDecisionAndNextImage(true);
+                }
+            }
+        });
+
+        $(document).keyup(function(e) {
             switch(e.which) {
                 case 37: // left
-                    if($("#noButton").is(":visible")){
+                    if(!$("#noButton").prop("disabled")){
                         saveDecisionAndNextImage(false);
                     }
                     break;
                 case 39: // right
-                    if($("#yesButton").is(":visible")) {
+                    if(!$("#yesButton").prop("disabled")) {
                         saveDecisionAndNextImage(true);
                     }
                     break;
@@ -228,7 +246,7 @@
         margin: 10px;
     }
 
-    #save {
+    .bottom_buttons {
         margin: 10px;
     }
 
@@ -255,8 +273,6 @@
             margin-bottom: 10px;
         }
     }
-
 </style>
-
 </body>
 </html>
