@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/head(title='Ratings')" ></head>
+<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 <body class="overflow-hidden">
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
@@ -192,10 +194,6 @@
         $("#bar").width(percentage+"%");
     };
 
-    $(window).on("swipe", function() {
-        $.mobile.changePage("/home");
-    });
-
     $(function() {
         getNumberOfUserResponses();
         $("#imagesCard").hide();
@@ -211,6 +209,14 @@
         $("#noButton").on("click", function(){
             saveDecisionAndNextImage(false);
         });
+
+        $(document).on('swipeleft', 'body', function(event){
+            saveDecisionAndNextImage(false);
+        });
+        $(document).on('swiperight', 'body', function(event){
+            saveDecisionAndNextImage(true);
+        });
+
 
         $(document).keydown(function(e) {
             switch(e.which) {
