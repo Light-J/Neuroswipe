@@ -106,6 +106,16 @@ public class ScanAPI {
         return "OK";
     }
 
+
+    @RequestMapping(value = "/{id}/setBadReason", method = RequestMethod.POST)
+    public String updateBadReason(@PathVariable("id") Long id,
+                                  @RequestBody String reason){
+
+        System.out.println(id.toString() + " : " + reason);
+
+        return "OK";
+    }
+
     @Configuration
     public class AdditionalResourceWebConfiguration implements WebMvcConfigurer {
         @Override
