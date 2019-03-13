@@ -30,7 +30,6 @@ public class RewardServicesStatic implements RewardService {
 
     @Override
     public boolean updateRewardValue(String reward, int value){
-
         if(rewardExists(reward)){
             return rewardRepository.updateRewardValue(loggedUserService.getUserProfileId(), reward, value);
         } else {
@@ -40,12 +39,16 @@ public class RewardServicesStatic implements RewardService {
 
     @Override
     public boolean checkIfUserHasReward(String reward){
+        long profileId = loggedUserService.getUserProfileId();
+        if(profileId == -1){
+            return true;
+        }
+
         if(rewardExists(reward)){
-            return rewardRepository.checkIfUserHasReward(loggedUserService.getUserProfileId(), reward);
+            return rewardRepository.checkIfUserHasReward(profileId, reward);
         } else {
             return false;
         }
-
     }
 
 
