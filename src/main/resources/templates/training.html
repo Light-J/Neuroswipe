@@ -1,7 +1,89 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='Training')" ></head>
+<style>
+
+    .container-fluid{
+        padding-right:15px;
+        padding-left:15px;
+        margin-right:auto;
+        margin-left:auto;
+        width: 100%;
+    }
+
+    /*For mobile*/
+    @media screen and (min-width: 480px) and (max-width: 899px) {
+        p {
+            font-size: 2vw;
+        }
+
+        .card {
+            vertical-align: top;
+            height: 60vh;
+            margin-bottom: 10vh;
+        }
+
+        .card .card-img-top {
+            height: 75%;
+        }
+        .card .card-body {
+            height: 25%;
+        }
+
+
+    }
+
+
+    /*For mobile*/
+    @media screen and (min-width: 900px) and (max-width: 1199px) {
+        p {
+            font-size: 2vw;
+        }
+
+        .card {
+            vertical-align: top;
+            height: 90vh;
+            margin-bottom: 10vh;
+        }
+
+        .card .card-img-top {
+            height: 75%;
+        }
+        .card .card-body {
+            height: 25%;
+        }
+
+
+    }
+
+    /*For desktop*/
+    @media screen and (min-width: 1200px){
+        .card{
+            vertical-align: top;
+            display: inline-block;
+            width: 30%;
+        }
+
+        .card .card-img-top {
+            height: 320px;
+        }
+        .card .card-body {
+            height: 200px;
+        }
+
+        p {
+            font-size: 1vw;
+        }
+
+        .container-fluid{
+            width: 80%;
+        }
+    }
+
+
+</style>
 <body>
+
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
@@ -162,87 +244,7 @@
         }
     });
 </script>
-    <style>
 
-        .container-fluid{
-            padding-right:15px;
-            padding-left:15px;
-            margin-right:auto;
-            margin-left:auto;
-            width: 100%;
-        }
-
-        /*For mobile*/
-        @media screen and (min-width: 480px) and (max-width: 899px) {
-            p {
-                font-size: 2vw;
-            }
-
-            .card {
-                vertical-align: top;
-                height: 60vh;
-                margin-bottom: 10vh;
-            }
-
-            .card .card-img-top {
-                height: 75%;
-            }
-            .card .card-body {
-                height: 25%;
-            }
-
-
-        }
-
-
-        /*For mobile*/
-        @media screen and (min-width: 900px) and (max-width: 1199px) {
-            p {
-                font-size: 2vw;
-            }
-
-            .card {
-                vertical-align: top;
-                height: 90vh;
-                margin-bottom: 10vh;
-            }
-
-            .card .card-img-top {
-                height: 75%;
-            }
-            .card .card-body {
-                height: 25%;
-            }
-
-
-        }
-
-        /*For desktop*/
-        @media screen and (min-width: 1200px){
-            .card{
-                vertical-align: top;
-                display: inline-block;
-                width: 30%;
-            }
-
-            .card .card-img-top {
-                height: 320px;
-            }
-            .card .card-body {
-                height: 200px;
-            }
-
-            p {
-                font-size: 1vw;
-            }
-
-            .container-fluid{
-                width: 80%;
-            }
-        }
-
-
-    </style>
 </div>
 </body>
 </html>
