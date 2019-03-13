@@ -1,237 +1,262 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head(title='Practice')" ></head>
-<body class="overflow-hidden">
+    <head th:replace="fragments/head(title='Practice')" ></head>
+    <body class="overflow-hidden">
 
 
 
-<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+        <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
-<div class="container">
-    <div th:replace="fragments/information"></div>
-    <div class="card">
-        <div class="card-body row text-center">
-            <div class="col-sm">
-                <h5>Correct answers: <span id="answersCorrect" class="badge badge-success">0</span></h5>
-            </div>
-            <div class="col-sm">
-                <h5>Incorrect answers: <span id="answersIncorrect" class="badge badge-danger">0</span></h5>
-            </div>
-        </div>
-    </div>
+        <div class="modal fade" id="wrongAlert" tabindex="-1" role="dialog" aria-labelledby="wrongAlert" aria-hidden="true">
+            <div class="modal-dialog alert-danger" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <img src="/img/baseline-warning-24px.svg">
+                        &nbsp;
+                        <h5 class="modal-title">Sorry but that answer is incorrect</h5>
 
-    <div class="card" id="imagesCard">
-        <div class="card-body">
-            <h5 class="card-title text-center">Practice</h5>
-            <p class="card-text text-center lead">Is this a good scan of a brain?</p>
-            <img class="image-order" src="" id="brainImage1" style="width:33%">
-            <img class="image-order" src="" id="brainImage2" style="width:33%">
-            <img class="image-order" src="" id="brainImage3" style="width:33%">
-            <p class="text-center">
-                <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
-            </p>
-            <div id="wrongAnswerAlert" class="alert alert-danger">
-                <p id="wrongAnswerReason">Filler text</p>
-                <button class="btn btn-danger" onclick="incorrectAnswer()">Continue</button>
-            </div>
-        </div>
-    </div>
-    <div class="float-left">
-        <button type="button" class="btn btn-outline-secondary bottom_buttons" data-toggle="modal" data-target="#informationModal">More information</button>
-    </div>
-</div>
-
-
-<!--Modal displayed when the user reaches 10 correct answers-->
-
-<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-
-                    <div class="row">
-
-                    <h3>The occipital lobe</h3>
-                    <p>Fantastic work! -  you just unlocked the occipital lobe.
-                        The eyes in the back of your head:
-                        The occipital lobe sits at the back of the brain. It processes the information we see and allows us to remember and assign meanings to different images.
-                    </p>
-                    <img src="/img/img18.jpg" height="250">
-
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <div class="modal-body">
+                        <div>
+                            <p id="wrongAnswerReason">Filler text</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="row">
 
-                        <h3>You have 10 correct answers!</h3>
-                        <p>Why don't you keep up the good work by sorting images for real?</p>
-                        <div class="container">
-                            <form method="get" action="/ratings/">
-                                <div class="row">
-                                    <button type="submit" class="btn btn-primary col-lg-6">Lets do it</button>
-                                    <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">Keep practicing</button>
+        <div class="container">
+            <div th:replace="fragments/information"></div>
+            <div class="card">
+                <div class="card-body row text-center">
+                    <div class="col-sm">
+                        <h5>Correct answers: <span id="answersCorrect" class="badge badge-success">0</span></h5>
+                    </div>
+                    <div class="col-sm">
+                        <h5>Incorrect answers: <span id="answersIncorrect" class="badge badge-danger">0</span></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="imagesCard">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Practice</h5>
+                    <p class="card-text text-center lead">Is this a good scan of a brain?</p>
+                    <img class="image-order" src="" id="brainImage1" style="width:33%">
+                    <img class="image-order" src="" id="brainImage2" style="width:33%">
+                    <img class="image-order" src="" id="brainImage3" style="width:33%">
+                    <p class="text-center">
+                        <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
+                    </p>
+                </div>
+            </div>
+            <div class="float-left">
+                <button type="button" class="btn btn-outline-secondary bottom_buttons" data-toggle="modal" data-target="#informationModal">More information</button>
+            </div>
+        </div>
+
+
+        <!--Modal displayed when the user reaches 10 correct answers-->
+
+        <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="row">
+
+                            <h3>The occipital lobe</h3>
+                            <p>Fantastic work! -  you just unlocked the occipital lobe.
+                                The eyes in the back of your head:
+                                The occipital lobe sits at the back of the brain. It processes the information we see and allows us to remember and assign meanings to different images.
+                            </p>
+                            <img src="/img/img18.jpg" height="250">
+
+                            </div>
+
+                            <div class="row">
+
+                                <h3>You have 10 correct answers!</h3>
+                                <p>Why don't you keep up the good work by sorting images for real?</p>
+                                <div class="container">
+                                    <form method="get" action="/ratings/">
+                                        <div class="row">
+                                            <button type="submit" class="btn btn-primary col-lg-6">Lets do it</button>
+                                            <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">Keep practicing</button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+
+                            </div>
                         </div>
 
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
-</div>
 
 
-<script>
-    function correctAnswer() {
-        var answersCorrect = $("#answersCorrect").text();
-        if(answersCorrect == 9){
-            $.ajax({
-                type: "GET",
-                url: "/api/rewards/get/practice",
-                success: function(data){
-                    if(!data){
-                        $('#rewardModal').modal('show');
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/rewards/set/practice?value=1",
-                            success: function(data){
-                            },
-                            error: function(){
-                                alert("There was an error getting this data.");
+        <script>
+            function correctAnswer() {
+                var answersCorrect = $("#answersCorrect").text();
+                if(answersCorrect == 9){
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/rewards/get/practice",
+                        success: function(data){
+                            if(!data){
+                                $('#rewardModal').modal('show');
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/api/rewards/set/practice?value=1",
+                                    success: function(data){
+                                    },
+                                    error: function(){
+                                        alert("There was an error getting this data.");
+                                    }
+                                });
                             }
-                        });
-                    }
-                },
-                error: function(){
-                    alert("There was an error getting this data.");
+                        },
+                        error: function(){
+                            alert("There was an error getting this data.");
+                        }
+                    });
+
                 }
-            });
-
-        }
-        $("#answersCorrect").text(parseInt(answersCorrect)+1)
-        saveDecisionAndNextImage()
-    }
-
-    function incorrectAnswer() {
-        var answersCorrect = $("#answersIncorrect").text();
-        $("#answersIncorrect").text(parseInt(answersCorrect)+1);
-
-        if($("#brainImage1").data("knownGood")){
-            $("#imagesCard").addClass("swipe-right");
-        }else{
-            $("#imagesCard").addClass("swipe-left");
-        }
-        saveDecisionAndNextImage()
-    }
-
-    var loadNextImage = function(){
-        $.getJSON("/scans/next/practice", function( imageData ) {
-            $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
-            $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
-            $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
-
-            $("#brainImage1").data("id", imageData.id);
-            $("#brainImage1").data("knownGood", imageData.knownGood);
-            $("#wrongAnswerReason").text(imageData.reason);
-            $("#wrongAnswerAlert").hide();
-            $("#yesButton, #noButton").fadeIn(250);
-            $("#imagesCard").fadeOut(250, function () {
-                $("#imagesCard").removeClass("swipe-right swipe-left");
-                $("#imagesCard").fadeIn(250);
-                $("#yesButton, #noButton").prop("disabled", false);
-            });
-        });
-    };
-
-    var checkAnswer = function(userAnswer) {
-        if(userAnswer == $("#brainImage1").data("knownGood")){
-            if(userAnswer){
-                $("#imagesCard").addClass("swipe-right");
-            }else{
-                $("#imagesCard").addClass("swipe-left");
+                $("#answersCorrect").text(parseInt(answersCorrect)+1)
+                saveDecisionAndNextImage()
             }
-            correctAnswer();
-        } else {
-            $("#wrongAnswerAlert").show();
-        }
-    };
+
+            function incorrectAnswer() {
+                var answersCorrect = $("#answersIncorrect").text();
+                $("#answersIncorrect").text(parseInt(answersCorrect)+1);
+
+                if($("#brainImage1").data("knownGood")){
+                    $("#imagesCard").addClass("swipe-right");
+                }else{
+                    $("#imagesCard").addClass("swipe-left");
+                }
+                saveDecisionAndNextImage()
+            }
+
+            var loadNextImage = function(){
+                $.getJSON("/scans/next/practice", function( imageData ) {
+                    $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
+                    $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
+                    $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
+
+                    $("#brainImage1").data("id", imageData.id);
+                    $("#brainImage1").data("knownGood", imageData.knownGood);
+                    $("#wrongAnswerReason").text(imageData.reason);
+                    $("#wrongAnswerAlert").hide();
+                    $("#yesButton, #noButton").fadeIn(250);
+                    $("#imagesCard").fadeOut(250, function () {
+                        $("#imagesCard").removeClass("swipe-right swipe-left");
+                        $("#imagesCard").fadeIn(250);
+                        $("#yesButton, #noButton").prop("disabled", false);
+                    });
+                });
+            };
+
+            var checkAnswer = function(userAnswer) {
+                $("#yesButton, #noButton").prop("disabled", true);
+                if(userAnswer == $("#brainImage1").data("knownGood")){
+                    if(userAnswer){
+                        $("#imagesCard").addClass("swipe-right");
+                    }else{
+                        $("#imagesCard").addClass("swipe-left");
+                    }
+                    correctAnswer();
+                } else {
+                    $("#wrongAlert").modal("show");
+                }
+            };
 
 
-    var saveDecisionAndNextImage = function(){
-        $("#yesButton, #noButton").prop("disabled", true);
-        setTimeout(function(){
-            loadNextImage();
-        }, 250);
-    };
+            var saveDecisionAndNextImage = function(){
+                setTimeout(function(){
+                    loadNextImage();
+                }, 250);
+            };
 
-    $(function() {
-        $("#imagesCard").hide();
-        loadNextImage();
+            $(function() {
+                $("#imagesCard").hide();
+                loadNextImage();
 
-        $("#yesButton").on("click", function(){
-            checkAnswer(true);
-        });
-
-        $("#noButton").on("click", function(){
-            checkAnswer(false);
-        });
-
-        $("#imagesCard").swipe( {
-            swipe: function(event, direction){
-                if(direction == "left"){
-                    checkAnswer(false);
-                } else if (direction == "right") {
+                $("#yesButton").on("click", function(){
                     checkAnswer(true);
+                });
+
+                $("#noButton").on("click", function(){
+                    checkAnswer(false);
+                });
+
+                $("#imagesCard").swipe( {
+                    swipe: function(event, direction){
+                        if(direction == "left"){
+                            checkAnswer(false);
+                        } else if (direction == "right") {
+                            checkAnswer(true);
+                        }
+                    }
+                });
+
+                $('#wrongAlert').on('hidden.bs.modal', function () {
+                    incorrectAnswer();
+                });
+
+                $(document).keyup(function(e) {
+                    switch(e.which) {
+                        case 37: // left
+                            if(!$("#noButton").prop("disabled")){
+                                checkAnswer(false);
+                            }
+                            break;
+                        case 39: // right
+                            if(!$("#yesButton").prop("disabled")) {
+                                checkAnswer(true);
+                            }
+                            break;
+                        default: return; // exit this handler for other keys
+                    }
+                    e.preventDefault(); // prevent the default action (scroll / move caret)
+                });
+            });
+        </script>
+        <style>
+            @media only screen and (max-width: 992px)  {
+                .image-order{
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-bottom: 10px;
                 }
             }
-        });
 
-        $(document).keyup(function(e) {
-            switch(e.which) {
-                case 37: // left
-                    if(!$("#noButton").prop("disabled")){
-                        checkAnswer(false);
-                    }
-                    break;
-                case 39: // right
-                    if(!$("#yesButton").prop("disabled")) {
-                        checkAnswer(true);
-                    }
-                    break;
-                default: return; // exit this handler for other keys
+            .card {
+                margin: 10px;
             }
-            e.preventDefault(); // prevent the default action (scroll / move caret)
-        });
-    });
-</script>
-<style>
-    @media only screen and (max-width: 992px)  {
-        .image-order{
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 10px;
-        }
-    }
 
-    .card {
-        margin: 10px;
-    }
-
-    .bottom_buttons {
-        margin: 10px;
-    }
+            .bottom_buttons {
+                margin: 10px;
+            }
 
 
-</style>
-</body>
+        </style>
+    </body>
 </html>
