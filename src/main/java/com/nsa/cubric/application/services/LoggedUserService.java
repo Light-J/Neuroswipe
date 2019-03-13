@@ -40,8 +40,15 @@ public class LoggedUserService {
         }
     }
 
-
+    /***
+     * This retrieves the current logged in users profile id
+     * @return id of profile (Note if no user logged in then id is -1)
+     */
     public Long getUserProfileId(){
-        return accountRepository.getProfileByEmail(getUsername()).getId();
+        if(getUsername() == null){
+            return (long)-1;
+        } else {
+            return accountRepository.getProfileByEmail(getUsername()).getId();
+        }
     }
 }
