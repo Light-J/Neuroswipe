@@ -1,7 +1,89 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='Training')" ></head>
+<style>
+
+    .container-fluid{
+        padding-right:15px;
+        padding-left:15px;
+        margin-right:auto;
+        margin-left:auto;
+        width: 100%;
+    }
+
+    /*For mobile*/
+    @media screen and (min-width: 480px) and (max-width: 899px) {
+        p {
+            font-size: 2vw;
+        }
+
+        .card {
+            vertical-align: top;
+            height: 60vh;
+            margin-bottom: 10vh;
+        }
+
+        .card .card-img-top {
+            height: 75%;
+        }
+        .card .card-body {
+            height: 25%;
+        }
+
+
+    }
+
+
+    /*For mobile*/
+    @media screen and (min-width: 900px) and (max-width: 1199px) {
+        p {
+            font-size: 2vw;
+        }
+
+        .card {
+            vertical-align: top;
+            height: 90vh;
+            margin-bottom: 10vh;
+        }
+
+        .card .card-img-top {
+            height: 75%;
+        }
+        .card .card-body {
+            height: 25%;
+        }
+
+
+    }
+
+    /*For desktop*/
+    @media screen and (min-width: 1200px){
+        .card{
+            vertical-align: top;
+            display: inline-block;
+            width: 30%;
+        }
+
+        .card .card-img-top {
+            height: 320px;
+        }
+        .card .card-body {
+            height: 200px;
+        }
+
+        p {
+            font-size: 1vw;
+        }
+
+        .container-fluid{
+            width: 80%;
+        }
+    }
+
+
+</style>
 <body>
+
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
@@ -25,79 +107,51 @@
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container-fluid">
+    <div class="container-fluid">
+        <h1>Training</h1>
 
-    <style scoped>
-        .card {
-            display:inline-block;
-            margin: 10px;
-            vertical-align: top;
-        }
-        .card .card-img-top {
-            height: 320px;
-        }
-        .card .card-body {
-            height: 193px;
-        }
-        @media only screen and (max-width: 1202px) {
-                .card{
-                    display: block;
-                    width: 100%;
-                    margin-left:auto;
-                    margin-right:auto;
-                    margin-bottom: 10px;
-                }
-            .card-img-top{
-                width: 20rem;
-            }
-        }
-    </style>
-
-    <h1>Training</h1>
-
-    <p>The fornix should have a central ‘body’ and two ‘legs’ that curl around underneath.</p>
-
-
-    <h3>What a Good Fornix Looks Like</h3>
-
-    <div class="container">
-
-    <div class="card" style="width: 20rem;">
-        <img class="card-img-top" src="/img/img8.png">
-        <div class="card-body">
-            <h5 class="card-title">From the Top</h5>
-            <p class="card-text">This is what a good fornix tractography image looks like from the top.</p>
-        </div>
+        <p>The fornix should have a central ‘body’ and two ‘legs’ that curl around underneath.</p>
     </div>
 
-    <div class="card" style="width: 20rem;">
-        <img class="card-img-top" src="/img/img9.png">
-        <div class="card-body">
-            <h5 class="card-title">From the Front</h5>
-            <p class="card-text">This is what a good fornix tractography image looks like from the front.</p>
-        </div>
+    <div class="container-fluid">
+        <h3>What a Good Fornix Looks Like</h3>
+
+        <div class="card">
+            <img class="card-img-top" src="/img/img8.png">
+            <div class="card-body">
+                <h5 class="card-title">From the Top</h5>
+                <p class="card-text">This is what a good fornix tractography image looks like from the top.</p>
+            </div>
         </div>
 
+        <div class="card">
+            <img class="card-img-top" src="/img/img9.png">
+            <div class="card-body">
+                <h5 class="card-title">From the Front</h5>
+                <p class="card-text">This is what a good fornix tractography image looks like from the front.</p>
+            </div>
+            </div>
 
-    <div class="card" style="width: 20rem;">
-        <img class="card-img-top" src="/img/img10.png">
-        <div class="card-body">
-            <h5 class="card-title">From the Side</h5>
-            <p class="card-text">This is what a good fornix tractography image looks like from the side.</p>
+
+        <div class="card">
+            <img class="card-img-top" src="/img/img10.png">
+            <div class="card-body">
+                <h5 class="card-title">From the Side</h5>
+                <p class="card-text">This is what a good fornix tractography image looks like from the side.</p>
+            </div>
         </div>
     </div>
-
-</div>
 
     <br><br><br>
 
 
-    <h3>Not perfect-looking, but OK</h3>
 
 
-    <div class="container">
 
-        <div class="card" style="width: 20rem;">
+    <div class="container-fluid">
+        <h3>Not perfect-looking, but OK</h3>
+        <div class="card">
             <img class="card-img-top" src="/img/img11.png">
             <div class="card-body">
                 <h5 class="card-title">Some untidy-looking fibres</h5>
@@ -105,7 +159,7 @@
             </div>
         </div>
 
-        <div class="card" style="width: 20rem;">
+        <div class="card">
             <img class="card-img-top" src="/img/img12.png">
             <div class="card-body">
                 <h5 class="card-title">Not necessarily symmetrical</h5>
@@ -113,7 +167,7 @@
             </div>
         </div>
 
-        <div class="card" style="width: 20rem;">
+        <div class="card">
             <img class="card-img-top" src="/img/img13.png">
             <div class="card-body">
                 <h5 class="card-title">Gap down the middle of the body</h5>
@@ -121,16 +175,16 @@
             </div>
         </div>
 
-</div>
+    </div>
 
     <br><br><br>
 
 
-    <h3>Bad ones!</h3>
 
-    <div class="container">
 
-     <div class="card" style="width: 20rem;">
+    <div class="container-fluid">
+        <h3>Bad ones!</h3>
+        <div class="card">
             <img class="card-img-top" src="/img/img14.png">
             <div class="card-body">
                 <h5 class="card-title">One leg has only 2-3 fibres</h5>
@@ -138,7 +192,7 @@
             </div>
         </div>
 
-        <div class="card" style="width: 20rem;">
+        <div class="card">
             <img class="card-img-top" src="/img/img15.png">
             <div class="card-body">
                 <h5 class="card-title">Gaps between the body and the legs</h5>
@@ -146,7 +200,7 @@
             </div>
         </div>
 
-        <div class="card" style="width: 20rem;">
+        <div class="card">
             <img class="card-img-top" src="/img/img16.png">
             <div class="card-body">
                 <h5 class="card-title">Gaps between the body and the legs</h5>
@@ -154,8 +208,6 @@
             </div>
         </div>
     </div>
-
-
 
     <br><br><br>
 
@@ -183,20 +235,16 @@
                             type: "POST",
                             url: "/api/rewards/set/training?value=1",
                             success: function(data){
-                            },
-                            error: function(){
-                                alert("There was an error getting this data.");
                             }
                         });
                     }
-                },
-                error: function(){
-                    alert("There was an error getting this data.");
                 }
+
             });
         }
     });
 </script>
+
 </div>
 </body>
 </html>
