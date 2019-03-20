@@ -352,7 +352,7 @@ DEFINER=`root`@`localhost`
 TRIGGER `brainschema`.`Create User Profile`
 AFTER INSERT ON `brainschema`.`account`
 FOR EACH ROW
-INSERT INTO profile (display_name, account_id) VALUES (NEW.email, NEW.account_id)$$
+INSERT INTO profile (display_name, account_id) VALUES ('Anonymous', NEW.account_id)$$
 
 
 DELIMITER ;
