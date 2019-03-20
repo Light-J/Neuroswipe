@@ -30,17 +30,20 @@ public class AccountAPI {
     @RequestMapping(value = "/update/email", method = RequestMethod.PUT)
     public ResponseEntity updateEmail(@RequestParam("newEmail") String newEmail){
         HttpHeaders headers = new HttpHeaders();
-
-        if(accountService.emailExist(newEmail)){
-            headers.add("emailExists", "true");
-        } else {
-            boolean success = accountService.updateEmail(newEmail);
-            if(success){
-                headers.add("updated", "true");
-
+        if(accountService.checkEmailFormat(newEmail)) {
+            if (accountService.emailExist(newEmail)) {
+                headers.add("emailExists", "true");
             } else {
-                headers.add("updated", "false");
+                boolean success = accountService.updateEmail(newEmail);
+                if (success) {
+                    headers.add("updated", "true");
+
+                } else {
+                    headers.add("updated", "false");
+                }
             }
+        } else {
+            headers.add("invalidFormat", "true");
         }
         return new ResponseEntity(headers, HttpStatus.OK);
     }

@@ -1,277 +1,258 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head(title='Profile')" ></head>
-<body>
+    <head th:replace="fragments/head(title='Profile')" ></head>
+    <body>
 
-<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+    <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 
-<div class="container">
-    <div class="row ">
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs pull-right">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="profile" aria-selected="false">Security</a>
-                        </li>
-                    </ul>
+    <div class="container">
+        <div class="row ">
+            <div class="col">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs nav-justified">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="privacy-tab" data-toggle="tab" href="#privacy" role="tab" aria-controls="privacy" aria-selected="false">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="accountTabContent">
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="card-body" id="profileForm">
+                                <h2>Profile</h2>
+                                <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
+                                    <input th:field="*{id}" name="id" hidden/>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="email">Display name</label>
+                                        <div class="col-sm-10">
+                                            <input id="email" class="form-control" name="username" th:field="*{username}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="postcode">Postcode</label>
+                                        <div class="col-sm-10">
+                                            <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
+                                            <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
+                                               th:text="${error}">Validation error</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="age">Age</label>
+                                        <div class="col-sm-10">
+                                            <input id="age" class="form-control" name="age" th:field="*{age}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="gender">Gender</label>
+                                        <div class="col-sm-10">
+                                            <select id="gender" class="form-control" name="gender" th:field="*{gender}">
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="other">Other</option>
+                                                <option value="prefer not to say">Prefer not to say</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-md-10">
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade container text-center" id="account" role="tabpanel" aria-labelledby="account-tab">
+                            <div class="card-body">
+                                <h2>Account</h2>
+                                <div class="row">
+                                    <label id="oldEmail" for="newEmail">Change your email using the form below</label>
+                                </div>
+                                <div class="input-group">
+                                    <input class="form-control" id="newEmail" placeholder="New email">
+                                    <button class="btn btn-primary" onclick="updateEmail()">Update email</button>
+                                </div>
+                                <p id="emailError"></p>
+                                <p>When your email is succesfully changed we will be logged out and required to log back in using your new email</p>
+                                <br><br>
+
+                                <h4>Account removal options</h4>
+                                <button class="btn btn-danger"><h6>Disable account</h6></button>
+                                <button class="btn btn-danger"><h6>Delete account!</h6></button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="privacy" role="tabpanel" aria-labelledby="privacy-tab">
+                            <h2>Privacy</h2>
+                            <h4></h4>
+                            <h4>Be show in leaderboards</h4>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="col card-container">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>Your progress</h1>
 
-
-
-
-
-
-
-                <div class="tab-content" id="myTabContent">
-
-                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="card-body" id="profileForm">
-                            <h2>Profile</h2>
-                            <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
-                                <input th:field="*{id}" name="id" hidden/>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4" for="email">Display name</label>
-                                    <div class="col-sm-10">
-                                        <input id="email" class="form-control" name="username" th:field="*{username}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4" for="postcode">Postcode</label>
-                                    <div class="col-sm-10">
-                                        <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
-                                        <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
-                                           th:text="${error}">Validation error</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4" for="age">Age</label>
-                                    <div class="col-sm-10">
-                                        <input id="age" class="form-control" name="age" th:field="*{age}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4" for="gender">Gender</label>
-                                    <div class="col-sm-10">
-                                        <select id="gender" class="form-control" name="gender" th:field="*{gender}">
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
-                                            <option value="prefer not to say">Prefer not to say</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-md-10">
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="training" onclick="return false;">
+                            <label class="form-check-label" for="training">Completed Training</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="practice" onclick="return false;">
+                            <label class="form-check-label" for="practice">10 Correct practice questions</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="sort25" onclick="return false;">
+                            <label class="form-check-label" for="sort25">Sorted 25 scans</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="sort50" onclick="return false;">
+                            <label class="form-check-label" for="sort50">Sorted 50 scans</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="feedback" onclick="return false;">
+                            <label class="form-check-label" for="feedback">Left feedback</label>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
-                        <h2>Account</h2>
-
-
-                        <label id="oldEmail">Current email: </label>
-                        <div class="input-group">
-                            <input class="form-control" id="newEmail" placeholder="Username">
-                            <button class="btn btn-primary" onclick="updateEmail()">Update email</button>
-                            <p id="emailError"></p>
-                        </div>
-                        <br><br>
-
-                        <button class="btn btn-danger"><h6>Disable account</h6></button>
-                        <button class="btn btn-danger"><h6>Delete account!</h6></button>
-                    </div>
-                    <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
-                        <h2>Security</h2>
-                        <h4>Change password</h4>
-                        <h4>Be show in leaderboards</h4>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Statistics</h2>
+                        <h5>This is the number of scans you have helped rate</h5>
+                        <h5 style="text-align: center" id="numberScansRated"></h5>
+                        <p>Thank you for your contribution to swipe right for brain science</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col card-container">
-            <div class="card">
-                <div class="card-body">
-                    <h1>Your progress</h1>
-
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="training" onclick="return false;">
-                        <label class="form-check-label" for="training">Completed Training</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="practice" onclick="return false;">
-                        <label class="form-check-label" for="practice">10 Correct practice questions</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="sort25" onclick="return false;">
-                        <label class="form-check-label" for="sort25">Sorted 25 scans</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="sort50" onclick="return false;">
-                        <label class="form-check-label" for="sort50">Sorted 50 scans</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="feedback" onclick="return false;">
-                        <label class="form-check-label" for="feedback">Left feedback</label>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h2>Statistics</h2>
-                    <h5>This is the number of scans you have helped rate</h5>
-                    <h5 style="text-align: center" id="numberScansRated"></h5>
-                    <p>Thank you for your contribution to swipe right for brain science</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h2>Your rewards</h2>
-                    <div class="row">
-                        <div class="col" data-toggle="tooltip" title="Rewarded for completing the training!" data-placement="bottom">
-                            <img src="/img/img7.png" width="100%" id="training_reward_image">
-                        </div>
-                        <div class="col" data-toggle="tooltip" title="Rewarded for completing 10 correct practice questions!" data-placement="bottom">
-                            <img src="/img/img18.jpg" width="100%" id="practice_reward_image">
-                        </div>
-                        <div class="col" data-toggle="tooltip" title="Rewarded for sorting 25 real images for us!" data-placement="bottom">
-                            <img src="/img/img20.png" width="100%" id="sort25_reward_image">
-                        </div>
-                        <div class="col" data-toggle="tooltip" title="Rewarded for sorting 50 real images for us!" data-placement="bottom">
-                            <img src="/img/img23.png" width="100%" id="sort50_reward_image">
-                        </div>
-                        <div class="col" data-toggle="tooltip" title="Rewarded for leaving feedback about swipe right for brain science!" data-placement="bottom">
-                            <img src="/img/img24.jpg" width="100%" id="feedback_reward_image">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="row">
+         <div class="col">
+             <div class="card">
+                 <div class="card-body">
+                     <h2>Your rewards</h2>
+                     <div class="row">
+                         <div class="col" data-toggle="tooltip" title="Rewarded for completing the training!" data-placement="bottom">
+                             <img src="/img/img7.png" width="100%" id="training_reward_image">
+                         </div>
+                         <div class="col" data-toggle="tooltip" title="Rewarded for completing 10 correct practice questions!" data-placement="bottom">
+                             <img src="/img/img18.jpg" width="100%" id="practice_reward_image">
+                         </div>
+                         <div class="col" data-toggle="tooltip" title="Rewarded for sorting 25 real images for us!" data-placement="bottom">
+                             <img src="/img/img20.png" width="100%" id="sort25_reward_image">
+                         </div>
+                         <div class="col" data-toggle="tooltip" title="Rewarded for sorting 50 real images for us!" data-placement="bottom">
+                             <img src="/img/img23.png" width="100%" id="sort50_reward_image">
+                         </div>
+                         <div class="col" data-toggle="tooltip" title="Rewarded for leaving feedback about swipe right for brain science!" data-placement="bottom">
+                             <img src="/img/img24.jpg" width="100%" id="feedback_reward_image">
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
         </div>
     </div>
-</div>
-
-
-<style>
-    .card {
-        margin-top: 10px;
-    }
-
-    .locked_reward {
-        opacity: 0.2;
-    }
-
-    .card-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    @media only screen and (max-width: 992px)  {
-
-        .row{
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 10px;
-            width: 100%;
+    <style>
+        .card {
+            margin-top: 10px;
         }
 
-    }
+        .locked_reward {
+            opacity: 0.2;
+        }
 
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-</style>
+        @media only screen and (max-width: 992px)  {
 
-<script>
+            .row{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 10px;
+                width: 100%;
+            }
 
+        }
+    </style>
 
-    var updateEmail = function(){
-        $.ajax({
-            type: "PUT",
-            url: "/api/account/update/email",
-            data: {
-                "newEmail": $("#newEmail").val()
-            },
-            success: function(data, textstatus, request){
-                var updated = request.getResponseHeader("updated");
-                if(updated){
-                    window.location = "/logout";
-                } else{
-                    var emailExists = request.getResponseHeader("emailExists");
-                    if(emailExists){
-                        $("#emailError").text("That email is already in use.");
+    <script>
+        var updateEmail = function(){
+            $.ajax({
+                type: "PUT",
+                url: "/api/account/update/email",
+                data: {
+                    "newEmail": $("#newEmail").val()
+                },
+                success: function(data, textstatus, request){
+                    var invalidFormat = request.getResponseHeader("invalidFormat");
+                    if(invalidFormat){
+                        $("#emailError").text("Email is in the wrong format");
                     } else {
-                        $("#emailError").text("There was an error, please try again");
+                        var updated = request.getResponseHeader("updated");
+                        if(updated){
+                            window.location = "/logout";
+                        } else{
+                            var emailExists = request.getResponseHeader("emailExists");
+                            if(emailExists){
+                                $("#emailError").text("That email is already in use.");
+                            } else {
+                                $("#emailError").text("There was an error, please try again");
+                            }
+                        }
                     }
+                }})
+        };
+
+        $(function() {
+            $.ajax({
+                type: "GET",
+                url: "/api/rewards/",
+                success: function(data){
+                    jQuery.each(data, function(i, val) {
+                        if(val == 1){
+                            $("#"+i).prop("checked", true);
+                        } else {
+                            $("#"+i+"_reward_image").addClass("locked_reward");
+                        }
+                    })
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
                 }
-
-
-
-            }})
-    };
-
-
-    $(function() {
-        $.ajax({
-            type: "GET",
-            url: "/api/rewards/",
-            success: function(data){
-                jQuery.each(data, function(i, val) {
-                    if(val == 1){
-                        $("#"+i).prop("checked", true);
-                    } else {
-                        $("#"+i+"_reward_image").addClass("locked_reward");
-                    }
-                })
-            },
-            error: function(){
-                alert("There was an error getting this data.");
+            });
+            if(window.location.hash == '#profile'){
+                alert("Going to profile");
+            } else if (window.location.hash == '#account'){
+                alert("Going to profile");
+            } else if (window.location.hash == '#security'){
+                alert("Going to profile");
             }
-        });
 
-        if(window.location.hash == '#profile'){
-            alert("Going to profile");
-        } else if (window.location.hash == '#account'){
-            alert("Going to profile");
-        } else if (window.location.hash == '#security'){
-            alert("Going to profile");
-        }
-
-
-
-
-        $.ajax({
-            type: "GET",
-            url: "/ratings/responses/amount",
-            success: function(data){
-                $("#numberScansRated").text(data);
-            },
-            error: function(){
-                alert("There was an error getting this data.");
-            }
-        });
-
-
-        $('[data-toggle="tooltip"]').tooltip();
-    })
-
-
-
-</script>
-
-</body>
+            $.ajax({
+                type: "GET",
+                url: "/ratings/responses/amount",
+                success: function(data){
+                    $("#numberScansRated").text(data);
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+    </body>
 </html>
