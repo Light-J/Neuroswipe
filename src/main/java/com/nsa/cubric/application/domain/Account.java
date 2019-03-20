@@ -5,6 +5,7 @@ public class Account {
     String email;
     String password;
     String role;
+    Boolean accountDisabled;
 
     public Account(){}
 
@@ -13,6 +14,14 @@ public class Account {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public Account(Long id, String email, String password, String role, boolean accountDisabled) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.accountDisabled = accountDisabled;
     }
 
     public Long getId() {
@@ -45,5 +54,13 @@ public class Account {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Boolean getAccountDisabled() {
+        return accountDisabled;
+    }
+
+    public void setAccountDisabled(Boolean accountDisabled) {
+        this.accountDisabled = accountDisabled;
     }
 }

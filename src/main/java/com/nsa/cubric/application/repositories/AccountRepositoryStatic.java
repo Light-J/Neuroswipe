@@ -28,7 +28,8 @@ public class AccountRepositoryStatic implements AccountRepository {
                 rs.getLong("account_id"),
                 rs.getString("email"),
                 rs.getString("password"),
-                rs.getString("role")
+                rs.getString("role"),
+                (Boolean) rs.getObject("account_disabled")
         );
 
         profileMapper = (rs, i) -> new ProfileDto(
@@ -45,7 +46,7 @@ public class AccountRepositoryStatic implements AccountRepository {
     public Account getAccountByEmail(String email){
         try{
             return jdbcTemplate.queryForObject(
-                    "select account_id, email, password, role from account WHERE email = ?",
+                    "select * from account WHERE email = ?",
                     new Object[]{email},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -58,7 +59,7 @@ public class AccountRepositoryStatic implements AccountRepository {
     public Account getAccountById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "select account_id, email, password, role from account WHERE account_id = ?",
+                    "select * from account WHERE account_id = ?",
                     new Object[]{id},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
