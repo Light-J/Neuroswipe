@@ -78,9 +78,18 @@
                     </div>
                     <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
                         <h2>Account</h2>
-                        <h4>change Email</h4>
-                        <h4>Disable account</h4>
-                        <h4>Delete account!</h4>
+
+
+                        <label id="oldEmail">Current email: </label>
+                        <div class="input-group">
+                            <input class="form-control" id="newEmail" placeholder="Username">
+                            <button class="btn btn-primary" onclick="updateEmail()">Update email</button>
+                            <p id="emailError"></p>
+                        </div>
+                        <br><br>
+
+                        <button class="btn btn-danger"><h6>Disable account</h6></button>
+                        <button class="btn btn-danger"><h6>Delete account!</h6></button>
                     </div>
                     <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
                         <h2>Security</h2>
@@ -154,6 +163,7 @@
             </div>
         </div>
     </div>
+</div>
 
 
 <style>
@@ -189,7 +199,30 @@
 <script>
 
 
+    var updateEmail = function(){
+        $.ajax({
+            type: "PUT",
+            url: "/api/account/update/email",
+            data: {
+                "newEmail": $("#newEmail").val()
+            },
+            success: function(data, textstatus, request){
+                var updated = request.getResponseHeader("updated");
+                if(updated){
+                    window.location = "/logout";
+                } else{
+                    var emailExists = request.getResponseHeader("emailExists");
+                    if(emailExists){
+                        $("#emailError").text("That email is already in use.");
+                    } else {
+                        $("#emailError").text("There was an error, please try again");
+                    }
+                }
 
+
+
+            }})
+    };
 
 
     $(function() {
@@ -235,6 +268,8 @@
 
         $('[data-toggle="tooltip"]').tooltip();
     })
+
+
 
 </script>
 

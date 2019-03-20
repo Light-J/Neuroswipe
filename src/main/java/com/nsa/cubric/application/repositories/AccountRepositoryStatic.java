@@ -146,4 +146,10 @@ public class AccountRepositoryStatic implements AccountRepository {
         return rowsAffected == 1;
     }
 
+    @Override
+    public boolean updateUserEmail(String oldEmail, String newEmail){
+        int rowsAffected = jdbcTemplate.update("UPDATE account SET email = ? WHERE email = ?", newEmail, oldEmail);
+        return rowsAffected == 1;
+    }
+
 }

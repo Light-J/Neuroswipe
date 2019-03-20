@@ -18,5 +18,7 @@ public interface AccountService {
     Boolean updateProfile(ProfileDto profileDto);
     List<Account> searchUsers(String searchTerm, int page);
     BindingResult checkPasswordStrength(AccountDto account, BindingResult result);
-
+    Boolean emailExist(String email);
+    Boolean updateEmail(String email);
+    Boolean checkEmailFormat(String email);
 }

@@ -22,6 +22,7 @@ public class AdminAPI {
 
     private AccountService accountService;
 
+    @Autowired
     public AdminAPI(AdminServices adminServices, AccountService accountService){
         this.adminServices = adminServices;
         this.accountService = accountService;

@@ -18,6 +18,7 @@ public interface AccountRepository {
     boolean updateProfile(ProfileDto profileDto);
     boolean removeUser(Long userId);
     boolean updateUserRole(Long userId, String role);
+    boolean updateUserEmail(String oldEmail, String newEmail);
 
 
 }
