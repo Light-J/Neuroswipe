@@ -26,9 +26,19 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="password">Password</label>
+                            <label class="control-label col-sm-2" for="registerPassword">Password</label>
                             <div class="col-sm-10">
-                                <input id="password" class="form-control" type="password" th:field="*{password}"/>
+                                <input id="registerPassword" class="form-control" type="password" th:field="*{password}"/>
+                                <meter max="4" id="password-strength-meter"></meter>
+                                <p id="password-strength-text"></p>
+                                <P>Please use a strong password so that you protect you account and data.</P>
+                                <p>Tips on creating a secure password</p>
+                                <ul>
+                                    <li>Use both uppercase and lowercase characters</li>
+                                    <li>Have your password longer than 8 characters</li>
+                                    <li>Try to include special character</li>
+                                    <li>Avoid using your password in multiple places</li>
+                                </ul>
                                 <p class="text-danger" th:each="error : ${#fields.errors('password')}"
                                     th:text="${error}">Validation error</p>
                             </div>
@@ -61,4 +71,39 @@
             </div>
         </div>
     </body>
+
+
+    <script>
+
+        $(function() {
+           $("#registerPassword").keyup(function (e) {
+
+               var score = zxcvbn($("#registerPassword").val()).score;
+
+
+               //Dont know why but jquery wont get this element
+               // $("password-strength-meter").value = score;
+               document.getElementById("password-strength-meter").value = score;
+
+
+               var strength = {
+                   0: "Poor",
+                   1: "Bad",
+                   2: "Weak",
+                   3: "Good",
+                   4: "Strong"
+               };
+
+               $("#password-strength-text").text("Your password strength: "+strength[score]);
+           })
+        });
+
+
+        var passwordStrength = function (score) {
+
+
+
+        }
+
+    </script>
 </html>
