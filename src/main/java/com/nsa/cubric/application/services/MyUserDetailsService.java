@@ -31,10 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
             System.out.println("EMAIL NOT FOUND");
             throw new UsernameNotFoundException(email);
         } else {
-            System.out.println("User = " + user);
-
             List<String> userRoles = Collections.singletonList(user.getRole());
-            System.out.println("userRoles = " + userRoles.toString());
             return new MyUserPrincipal(user, userRoles);
         }
     }
