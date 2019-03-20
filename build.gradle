@@ -38,4 +38,5 @@ dependencies {
     testCompile('org.springframework.security:spring-security-test')
     compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile('com.nulab-inc:zxcvbn:1.2.5')
 }
