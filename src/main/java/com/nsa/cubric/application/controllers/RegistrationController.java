@@ -4,6 +4,8 @@ import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.services.AccountService;
+import com.nulabinc.zxcvbn.Zxcvbn;
+import org.apache.tomcat.jni.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,8 @@ public class RegistrationController {
 
         Account registered = new Account();
         String originalPassword = accountDto.getPassword();
+
+        result = accountService.checkPasswordStrength(accountDto, result);
 
         if(!result.hasErrors()){
             LOG.debug("Creating user account");

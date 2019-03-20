@@ -5,10 +5,15 @@ import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.repositories.AccountRepository;
+import com.nulabinc.zxcvbn.Zxcvbn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.nsa.cubric.application.configurators.WebSecurityConfig.passwordEncoder;
@@ -57,6 +62,17 @@ public class AccountServiceStatic implements AccountService {
     @Override
     public List<Account> searchUsers(String searchTerm, int page){
         return accountRepository.searchUsers(searchTerm, (10 * (page-1)));
+    }
+
+    @Override
+    public BindingResult checkPasswordStrength(AccountDto account, BindingResult result){
+        Zxcvbn strengthChecker = new Zxcvbn();
+
+        if(strengthChecker.measure(account.getPassword()).getScore() < 2){
+            result.addError(new ObjectError("password", "Password is too weak"));
+        }
+
+        return result;
     }
 
     private boolean emailExist(String email) {
