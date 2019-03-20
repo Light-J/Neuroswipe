@@ -15,6 +15,8 @@ import org.springframework.validation.ObjectError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.nsa.cubric.application.configurators.WebSecurityConfig.passwordEncoder;
 
@@ -23,9 +25,12 @@ public class AccountServiceStatic implements AccountService {
 
     private AccountRepository accountRepository;
 
+    private LoggedUserService loggedUserService;
+
     @Autowired
-    public AccountServiceStatic(AccountRepository aRepo){
+    public AccountServiceStatic(AccountRepository aRepo, LoggedUserService loggedUserService){
         accountRepository = aRepo;
+        this.loggedUserService = loggedUserService;
     }
 
     @Transactional
@@ -75,7 +80,23 @@ public class AccountServiceStatic implements AccountService {
         return result;
     }
 
-    private boolean emailExist(String email) {
+    @Override
+    public Boolean updateEmail(String newEmail){
+        String oldEmail = loggedUserService.getUsername();
+        return accountRepository.updateUserEmail(oldEmail, newEmail);
+    }
+
+    @Override
+    public Boolean checkEmailFormat(String email){
+        final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@" +
+                "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+
+    public Boolean emailExist(String email) {
         return (accountRepository.getAccountByEmail(email) != null);
     }
 }
