@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`account` (
   `password` VARCHAR(90) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `role` VARCHAR(45) NOT NULL,
+  `account_disabled` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`account_id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB

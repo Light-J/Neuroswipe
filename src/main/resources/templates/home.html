@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/XSL/Transform">
     <head th:replace="fragments/head(title='Home')" >
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -48,23 +48,34 @@
 
             <br><br>
 
+
+
             <footer class="text-right">
                 <p>Copyright &copy; 2017 Swipe Right Brains | <a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
             </footer>
         </div>
         <script>
             $(document).ready(function() {
+                $("#loginError").hide();
                 var isshow = localStorage.getItem('isshow');
-                console.log(isshow);
                 if (isshow== null) {
                     localStorage.setItem('isshow', 1);
                     $('#privacyModal').modal('show');
                 }
 
                 if(window.location.hash == '#login'){
+                    $("#loginError").hide();
                     $("#login-modal").modal('show');
                 }
+
+                if(window.location.hash == '#loginerror'){
+                    $("#loginError").show();
+                    $("#login-modal").modal('show');
+
+                }
+
             });
+
         </script>
     </body>
 </html>

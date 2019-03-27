@@ -47,4 +47,31 @@ public class AccountAPI {
         }
         return new ResponseEntity(headers, HttpStatus.OK);
     }
+
+
+    @RequestMapping(value = "/disable", method = RequestMethod.POST)
+    public ResponseEntity disableAccount(){
+        HttpHeaders headers = new HttpHeaders();
+        boolean success = accountService.disableUser();
+        if(success){
+            headers.add("disabled", "true");
+        } else {
+            headers.add("disabled", "false");
+        }
+
+        return new ResponseEntity(headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public ResponseEntity deleteAccount(){
+        HttpHeaders headers = new HttpHeaders();
+        boolean success = accountService.deleteUser();
+        if(success){
+            headers.add("deleted", "true");
+        } else {
+            headers.add("deleted", "false");
+        }
+
+        return new ResponseEntity(headers, HttpStatus.OK);
+    }
 }

@@ -54,7 +54,12 @@
         </div>
 
         <table class="table" id="user_table">
-            <tr><th>User ID</th><th>User Email</th><th>User Role</th><th></th><th></th></tr>
+            <tr>
+                <th>User ID</th>
+                <th>User Email</th>
+                <th>User Role</th>
+                <th>User disabled</th>
+            </tr>
             <div id="user_table_body"></div>
         </table>
 
@@ -99,6 +104,7 @@
                 '<td class="col-md-2">'+users[i].id+'</td>' +
                 '<td class="col-md-3">'+users[i].email+'</td>' +
                 '<td class="col-md-4 role">'+users[i].role+'</td>' +
+                '<td class="col-md-4">'+users[i].accountDisabled+'</td>' +
                 '<td class="col-md-1"><button class="viewResponsesButton btn btn-info">View responses</button></td>' +
                 '<td class="col-md-1"><button class="removeResponsesButton btn btn-warning">Remove responses</button></td>' +
                 '<td class="col-md-1"><button class="removeUserButton btn btn-danger">Delete user</button></td>' +

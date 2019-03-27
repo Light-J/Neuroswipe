@@ -21,4 +21,6 @@ public interface AccountService {
     Boolean emailExist(String email);
     Boolean updateEmail(String email);
     Boolean checkEmailFormat(String email);
+    boolean disableUser();
+    boolean deleteUser();
 }
