@@ -153,4 +153,10 @@ public class AccountRepositoryStatic implements AccountRepository {
         return rowsAffected == 1;
     }
 
+    @Override
+    public boolean disableUser(Long userId){
+        int rowsAffected = jdbcTemplate.update("UPDATE account SET account_disabled = 1 WHERE account_id = (SELECT account_id FROM profile WHERE profile_id = ?))", userId);
+        return rowsAffected == 1;
+    }
+
 }

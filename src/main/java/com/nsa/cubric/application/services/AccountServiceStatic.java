@@ -95,6 +95,17 @@ public class AccountServiceStatic implements AccountService {
         return matcher.matches();
     }
 
+    @Override
+    public boolean disableUser(){
+        Long userId = loggedUserService.getUserProfileId();
+        return accountRepository.disableUser(userId);
+    }
+
+    @Override
+    public boolean deleteUser(){
+        Long userId = loggedUserService.getUserProfileId();
+        return accountRepository.removeUser(userId);
+    }
 
     public Boolean emailExist(String email) {
         return (accountRepository.getAccountByEmail(email) != null);

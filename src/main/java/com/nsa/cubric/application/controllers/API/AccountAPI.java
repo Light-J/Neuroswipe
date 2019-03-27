@@ -50,16 +50,28 @@ public class AccountAPI {
 
 
     @RequestMapping(value = "/disable", method = RequestMethod.POST)
-    public String disableAccount(){
+    public ResponseEntity disableAccount(){
+        HttpHeaders headers = new HttpHeaders();
+        boolean success = accountService.disableUser();
+        if(success){
+            headers.add("disabled", "true");
+        } else {
+            headers.add("disabled", "false");
+        }
 
-
-        return "redirect/logout";
+        return new ResponseEntity(headers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteAccount(){
+    public ResponseEntity deleteAccount(){
+        HttpHeaders headers = new HttpHeaders();
+        boolean success = accountService.deleteUser();
+        if(success){
+            headers.add("deleted", "true");
+        } else {
+            headers.add("deleted", "false");
+        }
 
-
-        return "redirect/logout";
+        return new ResponseEntity(headers, HttpStatus.OK);
     }
 }
