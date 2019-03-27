@@ -46,4 +46,14 @@ public class UserRatingServiceStatic implements UserRatingService {
 	public Integer getNumberOfRatingsForUser(){
 		return ratingRepository.getNumberOfRatingsForUser(loggedUserService.getUsername());
 	}
+
+	@Override
+	public Integer getNumberOfTimesUserRatedGood(){
+		return ratingRepository.getNumberOfTimesUserRatedForResponse(loggedUserService.getUserProfileId(), 1);
+	}
+
+	@Override
+	public Integer getNumberOfTimesUserRatedBad(){
+		return ratingRepository.getNumberOfTimesUserRatedForResponse(loggedUserService.getUserProfileId(), 0);
+	}
 }

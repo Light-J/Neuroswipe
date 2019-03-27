@@ -5,11 +5,9 @@ import com.nsa.cubric.application.domain.UserRating;
 import java.util.List;
 
 public interface UserRatingRepository {
-	public void storeUserRatings(UserRating rating);
-
-	public List<UserRating> getAll();
-
-	public List<UserRating> getUserRatings(String userEmail);
-
-	public Integer getNumberOfRatingsForUser(String userEmail);
+	void storeUserRatings(UserRating rating);
+	List<UserRating> getAll();
+	List<UserRating> getUserRatings(String userEmail);
+	Integer getNumberOfRatingsForUser(String userEmail);
+	Integer getNumberOfTimesUserRatedForResponse(Long userId, Integer response);
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/feedback")
+@RequestMapping("api/feedback")
 @RestController
 public class FeedbackAPI {
     private LoggedUserService loggedUserService;

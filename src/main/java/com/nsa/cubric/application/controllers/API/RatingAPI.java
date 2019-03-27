@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("ratings")
+@RequestMapping("api/ratings")
 @RestController
 public class RatingAPI {
 
@@ -54,10 +54,16 @@ public class RatingAPI {
 
 	@RequestMapping(value = "responses/amount", method = RequestMethod.GET)
 	public Integer getNumberOfRatingsForUser(){
-
-
 	return ratingService.getNumberOfRatingsForUser();
+	}
 
+	@RequestMapping(value = "responses/good/amount", method = RequestMethod.GET)
+	public Integer getNumberOfTimesUserRatedGood(){
+		return ratingService.getNumberOfTimesUserRatedGood();
+	}
 
+	@RequestMapping(value = "responses/bad/amount", method = RequestMethod.GET)
+	public Integer getNumberOfTimesUserRatedBad(){
+		return ratingService.getNumberOfTimesUserRatedBad();
 	}
 }

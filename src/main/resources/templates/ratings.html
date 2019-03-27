@@ -115,7 +115,7 @@
 
 <script>
     var loadNextImage = function(){
-        $.getJSON("/scans/next", function( imageData ) {
+        $.getJSON("/api/scans/next", function( imageData ) {
             $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
             $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
             $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
@@ -195,7 +195,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/ratings/save",
+            url: "/api/ratings/save",
             data: {
             	"scanId": $("#brainImage1").data("id"),
                 "goodBrain": goodBrain
@@ -217,7 +217,7 @@
     function getNumberOfUserResponses(){
         $.ajax({
             type: "GET",
-            url: "/ratings/responses/amount",
+            url: "/api/ratings/responses/amount",
             success: function(data){
                 updateProgressBar(data*2);
             },

@@ -9,8 +9,10 @@
                     <br><br>
                     <h2>We appreciate all the help we can get</h2>
                     <h3>You have made <span th:text="${numberOfRatings}"></span> contributions to brain science!</h3>
+                    <h3>You have rated <span id="good-responses"></span> good</h3>
+                    <h3>You have rated <span id="bad-responses"></span> bad</h3>
                     <br><br><br>
-                    <h5>These are the rewards you have achieved</h5>
+                    <h5 id="reward-head">These are the rewards you have achieved</h5>
                     <p style="display: none;" id="training">You completed the training</p>
                     <p style="display: none;" id="practice">You got 10 practice questions correct</p>
                     <p style="display: none;" id="sort25">You rated 25 scans for us</p>
@@ -31,20 +33,43 @@
             type: "GET",
             url: "/api/rewards/",
             success: function(data){
+                console.log(data);
+                var achieved = false;
                 jQuery.each(data, function(i, val) {
                     console.log(i);
                     if(val == 1){
                         $("#"+i).show();
+                        achieved = true;
                     } else {
                         $("#"+i).hide();
                         $("#"+i).addClass("ignorePDF");
                     }
                 })
+                if(!achieved){
+                    $("#reward-head").hide();
+                    $("#reward-head").addClass("ignorePDF");
+                }
             },
             error: function(){
                 alert("There was an error getting this data.");
             }
         });
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/api/ratings/responses/good/amount",
+        success: function (data) {
+            $("#good-responses").text(data);
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/api/ratings/responses/bad/amount",
+        success: function (data) {
+            $("#bad-responses").text(data);
+        }
     });
 
 
