@@ -47,4 +47,19 @@ public class AccountAPI {
         }
         return new ResponseEntity(headers, HttpStatus.OK);
     }
+
+
+    @RequestMapping(value = "/disable", method = RequestMethod.POST)
+    public String disableAccount(){
+
+
+        return "redirect/logout";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteAccount(){
+
+
+        return "redirect/logout";
+    }
 }
