@@ -39,4 +39,6 @@ dependencies {
     compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     testCompile('org.springframework.boot:spring-boot-starter-test')
     compile('com.nulab-inc:zxcvbn:1.2.5')
+    // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+    compile group: 'com.itextpdf', name: 'itextpdf', version: '5.0.6'
 }
