@@ -14,14 +14,35 @@
 
         </div>
 
+        <script id="table-entry" type="text/x-handlebars-template">
+            <tr data-email="'+users[i].email+'" data-id="'+users[i].id+'">
+
+            <tr data-email={{email}} data-id={{id}}>
+                <td>{{email}}</td>
+                <td>{{feedback}}</td>
+            </tr>
+        </script>
+
         <script>
             $(function() {
                 $.ajax({
                     url: '/feedback/',
                     type: 'GET',
                     success: function (feedbackArray) {
+
                         for (i = 0; i < feedbackArray.length; i++) {
-                            $("#feedbackTable").append("<tr><td>"+feedbackArray[i].userEmail+"</td><td>"+feedbackArray[i].feedback+"</td></tr>")
+                            var rowTemplateSource = $("#table-entry").html();
+                            var rowTemplate = Handlebars.compile(rowTemplateSource);
+
+                            var data = {
+                                "email" : feedbackArray[i].userEmail,
+                                "feedback" : feedbackArray[i].feedback
+                            };
+
+                            var compiledRow = rowTemplate(data);
+                            $("#feedbackTable").append(compiledRow);
+
+                            // $("#feedbackTable").append("<tr><td>"+feedbackArray[i].userEmail+"</td><td>"+feedbackArray[i].feedback+"</td></tr>")
                         }
                     },
                     error: function(data){

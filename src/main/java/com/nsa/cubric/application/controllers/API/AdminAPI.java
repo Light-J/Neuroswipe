@@ -64,4 +64,14 @@ public class AdminAPI {
         return adminServices.updateUserRole(userId, role.replace("role=", ""));
     }
 
+    @PostMapping(value = "/{userId}/disabled")
+    public boolean updateUserDisabledStatus(
+            @PathVariable(value = "userId") Long userId,
+            @RequestBody() String disabled){
+
+        return adminServices.updateUserDisabledStatus(userId, disabled.replace("disabled=", ""));
+    }
+
+
+
 }
