@@ -42,4 +42,19 @@ public class AdminServicesStatic implements AdminServices {
         return accountRepository.updateUserRole(userId, role);
     }
 
+    @Override
+    public boolean updateUserDisabledStatus(Long userId, String disabled){
+        Long defaultAdminId = accountRepository.getAccountByEmail("default@admin").getId();
+        if(defaultAdminId.equals(userId)){
+            return false;
+        }
+        boolean boolDisabled;
+        try{
+            boolDisabled = Boolean.parseBoolean(disabled);
+        } catch (Exception e) {
+            return false;
+        }
+        return accountRepository.updateUserDisabledStatus(userId, boolDisabled);
+    }
+
 }

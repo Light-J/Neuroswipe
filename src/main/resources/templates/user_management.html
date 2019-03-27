@@ -76,10 +76,10 @@
     <tr data-email="'+users[i].email+'" data-id="'+users[i].id+'">
 
     <tr data-email={{email}} data-id={{id}}>
-        <td>{{id}}</td>
-        <td>{{email}}</td>
-        <td>{{role}}</td>
-        <td>{{disabled}}</td>
+        <td class="col-md-2">{{id}}</td>
+        <td class="col-md-3">{{email}}</td>
+        <td class="col-md-4 role">{{role}}</td>
+        <td class="col-md-4 account-disabled">{{disabled}}</td>
         <td class="col-md-1"><button class="viewResponsesButton btn btn-info">View responses</button></td>
         <td class="col-md-1"><button class="removeResponsesButton btn btn-warning">Remove responses</button></td>
         <td class="col-md-1"><button class="removeUserButton btn btn-danger">Delete user</button></td>
@@ -121,7 +121,7 @@
                 "id" : users[i].id,
                 "email" : users[i].email,
                 "role" : users[i].role,
-                "disabled" : users[i].disabled
+                "disabled" : users[i].accountDisabled
             };
 
             var compiledRow = rowTemplate(data);
@@ -132,9 +132,7 @@
         $("table tr").each(function() {
             var id = $(this).data("id");
             var role = $(this).find(".role").text();
-
-            console.log(role);
-            console.log(id);
+            var disabled = $(this).find(".account-disabled").text();
 
             $(this).find(".role").html('<select class="form-control roleSelect" data-id="'+id+'">\n' +
                 '    <option value="user">User</option>\n' +
@@ -159,6 +157,42 @@
                         });
                 }
             });
+
+            $(this).find(".account-disabled").html('<select class="form-control disabled-select" data-id="'+id+'">\n' +
+                '    <option value="true">Disabled</option>\n' +
+                '    <option value="false">Enabled</option>\n' +
+                '</select>');
+
+            $(this).find(".account-disabled select").val(disabled);
+
+            $(this).find(".account-disabled select").on("change", function (e) {
+
+                var newDisabled = $(this).val();
+                if(newDisabled == "true" || newDisabled == "false"){
+                    $.post("/api/admin/"+id+"/disabled", {disabled : newDisabled})
+                        .done(function (data) {
+                            if(data){
+                                $.notify("Option has been saved", {});
+                            } else {
+                                $.notify("Error changing this option", {});
+                                getResults(1);
+                            }
+                        })
+                }
+
+                // if(newRole === "user" || newRole === "admin"){
+                //     $.post("/api/admin/"+id+"/role", { role: newRole })
+                //         .done(function( data ) {
+                //             if(data){
+                //                 $.notify("User saved", {});
+                //             } else {
+                //                 $.notify("Failed, cannot change role", {});
+                //                 getResults(1);
+                //             }
+                //         });
+                // }
+            });
+
         });
 
         $(".removeResponsesButton").click(function (e) {
