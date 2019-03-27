@@ -17,17 +17,10 @@ public class IntroductionController {
     private static final Logger LOG = LoggerFactory.getLogger(IntroductionController.class);
 
     //Handles get request for homepage
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping(path = "/")
     public String homepage() {
         LOG.debug("Handling GET request to /");
         return "home";
-    }
-
-    @RequestMapping(path = "/login", method = RequestMethod.GET)
-    public ModelAndView login(
-            @RequestParam(value = "error") String error){
-
-        return new ModelAndView("redirect:/#loginError");
     }
 
     @RequestMapping(path = "/about")
