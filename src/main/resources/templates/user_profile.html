@@ -136,7 +136,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3>Yor participation certificate</h3>
-                        <button class="btn btn-primary">Download now</button>
+                        <button class="btn btn-primary" onclick="window.open('/userprofile/certificate')">Download now</button>
                     </div>
                 </div>
             </div>
@@ -241,13 +241,6 @@
                     alert("There was an error getting this data.");
                 }
             });
-            if(window.location.hash == '#profile'){
-                alert("Going to profile");
-            } else if (window.location.hash == '#account'){
-                alert("Going to profile");
-            } else if (window.location.hash == '#security'){
-                alert("Going to profile");
-            }
 
             $.ajax({
                 type: "GET",

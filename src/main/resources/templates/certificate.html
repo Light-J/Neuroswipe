@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/head(title='Certificate')" ></head>
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Thank you <span th:text="${profile.getUsername()}"></span> for your participation</h2>
+                    <br><br>
+                    <h2>We appreciate all the help we can get</h2>
+                    <h3>You have made <span th:text="${numberOfRatings}"></span> contributions to brain science!</h3>
+                    <br><br><br>
+                    <h5>These are the rewards you have achieved</h5>
+                    <p style="display: none;" id="training">You completed the training</p>
+                    <p style="display: none;" id="practice">You got 10 practice questions correct</p>
+                    <p style="display: none;" id="sort25">You rated 25 scans for us</p>
+                    <p style="display: none;" id="sort50">You rated 50 scans for us</p>
+                    <P style="display: none;" id="feedback">You left some feedback</P>
+
+                </div>
+            </div>
+            <button class="btn btn-primary ignorePDF" onclick="getCertificate()">Save your certificate</button>
+        </div>
+    </body>
+
+<script>
+
+
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/rewards/",
+            success: function(data){
+                jQuery.each(data, function(i, val) {
+                    console.log(i);
+                    if(val == 1){
+                        $("#"+i).show();
+                    } else {
+                        $("#"+i).hide();
+                        $("#"+i).addClass("ignorePDF");
+                    }
+                })
+            },
+            error: function(){
+                alert("There was an error getting this data.");
+            }
+        });
+    });
+
+
+    var getCertificate = function () {
+        var doc = new jsPDF();
+
+        var elementHandler = {
+            '.ignorePDF': function (element, renderer) {
+                return true;
+            }
+        };
+
+        var source = window.document.getElementsByTagName("body")[0];
+        doc.fromHTML(
+            source,
+            15,
+            15,
+            {
+                'width': 180,'elementHandlers': elementHandler
+            });
+        doc.save("certificate.pdf");
+    }
+</script>
+</html>
+
