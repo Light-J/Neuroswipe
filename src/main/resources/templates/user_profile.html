@@ -7,6 +7,51 @@
 
 
     <div class="container">
+
+        <!-- Modal to confirm disabling a user -->
+        <div class="modal fade" id="disableUserModal" tabindex="-1" role="dialog" aria-labelledby="disableUserModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="disableUserModalLongTitle">Disable account</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        This means you will not be able to log into your account. It also means we will stop processing your data. This can be undone by contacting support.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="disableAccount()">Disable account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal to confirm deleting a user -->
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteUserModalLongTitle">Delete account</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Clicking the delete button will permanently delete your account. This will remove your rewards and profile as well.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="deleteAccount()">Delete account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="row ">
             <div class="col">
                 <div class="card text-center">
@@ -84,8 +129,8 @@
                                 <br><br>
 
                                 <h4>Account removal options</h4>
-                                <button class="btn btn-danger"><h6>Disable account</h6></button>
-                                <button class="btn btn-danger"><h6>Delete account!</h6></button>
+                                <button class="btn btn-danger" data-toggle="modal" data-target="#disableUserModal"><h6>Disable account</h6></button>
+                                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal"><h6>Delete account!</h6></button>
 
 
                             </div>
@@ -216,6 +261,37 @@
                         }
                     }
                 }})
+        };
+
+        var disableAccount = function(){
+            $.ajax({
+                type: "POST",
+                url: "/api/account/disable",
+                success: function (data, textstatus, request) {
+                    var success = request.getResponseHeader("disabled");
+
+                    if(success){
+                        window.location = "/logout";
+                    } else {
+                        $.notify("There was an error at this time", {});
+                    }
+                }
+            })
+        };
+
+        var deleteAccount = function(){
+            $.ajax({
+                type: "POST",
+                url: "/api/account/delete",
+                success: function (data, textstatus, request) {
+                    var success = request.getResponseHeader("deleted");
+                    if(success){
+                        window.location = "/logout";
+                    } else {
+                        $.notify("There was an error at this time", {});
+                    }
+                }
+            })
         };
 
         $(function() {
