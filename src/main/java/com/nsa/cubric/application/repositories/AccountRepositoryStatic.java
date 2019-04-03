@@ -28,7 +28,8 @@ public class AccountRepositoryStatic implements AccountRepository {
                 rs.getLong("account_id"),
                 rs.getString("email"),
                 rs.getString("password"),
-                rs.getString("role")
+                rs.getString("role"),
+                (Boolean) rs.getObject("account_disabled")
         );
 
         profileMapper = (rs, i) -> new ProfileDto(
@@ -45,7 +46,7 @@ public class AccountRepositoryStatic implements AccountRepository {
     public Account getAccountByEmail(String email){
         try{
             return jdbcTemplate.queryForObject(
-                    "select account_id, email, password, role from account WHERE email = ?",
+                    "select * from account WHERE email = ?",
                     new Object[]{email},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -58,7 +59,7 @@ public class AccountRepositoryStatic implements AccountRepository {
     public Account getAccountById(Long id){
         try{
             return jdbcTemplate.queryForObject(
-                    "select account_id, email, password, role from account WHERE account_id = ?",
+                    "select * from account WHERE account_id = ?",
                     new Object[]{id},accountMapper);
 
         }catch (EmptyResultDataAccessException e){
@@ -143,6 +144,24 @@ public class AccountRepositoryStatic implements AccountRepository {
     @Override
     public boolean updateUserRole(Long userId, String role){
         int rowsAffected = jdbcTemplate.update("UPDATE account SET role = ? WHERE account_id = ?", role, userId);
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public boolean updateUserEmail(String oldEmail, String newEmail){
+        int rowsAffected = jdbcTemplate.update("UPDATE account SET email = ? WHERE email = ?", newEmail, oldEmail);
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public boolean disableUser(Long userId){
+        int rowsAffected = jdbcTemplate.update("UPDATE account SET account_disabled = 1 WHERE account_id = (SELECT account_id FROM profile WHERE profile_id = ?)", userId);
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public boolean updateUserDisabledStatus(Long userId, boolean disabled){
+        int rowsAffected = jdbcTemplate.update("UPDATE account set account_disabled = ? WHERE account_id = ?;", disabled, userId);
         return rowsAffected == 1;
     }
 

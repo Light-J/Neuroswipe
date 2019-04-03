@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 public class RewardServicesStatic implements RewardService {
@@ -50,7 +52,6 @@ public class RewardServicesStatic implements RewardService {
             return false;
         }
     }
-
 
     /***
      * This method is used within this class to check to ensure that the reward is a valid reward.

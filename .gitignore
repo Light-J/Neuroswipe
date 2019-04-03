@@ -88,4 +88,7 @@ build/
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
+#Linux
+.directory
+
 /brain_images/

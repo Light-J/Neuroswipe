@@ -24,7 +24,7 @@ import com.nsa.cubric.application.domain.Scan;
 import java.util.*;
 import java.util.zip.ZipOutputStream;
 
-@RequestMapping("scans")
+@RequestMapping("api/scans")
 @RestController
 public class ScanAPI {
 

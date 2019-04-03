@@ -3,7 +3,10 @@ package com.nsa.cubric.application.controllers;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.services.AccountService;
 import com.nsa.cubric.application.services.LoggedUserService;
+import com.nsa.cubric.application.services.RewardService;
+import com.nsa.cubric.application.services.UserRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/userprofile")
@@ -22,11 +27,13 @@ public class ProfileController {
 
     private AccountService accountService;
     private LoggedUserService loggedUserService;
+    private UserRatingService userRatingService;
 
     @Autowired
-    public ProfileController(AccountService accountService, LoggedUserService loggedUserService){
+    public ProfileController(AccountService accountService, LoggedUserService loggedUserService, UserRatingService userRatingService){
         this.accountService = accountService;
         this.loggedUserService = loggedUserService;
+        this.userRatingService = userRatingService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -46,5 +53,14 @@ public class ProfileController {
 
         Boolean updateProfile = accountService.updateProfile(profileDto);
         return new ModelAndView("user_profile", "profile", profileDto);
+    }
+
+    @RequestMapping(value = "/certificate", method = RequestMethod.GET)
+    public ModelAndView certificateContent(Model model){
+        ProfileDto user = accountService.getProfileByEmail(loggedUserService.getUsername());
+        model.addAttribute("profile", user);
+        model.addAttribute("numberOfRatings", userRatingService.getNumberOfRatingsForUser());
+
+        return new ModelAndView("certificate", "model", model);
     }
 }

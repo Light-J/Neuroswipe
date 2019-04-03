@@ -58,7 +58,7 @@ public class RatingAPITest {
 	public void storeValidDecisionTest() throws Exception {
 		given(userRatingService.storeUserRatings(userRating)).willReturn(true);
 
-		this.mvc.perform(post("/ratings/save")
+		this.mvc.perform(post("/api/ratings/save")
 				.param("scanId", userRating.getScanId().toString())
 				.param("goodBrain", userRating.getResponse().toString())).andExpect(status().isOk());
 	}
@@ -67,7 +67,7 @@ public class RatingAPITest {
 	@WithMockUser(username = "user@test.com", authorities = { "user" })
 	public void storeInvalidDecisionTest() throws Exception {
 
-		this.mvc.perform(post("/ratings/save")
+		this.mvc.perform(post("/api/ratings/save")
 				.param("scanId", userRating.getScanId().toString())
 				.param("goodBrain", "goodBrain"))
 				.andExpect(status().is4xxClientError());

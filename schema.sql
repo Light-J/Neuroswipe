@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`account` (
   `password` VARCHAR(90) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `role` VARCHAR(45) NOT NULL,
+  `account_disabled` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`account_id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB
@@ -352,7 +353,7 @@ DEFINER=`root`@`localhost`
 TRIGGER `brainschema`.`Create User Profile`
 AFTER INSERT ON `brainschema`.`account`
 FOR EACH ROW
-INSERT INTO profile (display_name, account_id) VALUES (NEW.email, NEW.account_id)$$
+INSERT INTO profile (display_name, account_id) VALUES ('Anonymous', NEW.account_id)$$
 
 
 DELIMITER ;

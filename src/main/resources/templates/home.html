@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/XSL/Transform">
     <head th:replace="fragments/head(title='Home')" >
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -28,15 +28,27 @@
 
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
-
         <section>
             <h1>Can you help us analyse MRI brain scans and help cure brain diseases?</h1>
             <p>At <a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">Cardiff University Brain Research Imaging Centre (CUBRIC)</a> we map out the pathways in the brain using state-of-the-art diffusion Magnetic Resonance Imaging (dMRI).</p>
             <p>Its important we map these pathways correctly.</p>
             <p>We need your help to tell us which pathways are wrong!</p>
             <p>Anyone can take part and no scientific background is needed. Join us and together we can learn more about the brain and help scientists pioneer cures for diseases such as dementia and schizophrenia.</p>
-            </section>
 
+            <!-- TODO this value here will need to be changed to the url of the site -->
+            <div id="share">
+                <div class="fb-share-button"
+                     data-href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/"
+                     data-layout="button_count"
+                     data-size="large">
+                </div>
+                <a class="twitter-share-button"
+                   href="https://twitter.com/intent/tweet?text=Come%20and%20help%20contribtute%20to%20our%20citizen%20brain%20science%20app"
+                   data-size="large">
+                    Tweet</a>
+            </div>
+            <br>
+        </section>
             <div class="card" style="width: 100%;">
                 <div class="card-body">
                     <h5 class="card-title">Siemens Video</h5>
@@ -45,26 +57,33 @@
                 </div>
                 </div>
             </div>
-
             <br><br>
-
             <footer class="text-right">
-                <p>Copyright &copy; 2017 Swipe Right Brains | <a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
+                <p>Swipe Right Brains | <a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
             </footer>
         </div>
         <script>
             $(document).ready(function() {
+                $("#loginError").hide();
                 var isshow = localStorage.getItem('isshow');
-                console.log(isshow);
                 if (isshow== null) {
                     localStorage.setItem('isshow', 1);
                     $('#privacyModal').modal('show');
                 }
 
                 if(window.location.hash == '#login'){
+                    $("#loginError").hide();
                     $("#login-modal").modal('show');
                 }
+
+                if(window.location.hash == '#loginerror'){
+                    $("#loginError").show();
+                    $("#login-modal").modal('show');
+
+                }
+
             });
+
         </script>
     </body>
 </html>

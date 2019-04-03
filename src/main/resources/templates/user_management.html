@@ -54,7 +54,12 @@
         </div>
 
         <table class="table" id="user_table">
-            <tr><th>User ID</th><th>User Email</th><th>User Role</th><th></th><th></th></tr>
+            <tr>
+                <th>User ID</th>
+                <th>User Email</th>
+                <th>User Role</th>
+                <th>User disabled</th>
+            </tr>
             <div id="user_table_body"></div>
         </table>
 
@@ -67,6 +72,19 @@
         </nav>
     </div>
 </div>
+<script id="table-entry" type="text/x-handlebars-template">
+    <tr data-email="'+users[i].email+'" data-id="'+users[i].id+'">
+
+    <tr data-email={{email}} data-id={{id}}>
+        <td class="col-md-2">{{id}}</td>
+        <td class="col-md-3">{{email}}</td>
+        <td class="col-md-4 role">{{role}}</td>
+        <td class="col-md-4 account-disabled">{{disabled}}</td>
+        <td class="col-md-1"><button class="viewResponsesButton btn btn-info">View responses</button></td>
+        <td class="col-md-1"><button class="removeResponsesButton btn btn-warning">Remove responses</button></td>
+        <td class="col-md-1"><button class="removeUserButton btn btn-danger">Delete user</button></td>
+    </tr>
+</script>
 
 <script>
     function changePage(changeBy) {
@@ -94,23 +112,27 @@
 
     function updateTableContent(users) {
         for (var i = 0; i < users.length; i++) {
-            $("table").append('' +
-                '<tr data-email="'+users[i].email+'" data-id="'+users[i].id+'">' +
-                '<td class="col-md-2">'+users[i].id+'</td>' +
-                '<td class="col-md-3">'+users[i].email+'</td>' +
-                '<td class="col-md-4 role">'+users[i].role+'</td>' +
-                '<td class="col-md-1"><button class="viewResponsesButton btn btn-info">View responses</button></td>' +
-                '<td class="col-md-1"><button class="removeResponsesButton btn btn-warning">Remove responses</button></td>' +
-                '<td class="col-md-1"><button class="removeUserButton btn btn-danger">Delete user</button></td>' +
-                '</tr>');
+
+            var rowTemplateSource = $("#table-entry").html();
+
+            var rowTemplate = Handlebars.compile(rowTemplateSource);
+
+            var data = {
+                "id" : users[i].id,
+                "email" : users[i].email,
+                "role" : users[i].role,
+                "disabled" : users[i].accountDisabled
+            };
+
+            var compiledRow = rowTemplate(data);
+
+            $("table").append(compiledRow);
         }
 
         $("table tr").each(function() {
             var id = $(this).data("id");
             var role = $(this).find(".role").text();
-
-            console.log(role);
-            console.log(id);
+            var disabled = $(this).find(".account-disabled").text();
 
             $(this).find(".role").html('<select class="form-control roleSelect" data-id="'+id+'">\n' +
                 '    <option value="user">User</option>\n' +
@@ -135,6 +157,42 @@
                         });
                 }
             });
+
+            $(this).find(".account-disabled").html('<select class="form-control disabled-select" data-id="'+id+'">\n' +
+                '    <option value="true">Disabled</option>\n' +
+                '    <option value="false">Enabled</option>\n' +
+                '</select>');
+
+            $(this).find(".account-disabled select").val(disabled);
+
+            $(this).find(".account-disabled select").on("change", function (e) {
+
+                var newDisabled = $(this).val();
+                if(newDisabled == "true" || newDisabled == "false"){
+                    $.post("/api/admin/"+id+"/disabled", {disabled : newDisabled})
+                        .done(function (data) {
+                            if(data){
+                                $.notify("Option has been saved", {});
+                            } else {
+                                $.notify("Error changing this option", {});
+                                getResults(1);
+                            }
+                        })
+                }
+
+                // if(newRole === "user" || newRole === "admin"){
+                //     $.post("/api/admin/"+id+"/role", { role: newRole })
+                //         .done(function( data ) {
+                //             if(data){
+                //                 $.notify("User saved", {});
+                //             } else {
+                //                 $.notify("Failed, cannot change role", {});
+                //                 getResults(1);
+                //             }
+                //         });
+                // }
+            });
+
         });
 
         $(".removeResponsesButton").click(function (e) {

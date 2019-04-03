@@ -1,192 +1,319 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head(title='Profile')" ></head>
-<body>
+    <head th:replace="fragments/head(title='Profile')" ></head>
+    <body>
 
-<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+    <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 
-<div class="container">
-    <div class="row ">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h2>Your profile</h2>
-                    <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
-                        <input th:field="*{id}" name="id" hidden/>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="email">Name</label>
-                            <div class="col-sm-10">
-                                <input id="email" class="form-control" name="username" th:field="*{username}"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="postcode">Postcode</label>
-                            <div class="col-sm-10">
-                                <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
-                                <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
-                                   th:text="${error}">Validation error</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="age">Age</label>
-                            <div class="col-sm-10">
-                                <input id="age" class="form-control" name="age" th:field="*{age}"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="gender">Gender</label>
-                            <div class="col-sm-10">
-                                <select id="gender" class="form-control" name="gender" th:field="*{gender}">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                    <option value="prefer not to say">Prefer not to say</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </div>
-                    </form>
+    <div class="container">
+
+        <!-- Modal to confirm disabling a user -->
+        <div class="modal fade" id="disableUserModal" tabindex="-1" role="dialog" aria-labelledby="disableUserModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="disableUserModalLongTitle">Disable account</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        This means you will not be able to log into your account. It also means we will stop processing your data. This can only be undone by contacting us.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="disableAccount()">Disable account</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col card-container">
-            <div class="card">
-                <div class="card-body">
-                    <h1>Your progress</h1>
 
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="training" onclick="return false;">
-                        <label class="form-check-label" for="training">Completed Training</label>
+        <!-- Modal to confirm deleting a user -->
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteUserModalLongTitle">Delete account</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="practice" onclick="return false;">
-                        <label class="form-check-label" for="practice">10 Correct practice questions</label>
+                    <div class="modal-body">
+                        Clicking the delete button will permanently delete your account. This will remove your rewards and profile as well.
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="sort25" onclick="return false;">
-                        <label class="form-check-label" for="sort25">Sorted 25 scans</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="sort50" onclick="return false;">
-                        <label class="form-check-label" for="sort50">Sorted 50 scans</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="feedback" onclick="return false;">
-                        <label class="form-check-label" for="feedback">Left feedback</label>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="deleteAccount()">Delete account</button>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <h2>Statistics</h2>
-                    <h5>This is the number of scans you have helped rate</h5>
-                    <h5 style="text-align: center" id="numberScansRated"></h5>
-                    <p>Thank you for your contribution to swipe right for brain science</p>
+        </div>
+
+
+
+        <div class="row ">
+            <div class="col">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs nav-justified">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="privacy-tab" data-toggle="tab" href="#privacy" role="tab" aria-controls="privacy" aria-selected="false">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="accountTabContent">
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="card-body" id="profileForm">
+                                <h2>Profile details</h2>
+                                <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
+                                    <input th:field="*{id}" name="id" hidden/>
+                                    <fieldset class="form-group">
+                                        <label class="bmd-label-static" for="name">Display name</label>
+                                        <input id="name" class="form-control" name="username" th:field="*{username}"/>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label class="bmd-label-static" for="postcode">Outward code (this is the first section of your postcode)</label>
+                                        <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
+
+                                        <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
+                                           th:text="${error}">Validation error</p>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label class="bmd-label-static" for="age">Age</label>
+                                        <input id="age" class="form-control" name="age" th:field="*{age}"/>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label class="bmd-label-static" for="gender">Gender</label>
+                                        <select id="gender" class="form-control" name="gender" th:field="*{gender}">
+                                            <option value="null">Prefer not to say</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </fieldset>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade container text-center" id="account" role="tabpanel" aria-labelledby="account-tab">
+                            <div class="card-body">
+                                <h2>Account</h2>
+                                <fieldset class="form-control">
+                                    <label id="oldEmail" for="newEmail">Change your email using the form below</label>
+                                    <input class="form-control" id="newEmail" placeholder="New email">
+                                    <button class="btn btn-primary" onclick="updateEmail()">Update email</button>
+                                    <p id="emailError"></p>
+                                </fieldset>
+
+                                <p class="alert alert-danger">*When your email is succesfully changed we will be logged out and required to log back in using your new email</p>
+                                <br><br>
+
+                                <div>
+                                    <h4>Account removal options</h4>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#disableUserModal"><h6>Disable account</h6></button>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal"><h6>Delete account</h6></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="privacy" role="tabpanel" aria-labelledby="privacy-tab">
+                            <h2>Privacy</h2>
+                            <h4></h4>
+                            <h4>Be show in leaderboards</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="col card-container">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>Your progress</h1>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="training" onclick="return false;">
+                            <label class="form-check-label" for="training">Completed Training</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="practice" onclick="return false;">
+                            <label class="form-check-label" for="practice">10 Correct practice questions</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="sort25" onclick="return false;">
+                            <label class="form-check-label" for="sort25">Sorted 25 scans</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="sort50" onclick="return false;">
+                            <label class="form-check-label" for="sort50">Sorted 50 scans</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="feedback" onclick="return false;">
+                            <label class="form-check-label" for="feedback">Left feedback</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Statistics</h2>
+                        <h5>This is the number of scans you have helped rate</h5>
+                        <h5 style="text-align: center" id="numberScansRated">0</h5>
+                        <p>Thank you for your contribution to swipe right for brain science</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Yor participation certificate</h3>
+                        <button class="btn btn-primary" onclick="window.open('/userprofile/certificate')">Download now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+         <div class="col">
+             <div class="card">
+                 <div class="card-body">
+                     <h2>Your rewards</h2>
+                     <div class="row">
+                         <div class="col" data-toggle="tooltip" title="Rewarded for completing the training!" data-placement="bottom">
+                             <img class="locked_reward" src="/img/img7.png" width="100%" id="training_reward_image">
+                         </div>
+                         <div class="col" data-toggle="tooltip" title="Rewarded for completing 10 correct practice questions!" data-placement="bottom">
+                             <img class="locked_reward" src="/img/img18.jpg" width="100%" id="practice_reward_image">
+                         </div>
+                         <div class="col" data-toggle="tooltip" title="Rewarded for sorting 25 real images for us!" data-placement="bottom">
+                             <img class="locked_reward" src="/img/img20.png" width="100%" id="sort25_reward_image">
+                         </div>
+                         <div class="col" data-toggle="tooltip" title="Rewarded for sorting 50 real images for us!" data-placement="bottom">
+                             <img class="locked_reward" src="/img/img23.png" width="100%" id="sort50_reward_image">
+                         </div>
+                         <div class="col" data-toggle="tooltip" title="Rewarded for leaving feedback about swipe right for brain science!" data-placement="bottom">
+                             <img class="locked_reward" src="/img/img24.jpg" width="100%" id="feedback_reward_image">
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
         </div>
     </div>
+    </body>
+    <style>
 
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h2>Your rewards</h2>
-                    <div class="row">
-                        <div class="col" data-toggle="tooltip" title="Rewarded for completing the training!" data-placement="bottom">
-                            <img src="/img/img7.png" width="100%" id="training_reward_image">
-                        </div>
-                        <div class="col" data-toggle="tooltip" title="Rewarded for completing 10 correct practice questions!" data-placement="bottom">
-                            <img src="/img/img18.jpg" width="100%" id="practice_reward_image">
-                        </div>
-                        <div class="col" data-toggle="tooltip" title="Rewarded for sorting 25 real images for us!" data-placement="bottom">
-                            <img src="/img/img20.png" width="100%" id="sort25_reward_image">
-                        </div>
-                        <div class="col" data-toggle="tooltip" title="Rewarded for sorting 50 real images for us!" data-placement="bottom">
-                            <img src="/img/img23.png" width="100%" id="sort50_reward_image">
-                        </div>
-                        <div class="col" data-toggle="tooltip" title="Rewarded for leaving feedback about swipe right for brain science!" data-placement="bottom">
-                            <img src="/img/img24.jpg" width="100%" id="feedback_reward_image">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<style>
-    .card {
-        margin-top: 10px;
-    }
-
-    .locked_reward {
-        opacity: 0.2;
-    }
-
-    .card-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    @media only screen and (max-width: 992px)  {
-
-        .row{
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 10px;
-            width: 100%;
+        .card {
+            margin-top: 10px;
         }
 
-    }
+        .col{
+            display: grid;
+        }
 
+        @media only screen and (max-width: 992px)  {
 
-</style>
+            .row{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 10px;
+                width: 100%;
+            }
 
-<script>
+            .card {
+                height: auto;
+            }
 
-    $(function() {
-        $.ajax({
-            type: "GET",
-            url: "/api/rewards/",
-            success: function(data){
-                jQuery.each(data, function(i, val) {
-                    if(val == 1){
-                        $("#"+i).prop("checked", true);
+        }
+    </style>
+    <script>
+        var updateEmail = function(){
+            $.ajax({
+                type: "PUT",
+                url: "/api/account/update/email",
+                data: {
+                    "newEmail": $("#newEmail").val()
+                },
+                success: function(data, textstatus, request){
+                    var invalidFormat = request.getResponseHeader("invalidFormat");
+                    if(invalidFormat){
+                        $("#emailError").text("Email is in the wrong format");
                     } else {
-                        $("#"+i+"_reward_image").addClass("locked_reward");
+                        var updated = request.getResponseHeader("updated");
+                        if(updated){
+                            window.location = "/logout";
+                        } else{
+                            var emailExists = request.getResponseHeader("emailExists");
+                            if(emailExists){
+                                $("#emailError").text("That email is already in use.");
+                            } else {
+                                $("#emailError").text("There was an error, please try again");
+                            }
+                        }
                     }
-                })
-            },
-            error: function(){
-                alert("There was an error getting this data.");
-            }
-        });
+                }})
+        };
 
-        $.ajax({
-            type: "GET",
-            url: "/ratings/responses/amount",
-            success: function(data){
-                $("#numberScansRated").text(data);
-            },
-            error: function(){
-                alert("There was an error getting this data.");
-            }
-        });
+        var disableAccount = function(){
+            $.ajax({
+                type: "POST",
+                url: "/api/account/disable",
+                success: function (data, textstatus, request) {
+                    var success = request.getResponseHeader("disabled");
 
+                    if(success){
+                        window.location = "/logout";
+                    } else {
+                        $.notify("There was an error at this time", {});
+                    }
+                }
+            })
+        };
 
-        $('[data-toggle="tooltip"]').tooltip();
-    })
+        var deleteAccount = function(){
+            $.ajax({
+                type: "POST",
+                url: "/api/account/delete",
+                success: function (data, textstatus, request) {
+                    var success = request.getResponseHeader("deleted");
+                    if(success){
+                        window.location = "/logout";
+                    } else {
+                        $.notify("There was an error at this time", {});
+                    }
+                }
+            })
+        };
 
-</script>
+        $(function() {
+            $.ajax({
+                type: "GET",
+                url: "/api/rewards/",
+                success: function(data){
+                    jQuery.each(data, function(i, val) {
+                        if(val == 1){
+                            $("#"+i).prop("checked", true);
+                            $("#"+i+"_reward_image").removeClass("locked_reward");
+                        }
+                    })
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
 
-</body>
+            $.ajax({
+                type: "GET",
+                url: "/api/ratings/responses/amount",
+                success: function(data){
+                    $("#numberScansRated").text(data);
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
 </html>

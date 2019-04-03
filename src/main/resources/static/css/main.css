@@ -1,0 +1,145 @@
+
+#share{
+    display: flex;
+}
+
+
+[class*=" bmd-label"], [class^=bmd-label] {
+    color: rgb(0,0,0);
+}
+
+.certificate {
+    margin: 10px;
+    padding: 5px;
+    border:5px inset #2eb9ce;
+}
+
+.modal-open {
+    overflow: inherit;
+}
+
+.certificate-content {
+    text-align: center;
+    border:5px inset #2eb9ce;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+
+.certificate-footer {
+    padding: 10px;
+}
+
+.container-fluid{
+    padding-right:15px;
+    padding-left:15px;
+    margin-right:auto;
+    margin-left:auto;
+    width: 100%;
+}
+
+.image-order{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+meter {
+    margin: 0 auto 1em;
+    width: 100%;
+
+    /* Applicable only to Firefox */
+    background: none;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+meter::-webkit-meter-bar {
+    background: none;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+meter[value="1"]::-webkit-meter-optimum-value { background: red; }
+meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
+meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
+meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+
+
+/*For mobile*/
+@media screen and (min-width: 480px) and (max-width: 899px) {
+    p {
+        font-size: 2vw;
+    }
+
+    .card {
+        vertical-align: top;
+        height: 60vh;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .card .card-img-top {
+        height: 75%;
+    }
+    .card .card-body {
+        height: 25%;
+    }
+
+
+}
+
+
+/*For big mobile + tablets*/
+@media screen and (min-width: 900px) and (max-width: 1199px) {
+
+    .card .card-img-top {
+        height: 75%;
+    }
+    .card .card-body {
+        height: 25%;
+    }
+
+
+}
+
+/*For desktop*/
+@media screen and (min-width: 1200px){
+    .card{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .card .card-img-top {
+        /*height: 320px;*/
+    }
+    .card .card-body {
+        /*height: 200px;*/
+    }
+
+    .trainingCardImg{
+        height: 320px
+    }
+
+    .trainingCardBody{
+        height: 200px
+    }
+
+    p {
+        font-size: 1vw;
+    }
+
+    .container-fluid{
+        width: 80%;
+    }
+
+    .image-order{
+        display: inline;
+        margin-bottom: 10px;
+    }
+
+    #accountTabContent {
+        height: 500px;
+    }
+
+}
+

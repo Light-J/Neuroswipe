@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/head(title='Practice')" ></head>
-    <body class="overflow-hidden">
-
-
-
+    <style>
+        .overflow-hidden {
+            overflow-y: scroll;
+        }
+    </style>
+    <body>
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
-
         <div class="modal fade" id="wrongAlert" tabindex="-1" role="dialog" aria-labelledby="wrongAlert" aria-hidden="true">
             <div class="modal-dialog alert-danger" role="document">
                 <div class="modal-content">
@@ -30,7 +31,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="container">
             <div th:replace="fragments/information"></div>
@@ -155,7 +155,7 @@
             }
 
             var loadNextImage = function(){
-                $.getJSON("/scans/next/practice", function( imageData ) {
+                $.getJSON("/api/scans/next/practice", function( imageData ) {
                     $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
                     $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
                     $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
@@ -238,25 +238,5 @@
                 });
             });
         </script>
-        <style>
-            @media only screen and (max-width: 992px)  {
-                .image-order{
-                    display: block;
-                    margin-left: auto;
-                    margin-right: auto;
-                    margin-bottom: 10px;
-                }
-            }
-
-            .card {
-                margin: 10px;
-            }
-
-            .bottom_buttons {
-                margin: 10px;
-            }
-
-
-        </style>
     </body>
 </html>

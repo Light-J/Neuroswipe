@@ -4,6 +4,9 @@ import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 
 import java.util.List;
 
@@ -14,5 +17,10 @@ public interface AccountService {
     ProfileDto getProfileByEmail(String email);
     Boolean updateProfile(ProfileDto profileDto);
     List<Account> searchUsers(String searchTerm, int page);
-
+    BindingResult checkPasswordStrength(AccountDto account, BindingResult result);
+    Boolean emailExist(String email);
+    Boolean updateEmail(String email);
+    Boolean checkEmailFormat(String email);
+    boolean disableUser();
+    boolean deleteUser();
 }

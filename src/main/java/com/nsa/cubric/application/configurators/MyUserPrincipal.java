@@ -64,7 +64,11 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        if(user.getAccountDisabled()){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //
