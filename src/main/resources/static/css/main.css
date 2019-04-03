@@ -1,14 +1,21 @@
 
 .certificate {
     margin: 10px;
+    padding: 5px;
+    border:5px inset #2eb9ce;
+
 }
 
 .certificate-content {
     text-align: center;
-    border:5px solid #2eb9ce;
+    border:5px inset #2eb9ce;
     border-radius:5px;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
+}
+
+.certificate-footer {
+    padding: 10px;
 }
 
 .container-fluid{

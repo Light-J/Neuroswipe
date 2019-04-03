@@ -31,6 +31,22 @@
                         alert("There was an error getting this data.");
                     }
                 });
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if(dd<10) {
+                    dd = '0'+dd
+                }
+
+                if(mm<10) {
+                    mm = '0'+mm
+                }
+
+                today = dd + '/' + mm + '/' + yyyy;
+                $("#date").text(today);
             });
 
             $.ajax({
@@ -63,8 +79,8 @@
     </head>
     <body>
         <div class="container">
-            <div class="card" id="certificate">
-                <div class="card-body certificate-content">
+            <div class="card certificate" id="certificate">
+                <div class="card-body certificate-content container">
                     <h2>Swipe right for brain science certificate</h2>
                     <h2>Thank you <span th:text="${profile.getUsername()}"></span> for your participation</h2>
                     <br><br>
@@ -78,11 +94,14 @@
                     <p style="display: none;" id="sort25">You rated 25 scans for us</p>
                     <p style="display: none;" id="sort50">You rated 50 scans for us</p>
                     <P style="display: none;" id="feedback">You left some feedback</P>
+                    <div class="row certificate-footer">
+                        <div >Awarded on <span id="date">00/00/0000</span> </div>
+                        <div class="ml-auto">Swipe right for brain science | CUBRICS</div>
+                    </div>
                 </div>
             </div>
             <button class="btn btn-primary ignorePDF" onclick="getCertificate()">Save your certificate</button>
         </div>
-
     </body>
 </html>
 
