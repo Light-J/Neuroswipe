@@ -19,7 +19,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        This means you will not be able to log into your account. It also means we will stop processing your data. This can be undone by contacting support.
+                        This means you will not be able to log into your account. It also means we will stop processing your data. This can only be undone by contacting us.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -72,67 +72,55 @@
                     <div class="tab-content" id="accountTabContent">
                         <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="card-body" id="profileForm">
-                                <h2>Profile</h2>
+                                <h2>Profile details</h2>
                                 <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
                                     <input th:field="*{id}" name="id" hidden/>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4" for="email">Display name</label>
-                                        <div class="col-sm-10">
-                                            <input id="email" class="form-control" name="username" th:field="*{username}"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4" for="postcode">Postcode</label>
-                                        <div class="col-sm-10">
-                                            <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
-                                            <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
-                                               th:text="${error}">Validation error</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4" for="age">Age</label>
-                                        <div class="col-sm-10">
-                                            <input id="age" class="form-control" name="age" th:field="*{age}"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4" for="gender">Gender</label>
-                                        <div class="col-sm-10">
-                                            <select id="gender" class="form-control" name="gender" th:field="*{gender}">
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                                <option value="other">Other</option>
-                                                <option value="prefer not to say">Prefer not to say</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-md-10">
-                                            <button type="submit" class="btn btn-primary">Save</button>
-                                        </div>
-                                    </div>
+                                    <fieldset class="form-group">
+                                        <label class="bmd-label-static" for="name">Display name</label>
+                                        <input id="name" class="form-control" name="username" th:field="*{username}"/>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label class="bmd-label-static" for="postcode">Outward code (this is the first section of your postcode)</label>
+                                        <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
+
+                                        <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
+                                           th:text="${error}">Validation error</p>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label class="bmd-label-static" for="age">Age</label>
+                                        <input id="age" class="form-control" name="age" th:field="*{age}"/>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label class="bmd-label-static" for="gender">Gender</label>
+                                        <select id="gender" class="form-control" name="gender" th:field="*{gender}">
+                                            <option value="null">Prefer not to say</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </fieldset>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </form>
                             </div>
                         </div>
                         <div class="tab-pane fade container text-center" id="account" role="tabpanel" aria-labelledby="account-tab">
                             <div class="card-body">
                                 <h2>Account</h2>
-                                <div class="row">
+                                <fieldset class="form-control">
                                     <label id="oldEmail" for="newEmail">Change your email using the form below</label>
-                                </div>
-                                <div class="input-group">
                                     <input class="form-control" id="newEmail" placeholder="New email">
                                     <button class="btn btn-primary" onclick="updateEmail()">Update email</button>
-                                </div>
-                                <p id="emailError"></p>
+                                    <p id="emailError"></p>
+                                </fieldset>
+
                                 <p class="alert alert-danger">*When your email is succesfully changed we will be logged out and required to log back in using your new email</p>
                                 <br><br>
 
-                                <h4>Account removal options</h4>
-                                <button class="btn btn-danger" data-toggle="modal" data-target="#disableUserModal"><h6>Disable account</h6></button>
-                                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal"><h6>Delete account!</h6></button>
-
-
+                                <div>
+                                    <h4>Account removal options</h4>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#disableUserModal"><h6>Disable account</h6></button>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal"><h6>Delete account</h6></button>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="privacy" role="tabpanel" aria-labelledby="privacy-tab">
@@ -147,7 +135,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h1>Your progress</h1>
-
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="training" onclick="return false;">
                             <label class="form-check-label" for="training">Completed Training</label>
@@ -213,19 +200,15 @@
          </div>
         </div>
     </div>
+    </body>
     <style>
+
         .card {
             margin-top: 10px;
         }
 
-        .locked_reward {
-            opacity: 0.2;
-        }
-
-        .card-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+        .col{
+            display: grid;
         }
 
         @media only screen and (max-width: 992px)  {
@@ -238,9 +221,12 @@
                 width: 100%;
             }
 
+            .card {
+                height: auto;
+            }
+
         }
     </style>
-
     <script>
         var updateEmail = function(){
             $.ajax({
@@ -330,5 +316,4 @@
             $('[data-toggle="tooltip"]').tooltip();
         })
     </script>
-    </body>
 </html>

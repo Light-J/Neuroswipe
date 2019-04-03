@@ -61,6 +61,7 @@ public class AccountServiceStatic implements AccountService {
 
     @Override
     public Boolean updateProfile(ProfileDto profileDto) {
+        profileDto.setId(accountRepository.getProfileByEmail(loggedUserService.getUsername()).getId());
         return accountRepository.updateProfile(profileDto);
     }
 
