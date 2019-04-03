@@ -28,7 +28,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
         Account user = accountRepositoryStatic.getAccountByEmail(email);
         if (user == null) {
-            System.out.println("EMAIL NOT FOUND");
+            //System.out.println("EMAIL NOT FOUND");
             throw new UsernameNotFoundException(email);
         } else {
             List<String> userRoles = Collections.singletonList(user.getRole());
