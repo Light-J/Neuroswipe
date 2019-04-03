@@ -1,4 +1,9 @@
 
+
+[class*=" bmd-label"], [class^=bmd-label] {
+    color: rgb(0,0,0);
+}
+
 .certificate {
     margin: 10px;
     padding: 5px;

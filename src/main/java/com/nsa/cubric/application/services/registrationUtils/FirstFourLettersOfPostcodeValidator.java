@@ -19,7 +19,11 @@ public class FirstFourLettersOfPostcodeValidator implements ConstraintValidator<
             return (validatePostcode(postcode));
         }
 
-        private boolean validatePostcode(String postcode) {
+    private boolean validatePostcode(String postcode) {
+            //Postcode doesnt have to be provided so is valid if it is empty
+            if(postcode.equals("")){
+                return true;
+            }
             pattern = Pattern.compile(POSTCODE_PATTERN);
             matcher = pattern.matcher(postcode);
             return matcher.matches();

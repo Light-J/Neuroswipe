@@ -75,4 +75,11 @@ public class ProfileDto {
     public void setUserAccountId(long userAccountId) {
         this.userAccountId = userAccountId;
     }
+
+    public boolean hasPostcode(){
+        if(this.postcode == null){
+            return false;
+        }
+        return true;
+    }
 }
