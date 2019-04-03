@@ -1,4 +1,8 @@
 
+#share{
+    display: flex;
+}
+
 
 [class*=" bmd-label"], [class^=bmd-label] {
     color: rgb(0,0,0);
