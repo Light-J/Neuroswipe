@@ -136,7 +136,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h1>Your progress</h1>
-
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="training" onclick="return false;">
                             <label class="form-check-label" for="training">Completed Training</label>
@@ -202,20 +201,28 @@
          </div>
         </div>
     </div>
+    </body>
     <style>
+
         .card {
             margin-top: 10px;
         }
 
-        .locked_reward {
-            opacity: 0.2;
+        .col{
+            display: grid;
         }
 
-        .card-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+        /*<!--        .locked_reward {-->*/
+        /*<!--            opacity: 0.2;-->*/
+        /*<!--        }-->*/
+
+        /*<!--        .card-container {-->*/
+        /*<!--            display: flex;-->*/
+        /*<!--            flex-direction: column;-->*/
+        /*<!--            justify-content: space-between;-->*/
+        /*<!--        }-->*/
+
+
 
         @media only screen and (max-width: 992px)  {
 
@@ -227,9 +234,12 @@
                 width: 100%;
             }
 
+            .card {
+                height: auto;
+            }
+
         }
     </style>
-
     <script>
         var updateEmail = function(){
             $.ajax({
@@ -319,5 +329,4 @@
             $('[data-toggle="tooltip"]').tooltip();
         })
     </script>
-    </body>
 </html>
