@@ -19,7 +19,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        This means you will not be able to log into your account. It also means we will stop processing your data. This can be undone by contacting support.
+                        This means you will not be able to log into your account. It also means we will stop processing your data. This can only be undone by contacting us.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -106,20 +106,23 @@
                         <div class="tab-pane fade container text-center" id="account" role="tabpanel" aria-labelledby="account-tab">
                             <div class="card-body">
                                 <h2>Account</h2>
-                                <div class="row">
+                                <fieldset class="form-control">
                                     <label id="oldEmail" for="newEmail">Change your email using the form below</label>
-                                </div>
-                                <div class="input-group">
                                     <input class="form-control" id="newEmail" placeholder="New email">
                                     <button class="btn btn-primary" onclick="updateEmail()">Update email</button>
-                                </div>
-                                <p id="emailError"></p>
+                                    <p id="emailError"></p>
+                                </fieldset>
+
                                 <p class="alert alert-danger">*When your email is succesfully changed we will be logged out and required to log back in using your new email</p>
                                 <br><br>
 
-                                <h4>Account removal options</h4>
-                                <button class="btn btn-danger" data-toggle="modal" data-target="#disableUserModal"><h6>Disable account</h6></button>
-                                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal"><h6>Delete account!</h6></button>
+                                <div>
+                                    <h4>Account removal options</h4>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#disableUserModal"><h6>Disable account</h6></button>
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal"><h6>Delete account</h6></button>
+                                </div>
+
+
 
 
                             </div>
