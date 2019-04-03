@@ -2,6 +2,7 @@ package com.nsa.cubric.application.controllers;
 
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.dto.AccountDto;
+import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.services.AccountService;
 import com.nulabinc.zxcvbn.Zxcvbn;
@@ -43,6 +44,21 @@ public class RegistrationController {
         return "register_account";
     }
 
+    @RequestMapping(value = "/details", method = RequestMethod.GET)
+    public String showDetailsForm(Model model){
+        model.addAttribute("profile", new ProfileDto());
+        return "register_details";
+    }
+
+    @RequestMapping(value="/details", method = RequestMethod.POST)
+    public ModelAndView updateUserProfile(@ModelAttribute("profile") @Valid ProfileDto profileDto, BindingResult result){
+        if (result.hasErrors()){
+            return new ModelAndView("register_details", "profile", profileDto);
+        }
+        Boolean updateProfile = accountService.updateProfile(profileDto);
+        return new ModelAndView("user_profile", "profile", profileDto);
+    }
+
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public ModelAndView registerUserAccount(
             @ModelAttribute("account") @Valid AccountDto accountDto,
@@ -67,7 +83,7 @@ public class RegistrationController {
             return new ModelAndView("register_account", "account", accountDto);
         } else {
             authWithHttpServletRequest(request, accountDto.getEmail(), originalPassword);
-            return new ModelAndView("redirect:/", "account", accountDto);
+            return new ModelAndView("redirect:/registration/details", "account", accountDto);
         }
     }
 

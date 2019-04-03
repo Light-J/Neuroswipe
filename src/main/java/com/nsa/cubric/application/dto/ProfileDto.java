@@ -16,6 +16,8 @@ public class ProfileDto {
     Integer age;
     String gender;
 
+    //Create an empty DTO for initial registration
+    public ProfileDto(){}
 
     public ProfileDto(Long id, String username, String postcode, Long userAccountId, Integer age, String gender) {
         this.id = id;
