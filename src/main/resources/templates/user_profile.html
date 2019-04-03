@@ -129,7 +129,7 @@
                     <div class="card-body">
                         <h2>Statistics</h2>
                         <h5>This is the number of scans you have helped rate</h5>
-                        <h5 style="text-align: center" id="numberScansRated"></h5>
+                        <h5 style="text-align: center" id="numberScansRated">0</h5>
                         <p>Thank you for your contribution to swipe right for brain science</p>
                     </div>
                 </div>
@@ -148,19 +148,19 @@
                      <h2>Your rewards</h2>
                      <div class="row">
                          <div class="col" data-toggle="tooltip" title="Rewarded for completing the training!" data-placement="bottom">
-                             <img src="/img/img7.png" width="100%" id="training_reward_image">
+                             <img class="locked_reward" src="/img/img7.png" width="100%" id="training_reward_image">
                          </div>
                          <div class="col" data-toggle="tooltip" title="Rewarded for completing 10 correct practice questions!" data-placement="bottom">
-                             <img src="/img/img18.jpg" width="100%" id="practice_reward_image">
+                             <img class="locked_reward" src="/img/img18.jpg" width="100%" id="practice_reward_image">
                          </div>
                          <div class="col" data-toggle="tooltip" title="Rewarded for sorting 25 real images for us!" data-placement="bottom">
-                             <img src="/img/img20.png" width="100%" id="sort25_reward_image">
+                             <img class="locked_reward" src="/img/img20.png" width="100%" id="sort25_reward_image">
                          </div>
                          <div class="col" data-toggle="tooltip" title="Rewarded for sorting 50 real images for us!" data-placement="bottom">
-                             <img src="/img/img23.png" width="100%" id="sort50_reward_image">
+                             <img class="locked_reward" src="/img/img23.png" width="100%" id="sort50_reward_image">
                          </div>
                          <div class="col" data-toggle="tooltip" title="Rewarded for leaving feedback about swipe right for brain science!" data-placement="bottom">
-                             <img src="/img/img24.jpg" width="100%" id="feedback_reward_image">
+                             <img class="locked_reward" src="/img/img24.jpg" width="100%" id="feedback_reward_image">
                          </div>
                      </div>
                  </div>
@@ -232,8 +232,7 @@
                     jQuery.each(data, function(i, val) {
                         if(val == 1){
                             $("#"+i).prop("checked", true);
-                        } else {
-                            $("#"+i+"_reward_image").addClass("locked_reward");
+                            $("#"+i+"_reward_image").removeClass("locked_reward");
                         }
                     })
                 },

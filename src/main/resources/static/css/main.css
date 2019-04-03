@@ -1,5 +1,15 @@
 
+.certificate {
+    margin: 10px;
+}
 
+.certificate-content {
+    text-align: center;
+    border:5px solid #2eb9ce;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
 
 .container-fluid{
     padding-right:15px;

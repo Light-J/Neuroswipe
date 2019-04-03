@@ -15,6 +15,7 @@
                             console.log(i);
                             if(val == 1){
                                 $("#"+i).show();
+                                $("#reward-head").show();
                                 achieved = true;
                             } else {
                                 $("#"+i).hide();
@@ -57,41 +58,21 @@
                     var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                     window.location.href=image;
                 });
-
-                // var doc = new jsPDF();
-                //
-                // var elementHandler = {
-                //     '.ignorePDF': function (element, renderer) {
-                //         return true;
-                //     }
-                // };
-                //
-                // var source = window.document.getElementsByTagName("body")[0];
-                // doc.fromHTML(
-                //     source,
-                //     15,
-                //     15,
-                //     {
-                //         'width': 180,'elementHandlers': elementHandler
-                //     });
-                // doc.save("certificate.pdf");
             }
         </script>
     </head>
     <body>
         <div class="container">
             <div class="card" id="certificate">
-                <div class="card-body">
+                <div class="card-body certificate-content">
                     <h2>Swipe right for brain science certificate</h2>
                     <h2>Thank you <span th:text="${profile.getUsername()}"></span> for your participation</h2>
-                    <h2>We appreciate the help we get</h2>
                     <br><br>
-                    <h3>Your statistics</h3>
-                    <h4>You have made <span th:text="${numberOfRatings}"></span> contributions to brain science!</h4>
-                    <h4>You have rated <span id="good-responses"></span> good</h4>
-                    <h4>You have rated <span id="bad-responses"></span> bad</h4>
-                    <br><br><br>
-                    <h5 id="reward-head">These are the rewards you have achieved</h5>
+                    <h3>How you have helped</h3>
+                    <h4>You have made <span th:text="${numberOfRatings}"></span> ratings on our scans!</h4>
+                    <h4>You have rated <span id="good-responses">0</span> of them good and <span id="bad-responses">0</span> of them bad</h4>
+                    <br><br>
+                    <h5 id="reward-head" style="display: none;">These are the rewards you have achieved</h5>
                     <p style="display: none;" id="training">You completed the training</p>
                     <p style="display: none;" id="practice">You got 10 practice questions correct</p>
                     <p style="display: none;" id="sort25">You rated 25 scans for us</p>
@@ -103,11 +84,5 @@
         </div>
 
     </body>
-    <style>
-        card {
-            border-style: solid;
-            border-width: 5px;
-        }
-    </style>
 </html>
 
