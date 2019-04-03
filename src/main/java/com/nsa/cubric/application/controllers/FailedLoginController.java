@@ -12,5 +12,4 @@ public class FailedLoginController {
     public String homepage() {
         return "disabled";
     }
-
 }
