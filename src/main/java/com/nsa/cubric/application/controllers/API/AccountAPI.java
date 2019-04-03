@@ -76,4 +76,9 @@ public class AccountAPI {
 
         return new ResponseEntity(headers, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/reset/request", method = RequestMethod.POST)
+    public void resetRequest(){
+
+    }
 }

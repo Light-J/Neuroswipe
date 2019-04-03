@@ -6,10 +6,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/login")
-public class FailedLoginController {
+public class CustomLoginController {
 
     @RequestMapping(path = "/disabled", method = RequestMethod.GET)
-    public String homepage() {
+    public String disabledPage() {
         return "disabled";
+    }
+
+    @RequestMapping(path = "/reset", method = RequestMethod.GET)
+    public String resetPage(){
+        return "reset_request";
     }
 }
