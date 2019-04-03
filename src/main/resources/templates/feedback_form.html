@@ -28,7 +28,7 @@
                 $("#feedbackForm").submit(function (e) {
                     e.preventDefault();
                     $.ajax({
-                        url: '/feedback/',
+                        url: '/api/feedback/',
                         type: 'POST',
                         data: {"feedbackText": $("#feedbackText").val()},
                         success: function (data) {

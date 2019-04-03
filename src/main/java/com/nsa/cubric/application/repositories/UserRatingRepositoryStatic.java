@@ -51,4 +51,11 @@ public class UserRatingRepositoryStatic implements UserRatingRepository {
 		return jdbcTemplate.queryForObject("SELECT count(response) FROM rating WHERE profile_id = (SELECT profile_id FROM profile where account_id = (SELECT account_id FROM account WHERE email = ?));",
 				Integer.class, userEmail );
 	}
+
+	@Override
+	public Integer getNumberOfTimesUserRatedForResponse(Long userId, Integer response){
+		return jdbcTemplate.queryForObject("SELECT count(response) FROM rating WHERE profile_id=? AND response=?;",
+				Integer.class, userId, response);
+	}
+
 }

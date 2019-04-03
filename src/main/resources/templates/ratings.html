@@ -20,12 +20,9 @@
                 </button>
             </div>
             <div class="modal-body">
-
                 <h3 id="reward25_title">Temporal Lobe</h3>
                 <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal is involved in perceiving and remembering sounds. It also works in conjunction with the hippocampus to form conscious memories. The case of Henry Molaison 1926-2008: From an early age, Henry suffered from severe epilepsy. In an effort to control his seizures, he had an operation that removed a large part of his temporal lobe and hippocampus on both sides. Whilst the surgery cured him of his epilepsy, tragically he was left unable to form new memories.</p>
                 <img id="reward25_image" src="/img/reward_images/cerebellum.jpg" height="300">
-
-
             </div>
         </div>
     </div>
@@ -44,36 +41,19 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    <div class="container-fluid">
-
+                    <h3 id="reward_title">The parietal lobe</h3>
+                    <p id="reward_body">Well done – you just unlocked the parietal lobe! The parietal lobe contains an area of gray matter called the sensory strip. This processes sensory information such as pain, touch and temperature. The somatosensory homunculus: The sensory strip contains a map of our body. This is called the somatosensory homunculus and is shown below. When you touch something soft with your hand, this information will travel up to the sensory strip to where the hand is mapped on the homunculus. </p>
+                    <img id="reward_image" src="/img/reward_images/cerebellum.jpg" height="300">
+                    <h3>50 ratings complete</h3>
+                    <p>Thank you for the good work! Why don't you take a break and leave some feedback?</p>
+                    <div class="container">
+                    <form method="get" action="/userfeedback/">
                         <div class="row">
-
-                        <h3 id="reward_title">The parietal lobe</h3>
-                        <p id="reward_body">Well done – you just unlocked the parietal lobe! The parietal lobe contains an area of gray matter called the sensory strip. This processes sensory information such as pain, touch and temperature. The somatosensory homunculus: The sensory strip contains a map of our body. This is called the somatosensory homunculus and is shown below. When you touch something soft with your hand, this information will travel up to the sensory strip to where the hand is mapped on the homunculus. </p>
-                        <img id="reward_image" src="/img/reward_images/cerebellum.jpg" height="300">
-
+                            <button type="submit" class="btn btn-primary col-lg-6">Go to feedback</button>
+                            <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">I'll Do It Later</button>
                         </div>
-
-                        <div class="row">
-
-                            <h3>50 ratings complete</h3>
-                            <p>Thank you for the good work! Why don't you take a break and leave some feedback?</p>
-                            <div class="container">
-                                <form method="get" action="/userfeedback/">
-                                    <div class="row">
-                                        <button type="submit" class="btn btn-primary col-lg-6">Go to feedback</button>
-                                        <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">I'll Do It Later</button>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
-
+                    </form>
                     </div>
-
-                </div>
-                <div class="modal-footer">
                 </div>
             </div>
         </div>
@@ -115,7 +95,7 @@
 
 <script>
     var loadNextImage = function(){
-        $.getJSON("/scans/next", function( imageData ) {
+        $.getJSON("/api/scans/next", function( imageData ) {
             $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
             $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
             $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
@@ -195,7 +175,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/ratings/save",
+            url: "/api/ratings/save",
             data: {
             	"scanId": $("#brainImage1").data("id"),
                 "goodBrain": goodBrain
@@ -217,7 +197,7 @@
     function getNumberOfUserResponses(){
         $.ajax({
             type: "GET",
-            url: "/ratings/responses/amount",
+            url: "/api/ratings/responses/amount",
             success: function(data){
                 updateProgressBar(data*2);
             },
