@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class FirstFourLettersOfPostcodeValidator implements ConstraintValidator<FirstFourLettersPostCode, String> {
         private Pattern pattern;
         private Matcher matcher;
-        private static final String POSTCODE_PATTERN = "^([A-z]){2}?([0-9]{2})$|^()$";
+        private static final String POSTCODE_PATTERN = "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([AZa-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))))$";
 
         @Override
         public void initialize(FirstFourLettersPostCode constraintAnnotation) {
