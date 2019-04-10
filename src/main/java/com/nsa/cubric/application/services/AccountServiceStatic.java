@@ -1,5 +1,6 @@
 package com.nsa.cubric.application.services;
 
+import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
@@ -7,14 +8,19 @@ import com.nsa.cubric.application.services.registrationUtils.EmailExistsExceptio
 import com.nsa.cubric.application.repositories.AccountRepository;
 import com.nulabinc.zxcvbn.Zxcvbn;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,10 +33,13 @@ public class AccountServiceStatic implements AccountService {
 
     private LoggedUserService loggedUserService;
 
+    private JavaMailSender sender;
+
     @Autowired
-    public AccountServiceStatic(AccountRepository aRepo, LoggedUserService loggedUserService){
-        accountRepository = aRepo;
+    public AccountServiceStatic(AccountRepository aRepo, LoggedUserService loggedUserService, JavaMailSender sender){
+        this.accountRepository = aRepo;
         this.loggedUserService = loggedUserService;
+        this.sender = sender;
     }
 
     @Transactional
@@ -111,4 +120,26 @@ public class AccountServiceStatic implements AccountService {
     public Boolean emailExist(String email) {
         return (accountRepository.getAccountByEmail(email) != null);
     }
+
+    public PasswordResetToken createResetToken() {
+        PasswordResetToken token = new PasswordResetToken(loggedUserService.getUserAccountId());
+
+        return token;
+    }
+
+    public boolean sendResetToken(PasswordResetToken token){
+        try {
+            MimeMessage message = sender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+
+            helper.setTo("lightjp@cardiff.ac.uk");
+            helper.setText(token.getToken());
+            helper.setSubject("Password reset");
+            sender.send(message);
+        } catch (MessagingException e){
+            return false;
+        }
+        return true;
+    }
+
 }

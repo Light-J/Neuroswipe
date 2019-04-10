@@ -1,5 +1,6 @@
 package com.nsa.cubric.application.services;
 
+import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
@@ -23,4 +24,6 @@ public interface AccountService {
     Boolean checkEmailFormat(String email);
     boolean disableUser();
     boolean deleteUser();
+    PasswordResetToken createResetToken();
+    boolean sendResetToken(PasswordResetToken token);
 }
