@@ -1,14 +1,17 @@
 package com.nsa.cubric.application.services;
 
+import com.nsa.cubric.application.configurators.PasswordStrengthConfig;
 import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.repositories.AccountRepository;
-import com.nulabinc.zxcvbn.Strength;
+
 import com.nulabinc.zxcvbn.Zxcvbn;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,17 +21,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
-import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletContext;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,20 +35,21 @@ import static com.nsa.cubric.application.configurators.WebSecurityConfig.passwor
 @Service
 public class AccountServiceStatic implements AccountService {
 
+    private final PasswordStrengthConfig passwordStrengthConfig;
+
     private AccountRepository accountRepository;
 
     private LoggedUserService loggedUserService;
 
     private JavaMailSender sender;
 
-    @Autowired
-    private ServletContext servletContext;
 
     @Autowired
-    public AccountServiceStatic(AccountRepository aRepo, LoggedUserService loggedUserService, JavaMailSender sender){
+    public AccountServiceStatic(AccountRepository aRepo, LoggedUserService loggedUserService, JavaMailSender sender, PasswordStrengthConfig passwordStrengthConfig){
         this.accountRepository = aRepo;
         this.loggedUserService = loggedUserService;
         this.sender = sender;
+        this.passwordStrengthConfig = passwordStrengthConfig;
     }
 
     @Transactional
@@ -92,7 +91,7 @@ public class AccountServiceStatic implements AccountService {
 
     @Override
     public BindingResult checkPasswordStrengthOnAccount(AccountDto account, BindingResult result){
-        if(checkPasswordStrength(account.getPassword()) < 2){
+        if(checkPasswordStrength(account.getPassword()) < passwordStrengthConfig.getStrength()){
             result.addError(new ObjectError("password", "Password is too weak"));
         }
 
