@@ -61,6 +61,62 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`postcode` (
   PRIMARY KEY (`postcode_id`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `brainschema`.`ethnicity`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`ethnicity` ;
+
+CREATE TABLE IF NOT EXISTS `brainschema`.`ethnicity` (
+  `ethnicity_id` INT NOT NULL AUTO_INCREMENT,
+  `ethnicity` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`ethnicity_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `brainschema`.`religion`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`religion` ;
+
+CREATE TABLE IF NOT EXISTS `brainschema`.`religion` (
+  `religion_id` INT NOT NULL AUTO_INCREMENT,
+  `religion` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`religion_id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `brainschema`.`sexual_orientation`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`religion` ;
+
+CREATE TABLE IF NOT EXISTS `brainschema`.`religion` (
+  `sexual_orientation_id` INT NOT NULL AUTO_INCREMENT,
+  `sexual_orientation` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`sexual_orientation_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `brainschema`.`relationship`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`relationship` ;
+
+CREATE TABLE IF NOT EXISTS `brainschema`.`religion` (
+  `relationship_id` INT NOT NULL AUTO_INCREMENT,
+  `relationship` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`relationship_id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `brainschema`.`relationship`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `brainschema`.`caring_responsibilities` ;
+
+CREATE TABLE IF NOT EXISTS `brainschema`.`caring_responsibilities` (
+  `caring_responsibilities_id` INT NOT NULL AUTO_INCREMENT,
+  `caring_responsibilities` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`caring_responsibilities_id`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `brainschema`.`profile`
@@ -74,6 +130,14 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`profile` (
   `age` INT(11) NULL DEFAULT NULL,
   `account_id` INT(11) NOT NULL,
   `postcode_id` INT NULL,
+  `disability` TINYINT(1) NULL,
+  `ethnicity_id` INT(2) NULL,
+  `gender_identity_match` TINYINT(1) NULL,
+  `religion_id` INT(2) NULL,
+  `sex` TINYINT(1) NULL,
+  `sexual_orientation_id` INT(2) NULL,
+  `relationship_id` INT(2),
+  `caring_responsibilities_id` INT(2) NULL,
   PRIMARY KEY (`profile_id`),
   INDEX `fk_userprofile_useraccount1_idx` (`account_id` ASC),
   INDEX `fk_userprofile_postcode1_idx` (`postcode_id` ASC),
@@ -86,7 +150,32 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`profile` (
     FOREIGN KEY (`postcode_id`)
     REFERENCES `brainschema`.`postcode` (`postcode_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION),
+    CONSTRAINT `fk_userprofile_ethnicity1`
+    FOREIGN KEY (`ethnicity_id`)
+    REFERENCES `brainschema`.`ethnicity` (`ethnicity_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION),
+    CONSTRAINT `fk_userprofile_religion1`
+    FOREIGN KEY (`religion_id`)
+    REFERENCES `brainschema`.`religion` (`religion_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION),
+    CONSTRAINT `fk_userprofile_sexual_orientation1`
+    FOREIGN KEY (`sexual_orientation_id`)
+    REFERENCES `brainschema`.`sexual_orientation` (`sexual_orientation_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION),
+    CONSTRAINT `fk_userprofile_relationship1`
+    FOREIGN KEY (`relationship_id`)
+    REFERENCES `brainschema`.`relationship` (`relationship_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION),
+    CONSTRAINT `fk_userprofile_caring_responsibilities1`
+    FOREIGN KEY (`caring_responsibilities_id`)
+    REFERENCES `brainschema`.`caring_responsibilities` (`caring_responsibilities_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION),
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
