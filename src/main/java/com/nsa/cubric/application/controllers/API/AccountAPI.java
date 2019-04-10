@@ -31,11 +31,9 @@ import java.io.IOException;
 public class AccountAPI {
 
     private AccountService accountService;
-    private JavaMailSender sender;
 
     @Autowired
-    public AccountAPI(AccountService accountService, JavaMailSender sender){
-        this.sender = sender;
+    public AccountAPI(AccountService accountService){
         this.accountService = accountService;
     }
 
