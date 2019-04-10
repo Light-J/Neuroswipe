@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head(title='Reset Password')" ></head>
+<body>
+<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Recover your password using the form below</h1>
+        </div>
+        <div class="card-body">
+            <p>We will send you a link for you to reset your password</p>
+            <div class="alert alert-danger" role="alert" th:if="${message} == 'invalid'">
+                <p>The token you provided was not valid</p>
+            </div>
+            <form onsubmit="resetPass(); return false;">
+                <fieldset>
+                    <label for="email">Email</label>
+                    <input id="email" placeholder="Enter email here">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function resetPass() {
+        $.ajax({
+            url: '/api/account/reset/request',
+            type: 'POST',
+            data: {"email": $("#email").val()},
+            success: function () {
+                $.notify("Please check your email for details on how to reset your password");
+            },
+            error: function(){
+                $.notify("We had an issue sending the details to your email");
+            },
+            dataType: 'json'
+        });
+    }
+</script>
+</html>

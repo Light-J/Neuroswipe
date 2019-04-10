@@ -68,7 +68,7 @@ public class RegistrationController {
         Account registered = new Account();
         String originalPassword = accountDto.getPassword();
 
-        result = accountService.checkPasswordStrength(accountDto, result);
+        result = accountService.checkPasswordStrengthOnAccount(accountDto, result);
 
         if(!result.hasErrors()){
             LOG.debug("Creating user account");

@@ -51,4 +51,12 @@ public class LoggedUserService {
             return accountRepository.getProfileByEmail(getUsername()).getId();
         }
     }
+
+    public Long getUserAccountId(){
+        if(getUsername() == null){
+            return (long)-1;
+        } else {
+            return accountRepository.getAccountByEmail(getUsername()).getId();
+        }
+    }
 }

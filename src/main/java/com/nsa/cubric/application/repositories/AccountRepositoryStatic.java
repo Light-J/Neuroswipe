@@ -1,5 +1,6 @@
 package com.nsa.cubric.application.repositories;
 
+import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
@@ -11,6 +12,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -19,6 +23,7 @@ public class AccountRepositoryStatic implements AccountRepository {
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Account> accountMapper;
     private RowMapper<ProfileDto> profileMapper;
+    private RowMapper<PasswordResetToken> tokenMapper;
 
     @Autowired
     public AccountRepositoryStatic(JdbcTemplate aTemplate) {
@@ -39,6 +44,12 @@ public class AccountRepositoryStatic implements AccountRepository {
                 rs.getLong("account_id"),
                 rs.getInt("age"),
                 rs.getString("gender")
+        );
+
+        tokenMapper = (rs, i) -> new PasswordResetToken(
+                rs.getString("token"),
+                rs.getLong("account_id"),
+                rs.getDate("expiry_date")
         );
     }
 
@@ -165,4 +176,38 @@ public class AccountRepositoryStatic implements AccountRepository {
         return rowsAffected == 1;
     }
 
+    @Override
+    public void removeExistingResetTokenForUser(Long accountId){
+        jdbcTemplate.update("DELETE FROM password_reset_token WHERE account_id = ? ", accountId);
+    }
+
+    @Override
+    public boolean addResetToken(PasswordResetToken token){
+
+        System.out.println("Inserting new token with details " + token.toString());
+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        java.sql.Date date = new java.sql.Date(token.getExpiryDate().getTime());
+
+//        String datetime = sdf.format(token.getExpiryDate());
+        System.out.println("########" + date.toString());
+
+        int rowsAffected = jdbcTemplate.update("INSERT INTO password_reset_token (token, account_id, expiry_date) values (?, ?, ?)", token.getToken(), token.getAccountId(), sdf.format(token.getExpiryDate()));
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public PasswordResetToken getResetToken(String token){
+        try{
+            return jdbcTemplate.queryForObject("SELECT * FROM password_reset_token WHERE token = ?", new Object[]{token}, tokenMapper);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public void ChangeUserPassword(Long accountId, String password){
+        jdbcTemplate.update("UPDATE account set password = ? WHERE account_id = ?", password, accountId);
+    }
 }

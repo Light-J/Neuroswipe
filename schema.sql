@@ -165,6 +165,16 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`reward` (
 DEFAULT CHARACTER SET = utf8;
 
 
+DROP TABLE IF EXISTS `brainschema`.`password_reset_token`;
+
+CREATE TABLE IF NOT EXISTS `brainschema`.`password_reset_token` (
+    `token` varchar(44) NOT NULL,
+    `account_id` INT(11) NOT NULL,
+    `expiry_date` DATETIME NOT NULL,
+    constraint `user_to_token` FOREIGN KEY (`account_id`) REFERENCES `brainschema`.`account` (`account_id`) ON DELETE CASCADE,
+    PRIMARY KEY (`token`)
+) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 USE `brainschema` ;
