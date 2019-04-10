@@ -1,5 +1,6 @@
 package com.nsa.cubric.application.repositories;
 
+import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
@@ -19,6 +20,7 @@ public class AccountRepositoryStatic implements AccountRepository {
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Account> accountMapper;
     private RowMapper<ProfileDto> profileMapper;
+    private RowMapper<PasswordResetToken> tokenMapper;
 
     @Autowired
     public AccountRepositoryStatic(JdbcTemplate aTemplate) {
@@ -39,6 +41,12 @@ public class AccountRepositoryStatic implements AccountRepository {
                 rs.getLong("account_id"),
                 rs.getInt("age"),
                 rs.getString("gender")
+        );
+
+        tokenMapper = (rs, i) -> new PasswordResetToken(
+                rs.getString("token"),
+                rs.getLong("account_id"),
+                rs.getDate("expiry_date")
         );
     }
 
@@ -165,4 +173,19 @@ public class AccountRepositoryStatic implements AccountRepository {
         return rowsAffected == 1;
     }
 
+    @Override
+    public void removeExistingResetTokenForUser(Long accountId){
+        jdbcTemplate.update("DELETE FROM password_reset_token WHERE account_id = ? ", accountId);
+    }
+
+    @Override
+    public boolean addResetToken(PasswordResetToken token){
+        int rowsAffected = jdbcTemplate.update("INSERT INTO password_reset_token (token, account_id, expiry_date) VALUES ?, ?, ?", token.getToken(), token.getAccountId(), token.getExpiryDate());
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public PasswordResetToken getResetToken(Long accountId){
+        return jdbcTemplate.queryForObject("SELECT * FROM password_reset_token WHERE acount_id = ?", new Object[]{accountId}, tokenMapper);
+    }
 }

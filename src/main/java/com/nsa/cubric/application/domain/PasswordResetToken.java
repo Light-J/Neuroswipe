@@ -30,6 +30,14 @@ public class PasswordResetToken {
         return token;
     }
 
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
     public boolean isValid(){
         Date currentDate = new Date();
 

@@ -1,5 +1,6 @@
 package com.nsa.cubric.application.repositories;
 
+import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
@@ -21,6 +22,8 @@ public interface AccountRepository {
     boolean updateUserEmail(String oldEmail, String newEmail);
     boolean disableUser(Long userId);
     boolean updateUserDisabledStatus(Long userId, boolean disabled);
-
+    void removeExistingResetTokenForUser(Long accountId);
+    boolean addResetToken(PasswordResetToken token);
+    PasswordResetToken getResetToken(Long accountId);
 
 }
