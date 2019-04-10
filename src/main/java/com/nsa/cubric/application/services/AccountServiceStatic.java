@@ -183,7 +183,5 @@ public class AccountServiceStatic implements AccountService {
 
     public void changeUserPassword(String password, Long accountId){
         accountRepository.ChangeUserPassword(accountId, passwordEncoder().encode(password));
-
     }
-
 }
