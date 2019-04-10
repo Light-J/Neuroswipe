@@ -21,8 +21,14 @@
             </div>
             <div class="modal-body">
                 <h3 id="reward25_title">Temporal Lobe</h3>
-                <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal is involved in perceiving and remembering sounds. It also works in conjunction with the hippocampus to form conscious memories. The case of Henry Molaison 1926-2008: From an early age, Henry suffered from severe epilepsy. In an effort to control his seizures, he had an operation that removed a large part of his temporal lobe and hippocampus on both sides. Whilst the surgery cured him of his epilepsy, tragically he was left unable to form new memories.</p>
-                <img id="reward25_image" src="/img/reward_images/cerebellum.jpg" height="300">
+                <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal lobe is involved in perceiving and remembering sounds. It also works in with other areas of the brain to form conscious memories.</p>
+                <div class="card" style="width: 100%">
+                    <div class="card-body text-center">
+                        <img id="reward25_image" src="/img/reward_images/cerebellum.jpg" height="300">
+                        <h5 class="card-title" id="img_text" style="margin-top: 2rem">Temporal Lobe</h5>
+                    </div>
+                </div>
+                <button id="reward25_btn" class="btn btn-primary btn-block" onclick="change25Modal()">Next</button>
             </div>
         </div>
     </div>
@@ -256,6 +262,15 @@
             e.preventDefault(); // prevent the default action (scroll / move caret)
         });
     });
+
+    function change25Modal() {
+        document.getElementById("rewardModalLongTitle").innerHTML = "Case Study"
+        document.getElementById("reward25_title").innerHTML = "The case of Henry Molaison 1926-2008:";
+        document.getElementById("reward25_body").innerHTML = "From an early age, Molaison suffered from severe epilepsy. In an effort to control his seizures, he underwent a major operation that removed a large part of his temporal lobe and hippocampus. Whilst the surgery cured Molaison of his epilepsy he was tragically left unable to form new memories.";
+        document.getElementById("reward25_image").src = "/img/reward_case_2.jpg";
+        document.getElementById("img_text").innerHTML = "Henry Molaison"
+        document.getElementById("reward25_btn").style.display = "none";
+    }
 
 </script>
 <style>
