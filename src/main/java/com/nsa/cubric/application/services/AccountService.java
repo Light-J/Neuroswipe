@@ -27,4 +27,6 @@ public interface AccountService {
     PasswordResetToken createResetToken(String email);
     boolean sendResetToken(PasswordResetToken token);
     void removeExistingTokens(String email);
+    String validatePasswordResetToken(Long id, String token);
+    void changeUserPassword(String password);
 }

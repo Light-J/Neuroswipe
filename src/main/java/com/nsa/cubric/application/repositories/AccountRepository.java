@@ -24,6 +24,7 @@ public interface AccountRepository {
     boolean updateUserDisabledStatus(Long userId, boolean disabled);
     void removeExistingResetTokenForUser(Long accountId);
     boolean addResetToken(PasswordResetToken token);
-    PasswordResetToken getResetToken(Long accountId);
+    PasswordResetToken getResetToken(String token);
+    void ChangeUserPassword(Long accountId, String password);
 
 }

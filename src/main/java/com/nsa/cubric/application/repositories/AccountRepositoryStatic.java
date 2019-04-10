@@ -198,7 +198,16 @@ public class AccountRepositoryStatic implements AccountRepository {
     }
 
     @Override
-    public PasswordResetToken getResetToken(Long accountId){
-        return jdbcTemplate.queryForObject("SELECT * FROM password_reset_token WHERE acount_id = ?", new Object[]{accountId}, tokenMapper);
+    public PasswordResetToken getResetToken(String token){
+        try{
+            return jdbcTemplate.queryForObject("SELECT * FROM password_reset_token WHERE token = ?", new Object[]{token}, tokenMapper);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public void ChangeUserPassword(Long accountId, String password){
+        jdbcTemplate.update("UPDATE account set password = ? WHERE account_id = ?", password, accountId);
     }
 }

@@ -10,6 +10,10 @@ import com.nulabinc.zxcvbn.Zxcvbn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,7 @@ import org.springframework.validation.ObjectError;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -153,5 +158,24 @@ public class AccountServiceStatic implements AccountService {
     }
 
 
+    public String validatePasswordResetToken(Long accountId, String token){
+        PasswordResetToken passwordResetToken = accountRepository.getResetToken(token);
+        if(passwordResetToken == null || !passwordResetToken.getAccountId().equals(accountId) || !passwordResetToken.isValid()){
+            return "invalid";
+        }
+
+        Account user = accountRepository.getAccountById(accountId);
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                user, null, Arrays.asList(
+                new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        return null;
+    }
+
+    public void changeUserPassword(String password){
+        Long accountId = loggedUserService.getUserAccountId();
+
+
+    }
 
 }
