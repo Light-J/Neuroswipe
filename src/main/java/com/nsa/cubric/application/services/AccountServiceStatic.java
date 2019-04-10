@@ -149,12 +149,8 @@ public class AccountServiceStatic implements AccountService {
 
             MimeMessage message = sender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
-
-            String context = servletContext.getContextPath().toString();
-
-
-            helper.setTo("lightjp@cardiff.ac.uk");
-            helper.setText("You have requested a password reset. Please follow this link to reset your password: " + contextPath + "/login/changePassword?token="+ token.getToken() + "&id=" + token.getAccountId().toString());
+            helper.setTo(getAccountById(token.getAccountId()).getEmail());
+            helper.setText("You have requested a password reset for your account. Please follow this link to reset your password: " + contextPath + "/login/changePassword?token="+ token.getToken() + "&id=" + token.getAccountId().toString());
             helper.setSubject("Password reset");
             sender.send(message);
 
