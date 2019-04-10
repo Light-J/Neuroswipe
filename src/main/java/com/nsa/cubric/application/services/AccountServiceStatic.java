@@ -6,6 +6,7 @@ import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.repositories.AccountRepository;
+import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -85,14 +86,17 @@ public class AccountServiceStatic implements AccountService {
     }
 
     @Override
-    public BindingResult checkPasswordStrength(AccountDto account, BindingResult result){
-        Zxcvbn strengthChecker = new Zxcvbn();
-
-        if(strengthChecker.measure(account.getPassword()).getScore() < 2){
+    public BindingResult checkPasswordStrengthOnAccount(AccountDto account, BindingResult result){
+        if(checkPasswordStrength(account.getPassword()) < 2){
             result.addError(new ObjectError("password", "Password is too weak"));
         }
 
         return result;
+    }
+
+    public int checkPasswordStrength(String password){
+        Zxcvbn strengthChecker = new Zxcvbn();
+        return strengthChecker.measure(password).getScore();
     }
 
     @Override
@@ -172,9 +176,8 @@ public class AccountServiceStatic implements AccountService {
         return null;
     }
 
-    public void changeUserPassword(String password){
-        Long accountId = loggedUserService.getUserAccountId();
-
+    public void changeUserPassword(String password, Long accountId){
+        accountRepository.ChangeUserPassword(accountId, passwordEncoder().encode(password));
 
     }
 

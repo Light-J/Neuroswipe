@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -99,6 +100,20 @@ public class AccountAPI {
         }
 
         return true;
+    }
+
+    @RequestMapping(value = "/update/password", method = RequestMethod.POST)
+    public boolean updatePassword(@RequestParam("password") String password,
+                                  @RequestParam("matchingpassword") String matchingPassword){
+
+        if(password.equals(matchingPassword) && accountService.checkPasswordStrength(password) > 1){
+            Account user = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            accountService.changeUserPassword(password, user.getId());
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

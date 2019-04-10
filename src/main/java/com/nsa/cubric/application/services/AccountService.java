@@ -18,7 +18,8 @@ public interface AccountService {
     ProfileDto getProfileByEmail(String email);
     Boolean updateProfile(ProfileDto profileDto);
     List<Account> searchUsers(String searchTerm, int page);
-    BindingResult checkPasswordStrength(AccountDto account, BindingResult result);
+    BindingResult checkPasswordStrengthOnAccount(AccountDto account, BindingResult result);
+    int checkPasswordStrength(String password);
     Boolean emailExist(String email);
     Boolean updateEmail(String email);
     Boolean checkEmailFormat(String email);
@@ -28,5 +29,5 @@ public interface AccountService {
     boolean sendResetToken(PasswordResetToken token);
     void removeExistingTokens(String email);
     String validatePasswordResetToken(Long id, String token);
-    void changeUserPassword(String password);
+    void changeUserPassword(String password, Long accountId);
 }

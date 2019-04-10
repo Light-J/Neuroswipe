@@ -5,7 +5,6 @@ import com.nsa.cubric.application.services.registrationUtils.PasswordMatches;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@PasswordMatches()
 public class ChangePasswordDto {
 
     @NotNull
