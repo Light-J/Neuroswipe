@@ -8,11 +8,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
@@ -21,13 +24,13 @@ import java.io.IOException;
 public class AccountAPI {
 
     private AccountService accountService;
+    private JavaMailSender sender;
 
     @Autowired
-    public AccountAPI(AccountService accountService){
+    public AccountAPI(AccountService accountService, JavaMailSender sender){
+        this.sender = sender;
         this.accountService = accountService;
     }
-
-
 
     @RequestMapping(value = "/update/email", method = RequestMethod.PUT)
     public ResponseEntity updateEmail(@RequestParam("newEmail") String newEmail){
@@ -79,6 +82,23 @@ public class AccountAPI {
 
     @RequestMapping(value = "/reset/request", method = RequestMethod.POST)
     public void resetRequest(){
-
+        try{
+            sendEmail();
+            System.out.println("Email has been sent");
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Failed to send email");
+        }
     }
+
+    private void sendEmail() throws Exception{
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setTo("lightjp@cardiff.ac.uk");
+        helper.setText("How are you?");
+        helper.setSubject("Hi");
+        sender.send(message);
+    }
+
 }
