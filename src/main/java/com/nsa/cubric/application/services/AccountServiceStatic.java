@@ -20,9 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
+import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +42,9 @@ public class AccountServiceStatic implements AccountService {
     private LoggedUserService loggedUserService;
 
     private JavaMailSender sender;
+
+    @Autowired
+    private ServletContext servletContext;
 
     @Autowired
     public AccountServiceStatic(AccountRepository aRepo, LoggedUserService loggedUserService, JavaMailSender sender){
@@ -139,13 +144,17 @@ public class AccountServiceStatic implements AccountService {
     }
 
     @Override
-    public boolean sendResetToken(PasswordResetToken token){
+    public boolean sendResetToken(PasswordResetToken token, String contextPath){
         try {
+
             MimeMessage message = sender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
 
+            String context = servletContext.getContextPath().toString();
+
+
             helper.setTo("lightjp@cardiff.ac.uk");
-            helper.setText(token.getToken());
+            helper.setText("You have requested a password reset. Please follow this link to reset your password: " + contextPath + "/login/changePassword?token="+ token.getToken() + "&id=" + token.getAccountId().toString());
             helper.setSubject("Password reset");
             sender.send(message);
 

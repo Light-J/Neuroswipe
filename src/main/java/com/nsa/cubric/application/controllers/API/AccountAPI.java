@@ -4,6 +4,7 @@ package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.services.AccountService;
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
@@ -85,7 +88,7 @@ public class AccountAPI {
     }
 
     @RequestMapping(value = "/reset/request", method = RequestMethod.POST)
-    public boolean resetRequest(@RequestParam String email){
+    public boolean resetRequest(@RequestParam String email, HttpServletRequest request){
 
         Account user = accountService.getAccountByEmail(email);
         try{
@@ -94,7 +97,7 @@ public class AccountAPI {
             }
             accountService.removeExistingTokens(email);
             PasswordResetToken token = accountService.createResetToken(email);
-            accountService.sendResetToken(token);
+            accountService.sendResetToken(token, request.getHeader("host"));
         } catch (Exception e){
             return false;
         }
