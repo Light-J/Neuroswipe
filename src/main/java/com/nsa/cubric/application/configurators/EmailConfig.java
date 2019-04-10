@@ -5,10 +5,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
 @ConfigurationProperties(prefix = "spring.mail")
 public class EmailConfig {
+
+
+
 
     private String host;
     private int port;
@@ -49,15 +54,25 @@ public class EmailConfig {
 
     @Profile("dev")
     @Bean
-    public String devEmailConfig(){
+    public JavaMailSender devEmailConfig(){
         System.out.println("Using email host: " + host + " with account: " + username);
-        return "Email configuration for dev";
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        javaMailSender.setHost(host);
+        javaMailSender.setPort(port);
+        javaMailSender.setUsername(username);
+        javaMailSender.setPassword(password);
+        return javaMailSender;
     }
 
     @Profile("prod")
     @Bean
-    public String prodEmailConfig(){
+    public JavaMailSender prodEmailConfig(){
         System.out.println("Using email host: " + host + " with account: " + username);
-        return "Email configuration for prod";
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        javaMailSender.setHost(host);
+        javaMailSender.setPort(port);
+        javaMailSender.setUsername(username);
+        javaMailSender.setPassword(password);
+        return javaMailSender;
     }
 }
