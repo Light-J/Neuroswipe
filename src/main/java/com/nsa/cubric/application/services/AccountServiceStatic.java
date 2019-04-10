@@ -121,12 +121,15 @@ public class AccountServiceStatic implements AccountService {
         return (accountRepository.getAccountByEmail(email) != null);
     }
 
-    public PasswordResetToken createResetToken() {
-        PasswordResetToken token = new PasswordResetToken(loggedUserService.getUserAccountId());
-
+    @Override
+    public PasswordResetToken createResetToken(String email) {
+        Long accountId = accountRepository.getAccountByEmail(email).getId();
+        PasswordResetToken token = new PasswordResetToken(accountId);
+        accountRepository.addResetToken(token);
         return token;
     }
 
+    @Override
     public boolean sendResetToken(PasswordResetToken token){
         try {
             MimeMessage message = sender.createMimeMessage();
@@ -136,10 +139,19 @@ public class AccountServiceStatic implements AccountService {
             helper.setText(token.getToken());
             helper.setSubject("Password reset");
             sender.send(message);
+
         } catch (MessagingException e){
             return false;
         }
         return true;
     }
+
+    @Override
+    public void removeExistingTokens(String email) {
+        Long accountId = accountRepository.getAccountByEmail(email).getId();
+        accountRepository.removeExistingResetTokenForUser(accountId);
+    }
+
+
 
 }

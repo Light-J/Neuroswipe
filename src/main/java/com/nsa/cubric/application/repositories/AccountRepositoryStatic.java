@@ -12,6 +12,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -180,7 +183,17 @@ public class AccountRepositoryStatic implements AccountRepository {
 
     @Override
     public boolean addResetToken(PasswordResetToken token){
-        int rowsAffected = jdbcTemplate.update("INSERT INTO password_reset_token (token, account_id, expiry_date) VALUES ?, ?, ?", token.getToken(), token.getAccountId(), token.getExpiryDate());
+
+        System.out.println("Inserting new token with details " + token.toString());
+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        java.sql.Date date = new java.sql.Date(token.getExpiryDate().getTime());
+
+//        String datetime = sdf.format(token.getExpiryDate());
+        System.out.println("########" + date.toString());
+
+        int rowsAffected = jdbcTemplate.update("INSERT INTO password_reset_token (token, account_id, expiry_date) values (?, ?, ?)", token.getToken(), token.getAccountId(), sdf.format(token.getExpiryDate()));
         return rowsAffected == 1;
     }
 

@@ -17,4 +17,5 @@ public class CustomLoginController {
     public String resetPage(){
         return "reset_request";
     }
+
 }

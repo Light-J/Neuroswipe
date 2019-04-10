@@ -1,6 +1,8 @@
 package com.nsa.cubric.application.controllers.API;
 
 
+import com.nsa.cubric.application.domain.Account;
+import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -10,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,24 +84,23 @@ public class AccountAPI {
     }
 
     @RequestMapping(value = "/reset/request", method = RequestMethod.POST)
-    public void resetRequest(){
+    public boolean resetRequest(@RequestParam String email){
+
+        Account user = accountService.getAccountByEmail(email);
         try{
-            sendEmail();
-            System.out.println("Email has been sent");
+            if(user == null){
+                throw new UsernameNotFoundException(email);
+            }
+            accountService.removeExistingTokens(email);
+            PasswordResetToken token = accountService.createResetToken(email);
+            accountService.sendResetToken(token);
         } catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Failed to send email");
+            return false;
         }
+
+        return true;
     }
 
-    private void sendEmail() throws Exception{
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setTo("lightjp@cardiff.ac.uk");
-        helper.setText("How are you?");
-        helper.setSubject("Hi");
-        sender.send(message);
-    }
 
 }

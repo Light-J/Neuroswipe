@@ -24,6 +24,7 @@ public interface AccountService {
     Boolean checkEmailFormat(String email);
     boolean disableUser();
     boolean deleteUser();
-    PasswordResetToken createResetToken();
+    PasswordResetToken createResetToken(String email);
     boolean sendResetToken(PasswordResetToken token);
+    void removeExistingTokens(String email);
 }

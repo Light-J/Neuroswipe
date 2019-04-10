@@ -1,6 +1,9 @@
 package com.nsa.cubric.application.domain;
 
+import org.thymeleaf.util.DateUtils;
+
 import java.time.Duration;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,9 +16,11 @@ public class PasswordResetToken {
     public PasswordResetToken(Long accountId) {
         this.accountId = accountId;
 
-        Date currentDate = new Date();
-        currentDate.toInstant().plus(Duration.ofHours(24));
-        this.expiryDate = currentDate;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, 1);
+
+        this.expiryDate = calendar.getTime();
 
         this.token = UUID.randomUUID().toString();
     }
@@ -37,6 +42,7 @@ public class PasswordResetToken {
     public Date getExpiryDate() {
         return expiryDate;
     }
+
 
     public boolean isValid(){
         Date currentDate = new Date();
