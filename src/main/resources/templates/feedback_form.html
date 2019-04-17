@@ -8,21 +8,19 @@
         <div class="container">
             <h1>Please provide your feedback to help us out</h1>
             <form action="#" id="feedbackForm" class="form-horizontal">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="feedbackText">Your Feedback</label>
-                    <div class="col-sm-10">
-                        <textarea id="feedbackText" class="form-control"></textarea>
-                    </div>
-                </div>
 
                 <br>
 
                 <h3>Introduction</h3>
 
+                <br>
+
+                <!--Question 1-->
+
                 <div>
-                    <label class="control-label" for="feedbackText">Did the introduction give you the right amount of information about the project and the task?</label>
+                    <label class="control-label" for="InformationQ1">Did the introduction give you the right amount of information about the project and the task?</label>
                     <div>
-                        <select class="form-control">
+                        <select class="form-control" id="InformationQ1">
                             <option value="Not At All">Not enough information</option>
                             <option value="Not Really">About the right amount of information</option>
                             <option value="Yes, mostly">Too much information</option>
@@ -30,12 +28,14 @@
                     </div>
                 </div>
 
-                <br>
+                <br><br>
 
-                <div class="form-group">
-                <label class="control-label" for="feedbackText">Did you feel you understood what it is all about?</label>
+                <!--Question 2-->
+
                 <div>
-                    <select class="form-control">
+                <label class="control-label" for="InformationQ2">Did you feel you understood what it is all about?</label>
+                <div>
+                    <select class="form-control" id="InformationQ2" >
                         <option value="Not At All">Not At All</option>
                         <option value="Not Really">Not Really</option>
                         <option value="Yes, mostly">Yes, mostly</option>
@@ -45,12 +45,17 @@
             </div>
 
                 <br><br>
+
                 <h3>Training Phase</h3>
 
+                <br>
+
+                <!--Question 3-->
+
             <div>
-                <label class="control-label" for="feedbackText">Did the training phase make you feel confident to do the sorting task?</label>
+                <label class="control-label" for="TrainingQ">Did the training phase make you feel confident to do the sorting task?</label>
                 <div>
-                    <select class="form-control">
+                    <select class="form-control" id="TrainingQ">
                         <option value="Not At All">Definitely Not</option>
                         <option value="Not Really">Not Really</option>
                         <option value="Yes, mostly">Yes Probably</option>
@@ -62,10 +67,14 @@
                 <br><br>
                 <h3>Sorting Images</h3>
 
+                <br>
+
+                <!--Question 4-->
+
                 <div>
-                    <label class="control-label" for="feedbackText">Did you feel the task you were asked to do was easy enough?</label>
+                    <label class="control-label" for="SortingQ">Did you feel the task you were asked to do was easy enough?</label>
                     <div>
-                        <select class="form-control">
+                        <select class="form-control" id="SortingQ">
                             <option value="Not At All">Really Easy</option>
                             <option value="Not Really">Quite Easy</option>
                             <option value="Yes, mostly">Quite Difficult</option>
@@ -77,10 +86,14 @@
                 <br><br>
                 <h3>Reward Images</h3>
 
+                <br>
+
+                <!--Question 5-->
+
                 <div>
-                    <label class="control-label" for="feedbackText">Did you feel the reward system and fun facts were enjoyable/interesting?</label>
+                    <label class="control-label" for="RewardQ">Did you feel the reward system and fun facts were enjoyable/interesting?</label>
                     <div>
-                        <select class="form-control">
+                        <select class="form-control" id="RewardQ">
                             <option value="Not At All">Not at all</option>
                             <option value="Not Really">Not really</option>
                             <option value="Yes, mostly">Yes mostly</option>
@@ -92,10 +105,14 @@
                 <br><br>
                 <h3>Ease of use</h3>
 
+                <br>
+
+                <!--Question 6-->
+
                 <div>
-                    <label class="control-label" for="feedbackText">Was the site straightforward to use?</label>
+                    <label class="control-label" for="EaseOfUseQ">Was the site straightforward to use?</label>
                     <div>
-                        <select class="form-control">
+                        <select class="form-control" id="EaseOfUseQ">
                             <option value="Not At All">Not at all</option>
                             <option value="Not Really">Not really</option>
                             <option value="Yes, mostly">Yes mostly</option>
@@ -108,20 +125,26 @@
 
                 <h3>Accessibility</h3>
 
+                <br>
+
+                <!--Question 7-->
+
                 <div>
-                    <label class="control-label" for="feedbackText">If you have aby additional access needs, how could the website be made more accessible to you?</label>
+                    <label for="AccessibilityQ">If you have any additional access needs, how could the website be made more accessible to you?</label>
                     <div>
-                        <textarea id="feedbackTextAccess" class="form-control"></textarea>
+                        <textarea class="form-control" rows="5" placeholder="Enter here..." id="AccessibilityQ"></textarea>
                     </div>
                 </div>
+
 
                 <br><br>
 
+                <!--Submit button-->
+
                 <div class="form-group">
-                    <div class="col-sm-2">
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
                 </div>
+
             </form>
         </div>
 
