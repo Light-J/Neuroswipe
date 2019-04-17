@@ -16,6 +16,17 @@ public class ProfileDto {
     Integer age;
     String gender;
 
+
+
+
+    Integer disability;
+    Integer ethnicity;
+    Integer genderSexMatch;
+    Integer religion;
+    String sex;
+    Integer sexualOrientation;
+    Integer relationship;
+
     //Create an empty DTO for initial registration
     public ProfileDto(){}
 
@@ -74,6 +85,63 @@ public class ProfileDto {
 
     public void setUserAccountId(long userAccountId) {
         this.userAccountId = userAccountId;
+    }
+
+
+    public Integer getDisability() {
+        return disability;
+    }
+
+    public void setDisability(Integer disability) {
+        this.disability = disability;
+    }
+
+    public Integer getEthnicity() {
+        return ethnicity;
+    }
+
+    public void setEthnicity(Integer ethnicity) {
+        this.ethnicity = ethnicity;
+    }
+
+    public Integer getGenderSexMatch() {
+        return genderSexMatch;
+    }
+
+    public void setGenderSexMatch(Integer genderSexMatch) {
+        this.genderSexMatch = genderSexMatch;
+    }
+
+    public Integer getReligion() {
+        return religion;
+    }
+
+    public void setReligion(Integer religion) {
+        this.religion = religion;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Integer getSexualOrientation() {
+        return sexualOrientation;
+    }
+
+    public void setSexualOrientation(Integer sexualOrientation) {
+        this.sexualOrientation = sexualOrientation;
+    }
+
+    public Integer getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(Integer relationship) {
+        this.relationship = relationship;
     }
 
     public boolean hasPostcode(){
