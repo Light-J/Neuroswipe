@@ -68,7 +68,7 @@ DROP TABLE IF EXISTS `brainschema`.`ethnicity` ;
 
 CREATE TABLE IF NOT EXISTS `brainschema`.`ethnicity` (
   `ethnicity_id` INT NOT NULL AUTO_INCREMENT,
-  `ethnicity` VARCHAR(10) NOT NULL,
+  `ethnicity` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`ethnicity_id`))
 ENGINE = InnoDB;
 
@@ -80,18 +80,18 @@ DROP TABLE IF EXISTS `brainschema`.`religion` ;
 
 CREATE TABLE IF NOT EXISTS `brainschema`.`religion` (
   `religion_id` INT NOT NULL AUTO_INCREMENT,
-  `religion` VARCHAR(10) NOT NULL,
+  `religion` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`religion_id`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `brainschema`.`sexual_orientation`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `brainschema`.`religion` ;
+DROP TABLE IF EXISTS `brainschema`.`sexual_orientation` ;
 
-CREATE TABLE IF NOT EXISTS `brainschema`.`religion` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`sexual_orientation` (
   `sexual_orientation_id` INT NOT NULL AUTO_INCREMENT,
-  `sexual_orientation` VARCHAR(10) NOT NULL,
+  `sexual_orientation` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`sexual_orientation_id`))
 ENGINE = InnoDB;
 
@@ -101,9 +101,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `brainschema`.`relationship` ;
 
-CREATE TABLE IF NOT EXISTS `brainschema`.`religion` (
+CREATE TABLE IF NOT EXISTS `brainschema`.`relationship` (
   `relationship_id` INT NOT NULL AUTO_INCREMENT,
-  `relationship` VARCHAR(10) NOT NULL,
+  `relationship` VARCHAR(65) NOT NULL,
   PRIMARY KEY (`relationship_id`))
 ENGINE = InnoDB;
 
@@ -114,7 +114,7 @@ DROP TABLE IF EXISTS `brainschema`.`caring_responsibilities` ;
 
 CREATE TABLE IF NOT EXISTS `brainschema`.`caring_responsibilities` (
   `caring_responsibilities_id` INT NOT NULL AUTO_INCREMENT,
-  `caring_responsibilities` VARCHAR(10) NOT NULL,
+  `caring_responsibilities` VARCHAR(80) NOT NULL,
   PRIMARY KEY (`caring_responsibilities_id`))
 ENGINE = InnoDB;
 
@@ -150,32 +150,34 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`profile` (
     FOREIGN KEY (`postcode_id`)
     REFERENCES `brainschema`.`postcode` (`postcode_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION),
+    ON UPDATE NO ACTION,
+    
     CONSTRAINT `fk_userprofile_ethnicity1`
     FOREIGN KEY (`ethnicity_id`)
     REFERENCES `brainschema`.`ethnicity` (`ethnicity_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION),
+    ON UPDATE NO ACTION,
+    
     CONSTRAINT `fk_userprofile_religion1`
     FOREIGN KEY (`religion_id`)
     REFERENCES `brainschema`.`religion` (`religion_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION),
+    ON UPDATE NO ACTION,
     CONSTRAINT `fk_userprofile_sexual_orientation1`
     FOREIGN KEY (`sexual_orientation_id`)
     REFERENCES `brainschema`.`sexual_orientation` (`sexual_orientation_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION),
+    ON UPDATE NO ACTION,
     CONSTRAINT `fk_userprofile_relationship1`
     FOREIGN KEY (`relationship_id`)
     REFERENCES `brainschema`.`relationship` (`relationship_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION),
+    ON UPDATE NO ACTION,
     CONSTRAINT `fk_userprofile_caring_responsibilities1`
     FOREIGN KEY (`caring_responsibilities_id`)
     REFERENCES `brainschema`.`caring_responsibilities` (`caring_responsibilities_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION),
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -473,6 +475,81 @@ DELIMITER ;
 
  -- Default admin account Pass is 'admin'
 insert into account (email, password, role) VALUES ('default@admin', '$2a$10$xVWy4YGH2TgjMoA1ITfJRubHPp9ijz926vkEUKHMa.AaVG5gP4ANm', 'admin');
+
+
+ -- Insert list of inclusive ethnicity's from https://www.hesa.ac.uk/collection/c16025/a/ethnic
+insert into ethnicity VALUES (10,'White');
+insert into ethnicity VALUES (13,'White - Scottish');
+insert into ethnicity VALUES (14,'Irish Traveller');
+insert into ethnicity VALUES (15,'Gypsy or Traveller');
+insert into ethnicity VALUES (19,'Other White background');
+insert into ethnicity VALUES (21,'Black or Black British - Caribbean');
+insert into ethnicity VALUES (22,'Black or Black British - African');
+insert into ethnicity VALUES (29,'Other Black background');
+insert into ethnicity VALUES (31,'Asian or Asian British - Indian');
+insert into ethnicity VALUES (32,'Asian or Asian British - Pakistani');
+insert into ethnicity VALUES (33,'Asian or Asian British - Bangladeshi');
+insert into ethnicity VALUES (34,'Chinese');
+insert into ethnicity VALUES (39,'Other Asian background');
+insert into ethnicity VALUES (41,'Mixed - White and Black Caribbean');
+insert into ethnicity VALUES (42,'Mixed - White and Black African');
+insert into ethnicity VALUES (43,'Mixed - White and Asian');
+insert into ethnicity VALUES (49,'Other mixed background');
+insert into ethnicity VALUES (50,'Arab');
+insert into ethnicity VALUES (80,'Other ethnic background');
+insert into ethnicity VALUES (90,'Not known');
+insert into ethnicity VALUES (98,'Information refused');
+
+ -- Insert list of inclusive religions from https://www.hesa.ac.uk/collection/c16025/a/relblf
+insert into religion VALUES (01,'No religion');
+insert into religion VALUES (02,'Buddhist');
+insert into religion VALUES (03,'Christian');
+insert into religion VALUES (04,'Christian - Church of Scotland');
+insert into religion VALUES (05,'Christian - Roman Catholic');
+insert into religion VALUES (06,'Christian - Presbyterian Church in Ireland');
+insert into religion VALUES (07,'Christian - Church of Ireland');
+insert into religion VALUES (08,'Christian - Methodist Church in Ireland');
+insert into religion VALUES (09,'Christian - Other denomination');
+insert into religion VALUES (10,'Hindu');
+insert into religion VALUES (11,'Jewish');
+insert into religion VALUES (12,'Muslim');
+insert into religion VALUES (13,'Sikh');
+insert into religion VALUES (14,'Spiritual');
+insert into religion VALUES (80,'Any other religion or belief');
+insert into religion VALUES (98,'Information refused');
+
+ -- Insert list of sexual orientations
+ insert into sexual_orientation VALUES (1, 'Asexual');
+ insert into sexual_orientation VALUES (2, 'Bi/bisexual');
+ insert into sexual_orientation VALUES (3, 'Gay man');
+ insert into sexual_orientation VALUES (4, 'Gay woman/lesbian');
+ insert into sexual_orientation VALUES (5, 'Heterosexual/straight');
+ insert into sexual_orientation VALUES (6, 'Queer');
+ insert into sexual_orientation VALUES (7, 'Other');
+ insert into sexual_orientation VALUES (8, 'Prefer not to say');
+
+ -- Insert list of relationship types
+insert into relationship VALUES (1, 'Cohabiting');
+insert into relationship VALUES (2, 'Divorced or civil partnership dissolved');
+insert into relationship VALUES (3, 'In a civil partnership');
+insert into relationship VALUES (4, 'Married');
+insert into relationship VALUES (5, 'Separated (but still legally married or in a civil partnership)');
+insert into relationship VALUES (6, 'Single (never married or never in a civil partnership)');
+insert into relationship VALUES (7, 'Widowed or a surviving partner from a civil partnership');
+insert into relationship VALUES (8, 'Prefer not to say');
+
+ -- Insert list of caring responsibilities
+insert into caring_responsibilities VALUES (1, 'None');
+insert into caring_responsibilities VALUES (2, 'Primary carer of a child or children (under 18 years)');
+insert into caring_responsibilities VALUES (3, 'Primary carer of a disabled child or children');
+insert into caring_responsibilities VALUES (4, 'Primary carer or assistant for a disabled adult (18 years and over)');
+insert into caring_responsibilities VALUES (5, 'Primary carer or assistant for an older person or people (65 years and over)');
+insert into caring_responsibilities VALUES (6, 'Secondary carer (another person carries out main caring role)');
+insert into caring_responsibilities VALUES (7, 'Prefer not to say');
+
+
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
