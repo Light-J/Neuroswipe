@@ -34,10 +34,12 @@ public class FeedbackController {
     }
 
     @PostMapping(value = "/submitfeedback")
-    public String submitForm(@Valid FeedbackForm feedForm, BindingResult bindingResult, Model model){
+    public String submitForm(@ModelAttribute("feedback") @Valid FeedbackForm feedForm, BindingResult bindingResult, Model model){
+
 
         System.out.println(feedForm.getAccessibility());
         System.out.println(feedForm.getInformation1());
+        System.out.println(feedForm.getSorting());
 
         return "feedback_submitted";
     }

@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.repositories;
 
 import com.nsa.cubric.application.domain.Feedback;
+import com.nsa.cubric.application.domain.FeedbackForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
