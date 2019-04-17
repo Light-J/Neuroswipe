@@ -49,10 +49,10 @@ public class AccountRepositoryStatic implements AccountRepository {
                 (Boolean) rs.getObject("disability"),
                 (Boolean) rs.getObject("gender_identity_match"),
                 rs.getString("sex"),
-                rs.getInt("ethnicity"),
-                rs.getInt("religion"),
-                rs.getInt("sexual_orientation"),
-                rs.getInt("relationship")
+                rs.getInt("ethnicity_id"),
+                rs.getInt("religion_id"),
+                rs.getInt("sexual_orientation_id"),
+                rs.getInt("relationship_id")
         );
 
         tokenMapper = (rs, i) -> new PasswordResetToken(
@@ -138,23 +138,7 @@ public class AccountRepositoryStatic implements AccountRepository {
 
     @Override
     public Profile getProfileByAccountId(Long accountId){
-        return jdbcTemplate.queryForObject("SELECT profile.profile_id,\n" +
-                "       profile.account_id,\n" +
-                "       profile.display_name,\n" +
-                "       profile.age,\n" +
-                "       profile.disability,\n" +
-                "       e.ethnicity,\n" +
-                "       profile.gender_identity_match,\n" +
-                "       r2.religion,\n" +
-                "       profile.sex,\n" +
-                "       so.sexual_orientation,\n" +
-                "       r.relationship\n" +
-                "FROM profile\n" +
-                "    JOIN caring_responsibilities cr on profile.caring_responsibilities_id = cr.caring_responsibilities_id\n" +
-                "    JOIN ethnicity e on profile.ethnicity_id = e.ethnicity_id\n" +
-                "    JOIN relationship r on profile.relationship_id = r.relationship_id\n" +
-                "    JOIN sexual_orientation so on profile.sexual_orientation_id = so.sexual_orientation_id\n" +
-                "    JOIN religion r2 on profile.religion_id = r2.religion_id WHERE account_id = ?; ",
+        return jdbcTemplate.queryForObject("SELECT * FROM profile where account_id = ? ",
                 new Object[]{accountId},profileMapper);
     }
 

@@ -74,31 +74,24 @@
                             <div class="card-body" id="profileForm">
                                 <h2>Profile details</h2>
                                 <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
-                                    <input th:field="*{id}" name="id" hidden/>
                                     <fieldset class="form-group">
                                         <label class="bmd-label-static" for="name">Display name</label>
                                         <input id="name" class="form-control" name="username" th:field="*{username}"/>
                                     </fieldset>
                                     <fieldset class="form-group">
-                                        <label class="bmd-label-static" for="postcode">Outward code (this is the first section of your postcode)</label>
-                                        <input id="postcode" class="form-control" name="postcode" th:field="*{postcode}"/>
-
-                                        <p class="text-danger" th:each="error: ${#fields.errors('postcode')}"
-                                           th:text="${error}">Validation error</p>
-                                    </fieldset>
-                                    <fieldset class="form-group">
                                         <label class="bmd-label-static" for="age">Age</label>
                                         <input id="age" class="form-control" name="age" th:field="*{age}"/>
                                     </fieldset>
-                                    <fieldset class="form-group">
-                                        <label class="bmd-label-static" for="gender">Gender</label>
-                                        <select id="gender" class="form-control" name="gender" th:field="*{gender}">
-                                            <option value="null">Prefer not to say</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </fieldset>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="religion">Do you have a religion or belief?</label>
+                                        <div class="col-sm-10">
+                                            <select id="religion" class="form-control" name="religion" th:field="*{religion}">
+                                                <div th:each="religion : ${religionOptions}">
+                                                    <option th:value="${religion.getReligionId()}" th:text="${religion.getReligion()}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <button type="submit" class="btn btn-primary">Save</button>
                                 </form>
                             </div>

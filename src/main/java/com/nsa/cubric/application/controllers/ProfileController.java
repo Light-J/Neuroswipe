@@ -42,6 +42,10 @@ public class ProfileController {
         ProfileDto userProfileDto = new ProfileDto(accountService.getProfileByEmail(userName));
 
         model.addAttribute("profile", userProfileDto);
+        model.addAttribute("ethnicityOptions", accountService.getAllEthnicityOptions());
+        model.addAttribute("religionOptions", accountService.getAllReligionOptions());
+        model.addAttribute("relationshipOptions", accountService.getAllRelationshipOptions());
+        model.addAttribute("sexualOrientationOptions", accountService.getAllSexualOrientationOptions());
         return new ModelAndView("user_profile", "model", model);
     }
 
