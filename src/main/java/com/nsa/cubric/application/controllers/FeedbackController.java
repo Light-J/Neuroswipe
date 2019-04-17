@@ -1,9 +1,8 @@
 package com.nsa.cubric.application.controllers;
 
-import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.domain.Feedback;
 import com.nsa.cubric.application.domain.FeedbackForm;
 import com.nsa.cubric.application.repositories.FeedbackRepositoryStatic;
+import com.nsa.cubric.application.services.FeedbackServiceStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +18,11 @@ import javax.validation.Valid;
 @RequestMapping(value = "/userfeedback")
 public class FeedbackController {
 
-    private final FeedbackRepositoryStatic feedbackRepositoryStatic;
+    private final FeedbackServiceStatic feedbackServiceStatic;
 
     @Autowired
-    public FeedbackController(FeedbackRepositoryStatic feedbackRepositoryStatic) {
-        this.feedbackRepositoryStatic = feedbackRepositoryStatic;
+    public FeedbackController(FeedbackServiceStatic feedbackServiceStatic) {
+        this.feedbackServiceStatic = feedbackServiceStatic;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -42,17 +41,7 @@ public class FeedbackController {
     @PostMapping(value = "/submitfeedback")
     public String submitForm(@ModelAttribute("feedback") @Valid FeedbackForm feedForm, BindingResult bindingResult, Model model){
 
-
-        Account account = new Account();
-
-
-        System.out.println("ACCOUNT ID: " + account.getId());
-
-        System.out.println(feedForm.getAccessibility());
-        System.out.println(feedForm.getInformation1());
-        System.out.println(feedForm.getSorting());
-
-        feedbackRepositoryStatic.insertNewFeedback(feedForm);
+        feedbackServiceStatic.insertNewFeedback(feedForm);
 
         return "feedback_submitted";
     }

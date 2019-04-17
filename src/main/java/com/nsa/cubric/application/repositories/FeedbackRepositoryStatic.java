@@ -1,10 +1,7 @@
 package com.nsa.cubric.application.repositories;
 
-import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.Feedback;
 import com.nsa.cubric.application.domain.FeedbackForm;
-import com.nsa.cubric.application.services.AccountService;
-import com.nsa.cubric.application.services.FeedbackService;
 import com.nsa.cubric.application.services.LoggedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,20 +14,13 @@ import java.util.List;
 public class FeedbackRepositoryStatic implements FeedbackRepository {
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Feedback> feedbackMapper;
-
     private LoggedUserService loggedUserService;
-    private AccountService accountService;
-    private FeedbackService feedbackService;
 
-    public FeedbackRepositoryStatic(LoggedUserService loggedUserService, AccountService accountService, FeedbackService feedbackService) {
-        this.loggedUserService = loggedUserService;
-        this.accountService = accountService;
-        this.feedbackService = feedbackService;
-    }
 
     @Autowired
-    public FeedbackRepositoryStatic(JdbcTemplate aTemplate) {
+    public FeedbackRepositoryStatic(JdbcTemplate aTemplate, LoggedUserService loggedUserService) {
         jdbcTemplate = aTemplate;
+        this.loggedUserService = loggedUserService;
 
         feedbackMapper = (rs, i) -> new Feedback(
                 rs.getLong("feedback_id"),
@@ -44,11 +34,6 @@ public class FeedbackRepositoryStatic implements FeedbackRepository {
 
         Long userID = loggedUserService.getUserProfileId();
 
-//        loggedUserService.
-//
-//        String other = loggedUserService.getUsername();
-//
-//        System.out.println(other);
 
         jdbcTemplate.update(
                 "INSERT into feedback(profile_id, info_1, info_2, training, sorting, reward, ease_of_use, access) values (?,?,?,?,?,?,?,?)",
