@@ -56,7 +56,9 @@
                     <label class="control-label col-md-4" for="ethnicity">What is your ethnicity?</label>
                     <div class="col-sm-10">
                         <select id="ethnicity" class="form-control" name="ethnicity" th:field="*{ethnicity}">
-
+                            <div th:each="ethnicity : ${ethnicityOptions}">
+                                <option th:value="${ethnicity.getEthnicityId()}" th:text="${ethnicity.getEthnicity()}"></option>
+                            </div>
                         </select>
                     </div>
                 </div>
@@ -76,7 +78,9 @@
                     <label class="control-label col-md-4" for="religion">Do you have a religion or belief?</label>
                     <div class="col-sm-10">
                         <select id="religion" class="form-control" name="religion" th:field="*{religion}">
-
+                            <div th:each="religion : ${religionOptions}">
+                                <option th:value="${religion.getReligionId()}" th:text="${religion.getReligion()}"></option>
+                            </div>
                         </select>
                     </div>
                 </div>
@@ -96,7 +100,9 @@
                     <label class="control-label col-md-4" for="sexual-orientation">What is your sexual orientation?</label>
                     <div class="col-sm-10">
                         <select id="sexual-orientation" class="form-control" name="sexual-orientation" th:field="*{sexualOrientation}">
-
+                            <div th:each="sexualOrientation : ${sexualOrientationOptions}">
+                                <option th:value="${sexualOrientation.getSexualOrientationId()}" th:text="${sexualOrientation.getSexualOrientation()}"></option>
+                            </div>
                         </select>
                     </div>
                 </div>
@@ -105,7 +111,9 @@
                     <label class="control-label col-md-4" for="relationship">Are you currently?</label>
                     <div class="col-sm-10">
                         <select id="relationship" class="form-control" name="relationship" th:field="*{relationship}">
-
+                            <div th:each="relationship : ${relationshipOptions}">
+                                <option th:value="${relationship.getRelationshipId()}" th:text="${relationship.getRelationship()}"></option>
+                            </div>
                         </select>
                     </div>
                 </div>

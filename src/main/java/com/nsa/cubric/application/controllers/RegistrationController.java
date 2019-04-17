@@ -47,6 +47,10 @@ public class RegistrationController {
     @RequestMapping(value = "/details", method = RequestMethod.GET)
     public String showDetailsForm(Model model){
         model.addAttribute("profile", new ProfileDto());
+        model.addAttribute("ethnicityOptions", accountService.getAllEthnicityOptions());
+        model.addAttribute("religionOptions", accountService.getAllReligionOptions());
+        model.addAttribute("relationshipOptions", accountService.getAllRelationshipOptions());
+        model.addAttribute("sexualOrientationOptions", accountService.getAllSexualOrientationOptions());
         return "register_details";
     }
 
