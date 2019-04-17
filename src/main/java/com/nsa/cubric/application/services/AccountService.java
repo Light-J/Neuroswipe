@@ -34,4 +34,5 @@ public interface AccountService {
     List<Religion> getAllReligionOptions();
     List<SexualOrientation> getAllSexualOrientationOptions();
     List<Ethnicity> getAllEthnicityOptions();
+    List<CarerResponsibility> getAllCarerResponsibilityOptions();
 }

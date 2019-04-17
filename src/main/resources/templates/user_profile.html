@@ -73,40 +73,52 @@
                         <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="card-body" id="profileForm">
                                 <h2>Profile details</h2>
+                                <br>
                                 <form action="/userprofile/" th:object="${profile}" method="POST" class="form-horizontal">
-                                    <fieldset class="form-group">
-                                        <label class="bmd-label-static" for="name">Display name</label>
-                                        <input id="name" class="form-control" name="username" th:field="*{username}"/>
-                                    </fieldset>
-                                    <fieldset class="form-group">
-                                        <label class="bmd-label-static" for="age">Age</label>
-                                        <input id="age" class="form-control" name="age" th:field="*{age}"/>
-                                    </fieldset>
                                     <div class="form-group">
-                                        <label class="control-label col-md-4" for="religion">Do you have a religion or belief?</label>
+                                        <label class="bmd-label-static" for="name">Display name</label>
                                         <div class="col-sm-10">
-                                            <select id="religion" class="form-control" name="religion" th:field="*{religion}">
-                                                <div th:each="religion : ${religionOptions}">
-                                                    <option th:value="${religion.getReligionId()}" th:text="${religion.getReligion()}"></option>
+                                            <input id="name" class="form-control" name="username" th:field="*{username}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="bmd-label-static" for="age">Age</label>
+                                        <div class="col-sm-10">
+                                            <input id="age" class="form-control" name="age" th:field="*{age}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4 bmd-label-static" for="sex">What is your sex?</label>
+                                        <div class="col-sm-10">
+                                            <select id="sex" class="form-control" name="sex" th:field="*{sex}">
+                                                <div th:if="${profile.getSex() == null}">
+                                                    <option value="" class="default-select" disabled hidden>Choose here</option>
                                                 </div>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="other">Other</option>
                                             </select>
                                         </div>
                                     </div>
+                                    <br><br>
+
                                     <button type="submit" class="btn btn-primary">Save</button>
+                                    <a class="btn btn-primary" href="/registration/details">Edit all details</a>
                                 </form>
                             </div>
                         </div>
                         <div class="tab-pane fade container text-center" id="account" role="tabpanel" aria-labelledby="account-tab">
                             <div class="card-body">
                                 <h2>Account</h2>
-                                <fieldset class="form-control">
-                                    <label id="oldEmail" for="newEmail">Change your email using the form below</label>
+                                <br>
+                                <label id="oldEmail" for="newEmail">Change your email using the form below</label>
+                                <div class="form-control">
                                     <input class="form-control" id="newEmail" placeholder="New email">
                                     <button class="btn btn-primary" onclick="updateEmail()">Update email</button>
                                     <p id="emailError"></p>
-                                </fieldset>
+                                </div>
 
-                                <p class="alert alert-danger">*When your email is succesfully changed we will be logged out and required to log back in using your new email</p>
+                                <p class="alert alert-danger">*When your email is successfully changed you will be logged out and required to log back in using your new email</p>
                                 <br><br>
 
                                 <div>
@@ -280,6 +292,9 @@
         };
 
         $(function() {
+
+            $(".default-select").prop("selected", "selected");
+
             $.ajax({
                 type: "GET",
                 url: "/api/rewards/",

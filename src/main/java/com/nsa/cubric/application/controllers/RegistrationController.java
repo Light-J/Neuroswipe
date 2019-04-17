@@ -3,6 +3,7 @@ package com.nsa.cubric.application.controllers;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
+import com.nsa.cubric.application.services.LoggedUserService;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.services.AccountService;
 import com.nulabinc.zxcvbn.Zxcvbn;
@@ -29,9 +30,12 @@ import javax.validation.Valid;
 public class RegistrationController {
     private AccountService accountService;
 
+    private LoggedUserService loggedUserService;
+
     @Autowired
-    public RegistrationController(AccountService aRepo){
-        accountService = aRepo;
+    public RegistrationController(AccountService aRepo, LoggedUserService loggedUserService){
+        this.accountService = aRepo;
+        this.loggedUserService = loggedUserService;
     }
     
     private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
@@ -46,11 +50,13 @@ public class RegistrationController {
 
     @RequestMapping(value = "/details", method = RequestMethod.GET)
     public String showDetailsForm(Model model){
-        model.addAttribute("profile", new ProfileDto());
+        ProfileDto userProfileDto = new ProfileDto(accountService.getProfileByEmail(loggedUserService.getUsername()));
+        model.addAttribute("profile", userProfileDto);
         model.addAttribute("ethnicityOptions", accountService.getAllEthnicityOptions());
         model.addAttribute("religionOptions", accountService.getAllReligionOptions());
         model.addAttribute("relationshipOptions", accountService.getAllRelationshipOptions());
         model.addAttribute("sexualOrientationOptions", accountService.getAllSexualOrientationOptions());
+        model.addAttribute("caringResponsibilityOptions", accountService.getAllCarerResponsibilityOptions());
         return "register_details";
     }
 

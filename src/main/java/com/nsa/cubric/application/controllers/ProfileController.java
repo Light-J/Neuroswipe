@@ -42,22 +42,19 @@ public class ProfileController {
         ProfileDto userProfileDto = new ProfileDto(accountService.getProfileByEmail(userName));
 
         model.addAttribute("profile", userProfileDto);
-        model.addAttribute("ethnicityOptions", accountService.getAllEthnicityOptions());
-        model.addAttribute("religionOptions", accountService.getAllReligionOptions());
-        model.addAttribute("relationshipOptions", accountService.getAllRelationshipOptions());
-        model.addAttribute("sexualOrientationOptions", accountService.getAllSexualOrientationOptions());
         return new ModelAndView("user_profile", "model", model);
     }
 
     @RequestMapping(value="/", method = RequestMethod.POST)
-    public ModelAndView updateUserProfile(@ModelAttribute("profile") @Valid ProfileDto profileDto, BindingResult result){
+    public ModelAndView updateUserProfile(@ModelAttribute("profile") @Valid ProfileDto profileDto, BindingResult result, Model model){
+        model.addAttribute("profile", profileDto);
 
         if (result.hasErrors()){
-            return new ModelAndView("user_profile", "profile", profileDto);
+            return new ModelAndView("user_profile", "model", model);
         }
 
         Boolean updateProfile = accountService.updateProfile(profileDto);
-        return new ModelAndView("user_profile", "profile", profileDto);
+        return new ModelAndView("user_profile", "model", model);
     }
 
     @RequestMapping(value = "/certificate", method = RequestMethod.GET)

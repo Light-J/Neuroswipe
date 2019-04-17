@@ -28,6 +28,7 @@ public class AccountRepositoryStatic implements AccountRepository {
     private RowMapper<SexualOrientation> sexualOrientationMapper;
     private RowMapper<Religion> religionMapper;
     private RowMapper<Relationship> relationshipMapper;
+    private RowMapper<CarerResponsibility> carerResponsibilityMapper;
 
     @Autowired
     public AccountRepositoryStatic(JdbcTemplate aTemplate) {
@@ -52,7 +53,8 @@ public class AccountRepositoryStatic implements AccountRepository {
                 rs.getInt("ethnicity_id"),
                 rs.getInt("religion_id"),
                 rs.getInt("sexual_orientation_id"),
-                rs.getInt("relationship_id")
+                rs.getInt("relationship_id"),
+                rs.getInt("caring_responsibilities_id")
         );
 
         tokenMapper = (rs, i) -> new PasswordResetToken(
@@ -80,6 +82,12 @@ public class AccountRepositoryStatic implements AccountRepository {
                 rs.getInt("relationship_id"),
                 rs.getString("relationship")
         );
+
+        carerResponsibilityMapper = (rs, i) -> new CarerResponsibility(
+                rs.getInt("caring_responsibilities_id"),
+                rs.getString("caring_responsibilities")
+        );
+
     }
 
     @Override
@@ -126,12 +134,14 @@ public class AccountRepositoryStatic implements AccountRepository {
 
     @Override
     public boolean updateProfile(Profile profile){
+        System.out.println(profile.toString());
         try {
-            jdbcTemplate.update("UPDATE profile SET display_name=?, age=?, disability=?, gender_identity_match=?, sex=?,ethnicity_id=?, religion_id=?, sexual_orientation_id=?, relationship_id=? WHERE profile_id=?;",
-                        profile.getUsername(), profile.getAge(), profile.getDisability(), profile.getGenderSexMatch(), profile.getSex(), profile.getEthnicityId(), profile.getReligionId(), profile.getSexualOrientationId(), profile.getRelationshipId(), profile.getId());
+            jdbcTemplate.update("UPDATE profile SET display_name=?, age=?, disability=?, gender_identity_match=?, sex=?,ethnicity_id=?, religion_id=?, sexual_orientation_id=?, relationship_id=?, caring_responsibilities_id=? WHERE profile_id=?;",
+                        profile.getUsername(), profile.getAge(), profile.getDisability(), profile.getGenderSexMatch(), profile.getSex(), profile.getEthnicityId(), profile.getReligionId(), profile.getSexualOrientationId(), profile.getRelationshipId(), profile.getCaringResponsibility(), profile.getId());
             return true;
         } catch (Exception e){
             LOG.debug(e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -236,6 +246,10 @@ public class AccountRepositoryStatic implements AccountRepository {
 
     public List<Ethnicity> getAllEthnicityOptions(){
         return jdbcTemplate.query("SELECT * FROM ethnicity", new Object[]{}, ethnicityMapper);
+    }
+
+    public List<CarerResponsibility> getAllCarerResponsibilityOptions(){
+        return jdbcTemplate.query("SELECT * FROM caring_responsibilities", new Object[]{}, carerResponsibilityMapper);
     }
 
 

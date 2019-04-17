@@ -198,4 +198,8 @@ public class AccountServiceStatic implements AccountService {
         return accountRepository.getAllEthnicityOptions();
     }
 
+    public List<CarerResponsibility> getAllCarerResponsibilityOptions(){
+        return accountRepository.getAllCarerResponsibilityOptions();
+    }
+
 }

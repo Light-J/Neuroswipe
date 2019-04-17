@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`profile` (
   `ethnicity_id` INT(2) NULL,
   `gender_identity_match` TINYINT(1) NULL,
   `religion_id` INT(2) NULL,
-  `sex` TINYINT(1) NULL,
+  `sex` VARCHAR(10) NULL,
   `sexual_orientation_id` INT(2) NULL,
   `relationship_id` INT(2),
   `caring_responsibilities_id` INT(2) NULL,

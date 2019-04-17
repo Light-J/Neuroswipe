@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/head(title='Register')" ></head>
+<script>
+    $(function () {
+
+        $(".default-select").prop("selected", "selected");
+        if($("#age").val() == 0){
+            $("#age").val("None provided");
+        }
+    });
+
+    $('#profile-form').submit(function() {
+        $("#age").val(0);
+        return true;
+    });
+</script>
 <body>
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 <div class="container">
@@ -9,43 +24,29 @@
             <h1 class="card-title">Please register to help us sort some real scans</h1>
         </div>
         <div class="card-body">
-            <form action="/registration/details" th:object="${profile}" method="POST" class="form-horizontal">
-
-                <!---
-                Required fields
-
-                age
-                disability (yes / no)
-                what is your ethnicity? (Drop down from db)
-                Does your gender identity match your sex as registered at birth? (yes / no)
-                Do you have a religion or belief? (Drop down from db)
-                What is your sex? (Male / Female / Other)
-                What is your sexual orientation? (Drop down from db)
-                Are you currently? (Relationships from db)
-                Do you have any caring responsibilities? (Tick all that apply)
-                --->
-
-
+            <form action="/registration/details" th:object="${profile}" method="POST" class="form-horizontal" id="profile-form">
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="email">Display name</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="email">Display name</label>
                     <div class="col-sm-10">
                         <input id="email" class="form-control" name="username" th:field="*{username}"/>
                     </div>
                 </div>
 
-
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="age">Age</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="age">Age</label>
                     <div class="col-sm-10">
                         <input id="age" class="form-control" name="age" th:field="*{age}"/>
                     </div>
+                    <p class="text-danger" th:if="${#fields.errors('age') != null}">Please provide a valid age</p>
                 </div>
 
-
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="disability">Do you consider yourself to have a disability?</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="disability">Do you consider yourself to have a disability?</label>
                     <div class="col-sm-10">
                         <select id="disability" class="form-control" name="disability" th:field="*{disability}">
+                            <div th:if="${profile.getDisability() == null}">
+                                <option value="" class="default-select" disabled hidden>Choose here</option>
+                            </div>
                             <option value=1>Yes</option>
                             <option value=0>No</option>
                         </select>
@@ -53,9 +54,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="ethnicity">What is your ethnicity?</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="ethnicity">What is your ethnicity?</label>
                     <div class="col-sm-10">
                         <select id="ethnicity" class="form-control" name="ethnicity" th:field="*{ethnicity}">
+                            <div th:if="${profile.getEthnicity() == 0}">
+                                <option value="" class="default-select" disabled hidden>Choose here</option>
+                            </div>
                             <div th:each="ethnicity : ${ethnicityOptions}">
                                 <option th:value="${ethnicity.getEthnicityId()}" th:text="${ethnicity.getEthnicity()}"></option>
                             </div>
@@ -64,9 +68,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="gender-sex-match">Does your gender identity match your sex as registered at birth?</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="gender-sex-match">Does your gender identity match your sex as registered at birth?</label>
                     <div class="col-sm-10">
                         <select id="gender-sex-match" class="form-control" name="gender-sex-match" th:field="*{genderSexMatch}">
+                            <div th:if="${profile.getGenderSexMatch() == null}">
+                                <option value="" class="default-select" disabled hidden>Choose here</option>
+                            </div>
                             <option value="1">Yes</option>
                             <option value="0">No</option>
                             <option value="">Prefer not to say</option>
@@ -75,9 +82,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="religion">Do you have a religion or belief?</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="religion">Do you have a religion or belief?</label>
                     <div class="col-sm-10">
                         <select id="religion" class="form-control" name="religion" th:field="*{religion}">
+                            <div th:if="${profile.getReligion() == 0}">
+                                <option value="" class="default-select" disabled hidden>Choose here</option>
+                            </div>
                             <div th:each="religion : ${religionOptions}">
                                 <option th:value="${religion.getReligionId()}" th:text="${religion.getReligion()}"></option>
                             </div>
@@ -86,9 +96,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="sex">What is your sex?</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="sex">What is your sex?</label>
                     <div class="col-sm-10">
                         <select id="sex" class="form-control" name="sex" th:field="*{sex}">
+                            <div th:if="${profile.getSex() == null}">
+                                <option value="" class="default-select" disabled hidden>Choose here</option>
+                            </div>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">Other</option>
@@ -97,9 +110,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="sexual-orientation">What is your sexual orientation?</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="sexual-orientation">What is your sexual orientation?</label>
                     <div class="col-sm-10">
                         <select id="sexual-orientation" class="form-control" name="sexual-orientation" th:field="*{sexualOrientation}">
+                            <div th:if="${profile.getSexualOrientation() == 0}">
+                                <option value="" class="default-select" disabled hidden>Choose here</option>
+                            </div>
                             <div th:each="sexualOrientation : ${sexualOrientationOptions}">
                                 <option th:value="${sexualOrientation.getSexualOrientationId()}" th:text="${sexualOrientation.getSexualOrientation()}"></option>
                             </div>
@@ -108,9 +124,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-4" for="relationship">Are you currently?</label>
+                    <label class="control-label col-md-4 bmd-label-static" for="relationship">Are you currently?</label>
                     <div class="col-sm-10">
                         <select id="relationship" class="form-control" name="relationship" th:field="*{relationship}">
+                            <div th:if="${profile.getRelationship() == 0}">
+                                <option value="" class="default-select" disabled hidden>Choose here</option>
+                            </div>
                             <div th:each="relationship : ${relationshipOptions}">
                                 <option th:value="${relationship.getRelationshipId()}" th:text="${relationship.getRelationship()}"></option>
                             </div>
@@ -119,11 +138,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Do you have any caring responsibilities? (Tick all that apply)</label>
-                    <input type="checkbox" value="Caring">
+                    <label class="control-label col-md-4 bmd-label-static" for="caring-responsibilities">Do you have any caring responsibilities? (Select most applicable)</label>
+                    <div class="col-sm-10">
+                        <select id="caring-responsibilities" class="form-control" name="caring-responsibilities" th:field="*{caringResponsibility}">
+                            <div th:if="${profile.getCaringResponsibility() == 0}">
+                                <option value="" class="default-select" disabled hidden>Choose here</option>
+                            </div>
+                            <div th:each="relationship : ${caringResponsibilityOptions}">
+                                <option th:value="${relationship.getId()}" th:text="${relationship.getResponsibility()}"></option>
+                            </div>
+                        </select>
+                    </div>
                 </div>
-
-
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-md-10">
