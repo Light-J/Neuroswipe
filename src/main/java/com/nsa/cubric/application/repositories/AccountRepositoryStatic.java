@@ -1,10 +1,8 @@
 package com.nsa.cubric.application.repositories;
 
-import com.nsa.cubric.application.domain.PasswordResetToken;
-import com.nsa.cubric.application.domain.Profile;
+import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
-import com.nsa.cubric.application.domain.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.management.relation.Relation;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +24,10 @@ public class AccountRepositoryStatic implements AccountRepository {
     private RowMapper<Account> accountMapper;
     private RowMapper<Profile> profileMapper;
     private RowMapper<PasswordResetToken> tokenMapper;
+    private RowMapper<Ethnicity> ethnicityMapper;
+    private RowMapper<SexualOrientation> sexualOrientationMapper;
+    private RowMapper<Religion> religionMapper;
+    private RowMapper<Relationship> relationshipMapper;
 
     @Autowired
     public AccountRepositoryStatic(JdbcTemplate aTemplate) {
@@ -56,6 +59,26 @@ public class AccountRepositoryStatic implements AccountRepository {
                 rs.getString("token"),
                 rs.getLong("account_id"),
                 rs.getDate("expiry_date")
+        );
+
+        ethnicityMapper = (rs, i) -> new Ethnicity(
+                rs.getInt("ethnicity_id"),
+                rs.getString("ethnicity")
+        );
+
+        sexualOrientationMapper = (rs, i) -> new SexualOrientation(
+                rs.getInt("sexual_orientation_id"),
+                rs.getString("sexual_orientation")
+        );
+
+        religionMapper = (rs, i) -> new Religion(
+                rs.getInt("religion_id"),
+                rs.getString("religion")
+        );
+
+        relationshipMapper = (rs, i) -> new Relationship(
+                rs.getInt("relationship_id"),
+                rs.getString("relationship")
         );
     }
 
@@ -212,6 +235,23 @@ public class AccountRepositoryStatic implements AccountRepository {
     @Override
     public void ChangeUserPassword(Long accountId, String password){
         jdbcTemplate.update("UPDATE account set password = ? WHERE account_id = ?", password, accountId);
+    }
+
+
+    public List<Relationship> getAllRelationshipOptions(){
+        return jdbcTemplate.query("SELECT * FROM relationship", new Object[]{}, relationshipMapper);
+    }
+
+    public List<Religion> getAllReligionOptions(){
+        return jdbcTemplate.query("SELECT * FROM religion", new Object[]{}, religionMapper);
+    }
+
+    public List<SexualOrientation> getAllSexualOrientationOptions(){
+        return jdbcTemplate.query("SELECT * FROM sexual_orientation", new Object[]{}, sexualOrientationMapper);
+    }
+
+    public List<Ethnicity> getAllEthnicityOptions(){
+        return jdbcTemplate.query("SELECT * FROM ethnicity", new Object[]{}, ethnicityMapper);
     }
 
 

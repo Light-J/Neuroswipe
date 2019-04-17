@@ -1,10 +1,8 @@
 package com.nsa.cubric.application.repositories;
 
-import com.nsa.cubric.application.domain.PasswordResetToken;
+import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
-import com.nsa.cubric.application.domain.Account;
-import com.nsa.cubric.application.domain.Profile;
 
 import java.util.List;
 
@@ -27,5 +25,10 @@ public interface AccountRepository {
     boolean addResetToken(PasswordResetToken token);
     PasswordResetToken getResetToken(String token);
     void ChangeUserPassword(Long accountId, String password);
+
+    List<Relationship> getAllRelationshipOptions();
+    List<Religion> getAllReligionOptions();
+    List<SexualOrientation> getAllSexualOrientationOptions();
+    List<Ethnicity> getAllEthnicityOptions();
 
 }
