@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.repositories;
 
 import com.nsa.cubric.application.domain.PasswordResetToken;
+import com.nsa.cubric.application.domain.Profile;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
@@ -22,7 +23,7 @@ public class AccountRepositoryStatic implements AccountRepository {
     private static final Logger LOG = LoggerFactory.getLogger(AccountRepositoryStatic.class);
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Account> accountMapper;
-    private RowMapper<ProfileDto> profileMapper;
+    private RowMapper<Profile> profileMapper;
     private RowMapper<PasswordResetToken> tokenMapper;
 
     @Autowired
@@ -37,13 +38,18 @@ public class AccountRepositoryStatic implements AccountRepository {
                 (Boolean) rs.getObject("account_disabled")
         );
 
-        profileMapper = (rs, i) -> new ProfileDto(
+        profileMapper = (rs, i) -> new Profile(
                 rs.getLong("profile_id"),
-                rs.getString("display_name"),
-                rs.getString("postcode"),
                 rs.getLong("account_id"),
+                rs.getString("display_name"),
                 rs.getInt("age"),
-                rs.getString("gender")
+                (Boolean) rs.getObject("disability"),
+                (Boolean) rs.getObject("gender_identity_match"),
+                rs.getString("sex"),
+                rs.getInt("ethnicity"),
+                rs.getInt("religion"),
+                rs.getInt("sexual_orientation"),
+                rs.getInt("relationship")
         );
 
         tokenMapper = (rs, i) -> new PasswordResetToken(
@@ -96,16 +102,10 @@ public class AccountRepositoryStatic implements AccountRepository {
 
 
     @Override
-    public boolean updateProfile(ProfileDto profileDto){
+    public boolean updateProfile(Profile profile){
         try {
-            if(profileDto.getPostcode().equals("")) {
-                jdbcTemplate.update("UPDATE profile SET postcode_id = null WHERE profile_id = ?", profileDto.getId());
-            } else {
-                jdbcTemplate.update("UPDATE profile SET postcode_id = (SELECT brainschema.check_or_add_postcode(?)) WHERE profile_id = ?", profileDto.getPostcode(), profileDto.getId());
-            }
-
             jdbcTemplate.update("UPDATE profile SET display_name=?, age=?, gender=? WHERE profile_id=?",
-                        profileDto.getUsername(), profileDto.getAge(), profileDto.getGender(), profileDto.getId());
+                        profileDto.getUsername(), profileDto.getAge(), profileDto.getGender());
             return true;
         } catch (Exception e){
             LOG.debug(e.getMessage());
@@ -114,17 +114,29 @@ public class AccountRepositoryStatic implements AccountRepository {
     }
 
     @Override
-    public ProfileDto getProfileByAccountId(Long accountId){
-            return jdbcTemplate.queryForObject(
-                    "SELECT profile.profile_id, profile.display_name, postcode.postcode, profile.age, profile.gender, profile.account_id \n" +
-                            "   FROM profile \n" +
-                            "    LEFT JOIN postcode ON postcode.postcode_id = profile.postcode_id\n" +
-                            "    WHERE account_id = ?;",
-                    new Object[]{accountId},profileMapper);
+    public Profile getProfileByAccountId(Long accountId){
+        return jdbcTemplate.queryForObject("SELECT profile.profile_id,\n" +
+                "       profile.account_id,\n" +
+                "       profile.display_name,\n" +
+                "       profile.age,\n" +
+                "       profile.disability,\n" +
+                "       e.ethnicity,\n" +
+                "       profile.gender_identity_match,\n" +
+                "       r2.religion,\n" +
+                "       profile.sex,\n" +
+                "       so.sexual_orientation,\n" +
+                "       r.relationship\n" +
+                "FROM profile\n" +
+                "    JOIN caring_responsibilities cr on profile.caring_responsibilities_id = cr.caring_responsibilities_id\n" +
+                "    JOIN ethnicity e on profile.ethnicity_id = e.ethnicity_id\n" +
+                "    JOIN relationship r on profile.relationship_id = r.relationship_id\n" +
+                "    JOIN sexual_orientation so on profile.sexual_orientation_id = so.sexual_orientation_id\n" +
+                "    JOIN religion r2 on profile.religion_id = r2.religion_id WHERE account_id = ?; ",
+                new Object[]{accountId},profileMapper);
     }
 
     @Override
-    public ProfileDto getProfileByEmail(String email) {
+    public Profile getProfileByEmail(String email) {
         Account account = getAccountByEmail(email);
         return getProfileByAccountId(account.getId());
     }

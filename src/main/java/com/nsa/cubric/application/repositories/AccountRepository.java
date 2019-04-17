@@ -4,6 +4,7 @@ import com.nsa.cubric.application.domain.PasswordResetToken;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
+import com.nsa.cubric.application.domain.Profile;
 
 import java.util.List;
 
@@ -11,12 +12,12 @@ public interface AccountRepository {
     Account getAccountByEmail(String email);
     void insertNewAccount(AccountDto account);
     List<Account> getAllAccounts();
-    ProfileDto getProfileByAccountId(Long accountId);
-    ProfileDto getProfileByEmail(String email);
+    Profile getProfileByAccountId(Long accountId);
+    Profile getProfileByEmail(String email);
     Account getAccountById(Long Id);
     Integer removeUserResponses(Long userId);
     List<Account> searchUsers(String searchTerm, int offset);
-    boolean updateProfile(ProfileDto profileDto);
+    boolean updateProfile(Profile profile);
     boolean removeUser(Long userId);
     boolean updateUserRole(Long userId, String role);
     boolean updateUserEmail(String oldEmail, String newEmail);

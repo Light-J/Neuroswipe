@@ -2,6 +2,7 @@ package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.configurators.PasswordStrengthConfig;
 import com.nsa.cubric.application.domain.PasswordResetToken;
+import com.nsa.cubric.application.domain.Profile;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
@@ -69,7 +70,7 @@ public class AccountServiceStatic implements AccountService {
     }
 
     @Override
-    public ProfileDto getProfileByEmail(String email){
+    public Profile getProfileByEmail(String email){
         return accountRepository.getProfileByEmail(email);
     }
 
@@ -80,8 +81,9 @@ public class AccountServiceStatic implements AccountService {
 
     @Override
     public Boolean updateProfile(ProfileDto profileDto) {
-        profileDto.setId(accountRepository.getProfileByEmail(loggedUserService.getUsername()).getId());
-        return accountRepository.updateProfile(profileDto);
+        Long profileId = loggedUserService.getUserProfileId();
+        Long accountId = loggedUserService.getUserAccountId();
+        return accountRepository.updateProfile(new Profile(profileDto, profileId, accountId));
     }
 
     @Override

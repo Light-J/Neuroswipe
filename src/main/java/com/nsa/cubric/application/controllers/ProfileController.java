@@ -1,12 +1,12 @@
 package com.nsa.cubric.application.controllers;
 
+import com.nsa.cubric.application.domain.Profile;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.services.AccountService;
 import com.nsa.cubric.application.services.LoggedUserService;
 import com.nsa.cubric.application.services.RewardService;
 import com.nsa.cubric.application.services.UserRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,7 +39,8 @@ public class ProfileController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView showUserProfile(Model model){
         String userName = loggedUserService.getUsername();
-        ProfileDto userProfileDto = accountService.getProfileByEmail(userName);
+        ProfileDto userProfileDto = new ProfileDto(accountService.getProfileByEmail(userName));
+
         model.addAttribute("profile", userProfileDto);
         return new ModelAndView("user_profile", "model", model);
     }
@@ -57,7 +58,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/certificate", method = RequestMethod.GET)
     public ModelAndView certificateContent(Model model){
-        ProfileDto user = accountService.getProfileByEmail(loggedUserService.getUsername());
+        ProfileDto user = new ProfileDto(accountService.getProfileByEmail(loggedUserService.getUsername()));
         model.addAttribute("profile", user);
         model.addAttribute("numberOfRatings", userRatingService.getNumberOfRatingsForUser());
 

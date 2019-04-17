@@ -1,5 +1,6 @@
 package com.nsa.cubric.application.dto;
 
+import com.nsa.cubric.application.domain.Profile;
 import com.nsa.cubric.application.services.registrationUtils.FirstFourLettersPostCode;
 
 
@@ -7,10 +8,9 @@ public class ProfileDto {
 
     String username;
     Integer age;
-    String gender;
-    Integer disability;
+    Boolean disability;
     Integer ethnicity;
-    Integer genderSexMatch;
+    Boolean genderSexMatch;
     Integer religion;
     String sex;
     Integer sexualOrientation;
@@ -19,10 +19,17 @@ public class ProfileDto {
     //Create an empty DTO for initial registration
     public ProfileDto(){}
 
-    public ProfileDto(String username, Integer age, String gender) {
-        this.username = username;
-        this.age = age;
-        this.gender = gender;
+
+
+    public ProfileDto(Profile profile){
+        this.username = profile.getUsername();
+        this.age = profile.getAge();
+        this.sex = profile.getSex();
+        this.ethnicity = profile.getEthnicityId();
+        this.genderSexMatch = profile.getGenderSexMatch();
+        this.religion = profile.getReligionId();
+        this.sexualOrientation = profile.getSexualOrientationId();
+        this.relationship = profile.getRelationshipId();
     }
 
     public String getUsername() {
@@ -41,19 +48,11 @@ public class ProfileDto {
         this.age = age;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public Integer getDisability() {
+    public Boolean getDisability() {
         return disability;
     }
 
-    public void setDisability(Integer disability) {
+    public void setDisability(Boolean disability) {
         this.disability = disability;
     }
 
@@ -65,11 +64,11 @@ public class ProfileDto {
         this.ethnicity = ethnicity;
     }
 
-    public Integer getGenderSexMatch() {
+    public Boolean getGenderSexMatch() {
         return genderSexMatch;
     }
 
-    public void setGenderSexMatch(Integer genderSexMatch) {
+    public void setGenderSexMatch(Boolean genderSexMatch) {
         this.genderSexMatch = genderSexMatch;
     }
 

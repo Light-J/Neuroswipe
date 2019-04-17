@@ -49,18 +49,6 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`account` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
--- -----------------------------------------------------
--- Table `brainschema`.`postcode`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `brainschema`.`postcode` ;
-
-CREATE TABLE IF NOT EXISTS `brainschema`.`postcode` (
-  `postcode_id` INT NOT NULL AUTO_INCREMENT,
-  `postcode` VARCHAR(4) NOT NULL,
-  PRIMARY KEY (`postcode_id`))
-ENGINE = InnoDB;
-
 -- -----------------------------------------------------
 -- Table `brainschema`.`ethnicity`
 -- -----------------------------------------------------
@@ -129,7 +117,6 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`profile` (
   `gender` VARCHAR(45) NULL DEFAULT NULL,
   `age` INT(11) NULL DEFAULT NULL,
   `account_id` INT(11) NOT NULL,
-  `postcode_id` INT NULL,
   `disability` TINYINT(1) NULL,
   `ethnicity_id` INT(2) NULL,
   `gender_identity_match` TINYINT(1) NULL,
@@ -140,24 +127,16 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`profile` (
   `caring_responsibilities_id` INT(2) NULL,
   PRIMARY KEY (`profile_id`),
   INDEX `fk_userprofile_useraccount1_idx` (`account_id` ASC),
-  INDEX `fk_userprofile_postcode1_idx` (`postcode_id` ASC),
   CONSTRAINT `fk_userprofile_useraccount1`
     FOREIGN KEY (`account_id`)
     REFERENCES `brainschema`.`account` (`account_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_userprofile_postcode1`
-    FOREIGN KEY (`postcode_id`)
-    REFERENCES `brainschema`.`postcode` (`postcode_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-    
     CONSTRAINT `fk_userprofile_ethnicity1`
     FOREIGN KEY (`ethnicity_id`)
     REFERENCES `brainschema`.`ethnicity` (`ethnicity_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-    
     CONSTRAINT `fk_userprofile_religion1`
     FOREIGN KEY (`religion_id`)
     REFERENCES `brainschema`.`religion` (`religion_id`)
@@ -377,34 +356,6 @@ BEGIN
 	RETURN (SELECT count(*) FROM rating WHERE profile_id = 
 				(SELECT profile_id FROM profile WHERE account_id =
 					(SELECT account_id FROM account WHERE email = given_user_email)));
-					
-END$$
-
-DELIMITER ;
-
-
--- -----------------------------------------------------
--- function check_or_add_postcode
--- -----------------------------------------------------
-
-USE `brainschema`;
-DROP function IF EXISTS `brainschema`.`check_or_add_postcode`;
-
-DELIMITER $$
-USE `brainschema`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `check_or_add_postcode`(given_postcode VARCHAR(255)) RETURNS int(11)
-BEGIN
-	DECLARE variable_checked_postcode_id INT;
-    
-    SET variable_checked_postcode_id = (SELECT postcode_id FROM postcode WHERE postcode = given_postcode);
-    
-    IF(variable_checked_postcode_id IS NULL) THEN
-		INSERT INTO postcode (postcode) VALUES (given_postcode);
-        SET variable_checked_postcode_id = (SELECT postcode_id FROM postcode WHERE postcode = given_postcode); 
-	END IF;
-    
-    return variable_checked_postcode_id;
-	
 					
 END$$
 
