@@ -114,7 +114,6 @@ DROP TABLE IF EXISTS `brainschema`.`profile` ;
 CREATE TABLE IF NOT EXISTS `brainschema`.`profile` (
   `profile_id` INT(11) NOT NULL AUTO_INCREMENT,
   `display_name` VARCHAR(45) NULL,
-  `gender` VARCHAR(45) NULL DEFAULT NULL,
   `age` INT(11) NULL DEFAULT NULL,
   `account_id` INT(11) NOT NULL,
   `disability` TINYINT(1) NULL,

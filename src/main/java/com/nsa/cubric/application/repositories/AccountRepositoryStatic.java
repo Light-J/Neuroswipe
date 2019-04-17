@@ -104,8 +104,8 @@ public class AccountRepositoryStatic implements AccountRepository {
     @Override
     public boolean updateProfile(Profile profile){
         try {
-            jdbcTemplate.update("UPDATE profile SET display_name=?, age=?, gender=? WHERE profile_id=?",
-                        profileDto.getUsername(), profileDto.getAge(), profileDto.getGender());
+            jdbcTemplate.update("UPDATE profile SET display_name=?, age=?, disability=?, gender_identity_match=?, sex=?,ethnicity_id=?, religion_id=?, sexual_orientation_id=?, relationship_id=? WHERE profile_id=?;",
+                        profile.getUsername(), profile.getAge(), profile.getDisability(), profile.getGenderSexMatch(), profile.getSex(), profile.getEthnicityId(), profile.getReligionId(), profile.getSexualOrientationId(), profile.getRelationshipId(), profile.getId());
             return true;
         } catch (Exception e){
             LOG.debug(e.getMessage());
@@ -213,4 +213,8 @@ public class AccountRepositoryStatic implements AccountRepository {
     public void ChangeUserPassword(Long accountId, String password){
         jdbcTemplate.update("UPDATE account set password = ? WHERE account_id = ?", password, accountId);
     }
+
+
+
+
 }
