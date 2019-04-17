@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.domain.Feedback;
+import com.nsa.cubric.application.domain.FeedbackForm;
 import com.nsa.cubric.application.repositories.FeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class FeedbackServiceStatic implements FeedbackService {
     }
 
     @Override
-    public void insertNewFeedback(Feedback feedback){
-        feedbackRepository.insertNewFeedback(feedback);
+    public void insertNewFeedback(FeedbackForm feedbackForm){
+        feedbackRepository.insertNewFeedback(feedbackForm);
     }
 
     @Override

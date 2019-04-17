@@ -31,16 +31,16 @@ public class FeedbackAPI {
      * requests to /feedback.
      * @return Boolean true indicating success.
      */
-    @PostMapping(value = "/", produces = "application/json")
-    public ResponseEntity addFeedback(@RequestParam(value = "feedbackText") String feedbackText) {
-        if(loggedUserService.getUsername() == null){
-            return new ResponseEntity<>(false, null, HttpStatus.FORBIDDEN);
-        }
-        Account loggedInUser = accountService.getAccountByEmail(loggedUserService.getUsername());
-        Feedback feedback = new Feedback(null, loggedInUser.getId(), feedbackText);
-        feedbackService.insertNewFeedback(feedback);
-        return new ResponseEntity<>(true, null, HttpStatus.OK);
-    }
+//    @PostMapping(value = "/", produces = "application/json")
+//    public ResponseEntity addFeedback(@RequestParam(value = "feedbackText") String feedbackText) {
+//        if(loggedUserService.getUsername() == null){
+//            return new ResponseEntity<>(false, null, HttpStatus.FORBIDDEN);
+//        }
+//        Account loggedInUser = accountService.getAccountByEmail(loggedUserService.getUsername());
+//        Feedback feedback = new Feedback(null, loggedInUser.getId(), feedbackText);
+//        feedbackService.insertNewFeedback(feedback);
+//        return new ResponseEntity<>(true, null, HttpStatus.OK);
+//    }
 
     /**
      * This method is used to return the JSON for all the feedback entries. It responds to GET

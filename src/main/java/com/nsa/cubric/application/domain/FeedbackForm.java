@@ -2,6 +2,7 @@ package com.nsa.cubric.application.domain;
 
 public class FeedbackForm {
 
+
     private String information1;
     private String information2;
     private String training;
