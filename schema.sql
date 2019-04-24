@@ -168,7 +168,13 @@ DROP TABLE IF EXISTS `brainschema`.`feedback` ;
 CREATE TABLE IF NOT EXISTS `brainschema`.`feedback` (
   `feedback_id` INT(11) NOT NULL AUTO_INCREMENT,
   `profile_id` INT(11) NOT NULL,
-  `feedback` TEXT NOT NULL,
+  `info_1` VARCHAR(45 )NOT NULL,
+  `info_2` VARCHAR(45 )NOT NULL,
+  `training` VARCHAR(45)NOT NULL,
+  `sorting` VARCHAR(45)NOT NULL,
+  `reward` VARCHAR(45)NOT NULL,
+  `ease_of_use` VARCHAR(45)NOT NULL,
+  `access` TEXT NOT NULL,
   PRIMARY KEY (`feedback_id`),
   INDEX `userprofileid` (`profile_id` ASC),
   CONSTRAINT `userfeedback_ibfk_1`

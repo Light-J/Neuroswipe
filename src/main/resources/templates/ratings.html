@@ -21,8 +21,14 @@
             </div>
             <div class="modal-body">
                 <h3 id="reward25_title">Temporal Lobe</h3>
-                <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal is involved in perceiving and remembering sounds. It also works in conjunction with the hippocampus to form conscious memories. The case of Henry Molaison 1926-2008: From an early age, Henry suffered from severe epilepsy. In an effort to control his seizures, he had an operation that removed a large part of his temporal lobe and hippocampus on both sides. Whilst the surgery cured him of his epilepsy, tragically he was left unable to form new memories.</p>
-                <img id="reward25_image" src="/img/reward_images/cerebellum.jpg" height="300">
+                <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal lobe is involved in perceiving and remembering sounds. It also works in with other areas of the brain to form conscious memories.</p>
+                <div class="card" style="width: 100%">
+                    <div class="card-body text-center">
+                        <img id="reward25_image" src="/img/reward_images/cerebellum.jpg" height="300">
+                        <h5 class="card-title" id="img_text" style="margin-top: 2rem">Temporal Lobe</h5>
+                    </div>
+                </div>
+                <button id="reward25_btn" class="btn btn-primary btn-block" onclick="change25Modal()">Next</button>
             </div>
         </div>
     </div>
@@ -42,8 +48,12 @@
                 </div>
                 <div class="modal-body">
                     <h3 id="reward_title">The parietal lobe</h3>
-                    <p id="reward_body">Well done – you just unlocked the parietal lobe! The parietal lobe contains an area of gray matter called the sensory strip. This processes sensory information such as pain, touch and temperature. The somatosensory homunculus: The sensory strip contains a map of our body. This is called the somatosensory homunculus and is shown below. When you touch something soft with your hand, this information will travel up to the sensory strip to where the hand is mapped on the homunculus. </p>
-                    <img id="reward_image" src="/img/reward_images/cerebellum.jpg" height="300">
+                    <p id="reward_body">Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of grey matter called the sensory strip. This processes sensory information such as pain, touch and temperature.</p>
+                    <img id="reward_image" src="/img/img23.png" height="300">
+                    <p>The sensory strip is like a map of our body – the bumps and grooves on the brain’s surface receive information from different parts of the body. It is called the somatosensory homunculus (shown below). The bigger the body part is on the homunculus, the more sensitive the body part. You can see the hands are huge!</p>
+                    <img id="sensory_strip_img" src="/img/reward_case_3.jpg">
+                    <p>Brain surgeons use the homunculus to guide them surgery. If they touch the brain at the hand’s part, the patient feels as if someone is actually touching their hand!</p>
+                    <br>
                     <h3>50 ratings complete</h3>
                     <p>Thank you for the good work! Why don't you take a break and leave some feedback?</p>
                     <div class="container">
@@ -144,7 +154,6 @@
                 success: function(data){
                     if(!data){
                         //show 50 modal
-                        $('#feedbackRewardModal').find("img").attr("src","/img/img23.png");
                         $('#feedbackRewardModal').modal('show');
                         $.ajax({
                             type: "POST",
@@ -259,6 +268,15 @@
             e.preventDefault(); // prevent the default action (scroll / move caret)
         });
     });
+
+    function change25Modal() {
+        document.getElementById("rewardModalLongTitle").innerHTML = "Case Study"
+        document.getElementById("reward25_title").innerHTML = "The case of Henry Molaison 1926-2008:";
+        document.getElementById("reward25_body").innerHTML = "From an early age, Molaison suffered from severe epilepsy. In an effort to control his seizures, he underwent a major operation that removed a large part of his temporal lobe and hippocampus. Whilst the surgery cured Molaison of his epilepsy he was tragically left unable to form new memories.";
+        document.getElementById("reward25_image").src = "/img/reward_case_2.jpg";
+        document.getElementById("img_text").innerHTML = "Henry Molaison"
+        document.getElementById("reward25_btn").style.display = "none";
+    }
 
 </script>
 <style>
