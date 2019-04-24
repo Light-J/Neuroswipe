@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.domain.Scan;
+import com.nsa.cubric.application.domain.ScanResult;
 
 import java.util.List;
 import java.util.Map;
@@ -16,4 +17,5 @@ public interface ScanService {
     Optional<Scan> getNextPractice();
     List<Scan> getScansFiltered(Integer minResponses, Integer percentageGood);
     List<Scan> getScansFilteredPaginated(Integer minResponses, Integer percentageGood, int Paginated);
+    List<ScanResult> getScanResults(Integer[] scanIds);
 }

@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.domain.Scan;
+import com.nsa.cubric.application.domain.ScanResult;
 import com.nsa.cubric.application.repositories.ScanRepository;
 import com.nsa.cubric.application.repositories.ScanRepositoryStatic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,10 @@ public class ScanServiceStatic implements ScanService {
             percentageGood = 0;
         }
         return scanRepository.getScansFilteredPaginated(minResponses, percentageGood, (10*(page-1)));
+    }
+
+    public List<ScanResult> getScanResults(Integer[] scanIds){
+        return scanRepository.getScanResults(scanIds);
     }
 }
 
