@@ -1,6 +1,7 @@
 package com.nsa.cubric.application.repositories;
 
 
+import com.nsa.cubric.application.domain.Profile;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.domain.Account;
@@ -51,9 +52,7 @@ public class AccountRepositoryTest {
     @Test
     public void insertUserAccountAndCheckDetails() throws Exception{
         Account retrievedAccount = accountRepository.getAccountByEmail("user@test");
-        ProfileDto retrievedProfileDto = accountRepository.getProfileByEmail("user@test");
         assertEquals("user@test", retrievedAccount.getEmail());
-        assertEquals(retrievedAccount.getId().longValue(), retrievedProfileDto.getUserAccountId());
     }
 
 

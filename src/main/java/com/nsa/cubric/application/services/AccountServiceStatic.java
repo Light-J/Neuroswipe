@@ -1,10 +1,9 @@
 package com.nsa.cubric.application.services;
 
 import com.nsa.cubric.application.configurators.PasswordStrengthConfig;
-import com.nsa.cubric.application.domain.PasswordResetToken;
+import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
-import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.repositories.AccountRepository;
 
@@ -69,7 +68,7 @@ public class AccountServiceStatic implements AccountService {
     }
 
     @Override
-    public ProfileDto getProfileByEmail(String email){
+    public Profile getProfileByEmail(String email){
         return accountRepository.getProfileByEmail(email);
     }
 
@@ -80,8 +79,9 @@ public class AccountServiceStatic implements AccountService {
 
     @Override
     public Boolean updateProfile(ProfileDto profileDto) {
-        profileDto.setId(accountRepository.getProfileByEmail(loggedUserService.getUsername()).getId());
-        return accountRepository.updateProfile(profileDto);
+        Long profileId = loggedUserService.getUserProfileId();
+        Long accountId = loggedUserService.getUserAccountId();
+        return accountRepository.updateProfile(new Profile(profileDto, profileId, accountId));
     }
 
     @Override
@@ -184,4 +184,22 @@ public class AccountServiceStatic implements AccountService {
         accountRepository.ChangeUserPassword(accountId, passwordEncoder().encode(password));
         accountRepository.removeExistingResetTokenForUser(accountId);
     }
+
+    public List<Relationship> getAllRelationshipOptions(){
+        return accountRepository.getAllRelationshipOptions();
+    }
+    public List<Religion> getAllReligionOptions(){
+        return  accountRepository.getAllReligionOptions();
+    }
+    public List<SexualOrientation> getAllSexualOrientationOptions(){
+        return accountRepository.getAllSexualOrientationOptions();
+    }
+    public List<Ethnicity> getAllEthnicityOptions(){
+        return accountRepository.getAllEthnicityOptions();
+    }
+
+    public List<CarerResponsibility> getAllCarerResponsibilityOptions(){
+        return accountRepository.getAllCarerResponsibilityOptions();
+    }
+
 }

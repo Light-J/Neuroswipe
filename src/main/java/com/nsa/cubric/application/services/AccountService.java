@@ -1,9 +1,8 @@
 package com.nsa.cubric.application.services;
 
-import com.nsa.cubric.application.domain.PasswordResetToken;
+import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
-import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -15,7 +14,7 @@ public interface AccountService {
     Account registerNewUserAccount(AccountDto account) throws EmailExistsException;
     Account getAccountByEmail(String email);
     Account getAccountById(Long id);
-    ProfileDto getProfileByEmail(String email);
+    Profile getProfileByEmail(String email);
     Boolean updateProfile(ProfileDto profileDto);
     List<Account> searchUsers(String searchTerm, int page);
     BindingResult checkPasswordStrengthOnAccount(AccountDto account, BindingResult result);
@@ -30,4 +29,10 @@ public interface AccountService {
     void removeExistingTokens(String email);
     String validatePasswordResetToken(Long id, String token);
     void changeUserPassword(String password, Long accountId);
+
+    List<Relationship> getAllRelationshipOptions();
+    List<Religion> getAllReligionOptions();
+    List<SexualOrientation> getAllSexualOrientationOptions();
+    List<Ethnicity> getAllEthnicityOptions();
+    List<CarerResponsibility> getAllCarerResponsibilityOptions();
 }
