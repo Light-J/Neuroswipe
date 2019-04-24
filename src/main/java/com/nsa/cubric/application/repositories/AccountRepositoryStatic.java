@@ -1,8 +1,8 @@
 package com.nsa.cubric.application.repositories;
 
+import com.nsa.cubric.application.domain.*;
 import com.nsa.cubric.application.dto.AccountDto;
 import com.nsa.cubric.application.dto.ProfileDto;
-import com.nsa.cubric.application.domain.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.management.relation.Relation;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -18,7 +22,13 @@ public class AccountRepositoryStatic implements AccountRepository {
     private static final Logger LOG = LoggerFactory.getLogger(AccountRepositoryStatic.class);
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Account> accountMapper;
-    private RowMapper<ProfileDto> profileMapper;
+    private RowMapper<Profile> profileMapper;
+    private RowMapper<PasswordResetToken> tokenMapper;
+    private RowMapper<Ethnicity> ethnicityMapper;
+    private RowMapper<SexualOrientation> sexualOrientationMapper;
+    private RowMapper<Religion> religionMapper;
+    private RowMapper<Relationship> relationshipMapper;
+    private RowMapper<CarerResponsibility> carerResponsibilityMapper;
 
     @Autowired
     public AccountRepositoryStatic(JdbcTemplate aTemplate) {
@@ -32,14 +42,52 @@ public class AccountRepositoryStatic implements AccountRepository {
                 (Boolean) rs.getObject("account_disabled")
         );
 
-        profileMapper = (rs, i) -> new ProfileDto(
+        profileMapper = (rs, i) -> new Profile(
                 rs.getLong("profile_id"),
-                rs.getString("display_name"),
-                rs.getString("postcode"),
                 rs.getLong("account_id"),
+                rs.getString("display_name"),
                 rs.getInt("age"),
-                rs.getString("gender")
+                (Boolean) rs.getObject("disability"),
+                (Boolean) rs.getObject("gender_identity_match"),
+                rs.getString("sex"),
+                rs.getInt("ethnicity_id"),
+                rs.getInt("religion_id"),
+                rs.getInt("sexual_orientation_id"),
+                rs.getInt("relationship_id"),
+                rs.getInt("caring_responsibilities_id")
         );
+
+        tokenMapper = (rs, i) -> new PasswordResetToken(
+                rs.getString("token"),
+                rs.getLong("account_id"),
+                rs.getDate("expiry_date")
+        );
+
+        ethnicityMapper = (rs, i) -> new Ethnicity(
+                rs.getInt("ethnicity_id"),
+                rs.getString("ethnicity")
+        );
+
+        sexualOrientationMapper = (rs, i) -> new SexualOrientation(
+                rs.getInt("sexual_orientation_id"),
+                rs.getString("sexual_orientation")
+        );
+
+        religionMapper = (rs, i) -> new Religion(
+                rs.getInt("religion_id"),
+                rs.getString("religion")
+        );
+
+        relationshipMapper = (rs, i) -> new Relationship(
+                rs.getInt("relationship_id"),
+                rs.getString("relationship")
+        );
+
+        carerResponsibilityMapper = (rs, i) -> new CarerResponsibility(
+                rs.getInt("caring_responsibilities_id"),
+                rs.getString("caring_responsibilities")
+        );
+
     }
 
     @Override
@@ -85,35 +133,27 @@ public class AccountRepositoryStatic implements AccountRepository {
 
 
     @Override
-    public boolean updateProfile(ProfileDto profileDto){
+    public boolean updateProfile(Profile profile){
+        System.out.println(profile.toString());
         try {
-            if(profileDto.getPostcode().equals("")) {
-                jdbcTemplate.update("UPDATE profile SET postcode_id = null WHERE profile_id = ?", profileDto.getId());
-            } else {
-                jdbcTemplate.update("UPDATE profile SET postcode_id = (SELECT brainschema.check_or_add_postcode(?)) WHERE profile_id = ?", profileDto.getPostcode(), profileDto.getId());
-            }
-
-            jdbcTemplate.update("UPDATE profile SET display_name=?, age=?, gender=? WHERE profile_id=?",
-                        profileDto.getUsername(), profileDto.getAge(), profileDto.getGender(), profileDto.getId());
+            jdbcTemplate.update("UPDATE profile SET display_name=?, age=?, disability=?, gender_identity_match=?, sex=?,ethnicity_id=?, religion_id=?, sexual_orientation_id=?, relationship_id=?, caring_responsibilities_id=? WHERE profile_id=?;",
+                        profile.getUsername(), profile.getAge(), profile.getDisability(), profile.getGenderSexMatch(), profile.getSex(), profile.getEthnicityId(), profile.getReligionId(), profile.getSexualOrientationId(), profile.getRelationshipId(), profile.getCaringResponsibility(), profile.getId());
             return true;
         } catch (Exception e){
             LOG.debug(e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
 
     @Override
-    public ProfileDto getProfileByAccountId(Long accountId){
-            return jdbcTemplate.queryForObject(
-                    "SELECT profile.profile_id, profile.display_name, postcode.postcode, profile.age, profile.gender, profile.account_id \n" +
-                            "   FROM profile \n" +
-                            "    LEFT JOIN postcode ON postcode.postcode_id = profile.postcode_id\n" +
-                            "    WHERE account_id = ?;",
-                    new Object[]{accountId},profileMapper);
+    public Profile getProfileByAccountId(Long accountId){
+        return jdbcTemplate.queryForObject("SELECT * FROM profile where account_id = ? ",
+                new Object[]{accountId},profileMapper);
     }
 
     @Override
-    public ProfileDto getProfileByEmail(String email) {
+    public Profile getProfileByEmail(String email) {
         Account account = getAccountByEmail(email);
         return getProfileByAccountId(account.getId());
     }
@@ -164,5 +204,55 @@ public class AccountRepositoryStatic implements AccountRepository {
         int rowsAffected = jdbcTemplate.update("UPDATE account set account_disabled = ? WHERE account_id = ?;", disabled, userId);
         return rowsAffected == 1;
     }
+
+    @Override
+    public void removeExistingResetTokenForUser(Long accountId){
+        jdbcTemplate.update("DELETE FROM password_reset_token WHERE account_id = ? ", accountId);
+    }
+
+    @Override
+    public boolean addResetToken(PasswordResetToken token){
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        int rowsAffected = jdbcTemplate.update("INSERT INTO password_reset_token (token, account_id, expiry_date) values (?, ?, ?)", token.getToken(), token.getAccountId(), sdf.format(token.getExpiryDate()));
+        return rowsAffected == 1;
+    }
+
+    @Override
+    public PasswordResetToken getResetToken(String token){
+        try{
+            return jdbcTemplate.queryForObject("SELECT * FROM password_reset_token WHERE token = ?", new Object[]{token}, tokenMapper);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public void ChangeUserPassword(Long accountId, String password){
+        jdbcTemplate.update("UPDATE account set password = ? WHERE account_id = ?", password, accountId);
+    }
+
+
+    public List<Relationship> getAllRelationshipOptions(){
+        return jdbcTemplate.query("SELECT * FROM relationship", new Object[]{}, relationshipMapper);
+    }
+
+    public List<Religion> getAllReligionOptions(){
+        return jdbcTemplate.query("SELECT * FROM religion", new Object[]{}, religionMapper);
+    }
+
+    public List<SexualOrientation> getAllSexualOrientationOptions(){
+        return jdbcTemplate.query("SELECT * FROM sexual_orientation", new Object[]{}, sexualOrientationMapper);
+    }
+
+    public List<Ethnicity> getAllEthnicityOptions(){
+        return jdbcTemplate.query("SELECT * FROM ethnicity", new Object[]{}, ethnicityMapper);
+    }
+
+    public List<CarerResponsibility> getAllCarerResponsibilityOptions(){
+        return jdbcTemplate.query("SELECT * FROM caring_responsibilities", new Object[]{}, carerResponsibilityMapper);
+    }
+
+
+
 
 }
