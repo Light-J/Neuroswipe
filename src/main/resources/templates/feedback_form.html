@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='Feedback')" ></head>
+
+<style>
+    .country
+    {
+        display:none;
+    }
+
+</style>
+
     <body>
 
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
@@ -21,6 +30,7 @@
                     <label class="control-label" for="InformationQ1">Did the introduction give you the right amount of information about the project and the task?</label>
                     <div>
                         <select class="form-control" id="InformationQ1" th:field="*{information1}">
+                            <option value="No Answer" selected="selected" class="country">Please select...</option>
                             <option value="Not enough information">Not enough information</option>
                             <option value="About the right amount of information">About the right amount of information</option>
                             <option value="Too much information">Too much information</option>
@@ -36,6 +46,7 @@
                 <label class="control-label" for="InformationQ2">Did you feel you understood what it is all about?</label>
                 <div>
                     <select class="form-control" id="InformationQ2" th:field="*{information2}">
+                        <option value="No Answer" selected="selected" class="country">Please select...</option>
                         <option value="Not At All">Not At All</option>
                         <option value="Not Really">Not Really</option>
                         <option value="Yes mostly">Yes mostly</option>
@@ -56,6 +67,7 @@
                 <label class="control-label" for="TrainingQ">Did the training phase make you feel confident to do the sorting task?</label>
                 <div>
                     <select class="form-control" id="TrainingQ" th:field="*{training}">
+                        <option value="No Answer" selected="selected" class="country">Please select...</option>
                         <option value="Definitely Not">Definitely Not</option>
                         <option value="Not Really">Not Really</option>
                         <option value="Yes Probably">Yes Probably</option>
@@ -75,6 +87,7 @@
                     <label class="control-label" for="SortingQ">Did you feel the task you were asked to do was easy enough?</label>
                     <div>
                         <select class="form-control" id="SortingQ" th:field="*{sorting}">
+                            <option value="No Answer" selected="selected" class="country">Please select...</option>
                             <option value="Really Easy">Really Easy</option>
                             <option value="Quite Easy">Quite Easy</option>
                             <option value="Quite Difficult">Quite Difficult</option>
@@ -94,6 +107,7 @@
                     <label class="control-label" for="RewardQ">Did you feel the reward system and fun facts were enjoyable/interesting?</label>
                     <div>
                         <select class="form-control" id="RewardQ" th:field="*{reward}">
+                            <option value="No Answer" selected="selected" class="country">Please select...</option>
                             <option value="Not At All">Not at all</option>
                             <option value="Not Really">Not really</option>
                             <option value="Yes mostly">Yes mostly</option>
@@ -113,6 +127,7 @@
                     <label class="control-label" for="EaseOfUseQ">Was the site straightforward to use?</label>
                     <div>
                         <select class="form-control" id="EaseOfUseQ" th:field="*{easeOfUse}">
+                            <option value="No Answer" selected="selected" class="country">Please select...</option>
                             <option value="Not At All">Not at all</option>
                             <option value="Not Really">Not really</option>
                             <option value="Yes mostly">Yes mostly</option>
