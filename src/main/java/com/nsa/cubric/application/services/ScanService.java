@@ -17,5 +17,5 @@ public interface ScanService {
     Optional<Scan> getNextPractice();
     List<Scan> getScansFiltered(Integer minResponses, Integer percentageGood);
     List<Scan> getScansFilteredPaginated(Integer minResponses, Integer percentageGood, int Paginated);
-    List<ScanResult> getScanResults(int[] scanIds);
+    List<ScanResult> getScanResults(Integer[] scanIds);
 }

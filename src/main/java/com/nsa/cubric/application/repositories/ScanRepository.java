@@ -17,5 +17,5 @@ public interface ScanRepository {
     public Optional<Scan> getNextPractice();
     List<Scan> getScansFiltered(int minResponses, int percentageGood);
     List<Scan> getScansFilteredPaginated(int minResponses, int percentageGood, int offset);
-    List<ScanResult> getScanResults(int[] scanIds);
+    List<ScanResult> getScanResults(Integer[] scanIds);
 }

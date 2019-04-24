@@ -77,7 +77,7 @@ public class ScanServiceStatic implements ScanService {
         return scanRepository.getScansFilteredPaginated(minResponses, percentageGood, (10*(page-1)));
     }
 
-    public List<ScanResult> getScanResults(int[] scanIds){
+    public List<ScanResult> getScanResults(Integer[] scanIds){
         return scanRepository.getScanResults(scanIds);
     }
 }

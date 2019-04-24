@@ -7,10 +7,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class ScanRepositoryStatic implements ScanRepository {
@@ -32,7 +32,7 @@ public class ScanRepositoryStatic implements ScanRepository {
         );
 
         scanResultMapper = (rs, i) -> new ScanResult(
-                rs.getInt("scan_id"),
+                rs.getString("name").replaceAll("top/", ""),
                 rs.getInt("good"),
                 rs.getInt("bad")
         );
@@ -122,9 +122,16 @@ public class ScanRepositoryStatic implements ScanRepository {
     }
 
     @Override
-    public List<ScanResult> getScanResults(int[] scanIds){
+    public List<ScanResult> getScanResults(Integer[] scanIds){
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("ids", scanIds);
-        return jdbcTemplate.query("select sum(response) as 'good', count(*)-sum(response) as 'bad', scan_id from rating WHERE scan_id IN ? GROUP BY scan_id", new Object[]{parameters}, scanResultMapper);
+        NamedParameterJdbcTemplate template =
+                new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
+        List ids = Arrays.asList(scanIds);
+        Map<String, List> paramMap = Collections.singletonMap("ids", ids);
+
+
+        List<ScanResult> results =  template.query("select sum(response) as 'good', count(*)-sum(response) as 'bad', s.top_image as 'name' from rating JOIN scan s on rating.scan_id = s.scan_id WHERE rating.scan_id IN (:ids) GROUP BY rating.scan_id", paramMap, scanResultMapper);
+        System.out.println(results.toString());
+        return results;
     }
 }
