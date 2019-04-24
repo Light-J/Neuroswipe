@@ -14,7 +14,11 @@ To run the project
 
 - On this database you will need to run schema.sql which is provided within the project. 
 - *Note Within this schema there is a default admin, the credentials for this will need to be changed to secure the application. Or this user can be removed (Can only be done from database not application) and you will have to create an admin user manually. (Create a simple user then edit their role with an SQL update query)*
+``` sql 
+SELECT * FROM account;
 
+UPDATE account SET role='admin' WHERE account_id = <account id>;
+```
 #### Step 2: Create and configure the application
  The application uses a series of properties. You can configure these in 2 ways:
 1. edit the application-prod.properties file located within the project source
