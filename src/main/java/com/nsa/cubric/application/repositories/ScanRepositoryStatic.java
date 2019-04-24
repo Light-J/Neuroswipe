@@ -1,10 +1,12 @@
 package com.nsa.cubric.application.repositories;
 
 import com.nsa.cubric.application.domain.Scan;
+import com.nsa.cubric.application.domain.ScanResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class ScanRepositoryStatic implements ScanRepository {
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Scan> scanMapper;
+    private RowMapper<ScanResult> scanResultMapper;
 
     @Autowired
     public ScanRepositoryStatic(JdbcTemplate aTemplate) {
@@ -27,6 +30,14 @@ public class ScanRepositoryStatic implements ScanRepository {
                 (Boolean) rs.getObject("known_good"),
                 rs.getString("bad_reason")
         );
+
+        scanResultMapper = (rs, i) -> new ScanResult(
+                rs.getInt("scan_id"),
+                rs.getInt("good"),
+                rs.getInt("bad")
+        );
+
+
     }
 
     @Override
@@ -108,5 +119,12 @@ public class ScanRepositoryStatic implements ScanRepository {
                         "LIMIT ?, 10;",
                 new Object[]{minResponses, percentageGood, offset}, scanMapper
         );
+    }
+
+    @Override
+    public List<ScanResult> getScanResults(int[] scanIds){
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("ids", scanIds);
+        return jdbcTemplate.query("select sum(response) as 'good', count(*)-sum(response) as 'bad', scan_id from rating WHERE scan_id IN ? GROUP BY scan_id", new Object[]{parameters}, scanResultMapper);
     }
 }
