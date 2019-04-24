@@ -101,16 +101,16 @@
             $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
             $("#brainImage1").data("id", imageData.id);
             $("#yesButton, #noButton").fadeIn(250);
-            $("#imagesCard").fadeOut(250, function () {
+            $("#imagesCard").fadeOut(350, function () {
                 $("#imagesCard").removeClass("swipe-right swipe-left");
                 $("#imagesCard").fadeIn(250);
+                $("#yesButton, #noButton").attr("disabled", false);
             });
+
         });
 
         var percentage = ($("#bar").width() / $('#bar').parent().width() * 100)+2;
         updateProgressBar(percentage);
-
-
 
         if(percentage > 49.5 && percentage < 50.5){
             $.ajax({
@@ -166,7 +166,6 @@
     };
 
     var saveDecisionAndNextImage = function(goodBrain){
-        //$("#yesButton, #noButton").hide();
         if(goodBrain){
             $("#imagesCard").addClass("swipe-right");
         }else{
@@ -243,11 +242,15 @@
             switch(e.which) {
                 case 37: // left
                     if(!$("#noButton").prop("disabled")){
+                        console.log($("#yesButton, #noButton").prop("disabled"));
+                        $("#yesButton, #noButton").attr("disabled", true);
                         saveDecisionAndNextImage(false);
                     }
                     break;
                 case 39: // right
                     if(!$("#yesButton").prop("disabled")) {
+                        console.log($("#yesButton, #noButton").prop("disabled"));
+                        $("#yesButton, #noButton").attr("disabled", true);
                         saveDecisionAndNextImage(true);
                     }
                     break;
