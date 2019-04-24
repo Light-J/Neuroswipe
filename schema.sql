@@ -202,6 +202,7 @@ CREATE TABLE IF NOT EXISTS `brainschema`.`rating` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+ALTER TABLE `rating` ADD `lastUpdated` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ;
 
 -- -----------------------------------------------------
 -- Table `brainschema`.`version`

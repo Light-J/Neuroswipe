@@ -49,7 +49,7 @@
     }
 
     function getScans(page){
-        $.getJSON("/scans/?page="+page, function( scans ) {
+        $.getJSON("/api/scans/?page="+page, function( scans ) {
             updatePageNumber(page);
             clearTable();
             for (var i = 0; i < scans.length; i++) {
@@ -92,7 +92,7 @@
                 $(this).find(".knownGood select").val(knownGood);
 
                 $(this).find(".reasonSave").on("click", function (e) {
-                    $.post("/scans/"+id+"/setReason", { reason: $('textarea[data-id='+id+']').val() })
+                    $.post("/api/scans/"+id+"/setReason", { reason: $('textarea[data-id='+id+']').val() })
                         .done(function( data ) {
                             $.notify("Reason saved", {
                             });
@@ -111,7 +111,7 @@
                         knownGood = null;
                     }
 
-                    $.post("/scans/"+$(this).data("id")+"/setKnownGood", { knownGood: knownGood })
+                    $.post("/api/scans/"+$(this).data("id")+"/setKnownGood", { knownGood: knownGood })
                         .done(function( data ) {
                             $.notify("Option saved", {
                             });
