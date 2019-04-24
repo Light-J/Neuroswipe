@@ -3,7 +3,6 @@ package com.nsa.cubric.application.dto;
 import com.nsa.cubric.application.domain.Profile;
 import com.nsa.cubric.application.services.registrationUtils.FirstFourLettersPostCode;
 
-
 public class ProfileDto {
 
     String username;

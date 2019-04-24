@@ -52,21 +52,29 @@ public class RegistrationController {
     public String showDetailsForm(Model model){
         ProfileDto userProfileDto = new ProfileDto(accountService.getProfileByEmail(loggedUserService.getUsername()));
         model.addAttribute("profile", userProfileDto);
+        model = addOptionsToModelView(model);
+        return "register_details";
+    }
+
+    @RequestMapping(value="/details", method = RequestMethod.POST)
+    public ModelAndView updateUserProfile(@ModelAttribute("profile") @Valid ProfileDto profileDto, BindingResult result, Model model){
+        model.addAttribute("profile", profileDto);
+        model = addOptionsToModelView(model);
+
+        if (result.hasErrors()){
+            return new ModelAndView("register_details", "model", model);
+        }
+        Boolean updateProfile = accountService.updateProfile(profileDto);
+        return new ModelAndView("user_profile", "profile", profileDto);
+    }
+
+    private Model addOptionsToModelView(Model model){
         model.addAttribute("ethnicityOptions", accountService.getAllEthnicityOptions());
         model.addAttribute("religionOptions", accountService.getAllReligionOptions());
         model.addAttribute("relationshipOptions", accountService.getAllRelationshipOptions());
         model.addAttribute("sexualOrientationOptions", accountService.getAllSexualOrientationOptions());
         model.addAttribute("caringResponsibilityOptions", accountService.getAllCarerResponsibilityOptions());
-        return "register_details";
-    }
-
-    @RequestMapping(value="/details", method = RequestMethod.POST)
-    public ModelAndView updateUserProfile(@ModelAttribute("profile") @Valid ProfileDto profileDto, BindingResult result){
-        if (result.hasErrors()){
-            return new ModelAndView("register_details", "profile", profileDto);
-        }
-        Boolean updateProfile = accountService.updateProfile(profileDto);
-        return new ModelAndView("user_profile", "profile", profileDto);
+        return model;
     }
 
     @RequestMapping(value = "/account", method = RequestMethod.POST)
