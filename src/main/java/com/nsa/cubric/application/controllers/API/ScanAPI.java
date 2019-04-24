@@ -153,9 +153,9 @@ public class ScanAPI {
         ArrayList<File> front_files = new ArrayList<>();
 
         for (Scan scan:allScans) {
-            front_files.add(new File("brain_images\\" + scan.getTopImage()));
-            side_files.add(new File("brain_images\\" + scan.getSideImage()));
-            top_files.add(new File("brain_images\\" + scan.getFrontImage()));
+            front_files.add(new File("brain_images/" + scan.getTopImage()));
+            side_files.add(new File("brain_images/" + scan.getSideImage()));
+            top_files.add(new File("brain_images/" + scan.getFrontImage()));
         }
         //packing files
         for (int i = 0; i<front_files.size(); i++) {
