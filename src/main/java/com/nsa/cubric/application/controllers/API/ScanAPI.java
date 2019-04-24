@@ -1,5 +1,7 @@
 package com.nsa.cubric.application.controllers.API;
+import com.nsa.cubric.application.domain.ScanResult;
 import com.nsa.cubric.application.services.*;
+import com.opencsv.CSVWriter;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.nsa.cubric.application.services.ScanServiceStatic;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nsa.cubric.application.domain.Scan;
 
 import java.util.*;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @RequestMapping("api/scans")
@@ -151,18 +154,41 @@ public class ScanAPI {
         ArrayList<File> top_files = new ArrayList<>();
         ArrayList<File> side_files = new ArrayList<>();
         ArrayList<File> front_files = new ArrayList<>();
+        ArrayList<Integer> scanIds = new ArrayList<>();
 
         for (Scan scan:allScans) {
-            front_files.add(new File("brain_images\\" + scan.getTopImage()));
-            side_files.add(new File("brain_images\\" + scan.getSideImage()));
-            top_files.add(new File("brain_images\\" + scan.getFrontImage()));
+            front_files.add(new File("brain_images/" + scan.getTopImage()));
+            side_files.add(new File("brain_images/" + scan.getSideImage()));
+            top_files.add(new File("brain_images/" + scan.getFrontImage()));
+            scanIds.add(scan.getId());
         }
+
+
         //packing files
         for (int i = 0; i<front_files.size(); i++) {
             FileHelper.addFileToOutputStream(zipOutputStream, front_files.get(i), front_files.get(i).getName().replace(".jpg", "")+"_front.jpg");
             FileHelper.addFileToOutputStream(zipOutputStream, top_files.get(i), top_files.get(i).getName().replace(".jpg", "")+"_top.jpg");
             FileHelper.addFileToOutputStream(zipOutputStream, side_files.get(i), side_files.get(i).getName().replace(".jpg", "")+"_side.jpg");
             }
+
+        List<ScanResult> allResults = scanService.getScanResults(scanIds.toArray(new Integer[scanIds.size()]));
+
+        File ratingForScans = new File("ratings.csv");
+        FileWriter output = new FileWriter(ratingForScans);
+        CSVWriter writer = new CSVWriter(output);
+
+        String[] header = { "Scan id", "Number of good ratings", "Number of bad ratings" };
+        writer.writeNext(header);
+
+        for (ScanResult scanresult: allResults) {
+            writer.writeNext(scanresult.getCSVFormatted());
+            //writer.write(scanresult.getScanId() + "," + scanresult.getGoodRatings() + "," + scanresult.getBadRatings());
+        }
+        writer.close();
+
+        FileHelper.addFileToOutputStream(zipOutputStream, ratingForScans, "Ratings.csv");
+        ratingForScans.delete();
+
 
         if (zipOutputStream != null) {
             zipOutputStream.finish();

@@ -40,5 +40,6 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     compile('com.nulab-inc:zxcvbn:1.2.5')
     compile "org.springframework.boot:spring-boot-starter-mail:2.0.1.RELEASE"
+    compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
     
 }

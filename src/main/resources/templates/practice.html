@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+    .overflow-hidden {
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+</style>
     <head th:replace="fragments/head(title='Practice')" ></head>
-    <style>
-        .overflow-hidden {
-            overflow-y: scroll;
-        }
-    </style>
-    <body>
-        <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
-        <div class="modal fade" id="wrongAlert" tabindex="-1" role="dialog" aria-labelledby="wrongAlert" aria-hidden="true">
-            <div class="modal-dialog alert-danger" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <img src="/img/baseline-warning-24px.svg">
-                        &nbsp;
-                        <h5 class="modal-title">Sorry but that answer is incorrect</h5>
 
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <p id="wrongAnswerReason">Filler text</p>
+    <body class="overflow-hidden">
+        <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+        <div class="container">
+            <div class="modal fade" id="wrongAlert" tabindex="-1" role="dialog" aria-labelledby="wrongAlert" aria-hidden="true">
+                <div class="modal-dialog alert-danger" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <img src="/img/baseline-warning-24px.svg">
+                            &nbsp;
+                            <h5 class="modal-title">Sorry but that answer is incorrect</h5>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue</button>
+                        <div class="modal-body">
+                            <div>
+                                <p id="wrongAnswerReason">Filler text</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="container">
             <div th:replace="fragments/information"></div>
             <div class="card">
                 <div class="card-body row text-center">
