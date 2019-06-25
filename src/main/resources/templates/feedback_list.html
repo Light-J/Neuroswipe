@@ -1,60 +1,137 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='Feedback')" ></head>
+<style>
+    .card{
+        margin-bottom: 10px;
+    }
+
+    @media screen and (min-width: 1200px) {
+        .card {
+            margin: 10px;
+            width: 30%;
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+</style>
     <body>
 
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
-        <div class="container">
+        <div class="container-fluid">
             <h1>Feedback Received</h1>
 
+            <div class="row">
 
+                <div class="card">
+                    <h5 class="card-title text-center">Did the introduction give you the right amount of information about the project and the task?</h5>
+                    <div class="card-body">
+                        <canvas id="info1Chart" width="300" height="300"></canvas>
+                    </div>
+                </div>
 
+                <div class="card">
+                    <h5 class="card-title text-center">Did you feel you understood what it is all about?</h5>
+                    <div class="card-body">
+                        <canvas id="info2Chart" width="300" height="300"></canvas>
+                    </div>
+                </div>
 
+                <div class="card">
+                    <h5 class="card-title text-center">Did the training phase make you feel confident to do the sorting task?</h5>
+                    <div class="card-body">
+                        <canvas id="trainingChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="card">
+                    <h5 class="card-title text-center">Did you feel the task you were asked to do was easy enough?</h5>
+                    <div class="card-body">
+                        <canvas id="sortingChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
 
+                <div class="card">
+                    <h5 class="card-title text-center">Did you feel the reward system and fun facts were enjoyable/interesting?</h5>
+                    <div class="card-body">
+                        <canvas id="rewardChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
 
-
+                <div class="card">
+                    <h5 class="card-title text-center">Was the site straightforward to use and accessible?</h5>
+                    <div class="card-body">
+                        <canvas id="easeOfAccessChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
+        <script>
+            $.ajax({
+                url: '/api/feedback/',
+                type: 'GET',
+                success: function (feedbackResults) {
+                    info1Data = [feedbackResults.info1.tooLittle, feedbackResults.info1.aboutRight, feedbackResults.info1.tooMuch];
+                    drawChart(info1Data, ["Too little", "About right", "Too much"], "info1Chart");
 
-<!--        <script id="table-entry" type="text/x-handlebars-template">-->
-<!--            <tr data-email="'+users[i].email+'" data-id="'+users[i].id+'">-->
+                    info2Data = [feedbackResults.info2.notAtAll, feedbackResults.info2.notReally, feedbackResults.info2.yesMostly, feedbackResults.info2.yesDefinitely];
+                    drawChart(info2Data, ["Not at all", "Not really", "Yes mostly", "Yes Definitely"], "info2Chart");
 
-<!--            <tr data-email={{email}} data-id={{id}}>-->
-<!--                <td>{{email}}</td>-->
-<!--                <td>{{feedback}}</td>-->
-<!--            </tr>-->
-<!--        </script>-->
+                    trainingData = [feedbackResults.training.notAtAll, feedbackResults.training.notReally, feedbackResults.training.yesMostly, feedbackResults.training.yesDefinitely];
+                    drawChart(trainingData, ["Not At All", "Not Really", "Yes, Mostly", "Yes Definitely"], "trainingChart");
 
+                    sortingData = [feedbackResults.sorting.reallyEasy, feedbackResults.sorting.quiteEasy, feedbackResults.sorting.quiteDifficult, feedbackResults.sorting.reallyDifficult];
+                    drawChart(sortingData, ["Really easy", "Quite easy", "Quite difficult", "Really difficult"], "sortingChart");
 
-<!--        Old feedback system-->
-<!--        <script>-->
-<!--            $(function() {-->
-<!--                $.ajax({-->
-<!--                    url: '/feedback/',-->
-<!--                    type: 'GET',-->
-<!--                    success: function (feedbackArray) {-->
+                    rewardData = [feedbackResults.reward.notAtAll, feedbackResults.reward.notReally, feedbackResults.reward.yesMostly, feedbackResults.reward.yesDefinitely];
+                    drawChart(rewardData, ['Too little', 'About right', 'Too much'], "rewardChart");
 
-<!--                        for (i = 0; i < feedbackArray.length; i++) {-->
-<!--                            var rowTemplateSource = $("#table-entry").html();-->
-<!--                            var rowTemplate = Handlebars.compile(rowTemplateSource);-->
+                    easeOfAccessData = [feedbackResults.easeOfAccess.notAtAll, feedbackResults.easeOfAccess.notReally, feedbackResults.easeOfAccess.yesMostly, feedbackResults.easeOfAccess.yesDefinitely];
+                    drawChart(easeOfAccessData, ["Not At All", "Not Really", "Yes, Mostly", "Yes Definitely"], "easeOfAccessChart");
+                },
+                error: function(data){
+                    alert("There was an error getting feedback. Please try again.")
+                },
+                dataType: 'json'
+            });
 
-<!--                            var data = {-->
-<!--                                "email" : feedbackArray[i].userEmail,-->
-<!--                                "feedback" : feedbackArray[i].feedback-->
-<!--                            };-->
-
-<!--                            var compiledRow = rowTemplate(data);-->
-<!--                            $("#feedbackTable").append(compiledRow);-->
-
-<!--                            // $("#feedbackTable").append("<tr><td>"+feedbackArray[i].userEmail+"</td><td>"+feedbackArray[i].feedback+"</td></tr>")-->
-<!--                        }-->
-<!--                    },-->
-<!--                    error: function(data){-->
-<!--                        alert("There was an error getting feedback. Please try again.")-->
-<!--                    },-->
-<!--                    dataType: 'json'-->
-<!--                });-->
-<!--            });-->
-<!--        </script>-->
+            function drawChart(data, labels, chart){
+                var ctx = document.getElementById(chart).getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '# of Replies',
+                            data: data,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+        </script>
     </body>
 </html>
