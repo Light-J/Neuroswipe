@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='About Brain Imaging')" ></head>
+<style>
+
+    @media screen and (min-width: 1200px) {
+        .card {
+            width: 30%;
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+
+</style>
 
 <body>
 
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 <div class="container">
-    <style scoped>
-        .card {
-            display:inline-block;
-            margin: 10px;
-        }
-    </style>
     <section>
         <h2>About Brain Imaging</h2>
 
@@ -62,7 +67,7 @@
 
         <p>The fornix is a white matter pathway deep in the brain. It is shaped a bit like the wishbone in a chicken, with two ‘legs’ going into each side (or hemisphere) of the brain. It links up areas of the brain that are vital for storing new memories. These areas are affected in early Alzheimer’s disease. </p>
 
-        <h3>[TRACTOGRAPHY IMAGE OF A FORNIX TO GO HERE]</h3>
+
 
         <P>Diffusion MRI scans can show changes in the structure of the fornix before patients get any symptoms of Alzheimer’s disease. This may help scientists identify individuals at high risk of developing Alzheimer’s disease.</P>
 
@@ -71,7 +76,35 @@
     <section>
         <h2>How do we model the fornix?</h2>
         <P>Using information from diffusion MRI we can reconstruct 3D fibre tracts in living brains. We do this using a software called probabilistic tractography. Here are some of the results of tractography:</P>
-        <h3>TRACTOGRAPHY IMAGES GO HERE</h3>
+
+        <div class="container-fluid">
+            <h3>What a Good Fornix Looks Like</h3>
+
+            <div class="card ">
+                <img class="card-img-top trainingCardImg" src="/img/img8.png">
+                <div class="card-body trainingCardBody">
+                    <h5 class="card-title">From the Top</h5>
+                    <p class="card-text">This is what a good fornix tractography image looks like from the top.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img class="card-img-top trainingCardImg" src="/img/img9.png">
+                <div class="card-body trainingCardBody">
+                    <h5 class="card-title">From the Front</h5>
+                    <p class="card-text">This is what a good fornix tractography image looks like from the front.</p>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <img class="card-img-top trainingCardImg" src="/img/img10.png">
+                <div class="card-body trainingCardBody">
+                    <h5 class="card-title">From the Side</h5>
+                    <p class="card-text">This is what a good fornix tractography image looks like from the side.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section>
