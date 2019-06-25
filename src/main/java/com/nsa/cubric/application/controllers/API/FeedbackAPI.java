@@ -47,14 +47,25 @@ public class FeedbackAPI {
      * requests to /feedback.
      * @return ResponseEntity object containing JSON.
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getFeedback() {
-        List<Feedback> feedback = feedbackService.getAll();
+//    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+//    public ResponseEntity getFeedback() {
+//        List<Feedback> feedback = feedbackService.getAll();
+//
+//        for (Feedback feedbackObject : feedback) {
+//            Account account = accountService.getAccountById(feedbackObject.getUserProfileId());
+//            feedbackObject.setUserEmail(account.getEmail());
+//        }
+//
+//        return new ResponseEntity<>(feedback, null, HttpStatus.OK);
+//    }
 
-        for (Feedback feedbackObject : feedback) {
-            Account account = accountService.getAccountById(feedbackObject.getUserProfileId());
-            feedbackObject.setUserEmail(account.getEmail());
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity getFeedbackData(){
+        List<Feedback> feedback = feedbackService.getAll();
+        for(Feedback feedback1:feedback){
+            System.out.println(feedback1.getInfo1());
         }
+
 
         return new ResponseEntity<>(feedback, null, HttpStatus.OK);
     }

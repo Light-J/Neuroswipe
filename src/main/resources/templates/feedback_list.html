@@ -8,49 +8,53 @@
         <div class="container">
             <h1>Feedback Received</h1>
 
-            <table class="table" id="feedbackTable">
-                <tr><td>User</td><td>Feedback Left</td></tr>
-            </table>
+
+
+
+
+
 
         </div>
 
-        <script id="table-entry" type="text/x-handlebars-template">
-            <tr data-email="'+users[i].email+'" data-id="'+users[i].id+'">
+<!--        <script id="table-entry" type="text/x-handlebars-template">-->
+<!--            <tr data-email="'+users[i].email+'" data-id="'+users[i].id+'">-->
 
-            <tr data-email={{email}} data-id={{id}}>
-                <td>{{email}}</td>
-                <td>{{feedback}}</td>
-            </tr>
-        </script>
+<!--            <tr data-email={{email}} data-id={{id}}>-->
+<!--                <td>{{email}}</td>-->
+<!--                <td>{{feedback}}</td>-->
+<!--            </tr>-->
+<!--        </script>-->
 
-        <script>
-            $(function() {
-                $.ajax({
-                    url: '/feedback/',
-                    type: 'GET',
-                    success: function (feedbackArray) {
 
-                        for (i = 0; i < feedbackArray.length; i++) {
-                            var rowTemplateSource = $("#table-entry").html();
-                            var rowTemplate = Handlebars.compile(rowTemplateSource);
+<!--        Old feedback system-->
+<!--        <script>-->
+<!--            $(function() {-->
+<!--                $.ajax({-->
+<!--                    url: '/feedback/',-->
+<!--                    type: 'GET',-->
+<!--                    success: function (feedbackArray) {-->
 
-                            var data = {
-                                "email" : feedbackArray[i].userEmail,
-                                "feedback" : feedbackArray[i].feedback
-                            };
+<!--                        for (i = 0; i < feedbackArray.length; i++) {-->
+<!--                            var rowTemplateSource = $("#table-entry").html();-->
+<!--                            var rowTemplate = Handlebars.compile(rowTemplateSource);-->
 
-                            var compiledRow = rowTemplate(data);
-                            $("#feedbackTable").append(compiledRow);
+<!--                            var data = {-->
+<!--                                "email" : feedbackArray[i].userEmail,-->
+<!--                                "feedback" : feedbackArray[i].feedback-->
+<!--                            };-->
 
-                            // $("#feedbackTable").append("<tr><td>"+feedbackArray[i].userEmail+"</td><td>"+feedbackArray[i].feedback+"</td></tr>")
-                        }
-                    },
-                    error: function(data){
-                        alert("There was an error getting feedback. Please try again.")
-                    },
-                    dataType: 'json'
-                });
-            });
-        </script>
+<!--                            var compiledRow = rowTemplate(data);-->
+<!--                            $("#feedbackTable").append(compiledRow);-->
+
+<!--                            // $("#feedbackTable").append("<tr><td>"+feedbackArray[i].userEmail+"</td><td>"+feedbackArray[i].feedback+"</td></tr>")-->
+<!--                        }-->
+<!--                    },-->
+<!--                    error: function(data){-->
+<!--                        alert("There was an error getting feedback. Please try again.")-->
+<!--                    },-->
+<!--                    dataType: 'json'-->
+<!--                });-->
+<!--            });-->
+<!--        </script>-->
     </body>
 </html>
