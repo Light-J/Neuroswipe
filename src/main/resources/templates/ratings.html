@@ -24,7 +24,7 @@
                 <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal lobe is involved in perceiving and remembering sounds. It also works in with other areas of the brain to form conscious memories.</p>
                 <div class="card" style="width: 100%">
                     <div class="card-body text-center">
-                        <img id="reward25_image" src="/img/reward_images/cerebellum.jpg" height="300">
+                        <img id="reward25_image" src="/img/img24.jpg" height="300">
                         <h5 class="card-title" id="img_text" style="margin-top: 2rem">Temporal Lobe</h5>
                     </div>
                 </div>
@@ -34,40 +34,67 @@
     </div>
 </div>
 
+
 <div class="container">
 
-    <!--Modal displayed after 50 answers, giving 1 reward and a prompt for the user to move onto feedback-->
-    <div class="modal fade" id="feedbackRewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+
+    <div class="modal fade" id="rewardModal50" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reward25ModalLongTitle">Congratulations</h5>
+                    <h5 class="modal-title" id="rewardModalLongTitle50">Congratulations</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h3 id="reward_title">The parietal lobe</h3>
-                    <p id="reward_body">Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of grey matter called the sensory strip. This processes sensory information such as pain, touch and temperature.</p>
-                    <img id="reward_image" src="/img/img23.png" height="300">
-                    <p>The sensory strip is like a map of our body – the bumps and grooves on the brain’s surface receive information from different parts of the body. It is called the somatosensory homunculus (shown below). The bigger the body part is on the homunculus, the more sensitive the body part. You can see the hands are huge!</p>
-                    <img id="sensory_strip_img" src="/img/reward_case_3.jpg">
-                    <p>Brain surgeons use the homunculus to guide them surgery. If they touch the brain at the hand’s part, the patient feels as if someone is actually touching their hand!</p>
-                    <br>
-                    <h3>50 ratings complete</h3>
-                    <p>Thank you for the good work! Why don't you take a break and leave some feedback?</p>
-                    <div class="container">
-                    <form method="get" action="/userfeedback/">
-                        <div class="row">
-                            <button type="submit" class="btn btn-primary col-lg-6">Go to feedback</button>
-                            <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">I'll Do It Later</button>
-                        </div>
-                    </form>
+                    <h3 id="reward50_title">The parietal lobe</h3>
+                    <p id="reward50_body">Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of grey matter called the sensory strip. This processes sensory information such as pain, touch and temperature.</p>
+                    <div class="card" style="width: 100%">
+                        <img id="reward50_image" src="/img/img23.jpg" height="400">
+                    </div>
+                    <button id="reward50_btn" class="btn btn-primary btn-block" onclick="change50Modal()">Next</button>
+                    <div class="row" id="goToFeedbackButtons" hidden>
+                        <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">I'll Do It Later</button>
+                        <a href="/userfeedback/"><button type="button" class="btn btn-primary col-lg-6">Go to feedback</button></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+<!--    -->
+
+<!--    &lt;!&ndash;Modal displayed after 50 answers, giving 1 reward and a prompt for the user to move onto feedback&ndash;&gt;-->
+<!--    <div class="modal fade" id="feedbackRewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">-->
+<!--        <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="reward25ModalLongTitle">Congratulations</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    -->
+<!--                    -->
+<!--                    <p>The sensory strip is like a map of our body – the bumps and grooves on the brain’s surface receive information from different parts of the body. It is called the somatosensory homunculus (shown below). The bigger the body part is on the homunculus, the more sensitive the body part. You can see the hands are huge!</p>-->
+<!--                    <img id="sensory_strip_img" src="/img/reward_case_3.jpg">-->
+<!--                    <p>Brain surgeons use the homunculus to guide them surgery. If they touch the brain at the hand’s part, the patient feels as if someone is actually touching their hand!</p>-->
+<!--                    <br>-->
+<!--                    <h3>50 ratings complete</h3>-->
+<!--                    <p>Thank you for the good work! Why don't you take a break and leave some feedback?</p>-->
+<!--                    <div class="container">-->
+<!--                    <form method="get" action="/userfeedback/">-->
+<!--                        <div class="row">-->
+<!--                            <button type="submit" class="btn btn-primary col-lg-6">Go to feedback</button>-->
+<!--                            <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">I'll Do It Later</button>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
 
     <div class="card">
@@ -129,7 +156,7 @@
                 success: function(data){
                     if(!data){
                         //Show 25 modal
-                        $('#rewardModal').find("img").attr("src","/img/img20.png");
+                        $('#rewardModal').find("img").attr("src","/img/img20.jpg");
                         $('#rewardModal').modal('show');
                         $.ajax({
                             type: "POST",
@@ -154,7 +181,7 @@
                 success: function(data){
                     if(!data){
                         //show 50 modal
-                        $('#feedbackRewardModal').modal('show');
+                        $('#rewardModal50').modal('show');
                         $.ajax({
                             type: "POST",
                             url: "/api/rewards/set/sort50?value=1",
@@ -270,13 +297,21 @@
     });
 
     function change25Modal() {
-        document.getElementById("rewardModalLongTitle").innerHTML = "Case Study"
+        document.getElementById("rewardModalLongTitle").innerHTML = "Case Study";
         document.getElementById("reward25_title").innerHTML = "The case of Henry Molaison 1926-2008:";
         document.getElementById("reward25_body").innerHTML = "From an early age, Molaison suffered from severe epilepsy. In an effort to control his seizures, he underwent a major operation that removed a large part of his temporal lobe and hippocampus. Whilst the surgery cured Molaison of his epilepsy he was tragically left unable to form new memories.";
         document.getElementById("reward25_image").src = "/img/reward_case_2.jpg";
-        document.getElementById("img_text").innerHTML = "Henry Molaison"
+        document.getElementById("img_text").innerHTML = "Henry Molaison";
         document.getElementById("reward25_btn").style.display = "none";
     }
+
+    function change50Modal() {
+        document.getElementById("reward50_body").innerHTML = "The sensory strip is like a map of our body – the bumps and grooves on the brain’s surface receive information from different parts of the body. It is called the somatosensory homunculus (shown below). The bigger the body part is on the homunculus, the more sensitive the body part. You can see the hands are huge! ";
+        document.getElementById("reward50_image").src = "/img/reward_case_3.jpg";
+        document.getElementById("reward50_btn").style.display = "none";
+        $("#goToFeedbackButtons").removeAttr('hidden');
+    }
+
 
 </script>
 <style>
