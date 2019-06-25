@@ -23,10 +23,15 @@ public class FeedbackRepositoryStatic implements FeedbackRepository {
         this.loggedUserService = loggedUserService;
 
         feedbackMapper = (rs, i) -> new Feedback(
-                rs.getLong("feedback_id"),
-                rs.getLong("profile_id"),
-                rs.getString("feedback")
+                rs.getString("info_1"),
+                rs.getString("info_2"),
+                rs.getString("training"),
+                rs.getString("sorting"),
+                rs.getString("reward"),
+                rs.getString("ease_of_use"),
+                rs.getString("access")
         );
+
     }
 
     @Override
@@ -43,7 +48,7 @@ public class FeedbackRepositoryStatic implements FeedbackRepository {
     @Override
     public List<Feedback> getAll(){
         return jdbcTemplate.query(
-                "SELECT feedback_id, profile_id, feedback FROM feedback",
+                "SELECT * FROM feedback",
                 new Object[]{},feedbackMapper
         );
     }

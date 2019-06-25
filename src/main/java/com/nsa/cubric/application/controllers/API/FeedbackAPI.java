@@ -2,6 +2,7 @@ package com.nsa.cubric.application.controllers.API;
 
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.Feedback;
+import com.nsa.cubric.application.domain.FeedbackOverview;
 import com.nsa.cubric.application.services.AccountService;
 import com.nsa.cubric.application.services.FeedbackService;
 import com.nsa.cubric.application.services.LoggedUserService;
@@ -47,15 +48,21 @@ public class FeedbackAPI {
      * requests to /feedback.
      * @return ResponseEntity object containing JSON.
      */
+//    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+//    public ResponseEntity getFeedback() {
+//        List<Feedback> feedback = feedbackService.getAll();
+//
+//        for (Feedback feedbackObject : feedback) {
+//            Account account = accountService.getAccountById(feedbackObject.getUserProfileId());
+//            feedbackObject.setUserEmail(account.getEmail());
+//        }
+//
+//        return new ResponseEntity<>(feedback, null, HttpStatus.OK);
+//    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getFeedback() {
-        List<Feedback> feedback = feedbackService.getAll();
-
-        for (Feedback feedbackObject : feedback) {
-            Account account = accountService.getAccountById(feedbackObject.getUserProfileId());
-            feedbackObject.setUserEmail(account.getEmail());
-        }
-
-        return new ResponseEntity<>(feedback, null, HttpStatus.OK);
+    public ResponseEntity getFeedbackData(){
+        FeedbackOverview overview = feedbackService.getFeedbackOverview();
+        return new ResponseEntity<>(overview, null, HttpStatus.OK);
     }
 }
