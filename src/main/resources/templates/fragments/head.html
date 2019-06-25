@@ -2,7 +2,7 @@
 <head xmlns:th="http://www.thymeleaf.org" th:fragment="head(title)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <link rel="icon" type="image/png" href="/img/logo.jpg" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"/>
 <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
@@ -10,7 +10,7 @@
     <!--    Stuff for facebook sharing-->
     <meta property="og:url"           content="url to site"/>
     <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="Swipe right for brain science" />
+    <meta property="og:title"         content="NeuroSwipe for brain science" />
     <meta property="og:description"   content="Come and help contribtute to our citizen brain science app" />
     <!-- Load Facebook SDK for JavaScript -->
     <div id="fb-root"></div>
@@ -50,6 +50,7 @@
     <script src="/js/handlebars-v4.1.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <script src="/js/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
 
 
 
@@ -57,7 +58,7 @@
     <script>$(document).ready(function() {
         $('body').bootstrapMaterialDesign();
     });</script>
-    <title th:text="${title} +' | Swipe Right Brains'"></title>
+    <title th:text="${title} +' | NeuroSwipe'"></title>
     <style>
         body{
             padding-top: 80px;

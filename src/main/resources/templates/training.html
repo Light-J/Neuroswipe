@@ -28,16 +28,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h3>Involuntary contributors to neuroscience</h3>
-                <p>In 1848 Phineas Gage, a railroad worker, was using an iron rod to pack explosives. In an accident that detonated these explosives, the iron rod was driven through Gage’s frontal lobe. Miraculously, he survived the incident, however friends reported that he was ‘no longer Gage.’  He was said to have lost all sense of social inhibition, swearing publicly and frequently making inappropriate remarks.
-                </p>
-                <img src="/img/img7.png" height="300">
+                <h3 id="modal_title">Reward image: The frontal lobe</h3>
+                <p id="modal_content">Well done - you just unlocked the frontal lobe! The frontal lobe is involved in thinking, decision making and planning. It is also plays a key role in determining our personality.</p>
+                <div class="card" style="width: 100%">
+                    <div class="card-body text-center">
+                        <img class="img-responsive" id="modal_img" src="/img/img7.jpg" height="300">
+                        <h5 class="card-title" id="img_text" style="margin-top: 2rem"></h5>
+                    </div>
+                </div>
+                <br>
+                <button id="modal_button" class="btn btn-primary btn-block" onclick="changeModal()">Next</button>
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
 </div>
+
 <div class="container-fluid">
     <div class="container-fluid">
         <h1>Training</h1>
@@ -151,7 +158,7 @@
     <br><br>
 
     <footer class="text-right">
-        <p>Copyright &copy; 2017 Swipe Right Brains | <a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
+        <p><a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
     </footer>
 <script>
     $(window).scroll(function() {
@@ -174,6 +181,16 @@
             });
         }
     });
+
+    function changeModal(){
+        document.getElementById("rewardModalLongTitle").innerHTML = "A Case Study";
+        document.getElementById("modal_title").innerHTML = "Involuntary contributors to neuroscience:";
+        document.getElementById("modal_content").innerHTML = "In 1848, railroad worker Phineas Gage was using an iron rod to pack explosives. In an accident that detonated these explosives, the iron rod was driven through Gage’s frontal lobe. Miraculously, he survived the incident, however friends reported that he was ‘no longer Gage.’  He was said to have lost all sense of social inhibition, swearing publicly and frequently making inappropriate remarks.";
+        document.getElementById("modal_img").src = "/img/reward_case_1.jpg";
+        document.getElementById("img_text").innerHTML = "Phineas Gage and the iron rod that damaged his frontal lobe";
+        document.getElementById("modal_button").style.display = "none";
+    }
+
 </script>
 
 </div>

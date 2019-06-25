@@ -6,7 +6,6 @@ import com.nsa.cubric.application.dto.ProfileDto;
 import com.nsa.cubric.application.services.LoggedUserService;
 import com.nsa.cubric.application.services.registrationUtils.EmailExistsException;
 import com.nsa.cubric.application.services.AccountService;
-import com.nulabinc.zxcvbn.Zxcvbn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

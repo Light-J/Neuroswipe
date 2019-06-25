@@ -1,46 +1,166 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head(title='Feedback')" ></head>
+
+<style>
+    .country
+    {
+        display:none;
+    }
+
+</style>
+
     <body>
 
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
         <div class="container">
             <h1>Please provide your feedback to help us out</h1>
-            <form action="#" id="feedbackForm" class="form-horizontal">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="feedbackText">Your Feedback</label>
-                    <div class="col-sm-10">
-                        <textarea id="feedbackText" class="form-control"></textarea>
+            <form action="#" th:action="@{/userfeedback/submitfeedback}" th:object="${FeedbackForm}" method="post" class="form-horizontal">
+
+                <br>
+
+                <h3>Introduction</h3>
+
+                <br>
+
+                <!--Question 1-->
+
+                <div>
+                    <label class="control-label" for="InformationQ1">Did the introduction give you the right amount of information about the project and the task?</label>
+                    <div>
+                        <select class="form-control" id="InformationQ1" th:field="*{information1}">
+                            <option value="no answer" selected="selected" class="country">Please select...</option>
+                            <option value="not enough information">Not enough information</option>
+                            <option value="about the right amount of information">About the right amount of information</option>
+                            <option value="too much information">Too much information</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">Submit</button>
+                <br><br>
+
+                <!--Question 2-->
+
+                <div>
+                <label class="control-label" for="InformationQ2">Did you feel you understood what it is all about?</label>
+                <div>
+                    <select class="form-control" id="InformationQ2" th:field="*{information2}">
+                        <option value="no answer" selected="selected" class="country">Please select...</option>
+                        <option value="not at all">Not At All</option>
+                        <option value="not really">Not Really</option>
+                        <option value="yes mostly">Yes mostly</option>
+                        <option value="yes definitely">Yes Definitely</option>
+                    </select>
+                </div>
+            </div>
+
+                <br><br>
+
+                <h3>Training Phase</h3>
+
+                <br>
+
+                <!--Question 3-->
+
+            <div>
+                <label class="control-label" for="TrainingQ">Did the training phase make you feel confident to do the sorting task?</label>
+                <div>
+                    <select class="form-control" id="TrainingQ" th:field="*{training}">
+                        <option value="no answer" selected="selected" class="country">Please select...</option>
+                        <option value="definitely not">Definitely Not</option>
+                        <option value="not really">Not Really</option>
+                        <option value="yes probably">Yes Probably</option>
+                        <option value="yes definitely">Yes Definitely</option>
+                    </select>
+                </div>
+            </div>
+
+                <br><br>
+                <h3>Sorting Images</h3>
+
+                <br>
+
+                <!--Question 4-->
+
+                <div>
+                    <label class="control-label" for="SortingQ">Did you feel the task you were asked to do was easy enough?</label>
+                    <div>
+                        <select class="form-control" id="SortingQ" th:field="*{sorting}">
+                            <option value="no answer" selected="selected" class="country">Please select...</option>
+                            <option value="really easy">Really Easy</option>
+                            <option value="quite easy">Quite Easy</option>
+                            <option value="quite difficult">Quite Difficult</option>
+                            <option value="really difficult">Really Difficult</option>
+                        </select>
                     </div>
                 </div>
+
+                <br><br>
+                <h3>Reward Images</h3>
+
+                <br>
+
+                <!--Question 5-->
+
+                <div>
+                    <label class="control-label" for="RewardQ">Did you feel the reward system and fun facts were enjoyable/interesting?</label>
+                    <div>
+                        <select class="form-control" id="RewardQ" th:field="*{reward}">
+                            <option value="no answer" selected="selected" class="country">Please select...</option>
+                            <option value="not at all">Not at all</option>
+                            <option value="not really">Not really</option>
+                            <option value="yes mostly">Yes mostly</option>
+                            <option value="yes definitely">Yes definitely</option>
+                        </select>
+                    </div>
+                </div>
+
+                <br><br>
+                <h3>Ease of use</h3>
+
+                <br>
+
+                <!--Question 6-->
+
+                <div>
+                    <label class="control-label" for="EaseOfUseQ">Was the site straightforward to use?</label>
+                    <div>
+                        <select class="form-control" id="EaseOfUseQ" th:field="*{easeOfUse}">
+                            <option value="no answer" selected="selected" class="country">Please select...</option>
+                            <option value="not at all">Not at all</option>
+                            <option value="not really">Not really</option>
+                            <option value="yes mostly">Yes mostly</option>
+                            <option value="yes definitely">Yes definitely</option>
+                        </select>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <h3>Accessibility</h3>
+
+                <br>
+
+                <!--Question 7-->
+
+                <div>
+                    <label for="AccessibilityQ">If you have any additional access needs, how could the website be made more accessible to you?</label>
+                    <div>
+                        <textarea class="form-control" rows="5" placeholder="Enter here..." th:field="*{accessibility}" id="AccessibilityQ"></textarea>
+                    </div>
+                </div>
+
+
+                <br><br>
+
+                <!--Submit button-->
+
+                <div class="form-group">
+                    <button class="btn btn-lg" type="submit" value="Submit">Submit</button>
+                </div>
+
             </form>
         </div>
-
-        <script>
-            $(function() {
-                $("#feedbackForm").submit(function (e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: '/api/feedback/',
-                        type: 'POST',
-                        data: {"feedbackText": $("#feedbackText").val()},
-                        success: function (data) {
-                            window.location.replace('/userfeedback/submitted');
-                        },
-                        error: function(data){
-                            alert("There was an error storing your feedback. Please try again.")
-                        },
-                        dataType: 'json'
-                    });
-                });
-            });
-        </script>
     </body>
 </html>

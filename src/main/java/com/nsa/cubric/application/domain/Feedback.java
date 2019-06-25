@@ -1,42 +1,49 @@
 package com.nsa.cubric.application.domain;
 
 public class Feedback {
-    Long id;
-    Long userProfileId;
-    String feedback;
-    String userEmail;
+    String info1;
+    String info2;
+    String training;
+    String sorting;
+    String reward;
+    String easeOfUse;
+    String access;
 
-    public Feedback(Long id, Long userProfileId, String feedback) {
-        this.id = id;
-        this.userProfileId = userProfileId;
-        this.feedback = feedback;
+    public Feedback(String info1, String info2, String training, String sorting, String reward, String easeOfUse, String access) {
+        this.info1 = info1;
+        this.info2 = info2;
+        this.training = training;
+        this.sorting = sorting;
+        this.reward = reward;
+        this.easeOfUse = easeOfUse;
+        this.access = access;
     }
 
-    public Long getId() {
-        return id;
+    public String getInfo1() {
+        return info1;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getInfo2() {
+        return info2;
     }
 
-    public Long getUserProfileId() {
-        return this.userProfileId;
+    public String getTraining() {
+        return training;
     }
 
-    public void setUserProfileId(Long userProfileId) {
-        this.userProfileId = userProfileId;
+    public String getSorting() {
+        return sorting;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public String getReward() {
+        return reward;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public String getEaseOfUse() {
+        return easeOfUse;
     }
 
-    public String getUserEmail(){ return userEmail; }
-
-    public void setUserEmail(String userEmail){ this.userEmail = userEmail; }
+    public String getAccess() {
+        return access;
+    }
 }
