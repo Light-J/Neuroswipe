@@ -64,7 +64,7 @@ public class RegistrationController {
             return new ModelAndView("register_details", "model", model);
         }
         Boolean updateProfile = accountService.updateProfile(profileDto);
-        return new ModelAndView("user_profile", "profile", profileDto);
+        return new ModelAndView("training", "profile", profileDto);
     }
 
     private Model addOptionsToModelView(Model model){
