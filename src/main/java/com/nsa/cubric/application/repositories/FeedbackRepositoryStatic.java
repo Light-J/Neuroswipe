@@ -2,6 +2,7 @@ package com.nsa.cubric.application.repositories;
 
 import com.nsa.cubric.application.domain.Feedback;
 import com.nsa.cubric.application.domain.FeedbackForm;
+import com.nsa.cubric.application.dto.PaginatedList;
 import com.nsa.cubric.application.services.LoggedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -56,12 +57,18 @@ public class FeedbackRepositoryStatic implements FeedbackRepository {
     }
 
     @Override
-    public List<String> getFeedbackComments(){
-        return jdbcTemplate.query("SELECT access FROM feedback WHERE access != ''", new RowMapper<String>(){
+    public PaginatedList getFeedbackComments(int offset, int pageSize){
+        List<String> data = jdbcTemplate.query("SELECT access FROM feedback WHERE access != '' LIMIT ?, ?", new RowMapper<String>(){
             public String mapRow(ResultSet rs, int rowNum)
                     throws SQLException {
                 return rs.getString(1);
             }
-        });
+        }, offset, pageSize);
+
+        int pages = (int)Math.ceil(jdbcTemplate.queryForObject("SELECT count(*) FROM feedback WHERE access !=''", Integer.class)/pageSize);
+
+        return new PaginatedList(data, pages);
+
+
     }
 }

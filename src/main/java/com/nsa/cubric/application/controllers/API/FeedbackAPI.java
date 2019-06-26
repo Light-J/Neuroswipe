@@ -3,6 +3,7 @@ package com.nsa.cubric.application.controllers.API;
 import com.nsa.cubric.application.domain.Account;
 import com.nsa.cubric.application.domain.Feedback;
 import com.nsa.cubric.application.domain.FeedbackOverview;
+import com.nsa.cubric.application.dto.PaginatedList;
 import com.nsa.cubric.application.services.AccountService;
 import com.nsa.cubric.application.services.FeedbackService;
 import com.nsa.cubric.application.services.LoggedUserService;
@@ -67,8 +68,8 @@ public class FeedbackAPI {
     }
 
     @RequestMapping(value = "/comments", method = RequestMethod.GET)
-    public ResponseEntity getFeedbackComments(){
-        List<String> comments = feedbackService.getFeedbackComments();
-        return new ResponseEntity(comments, HttpStatus.OK);
+    public ResponseEntity getFeedbackComments(@RequestParam(value = "page") int page, @RequestParam(value = "page-size") int pageSize){
+        PaginatedList data = feedbackService.getFeedbackComments(page, pageSize);
+        return new ResponseEntity(data, HttpStatus.OK);
     }
 }
