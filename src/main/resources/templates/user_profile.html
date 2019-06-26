@@ -1,12 +1,166 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/head(title='Profile')" ></head>
+    <script>
+
+        function showOcipital() {
+            displayRewardModal("The Occipital", "/img/img18.jpg", "The eyes in the back of your head: \n" +
+                "The occipital lobe sits at the back of the brain. It processes the information we see and allows us to remember and assign meanings to different images. The occipital lobe actually receives images from the eyes upside down – it processes them to turn them the right way up!")
+        }
+
+        function showParital() {
+            displayRewardModal("The parietal lobe", "/img/img23.jpg", "The parietal lobe contains an area of grey matter called the sensory strip. This processes sensory information such as pain, touch and temperature. \n" +
+                "\n" +
+                "The sensory strip is like a map of our body – the bumps and grooves on the brain’s surface receive information from different parts of the body. It is called the somatosensory homunculus (shown below). The bigger the body part is on the homunculus, the more sensitive the body part. You can see the hands are huge!")
+            $("#parietal_extra").removeAttr("hidden");
+        }
+
+        function showCerebellem() {
+            displayRewardModal("The Cerebellem", "/img/img24.jpg", "The cerebellum is Latin for ‘little brain.’ This area is vital for fine tuning your movements and controlling balance. \n" +
+                "\n" +
+                "The cerebellum in disease:\n" +
+                "Diseases such as multiple sclerosis and brain tumours can damage the cerebellum. If your cerebellum was damaged, you would walk with an unstable, uncoordinated gait and frequently stumble or fall over. ")
+        }
+
+        function showFrontal() {
+            displayRewardModal("The Frontal", "/img/img7.jpg", "The frontal lobe is involved in thinking, decision making and planning. It is also plays a key role in determining our personality.")
+        }
+
+        function showTemporal() {
+            displayRewardModal("The Temporal lobe", "/img/img20.jpg", " The temporal lobe is involved in perceiving and remembering sounds. It also works in with other areas of the brain to form conscious memories.")
+        }
+
+
+        function displayRewardModal(brainPart, brainImage, brainDesc) {
+            $("#parietal_extra").attr("hidden", "true");
+            $("#reward_brain_part").text(brainPart);
+            $("#reward_brain_image").attr("src", brainImage);
+            $("#reward_brain_desc").text(brainDesc);
+            $("#rewardDetailsModal").modal('show');
+        }
+
+        var updateEmail = function(){
+            $.ajax({
+                type: "PUT",
+                url: "/api/account/update/email",
+                data: {
+                    "newEmail": $("#newEmail").val()
+                },
+                success: function(data, textstatus, request){
+                    var invalidFormat = request.getResponseHeader("invalidFormat");
+                    if(invalidFormat){
+                        $("#emailError").text("Email is in the wrong format");
+                    } else {
+                        var updated = request.getResponseHeader("updated");
+                        if(updated){
+                            window.location = "/logout";
+                        } else{
+                            var emailExists = request.getResponseHeader("emailExists");
+                            if(emailExists){
+                                $("#emailError").text("That email is already in use.");
+                            } else {
+                                $("#emailError").text("There was an error, please try again");
+                            }
+                        }
+                    }
+                }})
+        };
+
+        var disableAccount = function(){
+            $.ajax({
+                type: "POST",
+                url: "/api/account/disable",
+                success: function (data, textstatus, request) {
+                    var success = request.getResponseHeader("disabled");
+
+                    if(success){
+                        window.location = "/logout";
+                    } else {
+                        $.notify("There was an error at this time", {});
+                    }
+                }
+            })
+        };
+
+        var deleteAccount = function(){
+            $.ajax({
+                type: "POST",
+                url: "/api/account/delete",
+                success: function (data, textstatus, request) {
+                    var success = request.getResponseHeader("deleted");
+                    if(success){
+                        window.location = "/logout";
+                    } else {
+                        $.notify("There was an error at this time", {});
+                    }
+                }
+            })
+        };
+
+        $(function() {
+
+
+            $.ajax({
+                type: "GET",
+                url: "/api/rewards/",
+                success: function(data){
+                    jQuery.each(data, function(i, val) {
+                        if(val == 1){
+                            $("#"+i).prop("checked", true);
+                            $("#"+i+"_reward_image").removeAttr("hidden");
+                        } else {
+                            $("#"+i+"_reward_button").prop("disabled", "true");
+                            $("#"+i+"_reward_button").addClass("class", "alert alert-danger");
+                        }
+                    })
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/api/ratings/responses/amount",
+                success: function(data){
+                    $("#numberScansRated").text(data);
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
     <body>
 
     <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 
     <div class="container">
+        <div class="modal fade" id="rewardDetailsModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3 id="reward_brain_part">Reward image: The frontal lobe</h3>
+                        <p id="reward_brain_desc">Well done - you just unlocked the frontal lobe! The frontal lobe is involved in thinking, decision making and planning. It is also plays a key role in determining our personality.</p>
+                        <div class="card" style="width: 100%">
+                            <div class="card-body text-center">
+                                <img class="img-responsive" id="reward_brain_image" src="/img/img7.jpg" height="300">
+                                <img class="img-responsive" id="parietal_extra" src="/img/img21.jpg" height="300" hidden>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Modal to confirm disabling a user -->
         <div class="modal fade" id="disableUserModal" tabindex="-1" role="dialog" aria-labelledby="disableUserModalCenterTitle" aria-hidden="true">
@@ -121,20 +275,22 @@
                  <div class="card-body">
                      <h2>Your rewards</h2>
                      <div class="row">
-                         <div class="col" data-toggle="tooltip" title="Rewarded for completing the training!" data-placement="bottom">
-                             <img class="locked_reward" src="/img/img7.jpg" width="100%" id="training_reward_image">
+                         <div class="col" style="height: 400px;">
+
+                             <img class="reward_image" src="/img/blankbrain.jpg" width="60%" id="empty_brain">
+                             <img id="practice_reward_image" class="reward_image" src="/img/ocipatalseperate.png" width="60%" hidden>
+                             <img id="sort25_reward_image" class="reward_image" src="/img/temporalseperate.png" width="60%" hidden>
+                             <img id="feedback_reward_image" class="reward_image" src="/img/cerebellemseperate.png" width="60%" hidden>
+                             <img id="training_reward_image" class="reward_image" src="/img/frontalseperate.png" width="60%" hidden>
+                             <img id="sort50_reward_image" class="reward_image" src="/img/paritalseperate.png" width="60%" hidden>
                          </div>
-                         <div class="col" data-toggle="tooltip" title="Rewarded for completing 10 correct practice questions!" data-placement="bottom">
-                             <img class="locked_reward" src="/img/img18.jpg" width="100%" id="practice_reward_image">
-                         </div>
-                         <div class="col" data-toggle="tooltip" title="Rewarded for sorting 25 real images for us!" data-placement="bottom">
-                             <img class="locked_reward" src="/img/img20.jpg" width="100%" id="sort25_reward_image">
-                         </div>
-                         <div class="col" data-toggle="tooltip" title="Rewarded for sorting 50 real images for us!" data-placement="bottom">
-                             <img class="locked_reward" src="/img/img23.jpg" width="100%" id="sort50_reward_image">
-                         </div>
-                         <div class="col" data-toggle="tooltip" title="Rewarded for leaving feedback about NeuroSwipe!" data-placement="bottom">
-                             <img class="locked_reward" src="/img/img24.jpg" width="100%" id="feedback_reward_image">
+                         <div class="col">
+                             <h5>Click these to get more information about the brain!</h5>
+                             <button id="practice_reward_button" type="button" class="btn btn-secondary" onclick="showOcipital()">Ocipital</button>
+                             <button id="sort25_reward_button" type="button" class="btn btn-secondary" onclick="showTemporal()">Temporal lobe</button>
+                             <button id="feedback_reward_button" type="button" class="btn btn-secondary" onclick="showCerebellem()">Cerebellem</button>
+                             <button id="training_reward_button" type="button" class="btn btn-secondary" onclick="showFrontal()">Frontal</button>
+                             <button id="sort50_reward_button" type="button" class="btn btn-secondary" onclick="showParital()">Paritial</button>
                          </div>
                      </div>
                  </div>
@@ -149,9 +305,15 @@
             margin-top: 10px;
         }
 
+        .reward_image{
+            position: absolute;
+            transform: translate(35%, 5%);
+        }
+
         .col{
             display: grid;
         }
+
 
         @media only screen and (max-width: 992px)  {
 
@@ -169,95 +331,5 @@
 
         }
     </style>
-    <script>
-        var updateEmail = function(){
-            $.ajax({
-                type: "PUT",
-                url: "/api/account/update/email",
-                data: {
-                    "newEmail": $("#newEmail").val()
-                },
-                success: function(data, textstatus, request){
-                    var invalidFormat = request.getResponseHeader("invalidFormat");
-                    if(invalidFormat){
-                        $("#emailError").text("Email is in the wrong format");
-                    } else {
-                        var updated = request.getResponseHeader("updated");
-                        if(updated){
-                            window.location = "/logout";
-                        } else{
-                            var emailExists = request.getResponseHeader("emailExists");
-                            if(emailExists){
-                                $("#emailError").text("That email is already in use.");
-                            } else {
-                                $("#emailError").text("There was an error, please try again");
-                            }
-                        }
-                    }
-                }})
-        };
 
-        var disableAccount = function(){
-            $.ajax({
-                type: "POST",
-                url: "/api/account/disable",
-                success: function (data, textstatus, request) {
-                    var success = request.getResponseHeader("disabled");
-
-                    if(success){
-                        window.location = "/logout";
-                    } else {
-                        $.notify("There was an error at this time", {});
-                    }
-                }
-            })
-        };
-
-        var deleteAccount = function(){
-            $.ajax({
-                type: "POST",
-                url: "/api/account/delete",
-                success: function (data, textstatus, request) {
-                    var success = request.getResponseHeader("deleted");
-                    if(success){
-                        window.location = "/logout";
-                    } else {
-                        $.notify("There was an error at this time", {});
-                    }
-                }
-            })
-        };
-
-        $(function() {
-
-
-            $.ajax({
-                type: "GET",
-                url: "/api/rewards/",
-                success: function(data){
-                    jQuery.each(data, function(i, val) {
-                        if(val == 1){
-                            $("#"+i).prop("checked", true);
-                            $("#"+i+"_reward_image").removeClass("locked_reward");
-                        }
-                    })
-                },
-                error: function(){
-                    alert("There was an error getting this data.");
-                }
-            });
-
-            $.ajax({
-                type: "GET",
-                url: "/api/ratings/responses/amount",
-                success: function(data){
-                    $("#numberScansRated").text(data);
-                },
-                error: function(){
-                    alert("There was an error getting this data.");
-                }
-            });
-            $('[data-toggle="tooltip"]').tooltip();
-        })
-    </script>
 </html>
