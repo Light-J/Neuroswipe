@@ -80,13 +80,13 @@
                     drawChart(info2Data, ["Not at all", "Not really", "Yes mostly", "Yes Definitely"], "info2Chart");
 
                     trainingData = [feedbackResults.training.notAtAll, feedbackResults.training.notReally, feedbackResults.training.yesMostly, feedbackResults.training.yesDefinitely];
-                    drawChart(trainingData, ["Not At All", "Not Really", "Yes, Mostly", "Yes Definitely"], "trainingChart");
+                    drawChart(trainingData, ["Not At All", "Not Really", "Yes Probably", "Yes Definitely"], "trainingChart");
 
                     sortingData = [feedbackResults.sorting.reallyEasy, feedbackResults.sorting.quiteEasy, feedbackResults.sorting.quiteDifficult, feedbackResults.sorting.reallyDifficult];
                     drawChart(sortingData, ["Really easy", "Quite easy", "Quite difficult", "Really difficult"], "sortingChart");
 
                     rewardData = [feedbackResults.reward.notAtAll, feedbackResults.reward.notReally, feedbackResults.reward.yesMostly, feedbackResults.reward.yesDefinitely];
-                    drawChart(rewardData, ['Too little', 'About right', 'Too much'], "rewardChart");
+                    drawChart(rewardData, ["Not at all", "Not really", "Yes mostly", "Yes Definitely"], "rewardChart");
 
                     easeOfAccessData = [feedbackResults.easeOfAccess.notAtAll, feedbackResults.easeOfAccess.notReally, feedbackResults.easeOfAccess.yesMostly, feedbackResults.easeOfAccess.yesDefinitely];
                     drawChart(easeOfAccessData, ["Not At All", "Not Really", "Yes, Mostly", "Yes Definitely"], "easeOfAccessChart");
