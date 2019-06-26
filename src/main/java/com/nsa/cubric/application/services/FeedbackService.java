@@ -7,6 +7,8 @@ import com.nsa.cubric.application.domain.FeedbackOverview;
 import java.util.List;
 
 public interface FeedbackService {
-    public FeedbackOverview getFeedbackOverview();
-    public void insertNewFeedback(FeedbackForm feedbackForm);
+    FeedbackOverview getFeedbackOverview();
+    void insertNewFeedback(FeedbackForm feedbackForm);
+    List<String> getFeedbackComments();
+
 }

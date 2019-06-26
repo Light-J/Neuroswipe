@@ -65,4 +65,10 @@ public class FeedbackAPI {
         FeedbackOverview overview = feedbackService.getFeedbackOverview();
         return new ResponseEntity<>(overview, null, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/comments", method = RequestMethod.GET)
+    public ResponseEntity getFeedbackComments(){
+        List<String> comments = feedbackService.getFeedbackComments();
+        return new ResponseEntity(comments, HttpStatus.OK);
+    }
 }

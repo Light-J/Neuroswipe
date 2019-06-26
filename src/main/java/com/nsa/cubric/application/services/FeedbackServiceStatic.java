@@ -37,4 +37,9 @@ public class FeedbackServiceStatic implements FeedbackService {
         return overview;
     }
 
+    @Override
+    public List<String> getFeedbackComments(){
+        return feedbackRepository.getFeedbackComments();
+    }
+
 }
