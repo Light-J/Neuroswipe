@@ -65,7 +65,9 @@ public class FeedbackRepositoryStatic implements FeedbackRepository {
             }
         }, offset, pageSize);
 
+        //TODO sort out why pages returns 0 instead of 1 for less than 10 results
         int pages = (int)Math.ceil(jdbcTemplate.queryForObject("SELECT count(*) FROM feedback WHERE access !=''", Integer.class)/pageSize);
+
 
         return new PaginatedList(data, pages);
 

@@ -67,7 +67,7 @@ public class FeedbackAPI {
         return new ResponseEntity<>(overview, null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/comments", method = RequestMethod.GET)
+    @RequestMapping(value = "/comment", method = RequestMethod.GET)
     public ResponseEntity getFeedbackComments(@RequestParam(value = "page") int page, @RequestParam(value = "page-size") int pageSize){
         PaginatedList data = feedbackService.getFeedbackComments(page, pageSize);
         return new ResponseEntity(data, HttpStatus.OK);
