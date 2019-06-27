@@ -51,7 +51,12 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/userprofile/">My Profile</a>
-                    <a class="dropdown-item" href="/logout">Logout</a>
+<!--                    <a class="dropdown-item" href="/logout">Logout</a>-->
+                    <form  id="logout_form" action="/logout" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <a class="dropdown-item" href="javascript:{}" onclick="document.getElementById('logout_form').submit(); return false;">Logout</a>
+                    </form>
+
                 </div>
             </li>
         </ul>
@@ -78,6 +83,7 @@
             </div>
             <div class="modal-body">
                 <form class="form-signin" method="post" action="/login">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <p style="display: none;" class="alert alert-danger" id="loginError">Invalid credentials</p>
                     <p>
                         <label for="username" class="sr-only">Username</label>

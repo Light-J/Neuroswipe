@@ -79,7 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID")
                 .and()
-                .csrf().disable()
                 .exceptionHandling().accessDeniedPage("/admin/noaccess")
         ;
         http.headers().frameOptions().disable();
