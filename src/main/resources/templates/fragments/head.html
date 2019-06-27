@@ -3,13 +3,7 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <script>
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        $(document).ajaxSend(function(e,xhr,options) {
-            xhr.setRequestHeader(header, token);
-        });
-    </script>
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,13 +56,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <script src="/js/html2canvas.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
-
-
-
-
-    <script>$(document).ready(function() {
-        $('body').bootstrapMaterialDesign();
-    });</script>
+    <script>
+        $(document).ready(function() {
+            $('body').bootstrapMaterialDesign();
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function(e,xhr,options) {
+                xhr.setRequestHeader(header, token);
+            })
+        });
+    </script>
     <title th:text="${title} +' | NeuroSwipe'"></title>
     <style>
         body{
@@ -99,8 +96,5 @@
         .roleSelect {
             width: 50px;
         }
-
-
-
     </style>
 </head>
