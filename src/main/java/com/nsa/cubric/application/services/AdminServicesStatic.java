@@ -19,8 +19,7 @@ public class AdminServicesStatic implements AdminServices {
     @Override
     public boolean removeUser(Long userId){
         Long loggedInUserId = accountRepository.getAccountByEmail(loggedUserService.getUsername()).getId();
-        Long defaultAdminId = accountRepository.getAccountByEmail("default@admin").getId();
-        if(loggedInUserId.equals(userId) || defaultAdminId.equals(userId)){
+        if(loggedInUserId.equals(userId)){
             return false;
         }
 

@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div th:replace="fragments/information"></div>
-            <div class="card">
+            <div class="card" style="margin-bottom: 5px">
                 <div class="card-body row text-center">
                     <div class="col-sm">
                         <h5>Correct answers: <span id="answersCorrect" class="badge badge-success">0</span></h5>
@@ -50,9 +50,9 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Practice</h5>
                     <p class="card-text text-center lead">Is this a good scan of a brain?</p>
-                    <img class="image-order" src="" id="brainImage1" style="width:33%">
-                    <img class="image-order" src="" id="brainImage2" style="width:33%">
-                    <img class="image-order" src="" id="brainImage3" style="width:33%">
+                    <img class="image-order" src="" id="brainImage1">
+                    <img class="image-order" src="" id="brainImage2">
+                    <img class="image-order" src="" id="brainImage3">
                     <p class="text-center">
                         <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
@@ -213,8 +213,8 @@
                         } else if (direction == "right") {
                             checkAnswer(true);
                         }
-                    }
-                });
+                    },
+                    allowPageScroll:"auto"});
 
                 $('#wrongAlert').on('hidden.bs.modal', function () {
                     incorrectAnswer();

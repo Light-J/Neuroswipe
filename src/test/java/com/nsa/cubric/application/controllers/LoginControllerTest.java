@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,8 +40,8 @@ public class LoginControllerTest {
     public void testWrongPassword() throws Exception{
         this.mmvc.perform(post("/login")
                 .param("username", "test@test.test")
-                .param("password", "wrongPass"))
-                //.andExpect(model().hasErrors())
+                .param("password", "wrongPass")
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection());
     }
 
@@ -48,8 +49,8 @@ public class LoginControllerTest {
     public void testWrongEmail() throws Exception{
         this.mmvc.perform(post("/login")
                 .param("username", "test@test.commmm")
-                .param("password", "pass"))
-                //.andExpect(model().hasErrors())
+                .param("password", "pass")
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection());
     }
 
@@ -57,15 +58,15 @@ public class LoginControllerTest {
     public void testCorrectCredentials() throws Exception{
         this.mmvc.perform(post("/login")
                 .param("username", "test@test.test")
-                .param("password", "pass"))
-           //     .andExpect(model().hasNoErrors())
+                .param("password", "pass")
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection());
     }
 
     @Test
     public void testUnauthorisedAccess() throws Exception{
-        this.mmvc.perform(post("/practice/"))
-                //     .andExpect(model().hasNoErrors())
+        this.mmvc.perform(post("/practice/")
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection());
     }
 
