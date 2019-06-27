@@ -19,6 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.mockito.BDDMockito.given;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,7 +61,9 @@ public class RatingAPITest {
 
 		this.mvc.perform(post("/api/ratings/save")
 				.param("scanId", userRating.getScanId().toString())
-				.param("goodBrain", userRating.getResponse().toString())).andExpect(status().isOk());
+				.param("goodBrain", userRating.getResponse().toString())
+				.with(csrf()))
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -69,7 +72,8 @@ public class RatingAPITest {
 
 		this.mvc.perform(post("/api/ratings/save")
 				.param("scanId", userRating.getScanId().toString())
-				.param("goodBrain", "goodBrain"))
+				.param("goodBrain", "goodBrain")
+				.with(csrf()))
 				.andExpect(status().is4xxClientError());
 	}
 }
