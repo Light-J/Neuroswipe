@@ -53,7 +53,9 @@
                     } else {
                         var updated = request.getResponseHeader("updated");
                         if(updated){
-                            window.location = "/logout";
+                            // window.location = "/logout";
+                            $.ajax({type: "POST", url: "/logout"});
+                            window.location = "/";
                         } else{
                             var emailExists = request.getResponseHeader("emailExists");
                             if(emailExists){
@@ -74,7 +76,8 @@
                     var success = request.getResponseHeader("disabled");
 
                     if(success){
-                        window.location = "/logout";
+                        $.ajax({type: "POST", url: "/logout"});
+                        window.location = "/";
                     } else {
                         $.notify("There was an error at this time", {});
                     }
@@ -89,7 +92,8 @@
                 success: function (data, textstatus, request) {
                     var success = request.getResponseHeader("deleted");
                     if(success){
-                        window.location = "/logout";
+                        $.ajax({type: "POST", url: "/logout"});
+                        window.location = "/";
                     } else {
                         $.notify("There was an error at this time", {});
                     }
