@@ -37,6 +37,7 @@
             $("#reward_brain_image").attr("src", brainImage);
             $("#reward_brain_desc").text(brainDesc);
             $("#rewardDetailsModal").modal('show');
+            $("#reward_brain_image").prop("alt", brainPart+" reward piece");
         }
 
         var updateEmail = function(){
@@ -156,8 +157,8 @@
                         <p id="reward_brain_desc">Well done - you just unlocked the frontal lobe! The frontal lobe is involved in thinking, decision making and planning. It is also plays a key role in determining our personality.</p>
                         <div class="card" style="width: 100%">
                             <div class="card-body text-center">
-                                <img class="img-responsive" id="reward_brain_image" src="/img/img7.jpg" height="300">
-                                <img class="img-responsive" id="parietal_extra" src="/img/img21.jpg" height="300" hidden>
+                                <img class="img-responsive" alt="" id="reward_brain_image" src="/img/img7.jpg" height="300">
+                                <img class="img-responsive" alt="parietal reward sensory strip" id="parietal_extra" src="/img/img21.jpg" height="300" hidden>
                             </div>
                         </div>
                     </div>
