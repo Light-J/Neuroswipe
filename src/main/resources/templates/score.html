@@ -161,31 +161,92 @@
                  </div>
              </div>
          </div>
-         <div class="card">
-             <div class="card-body">
-                 <h2>Your rewards</h2>
-                 <div class="row">
-                     <div class="col" style="height: 400px;">
-
-                         <img class="reward_image" src="/img/blankbrain.jpg" width="60%" id="empty_brain">
-                         <img id="practice_reward_image" class="reward_image" src="/img/ocipatalseperate.png" width="60%" hidden>
-                         <img id="sort25_reward_image" class="reward_image" src="/img/temporalseperate.png" width="60%" hidden>
-                         <img id="feedback_reward_image" class="reward_image" src="/img/cerebellemseperate.png" width="60%" hidden>
-                         <img id="training_reward_image" class="reward_image" src="/img/frontalseperate.png" width="60%" hidden>
-                         <img id="sort50_reward_image" class="reward_image" src="/img/paritalseperate.png" width="60%" hidden>
+         <div class="row">
+             <div class="col-sm-6">
+                 <!--- Statistics panel --->
+                 <div class="card">
+                     <div class="card-body">
+                         <h2>Statistics</h2>
+                         <h5>This is the number of scans you have helped rate</h5>
+                         <h5 style="text-align: center" id="numberScansRated">0</h5>
+                         <p>Thank you for your contribution to NeuroSwipe</p>
                      </div>
-                     <div class="col">
-                         <h5>Click these to get more information about the brain!</h5>
-                         <button id="practice_reward_button" type="button" class="btn btn-secondary" onclick="showOcipital()">Ocipital</button>
-                         <button id="sort25_reward_button" type="button" class="btn btn-secondary" onclick="showTemporal()">Temporal lobe</button>
-                         <button id="feedback_reward_button" type="button" class="btn btn-secondary" onclick="showCerebellem()">Cerebellem</button>
-                         <button id="training_reward_button" type="button" class="btn btn-secondary" onclick="showFrontal()">Frontal</button>
-                         <button id="sort50_reward_button" type="button" class="btn btn-secondary" onclick="showParital()">Paritial</button>
+                 </div>
+             </div>
+             <div class="col-sm-6">
+                 <!-- Progress panel -->
+                 <div class="card">
+                     <div class="card-body">
+                         <h1>Your progress</h1>
+                         <div class="form-check">
+                             <input type="checkbox" class="form-check-input" id="training" onclick="return false;">
+                             <label class="form-check-label" for="training">Completed Training</label>
+                         </div>
+                         <div class="form-check">
+                             <input type="checkbox" class="form-check-input" id="practice" onclick="return false;">
+                             <label class="form-check-label" for="practice">10 Correct practice questions</label>
+                         </div>
+                         <div class="form-check">
+                             <input type="checkbox" class="form-check-input" id="sort25" onclick="return false;">
+                             <label class="form-check-label" for="sort25">Sorted 25 scans</label>
+                         </div>
+                         <div class="form-check">
+                             <input type="checkbox" class="form-check-input" id="sort50" onclick="return false;">
+                             <label class="form-check-label" for="sort50">Sorted 50 scans</label>
+                         </div>
+                         <div class="form-check">
+                             <input type="checkbox" class="form-check-input" id="feedback" onclick="return false;">
+                             <label class="form-check-label" for="feedback">Left feedback</label>
+                         </div>
                      </div>
                  </div>
              </div>
          </div>
+         <div class="row">
+             <div class="col-sm-12">
+                 <!--- Brain builder panel --->
+                 <div class="card">
+                     <div class="card-body">
+                         <h2>Your rewards</h2>
+                         <div class="row">
+                             <div class="col" style="height: 300px;">
+                                 <img class="reward_image" src="/img/blankbrain.jpg" width="60%" id="empty_brain">
+                                 <img id="practice_reward_image" class="reward_image" src="/img/ocipatalseperate.png" width="60%" hidden>
+                                 <img id="sort25_reward_image" class="reward_image" src="/img/temporalseperate.png" width="60%" hidden>
+                                 <img id="feedback_reward_image" class="reward_image" src="/img/cerebellemseperate.png" width="60%" hidden>
+                                 <img id="training_reward_image" class="reward_image" src="/img/frontalseperate.png" width="60%" hidden>
+                                 <img id="sort50_reward_image" class="reward_image" src="/img/paritalseperate.png" width="60%" hidden>
+                             </div>
+                             <div class="col">
+                                 <h5>Click these to get more information about the brain!</h5>
+                                 <button id="practice_reward_button" type="button" class="btn btn-secondary" onclick="showOcipital()">Ocipital</button>
+                                 <button id="sort25_reward_button" type="button" class="btn btn-secondary" onclick="showTemporal()">Temporal lobe</button>
+                                 <button id="feedback_reward_button" type="button" class="btn btn-secondary" onclick="showCerebellem()">Cerebellem</button>
+                                 <button id="training_reward_button" type="button" class="btn btn-secondary" onclick="showFrontal()">Frontal</button>
+                                 <button id="sort50_reward_button" type="button" class="btn btn-secondary" onclick="showParital()">Paritial</button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="row">
+             <div class="col-sm-6">
+                 <!-- Certificate panel -->
+                 <div class="card">
+                     <div class="card-body">
+                         <h3>Your participation certificate</h3>
+                         <button class="btn btn-primary" onclick="window.open('/userprofile/certificate')">Download now</button>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-sm-6">
+                 <!-- Insert content here-->
+             </div>
+         </div>
      </div>
+
+
     </body>
     <style>
 
@@ -194,6 +255,7 @@
         }
 
         .reward_image{
+            height: 90%;
             position: absolute;
             transform: translate(35%, 5%);
         }
@@ -215,6 +277,12 @@
 
             .card {
                 height: auto;
+            }
+
+            .reward_image{
+                width: 90%;
+                position: absolute;
+                transform: translate(6%, 5%);
             }
 
         }

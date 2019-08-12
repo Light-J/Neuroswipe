@@ -3,7 +3,9 @@
     <head th:replace="fragments/head(title='Home')" >
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
+    <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
     <body>
+
     <div class="container">
         <div class="modal fade" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -25,7 +27,7 @@
             </div>
         </div>
 
-        <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+
 
         <section>
             <h1>You can help research into brain diseases by looking at brain scans</h1>
