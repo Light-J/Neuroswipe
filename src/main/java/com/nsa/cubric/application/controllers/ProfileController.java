@@ -45,6 +45,15 @@ public class ProfileController {
         return new ModelAndView("user_profile", "model", model);
     }
 
+    @RequestMapping(value = "/score", method = RequestMethod.GET)
+    public ModelAndView showUserScore(Model model){
+        String userName = loggedUserService.getUsername();
+        ProfileDto userProfileDto = new ProfileDto(accountService.getProfileByEmail(userName));
+
+        model.addAttribute("profile", userProfileDto);
+        return new ModelAndView("score", "model", model);
+    }
+
     @RequestMapping(value="/", method = RequestMethod.POST)
     public ModelAndView updateUserProfile(@ModelAttribute("profile") @Valid ProfileDto profileDto, BindingResult result, Model model){
         model.addAttribute("profile", profileDto);

@@ -41,8 +41,11 @@ public class ScanServiceStatic implements ScanService {
     }
 
     @Override
-    public List<Scan> getAll(int page){
-        return scanRepository.getAll(10*(page-1));
+    public List<Scan> getAll(int page, Boolean onlyPractice){
+        if(onlyPractice == null){
+            onlyPractice = false;
+        }
+        return scanRepository.getAll(10*(page-1), onlyPractice);
     }
 
     @Override
