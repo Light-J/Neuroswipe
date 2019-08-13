@@ -46,6 +46,10 @@
                 </div>
             </div>
 
+            <div hidden id='training-complete' class="alert alert-success" role="alert">
+                Success! you have already completed the training, <a href="/ratings/">continue?</a>
+            </div>
+
             <div class="card" id="imagesCard">
                 <div class="card-body">
                     <h5 class="card-title text-center">Practice</h5>
@@ -197,6 +201,20 @@
             $(function() {
                 $("#imagesCard").hide();
                 loadNextImage();
+                $.ajax({
+                    type: "GET",
+                    url: "/api/rewards/",
+                    success: function(data){
+                        if(data["training"]){
+                            $("#training-complete").removeAttr("hidden");
+                        } else {
+                            $('#informationModal').modal('show');
+                        }
+                    },
+                    error: function(){
+                        alert("There was an error getting this data.");
+                    }
+                });
 
                 $("#yesButton").on("click", function(){
                     checkAnswer(true);
