@@ -6,8 +6,10 @@
 <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
 <div class="container">
+    <div hidden id="total-voted"></div>
 
     <div th:replace="fragments/information"></div>
+    <div th:replace="fragments/dropdown"></div>
 
 <!--//Modal displayed after 25 answers, giving 1 reward-->
 <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
@@ -65,9 +67,12 @@
     <div class="card" style="margin-bottom: 5px">
         <div class="card-body">
             <p class="card-text text-center lead">Your progress to 50 images:</p>
-            <div id="progress">
+            <div id="progress" class="row">
                 <div id="bar">
                     <p class="text-center text-light" id="completedText" hidden="hidden">Completed!</p>
+                </div>
+                <div id="indicator">
+                    <span id="ammount-completed">0/50</span>
                 </div>
             </div>
         </div>
@@ -75,8 +80,7 @@
 
     <div class="card" id="imagesCard">
         <div class="card-body">
-            <h5 class="card-title text-center">Sort scans for real!</h5>
-            <p class="card-text text-center lead">Is this a good scan of a brain?</p>
+            <p class="card-text text-center lead">Does this look like a fornix?</p>
             <img class="image-order" src="" id="brainImage1">
             <img class="image-order" src="" id="brainImage2">
             <img class="image-order" src="" id="brainImage3">
@@ -111,10 +115,14 @@
 
         });
 
-        var percentage = ($("#bar").width() / $('#bar').parent().width() * 100)+2;
+        var amount_of_voted = parseInt($("#total-voted").text());
+
+        $("#total-voted").text(amount_of_voted+1);
+
+        var percentage = (amount_of_voted/50)*100;
         updateProgressBar(percentage);
 
-        if(percentage > 49.5 && percentage < 50.5){
+        if(amount_of_voted == 25){
             $.ajax({
                 type: "GET",
                 url: "/api/rewards/get/sort25",
@@ -139,7 +147,7 @@
                 }
             });
 
-        } else if(percentage > 99.5 && percentage < 100.5){
+        } else if(amount_of_voted == 50){
             $.ajax({
                 type: "GET",
                 url: "/api/rewards/get/sort50",
@@ -199,6 +207,7 @@
             type: "GET",
             url: "/api/ratings/responses/amount",
             success: function(data){
+                $("#total-voted").text(data);
                 updateProgressBar(data*2);
             },
             error: function(){
@@ -210,14 +219,17 @@
 
 
     var updateProgressBar = function(percentage){
-        if(percentage>100){
+        if(percentage>=100){
             percentage = 100;
+            $("#ammount-completed").attr("hidden", "true");
             $("#completedText").removeAttr("hidden");
         }
-        $("#bar").width(percentage+"%");
+        $("#ammount-completed").text((percentage/2).toFixed() + "/50");
+        $("#bar").css("width", "calc("+percentage+"% - "+$("#ammount-completed").width()+"px)")
     };
 
     $(function() {
+        displayNotification("Welcome", "You are now rating live images. You are helping us determine whether these fornix pictures are adequate or not")
         getNumberOfUserResponses();
         $("#imagesCard").hide();
         loadNextImage();
@@ -243,14 +255,12 @@
             switch(e.which) {
                 case 37: // left
                     if(!$("#noButton").prop("disabled")){
-                        console.log($("#yesButton, #noButton").prop("disabled"));
                         $("#yesButton, #noButton").attr("disabled", true);
                         saveDecisionAndNextImage(false);
                     }
                     break;
                 case 39: // right
                     if(!$("#yesButton").prop("disabled")) {
-                        console.log($("#yesButton, #noButton").prop("disabled"));
                         $("#yesButton, #noButton").attr("disabled", true);
                         saveDecisionAndNextImage(true);
                     }
@@ -294,6 +304,15 @@
         width: 0%;
         height: 30px;
         background-color: green;
+        text-align: center;
+        line-height: 30px;
+        color: white;
+    }
+
+    #indicator {
+        height: 30px;
+        background-color: lightgray;
+
     }
 </style>
 
