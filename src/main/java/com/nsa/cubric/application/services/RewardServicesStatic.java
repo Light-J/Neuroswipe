@@ -61,7 +61,7 @@ public class RewardServicesStatic implements RewardService {
      * @return true if safe and false is not
      */
     private boolean rewardExists(String reward){
-        String[] potentialRewards = {"training", "practice", "sort25", "sort50", "feedback"};
+        String[] potentialRewards = {"sort20", "sort40", "sort60", "sort80", "sort100"};
         return Arrays.asList(potentialRewards).contains(reward);
     }
 }

@@ -11,59 +11,39 @@
     <div th:replace="fragments/information"></div>
     <div th:replace="fragments/dropdown"></div>
 
-<!--//Modal displayed after 25 answers, giving 1 reward-->
-<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3 id="reward25_title">Temporal Lobe</h3>
-                <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal lobe is involved in perceiving and remembering sounds. It also works in with other areas of the brain to form conscious memories.</p>
-                <div class="card" style="width: 100%">
-                    <div class="card-body text-center">
-                        <img id="reward25_image" src="/img/img24.jpg" height="300">
-                        <h5 class="card-title" id="img_text" style="margin-top: 2rem">Temporal Lobe</h5>
-                    </div>
-                </div>
-                <button id="reward25_btn" class="btn btn-primary btn-block" onclick="change25Modal()">Next</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="container">
-
-
-    <div class="modal fade" id="rewardModal50" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+    <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="rewardModalLongTitle50">Congratulations</h5>
+                    <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <h3 id="reward50_title">The parietal lobe</h3>
-                    <p id="reward50_body">Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of grey matter called the sensory strip. This processes sensory information such as pain, touch and temperature.</p>
+                <div class="modal-body" id="reward-body-part-1">
+                    <h3 id="reward-1-title"></h3>
+                    <p id="reward-1-desc"></p>
                     <div class="card" style="width: 100%">
-                        <img id="reward50_image" src="/img/img23.jpg" height="400">
+                        <div class="card-body text-center">
+                            <img id="reward-1-image" src="/img/img24.jpg" height="300">
+                        </div>
                     </div>
-                    <button id="reward50_btn" class="btn btn-primary btn-block" onclick="change50Modal()">Next</button>
-                    <div class="row" id="goToFeedbackButtons" hidden>
-                        <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">I'll Do It Later</button>
-                        <a href="/userfeedback/"><button type="button" class="btn btn-primary col-lg-6">Go to feedback</button></a>
+                    <button id="reward25_btn" class="btn btn-primary btn-block" onclick="nextRewardModelPart()">Next</button>
+                </div>
+                <div class="modal-body" id="reward-body-part-2" hidden>
+                    <!-- 2nd part of reward -->
+                    <h3 id="reward-2-title"></h3>
+                    <p id="reward-2-desc"></p>
+                    <div class="card" style="width: 100%">
+                        <div class="card-body text-center">
+                            <img id="reward-2-image" src="/img/img24.jpg" height="300">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="card" style="margin-bottom: 5px">
         <div class="card-body">
             <p class="card-text text-center lead">Your progress to 50 images:</p>
@@ -269,23 +249,23 @@
             e.preventDefault(); // prevent the default action (scroll / move caret)
         });
     });
-
-    function change25Modal() {
-        document.getElementById("rewardModalLongTitle").innerHTML = "Case Study";
-        document.getElementById("reward25_title").innerHTML = "The case of Henry Molaison 1926-2008:";
-        document.getElementById("reward25_body").innerHTML = "From an early age, Molaison suffered from severe epilepsy. In an effort to control his seizures, he underwent a major operation that removed a large part of his temporal lobe and hippocampus. Whilst the surgery cured Molaison of his epilepsy he was tragically left unable to form new memories.";
-        document.getElementById("reward25_image").src = "/img/reward_case_2.jpg";
-        document.getElementById("img_text").innerHTML = "Henry Molaison";
-        document.getElementById("reward25_btn").style.display = "none";
+    //Reward data is a dict containing part1Title, part1Body, part1Image, part2Title, part2Body, part2Image
+    function showRewardModal(rewardData){
+        $("#reward-body-part-1").removeAttr("hidden");
+        $("#reward-body-part-2").attr("hidden", "true");
+        $("#reward-1-title").text(rewardData["part1Title"]);
+        $("#reward-1-desc").text(rewardData["part1Desc"]);
+        $("#reward-1-image").attr("src", rewardData["part1Image"]);
+        $("#reward-2-title").text(rewardData["part2Title"]);
+        $("#reward-2-desc").text(rewardData["part2Desc"]);
+        $("#reward-2-image").attr("src", rewardData["part2Image"]);
+        $('#rewardModal').modal('show');
     }
 
-    function change50Modal() {
-        document.getElementById("reward50_body").innerHTML = "The sensory strip is like a map of our body – the bumps and grooves on the brain’s surface receive information from different parts of the body. It is called the somatosensory homunculus (shown below). The bigger the body part is on the homunculus, the more sensitive the body part. You can see the hands are huge! ";
-        document.getElementById("reward50_image").src = "/img/reward_case_3.jpg";
-        document.getElementById("reward50_btn").style.display = "none";
-        $("#goToFeedbackButtons").removeAttr('hidden');
+    function nextRewardModelPart(){
+        $("#reward-body-part-1").attr("hidden", "true");
+        $("#reward-body-part-2").removeAttr("hidden");
     }
-
 
 </script>
 <style>
