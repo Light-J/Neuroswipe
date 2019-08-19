@@ -1,299 +1,310 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head th:replace="fragments/head(title='Ratings')" ></head>
-<body class="overflow-hidden">
+    <head th:replace="fragments/head(title='Ratings')" ></head>
+    <body class="overflow-hidden">
 
-<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+        <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
-<div class="container">
-    <div hidden id="total-voted"></div>
+        <div class="container">
+            <div hidden id="total-voted"></div>
 
-    <div th:replace="fragments/information"></div>
-    <div th:replace="fragments/dropdown"></div>
+            <div th:replace="fragments/information"></div>
+            <div th:replace="fragments/dropdown"></div>
 
-    <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="reward-body-part-1">
-                    <h3 id="reward-1-title"></h3>
-                    <p id="reward-1-desc"></p>
-                    <div class="card" style="width: 100%">
-                        <div class="card-body text-center">
-                            <img id="reward-1-image" src="/img/img24.jpg" height="300">
+            <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div>
-                    <button id="reward25_btn" class="btn btn-primary btn-block" onclick="nextRewardModelPart()">Next</button>
-                </div>
-                <div class="modal-body" id="reward-body-part-2" hidden>
-                    <!-- 2nd part of reward -->
-                    <h3 id="reward-2-title"></h3>
-                    <p id="reward-2-desc"></p>
-                    <div class="card" style="width: 100%">
-                        <div class="card-body text-center">
-                            <img id="reward-2-image" src="/img/img24.jpg" height="300">
+                        <div class="modal-body" id="reward-body-part-1">
+                            <h3 id="reward-1-title"></h3>
+                            <p id="reward-1-desc"></p>
+                            <div class="card" style="width: 100%">
+                                <div class="card-body text-center">
+                                    <img id="reward-1-image" src="/img/img24.jpg" height="300">
+                                </div>
+                            </div>
+                            <button id="reward25_btn" class="btn btn-primary btn-block" onclick="nextRewardModelPart()">Next</button>
+                        </div>
+                        <div class="modal-body" id="reward-body-part-2" hidden>
+                            <!-- 2nd part of reward -->
+                            <h3 id="reward-2-title"></h3>
+                            <p id="reward-2-desc"></p>
+                            <div class="card" style="width: 100%">
+                                <div class="card-body text-center">
+                                    <img id="reward-2-image" src="/img/img24.jpg" height="300">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="card" style="margin-bottom: 5px">
-        <div class="card-body">
-            <p class="card-text text-center lead">Your progress to 50 images:</p>
-            <div id="progress" class="row">
-                <div id="bar">
-                    <p class="text-center text-light" id="completedText" hidden="hidden">Completed!</p>
+            <div class="card" style="margin-bottom: 5px">
+                <div class="card-body">
+                    <p class="card-text text-center lead">Your progress to 100 images:</p>
+                    <div id="progress" class="row">
+                        <div id="bar">
+                            <p class="text-center text-light" id="completedText" hidden="hidden">Completed!</p>
+                        </div>
+                        <div id="indicator">
+                            <p id="ammount-completed">0%</p>
+                        </div>
+                    </div>
                 </div>
-                <div id="indicator">
-                    <span id="ammount-completed">0/50</span>
+            </div>
+
+            <div class="card" id="imagesCard">
+                <div class="card-body">
+                    <p class="card-text text-center lead">Does this look like a fornix?</p>
+                    <img class="image-order" src="" id="brainImage1">
+                    <img class="image-order" src="" id="brainImage2">
+                    <img class="image-order" src="" id="brainImage3">
+                    <p class="text-center">
+                        <br><br>
+                        <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
+                    </p>
                 </div>
+            </div>
+
+            <div class="float-right">
+                <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary" id="save">Save and Exit</button>
             </div>
         </div>
     </div>
-
-    <div class="card" id="imagesCard">
-        <div class="card-body">
-            <p class="card-text text-center lead">Does this look like a fornix?</p>
-            <img class="image-order" src="" id="brainImage1">
-            <img class="image-order" src="" id="brainImage2">
-            <img class="image-order" src="" id="brainImage3">
-            <p class="text-center">
-                <br><br>
-                <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
-            </p>
-        </div>
-    </div>
-
-    <div class="float-right">
-        <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary" id="save">Save and Exit</button>
-    </div>
-</div>
-
-</div>
-
-<script>
-    var loadNextImage = function(){
-        $.getJSON("/api/scans/next", function( imageData ) {
-            $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
-            $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
-            $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
-            $("#brainImage1").data("id", imageData.id);
-            $("#yesButton, #noButton").fadeIn(250);
-            $("#imagesCard").fadeOut(350, function () {
-                $("#imagesCard").removeClass("swipe-right swipe-left");
-                $("#imagesCard").fadeIn(250);
-                $("#yesButton, #noButton").attr("disabled", false);
+    <script>
+        var loadNextImage = function(){
+            $.getJSON("/api/scans/next", function( imageData ) {
+                $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
+                $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
+                $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
+                $("#brainImage1").data("id", imageData.id);
+                $("#yesButton, #noButton").fadeIn(250);
+                $("#imagesCard").fadeOut(350, function () {
+                    $("#imagesCard").removeClass("swipe-right swipe-left");
+                    $("#imagesCard").fadeIn(250);
+                    $("#yesButton, #noButton").attr("disabled", false);
+                });
             });
 
-        });
+            var amountOfVotes = parseInt($("#total-voted").text()) + 1;
+            $("#total-voted").text(amountOfVotes);
+            updateProgressBar(amountOfVotes);
 
-        var amount_of_voted = parseInt($("#total-voted").text());
-
-        $("#total-voted").text(amount_of_voted+1);
-
-        var percentage = (amount_of_voted/50)*100;
-        updateProgressBar(percentage);
-
-        if(amount_of_voted == 25){
-            $.ajax({
-                type: "GET",
-                url: "/api/rewards/get/sort25",
-                success: function(data){
-                    if(!data){
-                        //Show 25 modal
-                        $('#rewardModal').find("img").attr("src","/img/img20.jpg");
-                        $('#rewardModal').modal('show');
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/rewards/set/sort25?value=1",
-                            success: function(data){
-                            },
-                            error: function(){
-                                alert("There was an error getting this data.");
-                            }
-                        });
-                    }
-                },
-                error: function(){
-                    alert("There was an error getting this data.");
-                }
-            });
-
-        } else if(amount_of_voted == 50){
-            $.ajax({
-                type: "GET",
-                url: "/api/rewards/get/sort50",
-                success: function(data){
-                    if(!data){
-                        //show 50 modal
-                        $('#rewardModal50').modal('show');
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/rewards/set/sort50?value=1",
-                            success: function(data){
-                            },
-                            error: function(){
-                                alert("There was an error getting this data.");
-                            }
-                        });
-                    }
-                },
-                error: function(){
-                    alert("There was an error getting this data.");
-                }
-            });
-        }
-    };
-
-    var saveDecisionAndNextImage = function(goodBrain){
-        if(goodBrain){
-            $("#imagesCard").addClass("swipe-right");
-        }else{
-            $("#imagesCard").addClass("swipe-left");
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/api/ratings/save",
-            data: {
-            	"scanId": $("#brainImage1").data("id"),
-                "goodBrain": goodBrain
-            },
-            success: function(data){
-
-
-                setTimeout(function(){
-                    loadNextImage();
-                }, 250);
-            },
-            error: function(){
-                alert("There was an error submitting the data.");
-            },
-            dataType: "json"
-        });
-    };
-
-    function getNumberOfUserResponses(){
-        $.ajax({
-            type: "GET",
-            url: "/api/ratings/responses/amount",
-            success: function(data){
-                $("#total-voted").text(data);
-                updateProgressBar(data*2);
-            },
-            error: function(){
-                alert("There was an error getting this data.");
-            }
-        });
-
-    }
-
-
-    var updateProgressBar = function(percentage){
-        if(percentage>=100){
-            percentage = 100;
-            $("#ammount-completed").attr("hidden", "true");
-            $("#completedText").removeAttr("hidden");
-        }
-        $("#ammount-completed").text((percentage/2).toFixed() + "/50");
-        $("#bar").css("width", "calc("+percentage+"% - "+$("#ammount-completed").width()+"px)")
-    };
-
-    $(function() {
-        displayNotification("Welcome", "You are now rating live images. You are helping us determine whether these fornix pictures are adequate or not")
-        getNumberOfUserResponses();
-        $("#imagesCard").hide();
-        loadNextImage();
-        $("#yesButton").on("click", function(){
-            saveDecisionAndNextImage(true);
-        });
-
-        $("#noButton").on("click", function(){
-            saveDecisionAndNextImage(false);
-        });
-
-        $("#imagesCard").swipe( {
-            swipe: function(event, direction){
-                if(direction == "left"){
-                    saveDecisionAndNextImage(false);
-                } else if (direction == "right") {
-                    saveDecisionAndNextImage(true);
-                }
-            },
-            allowPageScroll:"auto"});
-
-        $(document).keyup(function(e) {
-            switch(e.which) {
-                case 37: // left
-                    if(!$("#noButton").prop("disabled")){
-                        $("#yesButton, #noButton").attr("disabled", true);
-                        saveDecisionAndNextImage(false);
-                    }
+            switch (amountOfVotes) {
+                case 20:
+                    rewardData = {
+                        "part1Title":"20",
+                        "part2Title":"20",
+                        "part1Desc":"20",
+                        "part2Desc":"20",
+                        "part1Image":"",
+                        "part2Image":""
+                    };
+                    showRewardModal(rewardData);
                     break;
-                case 39: // right
-                    if(!$("#yesButton").prop("disabled")) {
-                        $("#yesButton, #noButton").attr("disabled", true);
+
+                case 40:
+                    rewardData = {
+                        "part1Title":"40",
+                        "part2Title":"40",
+                        "part1Desc":"40",
+                        "part2Desc":"40",
+                        "part1Image":"",
+                        "part2Image":""
+                    };
+                    showRewardModal(rewardData);
+                    break;
+
+                case 60:
+                    rewardData = {
+                        "part1Title":"",
+                        "part2Title":"",
+                        "part1Desc":"",
+                        "part2Desc":"",
+                        "part1Image":"",
+                        "part2Image":""
+                    };
+                    showRewardModal(rewardData);
+                    break;
+
+                case 80:
+                    rewardData = {
+                        "part1Title":"",
+                        "part2Title":"",
+                        "part1Desc":"",
+                        "part2Desc":"",
+                        "part1Image":"",
+                        "part2Image":""
+                    };
+                    showRewardModal(rewardData);
+                    break;
+
+                case 100:
+                    rewardData = {
+                        "part1Title":"",
+                        "part2Title":"",
+                        "part1Desc":"",
+                        "part2Desc":"",
+                        "part1Image":"",
+                        "part2Image":""
+                    };
+                    showRewardModal(rewardData);
+                    break;
+            }
+        };
+
+        var saveDecisionAndNextImage = function(goodBrain){
+            if(goodBrain){
+                $("#imagesCard").addClass("swipe-right");
+            }else{
+                $("#imagesCard").addClass("swipe-left");
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/ratings/save",
+                data: {
+                    "scanId": $("#brainImage1").data("id"),
+                    "goodBrain": goodBrain
+                },
+                success: function(data){
+
+
+                    setTimeout(function(){
+                        loadNextImage();
+                    }, 250);
+                },
+                error: function(){
+                    alert("There was an error submitting the data.");
+                },
+                dataType: "json"
+            });
+        };
+
+        function getNumberOfUserResponses(){
+            $.ajax({
+                type: "GET",
+                url: "/api/ratings/responses/amount",
+                success: function(data){
+                    $("#total-voted").text(data);
+                    updateProgressBar(data);
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+        }
+
+        var updateProgressBar = function(percentage){
+            if(percentage>=100){
+                percentage = 100;
+                $("#ammount-completed").attr("hidden", "true");
+                $("#completedText").removeAttr("hidden");
+            }
+            $("#ammount-completed").text((percentage).toFixed() + "%");
+            $("#bar").css("width", "calc("+percentage+"% - "+$("#indicator").outerWidth()+"px)")
+        };
+
+        $(function() {
+            var isshow = localStorage.getItem('ratinglive');
+            if (isshow== null) {
+                localStorage.setItem('ratinglive', 1);
+                displayNotification("Welcome", "You are now rating live images. You are helping us determine whether these fornix pictures are adequate or not")
+            }
+
+            getNumberOfUserResponses();
+            $("#imagesCard").hide();
+            loadNextImage();
+            $("#yesButton").on("click", function(){
+                saveDecisionAndNextImage(true);
+            });
+
+            $("#noButton").on("click", function(){
+                saveDecisionAndNextImage(false);
+            });
+
+            $("#imagesCard").swipe( {
+                swipe: function(event, direction){
+                    if(direction == "left"){
+                        saveDecisionAndNextImage(false);
+                    } else if (direction == "right") {
                         saveDecisionAndNextImage(true);
                     }
-                    break;
-                default: return; // exit this handler for other keys
-            }
-            e.preventDefault(); // prevent the default action (scroll / move caret)
+                },
+                allowPageScroll:"auto"});
+
+            $(document).keyup(function(e) {
+                switch(e.which) {
+                    case 37: // left
+                        if(!$("#noButton").prop("disabled")){
+                            $("#yesButton, #noButton").attr("disabled", true);
+                            saveDecisionAndNextImage(false);
+                        }
+                        break;
+                    case 39: // right
+                        if(!$("#yesButton").prop("disabled")) {
+                            $("#yesButton, #noButton").attr("disabled", true);
+                            saveDecisionAndNextImage(true);
+                        }
+                        break;
+                    default: return; // exit this handler for other keys
+                }
+                e.preventDefault(); // prevent the default action (scroll / move caret)
+            });
         });
-    });
-    //Reward data is a dict containing part1Title, part1Body, part1Image, part2Title, part2Body, part2Image
-    function showRewardModal(rewardData){
-        $("#reward-body-part-1").removeAttr("hidden");
-        $("#reward-body-part-2").attr("hidden", "true");
-        $("#reward-1-title").text(rewardData["part1Title"]);
-        $("#reward-1-desc").text(rewardData["part1Desc"]);
-        $("#reward-1-image").attr("src", rewardData["part1Image"]);
-        $("#reward-2-title").text(rewardData["part2Title"]);
-        $("#reward-2-desc").text(rewardData["part2Desc"]);
-        $("#reward-2-image").attr("src", rewardData["part2Image"]);
-        $('#rewardModal').modal('show');
-    }
+        //Reward data is a dict containing part1Title, part1Body, part1Image, part2Title, part2Body, part2Image
+        function showRewardModal(rewardData){
+            $("#reward-body-part-1").removeAttr("hidden");
+            $("#reward-body-part-2").attr("hidden", "true");
+            $("#reward-1-title").text(rewardData["part1Title"]);
+            $("#reward-1-desc").text(rewardData["part1Desc"]);
+            $("#reward-1-image").attr("src", rewardData["part1Image"]);
+            $("#reward-2-title").text(rewardData["part2Title"]);
+            $("#reward-2-desc").text(rewardData["part2Desc"]);
+            $("#reward-2-image").attr("src", rewardData["part2Image"]);
+            $('#rewardModal').modal('show');
+        }
 
-    function nextRewardModelPart(){
-        $("#reward-body-part-1").attr("hidden", "true");
-        $("#reward-body-part-2").removeAttr("hidden");
-    }
+        function nextRewardModelPart(){
+            $("#reward-body-part-1").attr("hidden", "true");
+            $("#reward-body-part-2").removeAttr("hidden");
+        }
 
-</script>
-<style>
-    #save {
-        margin: 10px;
-    }
+    </script>
+    <style>
+        #save {
+            margin: 10px;
+        }
 
-    #progress {
-        width: 100%;
-        background-color: grey;
-        margin-bottom: 10px;
-    }
+        #progress {
+            background-color: grey;
+            margin-bottom: 8px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
 
-    #bar {
-        width: 0%;
-        height: 30px;
-        background-color: green;
-        text-align: center;
-        line-height: 30px;
-        color: white;
-    }
+        #bar {
+            width: 0%;
+            height: 30px;
+            background-color: green;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
 
-    #indicator {
-        height: 30px;
-        background-color: lightgray;
+        #indicator {
+            height: 30px;
+            background-color: lightgray;
+            padding-left: 5px;
+            padding-right: 5px;
 
-    }
-</style>
-
-</body>
+        }
+    </style>
+    </body>
 </html>
