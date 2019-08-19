@@ -231,11 +231,11 @@ DROP TABLE IF EXISTS `brainschema`.`reward`;
 
 CREATE TABLE IF NOT EXISTS `brainschema`.`reward` (
   `profile_id` INT(11) NOT NULL,
-  `training` INT(1) NOT NULL,
-  `practice` INT(1) NOT NULL,
-  `sort25` INT(1) NOT NULL,
-  `sort50` INT(1) NOT NULL,
-  `feedback` INT(1) NOT NULL,
+  `sort20` INT(1) NOT NULL,
+  `sort40` INT(1) NOT NULL,
+  `sort60` INT(1) NOT NULL,
+  `sort80` INT(1) NOT NULL,
+  `sort100` INT(1) NOT NULL,
   CONSTRAINT `user_to_reward` FOREIGN KEY (`profile_id`) REFERENCES `brainschema`.`profile` (`profile_id`) ON DELETE CASCADE
 )ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -426,7 +426,7 @@ DEFINER=`root`@`localhost`
 TRIGGER `brainschema`.`Create User Rewards Entry`
 AFTER INSERT ON `brainschema`.`profile`
 FOR EACH ROW
-INSERT INTO reward (profile_id, training, practice, sort25, sort50, feedback) VALUES (NEW.profile_id, 0, 0 ,0 ,0 ,0)$$
+INSERT INTO reward (profile_id, sort20, sort40, sort60, sort80, sort100) VALUES (NEW.profile_id, 0, 0 ,0 ,0 ,0)$$
 
 DELIMITER ;
 
