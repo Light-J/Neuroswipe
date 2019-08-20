@@ -6,7 +6,7 @@
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
         <div class="container">
-            <div hidden id="total-voted"></div>
+            <div hidden id="total-voted">0</div>
 
             <div th:replace="fragments/information"></div>
             <div th:replace="fragments/dropdown"></div>
@@ -107,6 +107,7 @@
                         "part2Image":"/img/reward_case_2.jpg"
                     };
                     showRewardModal(rewardData);
+                    setReward("sort20");
                     break;
 
                 case 40:
@@ -119,6 +120,7 @@
                         "part2Image":"/img/reward_case_3.jpg"
                     };
                     showRewardModal(rewardData);
+                    setReward("sort40");
                     break;
 
                 case 60:
@@ -131,6 +133,7 @@
                         "part2Image":"/img/reward_case_1.jpg"
                     };
                     showRewardModal(rewardData);
+                    setReward("sort60");
                     break;
 
                 case 80:
@@ -143,6 +146,7 @@
                         "part2Image":"/img/img24.jpg"
                     };
                     showRewardModal(rewardData);
+                    setReward("sort80");
                     break;
 
                 case 100:
@@ -155,8 +159,26 @@
                         "part2Image":"/img/logo.jpg"
                     };
                     showRewardModal(rewardData);
+                    setReward("sort100");
                     break;
             }
+        };
+
+
+        var setReward = function(reward){
+            $.ajax({
+                type: "POST",
+                url: "/api/rewards/set/" + reward,
+                data: {
+                    "value": 1
+                },
+                success: function(data){
+                },
+                error: function(){
+                    alert("There was an error submitting the data.");
+                },
+                dataType: "json"
+            });
         };
 
         var saveDecisionAndNextImage = function(goodBrain){
