@@ -8,6 +8,7 @@
     </style>
     <head th:replace="fragments/head(title='Practice')" ></head>
     <body class="overflow-hidden">
+    <div th:replace="fragments/dropdown"></div>
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
         <div class="container">
             <div class="modal fade" id="wrongAlert" tabindex="-1" role="dialog" aria-labelledby="wrongAlert" aria-hidden="true">
@@ -124,6 +125,11 @@
             };
 
             $(function() {
+                var isshow = localStorage.getItem('practiceInfo');
+                if (isshow== null) {
+                    localStorage.setItem('practiceInfo', 1);
+                    displayNotification("Welcome", "Don't worry if you aren't 100% sure whether a fornix is OK. We will ask several people to look at each image to see if everyone agrees.")
+                }
                 $("#imagesCard").hide();
                 loadNextImage();
 
