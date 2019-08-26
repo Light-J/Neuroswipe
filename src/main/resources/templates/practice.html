@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <style>
-        .overflow-hidden {
-            overflow-y: scroll;
-            overflow-x: hidden;
-        }
-    </style>
+<style>
+    .overflow-hidden {
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+</style>
     <head th:replace="fragments/head(title='Practice')" ></head>
+
     <body class="overflow-hidden">
     <div th:replace="fragments/dropdown"></div>
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
@@ -52,10 +53,11 @@
 
             <div class="card" id="imagesCard">
                 <div class="card-body">
+                    <h5 class="card-title text-center">Practice</h5>
                     <p class="card-text text-center lead">Does this look like a fornix?</p>
-                    <img class="image-order" src="" id="brainImage1">
-                    <img class="image-order" src="" id="brainImage2">
-                    <img class="image-order" src="" id="brainImage3">
+                    <img class="image-order" alt="fornix tractography image" src="" id="brainImage1">
+                    <img class="image-order" alt="fornix tractography image" src="" id="brainImage2">
+                    <img class="image-order" alt="fornix tractography image" src="" id="brainImage3">
                     <p class="text-center">
                         <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
@@ -117,6 +119,7 @@
                     $("#wrongAlert").modal("show");
                 }
             };
+
 
             var saveDecisionAndNextImage = function(){
                 setTimeout(function(){
