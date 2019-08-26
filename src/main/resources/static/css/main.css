@@ -184,7 +184,11 @@ meter[value="4"]::-webkit-meter-optimum-value { background: green; }
     }
 
 }
-
+@media only screen and (max-width: 1200px){
+    .card {
+        margin-bottom: 10px;
+    }
+}
 
 
 
