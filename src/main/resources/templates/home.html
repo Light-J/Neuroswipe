@@ -57,7 +57,7 @@
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-body">
-                            <img src="/img/ncmh-logo.png" alt="Card image cap">
+                            <img src="/img/ncmh-logo.png" alt="Card image cap" style="width: 100%">
                             <br>
                             <h5>Help with research into mental health conditions</h5>
                             <p>Taking part is easy – it involves completing an online survey which asks about your contact details and some personal information.</p>
@@ -95,6 +95,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>How much everyone has contributed</h5>
+                            <p><div class="odometer" id="total-responses">0</div> responses!</p>
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <br><br>
@@ -125,6 +132,25 @@
 
             });
 
+            $.ajax({
+                type: "GET",
+                url: "/api/ratings/responses/total",
+                success: function(data){
+                    $("#total-responses").text(data);
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+
+
         </script>
+    <style>
+        @media only screen and (max-width: 1200px){
+            .card {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
     </body>
 </html>

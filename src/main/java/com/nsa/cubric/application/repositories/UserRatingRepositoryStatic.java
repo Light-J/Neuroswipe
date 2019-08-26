@@ -58,4 +58,8 @@ public class UserRatingRepositoryStatic implements UserRatingRepository {
 				Integer.class, userId, response);
 	}
 
+	@Override
+	public Integer getTotalNumberOfRatingsFromUsers(){
+		return jdbcTemplate.queryForObject("SELECT count(*) FROM rating", Integer.class);
+	}
 }

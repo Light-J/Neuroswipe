@@ -69,6 +69,6 @@ public class RatingAPI {
 
 	@RequestMapping(value = "/responses/total", method = RequestMethod.GET)
 	public Integer getTotalNumberOfResponses(){
-		return 3;
+		return ratingService.getTotalNumberOfRatingsFromUsers();
 	}
 }
