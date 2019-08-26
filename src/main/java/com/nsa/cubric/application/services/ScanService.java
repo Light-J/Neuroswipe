@@ -12,7 +12,7 @@ public interface ScanService {
     void insert(Scan scan);
     void updateKnownGood(Long id, Boolean knownGood);
     void updateReason(Long id, String reason);
-    List<Scan> getAll(int page);
+    List<Scan> getAll(int page, Boolean onlyPractice);
     Optional<Scan> getNext();
     Optional<Scan> getNextPractice();
     List<Scan> getScansFiltered(Integer minResponses, Integer percentageGood);

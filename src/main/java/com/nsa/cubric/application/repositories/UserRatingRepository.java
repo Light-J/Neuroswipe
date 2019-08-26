@@ -10,4 +10,5 @@ public interface UserRatingRepository {
 	List<UserRating> getUserRatings(String userEmail);
 	Integer getNumberOfRatingsForUser(String userEmail);
 	Integer getNumberOfTimesUserRatedForResponse(Long userId, Integer response);
+	Integer getTotalNumberOfRatingsFromUsers();
 }

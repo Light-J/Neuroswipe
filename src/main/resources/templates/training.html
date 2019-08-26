@@ -1,189 +1,129 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head(title='Training')" ></head>
-<style>
-    @media screen and (min-width: 1200px) {
-        .card {
-            width: 30%;
-            display: inline-block;
-            vertical-align: top;
+    <head th:replace="fragments/head(title='Training')" ></head>
+    <style>
+        @media screen and (min-width: 1200px) {
+            .card {
+                width: 30%;
+                display: inline-block;
+                vertical-align: top;
+            }
         }
-    }
 
-</style>
-<body>
+    </style>
+    <body>
 
 
-<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+        <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
-<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <h1>Training</h1>
+
+                <p>The fornix should have a central ‘body’ and two ‘legs’ that curl around underneath.</p>
             </div>
-            <div class="modal-body">
-                <h3 id="modal_title">Reward image: The frontal lobe</h3>
-                <p id="modal_content">Well done - you just unlocked the frontal lobe! The frontal lobe is involved in thinking, decision making and planning. It is also plays a key role in determining our personality.</p>
-                <div class="card" style="width: 100%">
-                    <div class="card-body text-center">
-                        <img class="img-responsive" id="modal_img" alt="Frontal lobe image" src="/img/img7.jpg" height="300">
-                        <h5 class="card-title" id="img_text" style="margin-top: 2rem"></h5>
+
+            <div class="container-fluid">
+                <h3>What a Good Fornix Looks Like</h3>
+
+                <div class="card ">
+                    <img class="card-img-top trainingCardImg" src="/img/img8.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">From the Top</h5>
+                        <p class="card-text">This is what a good fornix tractography image looks like from the top.</p>
                     </div>
                 </div>
-                <br>
-                <button id="modal_button" class="btn btn-primary btn-block" onclick="changeModal()">Next</button>
+
+                <div class="card">
+                    <img class="card-img-top trainingCardImg" src="/img/img9.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">From the Front</h5>
+                        <p class="card-text">This is what a good fornix tractography image looks like from the front.</p>
+                    </div>
+                    </div>
+
+
+                <div class="card">
+                    <img class="card-img-top trainingCardImg" src="/img/img10.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">From the Side</h5>
+                        <p class="card-text">This is what a good fornix tractography image looks like from the side.</p>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
+
+            <br><br><br>
+
+            <div class="container-fluid">
+                <h3>Not perfect-looking, but OK</h3>
+                <div class="card">
+                    <img class="card-img-top trainingCardImg" src="/img/img11.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">Some untidy-looking fibres</h5>
+                        <p class="card-text">It shouldn't have too many untidy-looking fibres that stick out across the middle or out of the sides (although a few are OK).</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img class="card-img-top trainingCardImg" src="/img/img12.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">Not necessarily symmetrical</h5>
+                        <p class="card-text">Sometimes the tract images are not symmetrical and have only a few fibres on one side. Not everyone’s brains are the same on both sides.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img class="card-img-top trainingCardImg" src="/img/img13.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">Gap down the middle of the body</h5>
+                        <p class="card-text">It’s okay if there is a gap down the middle of the body.</p>
+                    </div>
+                </div>
+
             </div>
+
+            <br><br><br>
+
+            <div class="container-fluid">
+                <h3>Bad ones!</h3>
+                <div class="card">
+                    <img class="card-img-top trainingCardImg" src="/img/img14.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">One leg has only 2-3 fibres</h5>
+                        <p class="card-text">If one leg has only 2-3 fibres, it is a mistake.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img class="card-img-top trainingCardImg" src="/img/img15.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">Gaps between the body and the legs</h5>
+                        <p class="card-text">There shouldn’t be any gaps between the body and the legs. If the legs look like they have been cut off, it is a mistake.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img class="card-img-top trainingCardImg" src="/img/img16.png">
+                    <div class="card-body trainingCardBody">
+                        <h5 class="card-title">Gaps between the body and the legs</h5>
+                        <p class="card-text">Again, there shouldn’t be any gaps between the body and the legs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <br><br><br>
+
+            <h3 class="text-center">Have a go at looking at some images for us:</h3>
+
+            <p class="text-center">
+                <a href="/practice/" class="btn btn-primary btn-lg">Practice Sorting Images</a>
+            </p>
+
+            <br><br>
+
+            <footer class="text-right">
+                <p><a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
+            </footer>
         </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="container-fluid">
-        <h1>Training</h1>
-
-        <p>The fornix should have a central ‘body’ and two ‘legs’ that curl around underneath.</p>
-    </div>
-
-    <div class="container-fluid">
-        <h3>What a Good Fornix Looks Like</h3>
-
-        <div class="card ">
-            <img class="card-img-top trainingCardImg" alt="Good fornix tractography from the top" src="/img/img8.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">From the Top</h5>
-                <p class="card-text">This is what a good fornix tractography image looks like from the top.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img class="card-img-top trainingCardImg" alt="Good fornix tractography from the front" src="/img/img9.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">From the Front</h5>
-                <p class="card-text">This is what a good fornix tractography image looks like from the front.</p>
-            </div>
-            </div>
-
-
-        <div class="card">
-            <img class="card-img-top trainingCardImg" alt="Good fornix tractography from the side" src="/img/img10.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">From the Side</h5>
-                <p class="card-text">This is what a good fornix tractography image looks like from the side.</p>
-            </div>
-        </div>
-    </div>
-
-    <br><br><br>
-
-    <div class="container-fluid">
-        <h3>Not perfect-looking, but OK</h3>
-        <div class="card">
-            <img class="card-img-top trainingCardImg" alt="Okay looking fornix tractography" src="/img/img11.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">Some untidy-looking fibres</h5>
-                <p class="card-text">It shouldn't have too many untidy-looking fibres that stick out across the middle or out of the sides (although a few are OK).</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img class="card-img-top trainingCardImg" alt="Okay looking fornix tractography" src="/img/img12.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">Not necessarily symmetrical</h5>
-                <p class="card-text">Sometimes the tract images are not symmetrical and have only a few fibres on one side. Not everyone’s brains are the same on both sides.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img class="card-img-top trainingCardImg" alt="Okay looking fornix tractography" src="/img/img13.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">Gap down the middle of the body</h5>
-                <p class="card-text">It’s okay if there is a gap down the middle of the body.</p>
-            </div>
-        </div>
-
-    </div>
-
-    <br><br><br>
-
-    <div class="container-fluid">
-        <h3>Bad ones!</h3>
-        <div class="card">
-            <img class="card-img-top trainingCardImg" alt="Bad fornix tractography" src="/img/img14.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">One leg has only 2-3 fibres</h5>
-                <p class="card-text">If one leg has only 2-3 fibres, it is a mistake.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img class="card-img-top trainingCardImg" alt="Bad fornix tractography" src="/img/img15.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">Gaps between the body and the legs</h5>
-                <p class="card-text">There shouldn’t be any gaps between the body and the legs. If the legs look like they have been cut off, it is a mistake.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img class="card-img-top trainingCardImg" alt="Bad fornix tractography" src="/img/img16.png">
-            <div class="card-body trainingCardBody">
-                <h5 class="card-title">Gaps between the body and the legs</h5>
-                <p class="card-text">Again, there shouldn’t be any gaps between the body and the legs.</p>
-            </div>
-        </div>
-    </div>
-
-    <br><br><br>
-
-    <h3 class="text-center">Have a go at looking at some images for us:</h3>
-
-    <p class="text-center">
-        <a href="/practice/" class="btn btn-primary btn-lg">Practice Sorting Images</a>
-    </p>
-
-    <br><br>
-
-    <footer class="text-right">
-        <p><a href="https://www.cardiff.ac.uk/cardiff-university-brain-research-imaging-centre/">CUBRIC</a></p>
-    </footer>
-<script>
-    $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() == $(document).height()) {
-            $.ajax({
-                type: "GET",
-                url: "/api/rewards/get/training",
-                success: function(data){
-                    if(!data){
-                        $('#rewardModal').modal('show');
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/rewards/set/training?value=1",
-                            success: function(data){
-                            }
-                        });
-                    }
-                }
-
-            });
-        }
-    });
-
-    function changeModal(){
-        document.getElementById("rewardModalLongTitle").innerHTML = "A Case Study";
-        document.getElementById("modal_title").innerHTML = "Involuntary contributors to neuroscience:";
-        document.getElementById("modal_content").innerHTML = "In 1848, railroad worker Phineas Gage was using an iron rod to pack explosives. In an accident that detonated these explosives, the iron rod was driven through Gage’s frontal lobe. Miraculously, he survived the incident, however friends reported that he was ‘no longer Gage.’  He was said to have lost all sense of social inhibition, swearing publicly and frequently making inappropriate remarks.";
-        document.getElementById("modal_img").src = "/img/reward_case_1.jpg";
-        document.getElementById("img_text").innerHTML = "Phineas Gage and the iron rod that damaged his frontal lobe";
-        document.getElementById("modal_button").style.display = "none";
-    }
-
-</script>
-
-</div>
-</body>
+    </body>
 </html>

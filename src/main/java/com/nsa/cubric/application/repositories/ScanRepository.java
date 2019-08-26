@@ -12,7 +12,7 @@ public interface ScanRepository {
     public void insert(Scan scan);
     public void updateKnownGood(Long id, Boolean knownGood);
     public void updateReason(Long id, String reason);
-    public List<Scan> getAll(int offset);
+    public List<Scan> getAll(int offset, Boolean onlyPractice);
     public Optional<Scan> getNext();
     public Optional<Scan> getNextPractice();
     List<Scan> getScansFiltered(int minResponses, int percentageGood);

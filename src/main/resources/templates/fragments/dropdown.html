@@ -1,0 +1,33 @@
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="notification-modal-header"></h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="notification-modal-image-card" class="card" style="width: 100%" hidden>
+                    <div class="card-body text-center">
+                        <img id="notification-modal-image" src="/" width="100%">
+                    </div>
+                </div>
+                <p id="notification-modal-body"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function displayNotification(titleContent, bodyContent, bodyImage) {
+        $("#notification-modal-image-card").attr("hidden", "true");
+        if(bodyImage != null){
+            $("#notification-modal-image-card").removeAttr("hidden");
+            $("#notification-modal-image").attr("src", bodyImage);
+        }
+        $("#notification-modal-header").text(titleContent);
+        $("#notification-modal-body").text(bodyContent);
+        $("#notificationModal").modal("show");
+    }
+</script>

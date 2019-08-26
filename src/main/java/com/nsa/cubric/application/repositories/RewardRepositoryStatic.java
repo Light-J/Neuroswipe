@@ -24,11 +24,11 @@ public class RewardRepositoryStatic implements RewardRepository {
         return jdbcTemplate.query("SELECT * FROM reward WHERE profile_id = ?",new Object[] {profileId}, (ResultSet rs) -> {
             HashMap<String,Integer> results = new HashMap<>();
             rs.next();
-            results.put("training", rs.getInt("training"));
-            results.put("practice", rs.getInt("practice"));
-            results.put("sort25", rs.getInt("sort25"));
-            results.put("sort50", rs.getInt("sort50"));
-            results.put("feedback", rs.getInt("feedback"));
+            results.put("sort20", rs.getInt("sort20"));
+            results.put("sort40", rs.getInt("sort40"));
+            results.put("sort60", rs.getInt("sort60"));
+            results.put("sort80", rs.getInt("sort80"));
+            results.put("sort100", rs.getInt("sort100"));
             return results;
         });
     }

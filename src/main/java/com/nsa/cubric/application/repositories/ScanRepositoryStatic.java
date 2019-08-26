@@ -75,9 +75,13 @@ public class ScanRepositoryStatic implements ScanRepository {
     }
 
     @Override
-    public List<Scan> getAll(int offset){
+    public List<Scan> getAll(int offset, Boolean onlyPractice){
+        String filterSQL = "";
+        if(onlyPractice){
+            filterSQL = " WHERE known_good is not null ";
+        }
         return jdbcTemplate.query(
-                "SELECT * FROM scan LIMIT ?, 10",
+                "SELECT * FROM scan " + filterSQL + "LIMIT ?, 10",
                 new Object[]{offset}, scanMapper
         );
     }

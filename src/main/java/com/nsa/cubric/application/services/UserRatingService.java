@@ -11,5 +11,6 @@ public interface UserRatingService {
 	Integer getNumberOfRatingsForUser();
 	Integer getNumberOfTimesUserRatedGood();
 	Integer getNumberOfTimesUserRatedBad();
+	Integer getTotalNumberOfRatingsFromUsers();
 
 }

@@ -66,4 +66,9 @@ public class RatingAPI {
 	public Integer getNumberOfTimesUserRatedBad(){
 		return ratingService.getNumberOfTimesUserRatedBad();
 	}
+
+	@RequestMapping(value = "/responses/total", method = RequestMethod.GET)
+	public Integer getTotalNumberOfResponses(){
+		return ratingService.getTotalNumberOfRatingsFromUsers();
+	}
 }

@@ -9,6 +9,7 @@
     <head th:replace="fragments/head(title='Practice')" ></head>
 
     <body class="overflow-hidden">
+    <div th:replace="fragments/dropdown"></div>
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
         <div class="container">
             <div class="modal fade" id="wrongAlert" tabindex="-1" role="dialog" aria-labelledby="wrongAlert" aria-hidden="true">
@@ -46,10 +47,14 @@
                 </div>
             </div>
 
+            <div hidden id='training-complete' class="alert alert-success" role="alert">
+                Success! you have already completed the training, <a href="/ratings/">continue?</a>
+            </div>
+
             <div class="card" id="imagesCard">
                 <div class="card-body">
                     <h5 class="card-title text-center">Practice</h5>
-                    <p class="card-text text-center lead">Is this a good scan of a brain?</p>
+                    <p class="card-text text-center lead">Does this look like a fornix?</p>
                     <img class="image-order" alt="fornix tractography image" src="" id="brainImage1">
                     <img class="image-order" alt="fornix tractography image" src="" id="brainImage2">
                     <img class="image-order" alt="fornix tractography image" src="" id="brainImage3">
@@ -63,81 +68,9 @@
                 <button type="button" class="btn btn-outline-secondary bottom_buttons" data-toggle="modal" data-target="#informationModal">More information</button>
             </div>
         </div>
-
-
-        <!--Modal displayed when the user reaches 10 correct answers-->
-
-        <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-
-                            <div class="row">
-
-                            <h3>The occipital lobe</h3>
-                                <h6>The eyes in the back of your head: </h6>
-                            <p>The occipital lobe sits at the back of the brain. It processes the information we see and allows us to remember and assign meanings to different images. The occipital lobe actually receives images from the eyes upside down – it processes them to turn them the right way up!</p>
-                            <img src="/img/img18.jpg" height="250">
-
-                            </div>
-
-                            <div class="row">
-
-                                <h3>You have 10 correct answers!</h3>
-                                <p>Why don't you keep up the good work by sorting images for real?</p>
-                                <div class="container">
-                                    <form method="get" action="/ratings/">
-                                        <div class="row">
-                                            <button type="submit" class="btn btn-primary col-lg-6">Lets do it</button>
-                                            <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">Keep practicing</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
         <script>
-
             function correctAnswer() {
                 var answersCorrect = $("#answersCorrect").text();
-                if(answersCorrect == 9){
-                    $.ajax({
-                        type: "GET",
-                        url: "/api/rewards/get/practice",
-                        success: function(data){
-                            if(!data){
-                                $('#rewardModal').modal('show');
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/api/rewards/set/practice?value=1",
-                                    success: function(data){
-                                    },
-                                    error: function(){
-                                        alert("There was an error getting this data.");
-                                    }
-                                });
-                            }
-                        },
-                        error: function(){
-                            alert("There was an error getting this data.");
-                        }
-                    });
-
-                }
                 $("#answersCorrect").text(parseInt(answersCorrect)+1)
                 saveDecisionAndNextImage()
             }
@@ -195,6 +128,11 @@
             };
 
             $(function() {
+                var isshow = localStorage.getItem('practiceInfo');
+                if (isshow== null) {
+                    localStorage.setItem('practiceInfo', 1);
+                    displayNotification("Welcome", "Don't worry if you aren't 100% sure whether a fornix is OK. We will ask several people to look at each image to see if everyone agrees.")
+                }
                 $("#imagesCard").hide();
                 loadNextImage();
 

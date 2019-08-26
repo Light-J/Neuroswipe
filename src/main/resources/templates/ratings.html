@@ -3,301 +3,346 @@
 <head th:replace="fragments/head(title='Ratings')" ></head>
 <body class="overflow-hidden">
 
-<nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
+        <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
 
-<div class="container">
+        <div class="container">
+            <div hidden id="total-voted">0</div>
 
-    <div th:replace="fragments/information"></div>
+            <div th:replace="fragments/information"></div>
+            <div th:replace="fragments/dropdown"></div>
 
-<!--//Modal displayed after 25 answers, giving 1 reward-->
-<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3 id="reward25_title">Temporal Lobe</h3>
-                <p id="reward25_body">Great work! You just unlocked the temporal lobe. The temporal lobe is involved in perceiving and remembering sounds. It also works in with other areas of the brain to form conscious memories.</p>
-                <div class="card" style="width: 100%">
-                    <div class="card-body text-center">
-                        <img id="reward25_image"  alt="temporal lobe image" src="/img/img24.jpg" height="300">
-                        <h5 class="card-title" id="img_text" style="margin-top: 2rem">Temporal Lobe</h5>
-                    </div>
-                </div>
-                <button id="reward25_btn" class="btn btn-primary btn-block" onclick="change25Modal()">Next</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="container">
-
-
-    <div class="modal fade" id="rewardModal50" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="rewardModalLongTitle50">Congratulations</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h3 id="reward50_title">The parietal lobe</h3>
-                    <p id="reward50_body">Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of grey matter called the sensory strip. This processes sensory information such as pain, touch and temperature.</p>
-                    <div class="card" style="width: 100%">
-                        <img id="reward50_image"  alt="parietal lobe image" src="/img/img23.jpg" height="400">
-                    </div>
-                    <button id="reward50_btn" class="btn btn-primary btn-block" onclick="change50Modal()">Next</button>
-                    <div class="row" id="goToFeedbackButtons" hidden>
-                        <button type="button" class="btn btn-danger col-lg-6 close" data-dismiss="modal" aria-label="Close">I'll Do It Later</button>
-                        <a href="/userfeedback/"><button type="button" class="btn btn-primary col-lg-6">Go to feedback</button></a>
+            <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="rewardModalLongTitle">Congratulations</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="reward-body-part-1">
+                            <h3 id="reward-1-title"></h3>
+                            <p id="reward-1-desc"></p>
+                            <div class="card" style="width: 100%">
+                                <div class="card-body text-center">
+                                    <img id="reward-1-image" src="/img/img24.jpg" height="300">
+                                </div>
+                            </div>
+                            <button id="reward25_btn" class="btn btn-primary btn-block" onclick="nextRewardModelPart()">Next</button>
+                        </div>
+                        <div class="modal-body" id="reward-body-part-2" hidden>
+                            <!-- 2nd part of reward -->
+                            <h3 id="reward-2-title"></h3>
+                            <p id="reward-2-desc"></p>
+                            <div class="card" style="width: 100%">
+                                <div class="card-body text-center">
+                                    <img id="reward-2-image" src="/img/img24.jpg" height="300">
+                                </div>
+                            </div>
+                            <button hidden type="button" onclick="window.location.href='/userprofile/score'" class="btn btn-primary btn-block" id="completed-ratings">Proceed to score page?</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="card" style="margin-bottom: 5px">
-        <div class="card-body">
-            <p class="card-text text-center lead">Your progress to 50 images:</p>
-            <div id="progress">
-                <div id="bar">
-                    <p class="text-center text-light" id="completedText" hidden="hidden">Completed!</p>
+
+            <div class="card" style="margin-bottom: 5px">
+                <div class="card-body">
+                    <p class="card-text text-center lead">Your progress to 100 images:</p>
+                    <div id="progress" class="row">
+                        <div id="bar">
+                            <p class="text-center text-light" id="completedText" hidden="hidden">Completed!</p>
+                        </div>
+                        <div id="indicator">
+                            <p id="ammount-completed">0%</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="card" id="imagesCard">
+                <div class="card-body">
+                    <p class="card-text text-center lead">Does this look like a fornix?</p>
+                    <img class="image-order" src="" id="brainImage1">
+                    <img class="image-order" src="" id="brainImage2">
+                    <img class="image-order" src="" id="brainImage3">
+                    <p class="text-center">
+                        <br><br>
+                        <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
+                    </p>
+                </div>
+            </div>
+
+            <div class="float-right">
+                <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary" id="save">Save and Exit</button>
             </div>
         </div>
     </div>
-
-    <div class="card" id="imagesCard">
-        <div class="card-body">
-            <h5 class="card-title text-center">Sort scans for real!</h5>
-            <p class="card-text text-center lead">Is this a good scan of a brain?</p>
-            <img class="image-order" alt="fornix tractography image" src="" id="brainImage1">
-            <img class="image-order" alt="fornix tractography image" src="" id="brainImage2">
-            <img class="image-order" alt="fornix tractography image" src="" id="brainImage3">
-            <p class="text-center">
-                <br><br>
-                <button id="noButton" class="btn btn-danger btn-lg">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <button id="yesButton" class="btn btn-success btn-lg">Yes</button>
-            </p>
-        </div>
-    </div>
-
-    <div class="float-right">
-        <button type="button" onclick="window.location.href='/'" class="btn btn-outline-secondary" id="save">Save and Exit</button>
-    </div>
-</div>
-
-</div>
-
-<script>
-    var loadNextImage = function(){
-        $.getJSON("/api/scans/next", function( imageData ) {
-            $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
-            $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
-            $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
-            $("#brainImage1").data("id", imageData.id);
-            $("#yesButton, #noButton").fadeIn(250);
-            $("#imagesCard").fadeOut(350, function () {
-                $("#imagesCard").removeClass("swipe-right swipe-left");
-                $("#imagesCard").fadeIn(250);
-                $("#yesButton, #noButton").attr("disabled", false);
+    <script>
+        var loadNextImage = function(){
+            $.getJSON("/api/scans/next", function( imageData ) {
+                $("#brainImage1").attr("src", "/brain_images/"+imageData.topImage);
+                $("#brainImage2").attr("src", "/brain_images/"+imageData.sideImage);
+                $("#brainImage3").attr("src", "/brain_images/"+imageData.frontImage);
+                $("#brainImage1").data("id", imageData.id);
+                $("#yesButton, #noButton").fadeIn(250);
+                $("#imagesCard").fadeOut(350, function () {
+                    $("#imagesCard").removeClass("swipe-right swipe-left");
+                    $("#imagesCard").fadeIn(250);
+                    $("#yesButton, #noButton").attr("disabled", false);
+                });
             });
 
-        });
+            var amountOfVotes = parseInt($("#total-voted").text()) + 1;
+            $("#total-voted").text(amountOfVotes);
+            updateProgressBar(amountOfVotes);
 
-        var percentage = ($("#bar").width() / $('#bar').parent().width() * 100)+2;
-        updateProgressBar(percentage);
-
-        if(percentage > 49.5 && percentage < 50.5){
-            $.ajax({
-                type: "GET",
-                url: "/api/rewards/get/sort25",
-                success: function(data){
-                    if(!data){
-                        //Show 25 modal
-                        $('#rewardModal').find("img").attr("src","/img/img20.jpg");
-                        $('#rewardModal').modal('show');
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/rewards/set/sort25?value=1",
-                            success: function(data){
-                            },
-                            error: function(){
-                                alert("There was an error getting this data.");
-                            }
-                        });
-                    }
-                },
-                error: function(){
-                    alert("There was an error getting this data.");
-                }
-            });
-
-        } else if(percentage > 99.5 && percentage < 100.5){
-            $.ajax({
-                type: "GET",
-                url: "/api/rewards/get/sort50",
-                success: function(data){
-                    if(!data){
-                        //show 50 modal
-                        $('#rewardModal50').modal('show');
-                        $.ajax({
-                            type: "POST",
-                            url: "/api/rewards/set/sort50?value=1",
-                            success: function(data){
-                            },
-                            error: function(){
-                                alert("There was an error getting this data.");
-                            }
-                        });
-                    }
-                },
-                error: function(){
-                    alert("There was an error getting this data.");
-                }
-            });
-
-        }
-    };
-
-    var saveDecisionAndNextImage = function(goodBrain){
-        if(goodBrain){
-            $("#imagesCard").addClass("swipe-right");
-        }else{
-            $("#imagesCard").addClass("swipe-left");
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/api/ratings/save",
-            data: {
-            	"scanId": $("#brainImage1").data("id"),
-                "goodBrain": goodBrain
-            },
-            success: function(data){
-
-
-                setTimeout(function(){
-                    loadNextImage();
-                }, 250);
-            },
-            error: function(){
-                alert("There was an error submitting the data.");
-            },
-            dataType: "json"
-        });
-    };
-
-    function getNumberOfUserResponses(){
-        $.ajax({
-            type: "GET",
-            url: "/api/ratings/responses/amount",
-            success: function(data){
-                updateProgressBar(data*2);
-            },
-            error: function(){
-                alert("There was an error getting this data.");
-            }
-        });
-
-    }
-
-
-    var updateProgressBar = function(percentage){
-        if(percentage>100){
-            percentage = 100;
-            $("#completedText").removeAttr("hidden");
-        }
-        $("#bar").width(percentage+"%");
-    };
-
-    $(function() {
-        getNumberOfUserResponses();
-        $("#imagesCard").hide();
-        loadNextImage();
-        $("#yesButton").on("click", function(){
-            saveDecisionAndNextImage(true);
-        });
-
-        $("#noButton").on("click", function(){
-            saveDecisionAndNextImage(false);
-        });
-
-        $("#imagesCard").swipe( {
-            swipe: function(event, direction){
-                if(direction == "left"){
-                    saveDecisionAndNextImage(false);
-                } else if (direction == "right") {
-                    saveDecisionAndNextImage(true);
-                }
-            },
-            allowPageScroll:"auto"});
-
-        $(document).keyup(function(e) {
-            switch(e.which) {
-                case 37: // left
-                    if(!$("#noButton").prop("disabled")){
-                        console.log($("#yesButton, #noButton").prop("disabled"));
-                        $("#yesButton, #noButton").attr("disabled", true);
-                        saveDecisionAndNextImage(false);
-                    }
+            switch (amountOfVotes) {
+                case 20:
+                    rewardData = {
+                        "part1Title":"Temporal Lobe",
+                        "part2Title":"The case of Henry Molaison 1926-2008",
+                        "part1Desc":"Great work! You just unlocked the temporal lobe. The temporal lobe is involved in perceiving and remembering sounds. It also works in with other areas of the brain to form conscious memories.",
+                        "part2Desc":"From an early age, Molaison suffered from severe epilepsy. In an effort to control his seizures, he underwent a major operation that removed a large part of his temporal lobe and hippocampus. Whilst the surgery cured Molaison of his epilepsy he was tragically left unable to form new memories.",
+                        "part1Image":"/img/img20.jpg",
+                        "part2Image":"/img/reward_case_2.jpg",
+                        "ratingsComplete":false
+                    };
+                    showRewardModal(rewardData);
+                    setReward("sort20");
                     break;
-                case 39: // right
-                    if(!$("#yesButton").prop("disabled")) {
-                        console.log($("#yesButton, #noButton").prop("disabled"));
-                        $("#yesButton, #noButton").attr("disabled", true);
+
+                case 40:
+                    rewardData = {
+                        "part1Title":"The parietal lobe",
+                        "part2Title":"The sensory strip",
+                        "part1Desc":"Well done – you just unlocked the parietal lobe!  The parietal lobe contains an area of grey matter called the sensory strip. This processes sensory information such as pain, touch and temperature.",
+                        "part2Desc":"The sensory strip is like a map of our body – the bumps and grooves on the brain’s surface receive information from different parts of the body. It is called the somatosensory homunculus (shown below). The bigger the body part is on the homunculus, the more sensitive the body part. You can see the hands are huge!",
+                        "part1Image":"/img/img23.jpg",
+                        "part2Image":"/img/reward_case_3.jpg",
+                        "ratingsComplete":false
+                    };
+                    showRewardModal(rewardData);
+                    setReward("sort40");
+                    break;
+
+                case 60:
+                    rewardData = {
+                        "part1Title":"The frontal lobe",
+                        "part2Title":"Phineas Gage and the iron rod that damaged his frontal lobe",
+                        "part1Desc":"Well done - you just unlocked the frontal lobe! The frontal lobe is involved in thinking, decision making and planning. It is also plays a key role in determining our personality.",
+                        "part2Desc":"In 1848, railroad worker Phineas Gage was using an iron rod to pack explosives. In an accident that detonated these explosives, the iron rod was driven through Gage’s frontal lobe. Miraculously, he survived the incident, however friends reported that he was ‘no longer Gage.’  He was said to have lost all sense of social inhibition, swearing publicly and frequently making inappropriate remarks.",
+                        "part1Image":"/img/img7.jpg",
+                        "part2Image":"/img/reward_case_1.jpg",
+                        "ratingsComplete":false
+                    };
+                    showRewardModal(rewardData);
+                    setReward("sort60");
+                    break;
+
+                case 80:
+                    rewardData = {
+                        "part1Title":"The cerebellum",
+                        "part2Title":"The cerebellum in disease:",
+                        "part1Desc":"Excellent! You have unlocked the cerebellum. The cerebellum is Latin for ‘little brain.’ This area is vital for fine tuning your movements and controlling balance.",
+                        "part2Desc":"Diseases such as multiple sclerosis and brain tumours can damage the cerebellum. If your cerebellum was damaged, you would walk with an unstable, uncoordinated gait and frequently stumble or fall over.",
+                        "part1Image":"/img/img24.jpg",
+                        "part2Image":"/img/img24.jpg",
+                        "ratingsComplete":false
+                    };
+                    showRewardModal(rewardData);
+                    setReward("sort80");
+                    break;
+
+                case 100:
+                    rewardData = {
+                        "part1Title":"The occipital lobe",
+                        "part2Title":"Congratulations",
+                        "part1Desc":"The occipital lobe sits at the back of the brain. It processes the information we see and allows us to remember and assign meanings to different images. The occipital lobe actually receives images from the eyes upside down – it processes them to turn them the right way up!",
+                        "part2Desc":"You have now collected all of the rewards",
+                        "part1Image":"/img/img18.jpg",
+                        "part2Image":"/img/logo.jpg",
+                        "ratingsComplete":true
+                    };
+                    showRewardModal(rewardData);
+                    setReward("sort100");
+                    break;
+                case 150:
+                    displayNotification("Interested in brain imaging research?", "Sign up to participate in one of our world-leading brain imaging studies. You can find more information on the home page", "/img/volunteer.jpg");
+                    break;
+
+                case 200:
+                    displayNotification("Help with research into mental health conditions?", "Taking part is easy – it involves completing an online survey which asks about your contact details and some personal information. Head over to the home page to find out more", "/img/ncmh-logo.png");
+                    break;
+            }
+        };
+
+
+        var setReward = function(reward){
+            $.ajax({
+                type: "POST",
+                url: "/api/rewards/set/" + reward,
+                data: {
+                    "value": 1
+                },
+                success: function(data){
+                },
+                error: function(){
+                    alert("There was an error submitting the data.");
+                },
+                dataType: "json"
+            });
+        };
+
+        var saveDecisionAndNextImage = function(goodBrain){
+            if(goodBrain){
+                $("#imagesCard").addClass("swipe-right");
+            }else{
+                $("#imagesCard").addClass("swipe-left");
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/ratings/save",
+                data: {
+                    "scanId": $("#brainImage1").data("id"),
+                    "goodBrain": goodBrain
+                },
+                success: function(data){
+
+
+                    setTimeout(function(){
+                        loadNextImage();
+                    }, 250);
+                },
+                error: function(){
+                    alert("There was an error submitting the data.");
+                },
+                dataType: "json"
+            });
+        };
+
+        function getNumberOfUserResponses(){
+            $.ajax({
+                type: "GET",
+                url: "/api/ratings/responses/amount",
+                success: function(data){
+                    $("#total-voted").text(data);
+                    updateProgressBar(data);
+                },
+                error: function(){
+                    alert("There was an error getting this data.");
+                }
+            });
+        }
+
+        var updateProgressBar = function(percentage){
+            if(percentage>=100){
+                percentage = 100;
+                $("#ammount-completed").attr("hidden", "true");
+                $("#completedText").removeAttr("hidden");
+            }
+            $("#ammount-completed").text((percentage).toFixed() + "%");
+            $("#bar").css("width", "calc("+percentage+"% - "+$("#indicator").outerWidth()+"px)")
+        };
+
+        $(function() {
+            var isshow = localStorage.getItem('ratinglive');
+            if (isshow== null) {
+                localStorage.setItem('ratinglive', 1);
+                displayNotification("Welcome", "You are now rating live images. You are helping us determine whether these fornix pictures are adequate or not")
+            }
+
+            getNumberOfUserResponses();
+            $("#imagesCard").hide();
+            loadNextImage();
+            $("#yesButton").on("click", function(){
+                saveDecisionAndNextImage(true);
+            });
+
+            $("#noButton").on("click", function(){
+                saveDecisionAndNextImage(false);
+            });
+
+            $("#imagesCard").swipe( {
+                swipe: function(event, direction){
+                    if(direction == "left"){
+                        saveDecisionAndNextImage(false);
+                    } else if (direction == "right") {
                         saveDecisionAndNextImage(true);
                     }
-                    break;
-                default: return; // exit this handler for other keys
-            }
-            e.preventDefault(); // prevent the default action (scroll / move caret)
+                },
+                allowPageScroll:"auto"});
+
+            $(document).keyup(function(e) {
+                switch(e.which) {
+                    case 37: // left
+                        if(!$("#noButton").prop("disabled")){
+                            $("#yesButton, #noButton").attr("disabled", true);
+                            saveDecisionAndNextImage(false);
+                        }
+                        break;
+                    case 39: // right
+                        if(!$("#yesButton").prop("disabled")) {
+                            $("#yesButton, #noButton").attr("disabled", true);
+                            saveDecisionAndNextImage(true);
+                        }
+                        break;
+                    default: return; // exit this handler for other keys
+                }
+                e.preventDefault(); // prevent the default action (scroll / move caret)
+            });
         });
-    });
+        //Reward data is a dict containing part1Title, part1Body, part1Image, part2Title, part2Body, part2Image and ratingsComplete
+        function showRewardModal(rewardData){
+            $("#reward-body-part-1").removeAttr("hidden");
+            $("#reward-body-part-2").attr("hidden", "true");
+            $("#reward-1-title").text(rewardData["part1Title"]);
+            $("#reward-1-desc").text(rewardData["part1Desc"]);
+            $("#reward-1-image").attr("src", rewardData["part1Image"]);
+            $("#reward-2-title").text(rewardData["part2Title"]);
+            $("#reward-2-desc").text(rewardData["part2Desc"]);
+            $("#reward-2-image").attr("src", rewardData["part2Image"]);
+            if(rewardData["ratingsComplete"]){
+                $("#completed-ratings").removeAttr("hidden");
+            }
+            $('#rewardModal').modal('show');
+        }
 
-    function change25Modal() {
-        $("#rewardModalLongTitle").text("Case Study");
-        $("#reward25_title").text("The case of Henry Molaison 1926-2008:");
-        $("#reward25_body").text("From an early age, Molaison suffered from severe epilepsy. In an effort to control his seizures, he underwent a major operation that removed a large part of his temporal lobe and hippocampus. Whilst the surgery cured Molaison of his epilepsy he was tragically left unable to form new memories.");
-        $("#reward25_image").attr("src", "/img/reward_case_2.jpg");
-        $("#reward25_image").prop("alt", "henry molaison");
-        $("#img_text").text("Henry Molaison");
-        $("#reward25_btn").attr("hidden", "true");
-    }
+        function nextRewardModelPart(){
+            $("#reward-body-part-1").attr("hidden", "true");
+            $("#reward-body-part-2").removeAttr("hidden");
+        }
 
-    function change50Modal() {
-        $("#reward50_body").text("The sensory strip is like a map of our body – the bumps and grooves on the brain’s surface receive information from different parts of the body. It is called the somatosensory homunculus (shown below). The bigger the body part is on the homunculus, the more sensitive the body part. You can see the hands are huge! ");
-        $("#reward50_image").attr("src", "/img/reward_case_3.jpg");
-        $("#reward50_btn").attr("hidden", "true");
-        $("#reward50_image").prop("alt", "sensory strip");
-        $("#goToFeedbackButtons").removeAttr('hidden');
-    }
+    </script>
+    <style>
+        #save {
+            margin: 10px;
+        }
 
+        #progress {
+            background-color: grey;
+            margin-bottom: 8px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
 
-</script>
-<style>
-    #save {
-        margin: 10px;
-    }
+        #bar {
+            width: 0%;
+            height: 30px;
+            background-color: green;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
 
-    #progress {
-        width: 100%;
-        background-color: grey;
-        margin-bottom: 10px;
-    }
+        #indicator {
+            height: 30px;
+            background-color: lightgray;
+            padding-left: 5px;
+            padding-right: 5px;
 
-    #bar {
-        width: 0%;
-        height: 30px;
-        background-color: green;
-    }
-</style>
-
-</body>
+        }
+    </style>
+    </body>
 </html>

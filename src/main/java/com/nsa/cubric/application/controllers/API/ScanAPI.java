@@ -67,9 +67,10 @@ public class ScanAPI {
      */
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getAllScans(
-            @RequestParam(value = "page") int page) {
+            @RequestParam(value = "page") int page, @RequestParam(value = "onlyPractice", required = false) Boolean onlyPractice) {
 
-        List<Scan> scans = scanService.getAll(page);
+
+        List<Scan> scans = scanService.getAll(page, onlyPractice);
         return new ResponseEntity<>(scans,null, HttpStatus.OK);
     }
 

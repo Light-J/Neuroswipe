@@ -45,12 +45,15 @@
         </ul>
 
         <ul class="nav navbar-nav ml-auto" sec:authorize="isAuthenticated()">
+            <li class="nav-item">
+                <a class="nav-link" href="/userprofile/score">My Score</a>
+            </li>
             <li class="nav-item dropdown">
                 <a th:text="${#authentication.name}" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/userprofile/">My Profile</a>
+                <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/userprofile/">Account options</a>
 <!--                    <a class="dropdown-item" href="/logout">Logout</a>-->
                     <form  id="logout_form" action="/logout" method="post">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
