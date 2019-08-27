@@ -35,6 +35,7 @@
 }
 
 
+
 [class*=" bmd-label"], [class^=bmd-label] {
     color: rgb(0,0,0);
 }
@@ -47,6 +48,10 @@
 
 .modal-open {
     overflow-y: inherit;
+}
+
+.modal-open .fixed-top {
+    padding-right: 16px !important;
 }
 
 .certificate-content {

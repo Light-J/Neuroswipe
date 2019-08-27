@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<style>
-    .overflow-hidden {
-        overflow-y: scroll;
-        overflow-x: hidden;
-    }
-</style>
     <head th:replace="fragments/head(title='Practice')" ></head>
-
+    <style>
+        .modal-open {
+            overflow-y: scroll;
+        }
+    </style>
     <body class="overflow-hidden">
     <div th:replace="fragments/dropdown"></div>
         <nav class="navbar navbar-default" th:replace="fragments/navigation"></nav>
@@ -48,7 +46,7 @@
             </div>
 
             <div hidden id='training-complete' class="alert alert-success" role="alert">
-                Success! you have already completed the training, <a href="/ratings/">continue?</a>
+                Success! you have completed the training, <a href="/ratings/">continue to real scans?</a>
             </div>
 
             <div class="card" id="imagesCard">
@@ -71,7 +69,11 @@
         <script>
             function correctAnswer() {
                 var answersCorrect = $("#answersCorrect").text();
-                $("#answersCorrect").text(parseInt(answersCorrect)+1)
+                $("#answersCorrect").text(parseInt(answersCorrect)+1);
+                if(answersCorrect==9){
+                    localStorage.setItem('completedPractice', 1);
+                    $("#training-complete").removeAttr("hidden");
+                }
                 saveDecisionAndNextImage()
             }
 
@@ -132,6 +134,11 @@
                 if (isshow== null) {
                     localStorage.setItem('practiceInfo', 1);
                     displayNotification("Welcome", "Don't worry if you aren't 100% sure whether a fornix is OK. We will ask several people to look at each image to see if everyone agrees.")
+                }
+
+                var completedPractice = localStorage.getItem("completedPractice");
+                if(completedPractice){
+                    $("#training-complete").removeAttr("hidden");
                 }
                 $("#imagesCard").hide();
                 loadNextImage();
